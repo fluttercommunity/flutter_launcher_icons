@@ -1,0 +1,24 @@
+name: FlutterIcons
+description: A sample command-line application.
+version: 0.0.1
+#homepage: https://www.example.com
+#author: franzsilva <email@example.com>
+
+dependencies: 
+  image: "^1.1.29"
+  dart_config: "^0.5.0"
+
+
+environment:
+  sdk: '>=1.20.1 <2.0.0'
+
+flutter_icons:
+  image_path: "icon/icon.png"
+  android: true
+  ios: false
+
+#dependencies:
+#  path: ^1.4.1
+
+dev_dependencies:
+  test: ^0.12.0
