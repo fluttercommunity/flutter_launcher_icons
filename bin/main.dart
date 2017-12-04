@@ -1,4 +1,4 @@
-import 'package:FlutterIcons/FlutterIcons.dart' as FlutterIcons;
+import 'package:flutter_launcher_icons/flutter_launcher_icons.dart' as FlutterIcons;
 
 main(List<String> arguments) {
   FlutterIcons.convertAndroid();
