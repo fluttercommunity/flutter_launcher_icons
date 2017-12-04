@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'package:image/image.dart';
-import 'package:dart_config/default_server.dart';
 import 'dart:io' as Io;
 
 const String android_res_folder = "android/app/src/main/res/";
@@ -35,14 +33,11 @@ List<AndroidIcons> android_icons = [
   ),
 ];
 
-convertAndroid() {
-  Future<Map> conf = loadConfig("pubspec.yaml");
-  conf.then((Map config) {
+convertAndroid(config) {
     String file_path = config['flutter_icons']['image_path'];
     Image image = decodeImage(new Io.File(file_path).readAsBytesSync());
     android_icons.forEach((AndroidIcons e) => saveAndroidIconWithOptions(e, image));
-    
-  });
+    print("Images Generated Successfully")
 }
 
 saveAndroidIconWithOptions(AndroidIcons e, image) {

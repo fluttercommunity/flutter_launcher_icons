@@ -1,8 +1,8 @@
 name: flutter_launcher_icons
-description: A sample command-line application.
+description: Generate 
 version: 0.0.1
-#homepage: https://www.example.com
-#author: franzsilva <email@example.com>
+homepage: https://github.com/franzsilva/flutter_launcher_icons
+author: franzsilva <franzsilva@gmail.com>
 
 dependencies: 
   image: "^1.1.29"
@@ -16,9 +16,6 @@ flutter_icons:
   image_path: "icon/icon.png"
   android: true
   ios: false
-
-#dependencies:
-#  path: ^1.4.1
 
 dev_dependencies:
   test: ^0.12.0
