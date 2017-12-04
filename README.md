@@ -45,3 +45,6 @@ android/ios: Whether to generate the icons or not.
 flutter pub pub run flutter_launcher_icons:main
 ```
 
+### Special thanks
+
+Thanks to Brendan Duncan for the underlying image package to transform the pics. 
