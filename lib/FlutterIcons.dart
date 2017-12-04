@@ -3,14 +3,16 @@ import 'package:image/image.dart';
 import 'package:dart_config/default_server.dart';
 import 'dart:io' as Io;
 
+const String android_res_folder = "android/app/src/main/res/";
+const String android_file_name ="ic_launcher.png";
+
 class AndroidIcons {
   final String name;
   final int size;
-  String file_name = 'ic_launcher.png';
-  AndroidIcons({this.size, this.file_name, this.name});
+  AndroidIcons({this.size, this.name});
 }
 
-List<AndroidIcons> resolutions_android = [
+List<AndroidIcons> android_icons = [
   new AndroidIcons(
     name: "mipmap-mdpi",
     size: 48
@@ -38,9 +40,14 @@ convertAndroid() {
   conf.then((Map config) {
     String file_path = config['flutter_icons']['image_path'];
     Image image = decodeImage(new Io.File(file_path).readAsBytesSync());
-    Image thumbnail = copyResize(image, 20);
-    new Io.File('thumbnail.png')
-        ..writeAsBytesSync(encodePng(thumbnail));
+    android_icons.forEach((AndroidIcons e) => saveAndroidIconWithOptions(e, image));
+    
   });
+}
+
+saveAndroidIconWithOptions(AndroidIcons e, image) {
+Image newFile = copyResize(image, e.size);
+    new Io.File(android_res_folder + e.name +'/'+ android_file_name)
+        ..writeAsBytesSync(encodePng(newFile));
 }
 
