@@ -21,7 +21,7 @@ This command-line app will take a launcher image specified and export it to iOS 
 
 ```yaml
 dependencies: 
-  image: "^0.0.1"
+  flutter_launcher_icons: "^0.0.1"
 ```
 
 - Add flutter_icons config section to pubspec file
