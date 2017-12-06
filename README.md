@@ -13,7 +13,7 @@ Note: The tool will replace the existing default launcher icons for Flutter proj
 
 # Guide
 
-- Add dependency to pubspec.yaml below any existing dependencies
+- Add dependency to your Flutter project's pubspec.yaml below any existing dependencies
 
 ```yaml
 dev_dependencies: 
@@ -23,14 +23,21 @@ dev_dependencies:
   flutter_launcher_icons: "^0.0.1"
 ```
 
-- Add flutter_icons config section to pubspec file
+- Within the same pubspec.yaml file, add flutter_icons config section
 
-```yaml
+```
+dev_dependencies: 
+  flutter_test:
+    sdk: flutter
+    
+  flutter_launcher_icons: "^0.0.1"
+  
 flutter_icons:
   image_path: "icon/icon.png" 
   android: true
   ios: false
-
+```
+```
 #### Attributes: 
 image_path: The location of the icon image file which you want to use as the app launcher icon
 
