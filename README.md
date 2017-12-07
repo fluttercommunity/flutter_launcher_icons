@@ -51,6 +51,10 @@ flutter pub get
 flutter pub pub run flutter_launcher_icons:main
 ```
 
+# Example
+
+[![Video Example](https://img.youtube.com/vi/RjNAxwcP3Tc/0.jpg)](https://www.youtube.com/watch?v=RjNAxwcP3Tc)
+
 ### Special thanks
 
 Thanks to Brendan Duncan for the underlying image package to transform the pics. 
