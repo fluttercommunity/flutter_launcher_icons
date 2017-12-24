@@ -61,18 +61,30 @@ saveIcons(AndroidIcons e, image, String iconFilePath) {
   //..writeAsBytesSync(encodePng(newFile));
 
 }
-
+// NOTE: default = ic_launcher
 changeAndroidLauncherIcon() async {
   File androidManifestFile = new File(android_manifest_file);
   List<String> lines = await androidManifestFile.readAsLines();
-  lines.forEach((line) {
+  for (var x = 0; x < lines.length; x++) {
+    String line = lines[x];
     if (line.contains("android:icon")) {
       print("OLD LINE");
       print(line);
-      line = line.replaceAll(new RegExp('android:icon=\"([^*]|(\"+([^"/]|)))*\"'), 'android:icon="@mipmap/test"');
+      // Using RegExp replace the value of android:icon to point to the new icon
+      line = line.replaceAll(new RegExp('android:icon=\"([^*]|(\"+([^"/]|)))*\"'), 'android:icon="@mipmap/ic_test2"');
       print("NEW LINE");
+      print(line);
+      lines[x] = line;
+    }
+  }
+  lines.forEach((line) {
+    if (line.contains("android:icon")) {
+      print("FOR EACH LINE");
       print(line);
     }
   });
+  androidManifestFile.writeAsString(lines.join("\n"));
+  //print("PRINTING ENTIRE FILE");
+  //print(lines);
 }
 
