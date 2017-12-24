@@ -43,26 +43,34 @@ convertAndroid(config) {
       //android_icons.forEach((AndroidIcons e) => replaceDefaultIcon(e, image));
     } else {
       print("Creating new Android launcher icon");
-      android_icons.forEach((AndroidIcons e) => saveIcon(e, image, "test.png"));
+      android_icons.forEach((AndroidIcons e) => saveIcons(e, image, "test.png"));
+      changeAndroidLauncherIcon();
     }
     print("Android Launcher Images Generated Successfully");
 }
 
-replaceDefaultIcon(AndroidIcons e, image) {
+replaceDefaultIcons(AndroidIcons e, image) {
   Image newFile = copyResize(image, e.size);
   new File(android_res_folder + e.name +'/'+ android_file_name)
     ..writeAsBytesSync(encodePng(newFile));
 }
 
-saveIcon(AndroidIcons e, image, String iconFilePath) async {
+saveIcons(AndroidIcons e, image, String iconFilePath) {
   //Image newFile = copyResize(image, e.size);
   //new Io.File(android_res_folder + e.name + '/' + iconFilePath)
   //..writeAsBytesSync(encodePng(newFile));
+
+}
+
+changeAndroidLauncherIcon() async {
   File androidManifestFile = new File(android_manifest_file);
   List<String> lines = await androidManifestFile.readAsLines();
   lines.forEach((line) {
-    String fileLine = line;
-    if (fileLine.contains("android:icon")) {
+    if (line.contains("android:icon")) {
+      print("OLD LINE");
+      print(line);
+      line = line.replaceAll(new RegExp('android:icon=\"([^*]|(\"+([^"/]|)))*\"'), 'android:icon="@mipmap/test"');
+      print("NEW LINE");
       print(line);
     }
   });
