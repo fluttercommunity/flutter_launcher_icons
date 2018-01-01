@@ -8,7 +8,7 @@ main(List<String> arguments) {
   conf.then((Map config) {
     if(config['flutter_icons']['image_path'] != null){
       if (config['flutter_icons']['android'] == true) {
-        FlutterIconsAndroid.convertAndroid(config);
+        //FlutterIconsAndroid.convertAndroid(config);
       }
       if (config['flutter_icons']['ios'] == true) {
         FlutterIconsIos.convertIos(config);

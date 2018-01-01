@@ -1,7 +1,16 @@
 import 'package:image/image.dart';
-import 'dart:io' as Io;
+import 'dart:io';
 
+/**
+ * File to handle the creation of icons for iOS platform
+ *
+ * Notes:
+ * 1. Config file containing icon setting: config_file_path (for Flutter projects)
+ * 2. iOS launcher icon setting (perhaps) - 'ASSETCATALOG_COMPILER_APPICON_NAME = <IconFolder>;'
+ * 3. IconFolder - <IconFolder>.appiconset
+ */
 const String ios_icon_folder = "ios/Runner/Assets.xcassets/AppIcon.appiconset/";
+const String ios_config_file = "ios/Runner.xcodeproj/project.pbxproj";
 
 class IosIcons {
   final String name;
@@ -74,14 +83,18 @@ List<IosIcons> ios_icons = [
 
 convertIos(config) {
     String file_path = config['flutter_icons']['image_path'];
-    Image image = decodeImage(new Io.File(file_path).readAsBytesSync());
+    Image image = decodeImage(new File(file_path).readAsBytesSync());
     ios_icons.forEach((IosIcons e) => saveIosIconWithOptions(e, image));
     print("IOS Launcher Icons Generated Successfully");
 }
 
 saveIosIconWithOptions(IosIcons e, image) {
 Image newFile = copyResize(image, e.size);
-    new Io.File(ios_icon_folder + e.name+".png")
+    new File(ios_icon_folder + e.name+".png")
         ..writeAsBytesSync(encodePng(newFile));
+}
+
+changeIosLauncherIcon() async {
+  File iOSConfigFile = new File(ios_config_file);
 }
 
