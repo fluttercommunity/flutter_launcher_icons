@@ -6,14 +6,16 @@ import 'package:dart_config/default_server.dart';
 main(List<String> arguments) {
   Future<Map> conf = loadConfig("pubspec.yaml");
   conf.then((Map config) {
-    if(config['flutter_icons']['image_path'] != null){
-      if (config['flutter_icons']['android'] == true) {
+    if(config['flutter_icons']['image_path'] != null) {
+      var androidConfig = config['flutter_icons']['android'];
+      var iosConfig = config['flutter_icons']['ios'];
+      if (androidConfig == true || androidConfig is String) {
         //FlutterIconsAndroid.convertAndroid(config);
       }
-      if (config['flutter_icons']['ios'] == true) {
-        FlutterIconsIos.convertIos(config);
+      if (iosConfig == true || iosConfig is String) {
+        //FlutterIconsIos.convertIos(config);
       }
-      if (config['flutter_icons']['ios'] == false && config['flutter_icons']['android'] == false) {
+      if (((androidConfig == false) && (iosConfig == false)) || ((androidConfig == null) && (iosConfig == null))) {
         print("Error: No platform has been specified to generate launcher icons for.");
       }
     }else{

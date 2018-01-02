@@ -7,30 +7,30 @@ const String android_file_name ="ic_launcher.png";
 const String default_icon_name = "ic_launcher";
 
 //
-class AndroidIcons {
+class AndroidIcon {
   final String name;
   final int size;
-  AndroidIcons({this.size, this.name});
+  AndroidIcon({this.size, this.name});
 }
 
-List<AndroidIcons> android_icons = [
-  new AndroidIcons(
+List<AndroidIcon> android_icons = [
+  new AndroidIcon(
     name: "mipmap-mdpi",
     size: 48
   ),
-  new AndroidIcons(
+  new AndroidIcon(
     name: "mipmap-hdpi",
     size: 72
   ),
-  new AndroidIcons(
+  new AndroidIcon(
     name: "mipmap-xhdpi",
     size: 96
   ),
-  new AndroidIcons(
+  new AndroidIcon(
     name: "mipmap-xxhdpi",
     size: 144
   ),
-  new AndroidIcons(
+  new AndroidIcon(
     name: "mipmap-xxxhdpi",
     size: 192
   ),
@@ -39,27 +39,29 @@ List<AndroidIcons> android_icons = [
 convertAndroid(config) {
     String file_path = config['flutter_icons']['image_path'];
     Image image = decodeImage(new File(file_path).readAsBytesSync());
-    if (config['flutter_icons']['overwrite']) {
-      print("Saving new icon to ic_launcher.png and switching Android launcher icon to it");
-      android_icons.forEach((AndroidIcons e) => replaceDefaultIcons(e, image));
-      changeAndroidLauncherIcon(default_icon_name);
-    } else {
-      String icon_name = config['flutter_icons']['icon_name'];
+    var androidConfig = config['flutter_icons']['android'];
+
+    if (androidConfig is String) {
+      print("Adding new Android launcher icon");
+      String icon_name = androidConfig;
       String icon_path = icon_name + ".png";
-      print("Creating new Android launcher icon");
-      android_icons.forEach((AndroidIcons e) => saveIcons(e, image, icon_path));
+      android_icons.forEach((AndroidIcon e) => saveIcons(e, image, icon_path));
       changeAndroidLauncherIcon(icon_name);
     }
-    print("Android Launcher Images Generated Successfully");
+    else {
+      print("Saving new icon to ic_launcher.png and switching Android launcher icon to it");
+      android_icons.forEach((AndroidIcon e) => overwriteExistingIcons(e, image));
+      changeAndroidLauncherIcon(default_icon_name);
+    }
 }
 
-replaceDefaultIcons(AndroidIcons e, image) {
+overwriteExistingIcons(AndroidIcon e, image) {
   Image newFile = copyResize(image, e.size);
   new File(android_res_folder + e.name +'/'+ android_file_name)
     ..writeAsBytesSync(encodePng(newFile));
 }
 
-saveIcons(AndroidIcons e, image, String iconFilePath) {
+saveIcons(AndroidIcon e, image, String iconFilePath) {
   Image newFile = copyResize(image, e.size);
   new File(android_res_folder + e.name + '/' + iconFilePath)
   ..writeAsBytesSync(encodePng(newFile));
