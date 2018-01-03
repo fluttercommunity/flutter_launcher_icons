@@ -45,7 +45,7 @@ convertAndroid(config) {
       print("Adding new Android launcher icon");
       String icon_name = androidConfig;
       String icon_path = icon_name + ".png";
-      android_icons.forEach((AndroidIcon e) => saveIcons(e, image, icon_path));
+      android_icons.forEach((AndroidIcon e) => saveNewIcons(e, image, icon_path));
       changeAndroidLauncherIcon(icon_name);
     }
     else {
@@ -61,7 +61,7 @@ overwriteExistingIcons(AndroidIcon e, image) {
     ..writeAsBytesSync(encodePng(newFile));
 }
 
-saveIcons(AndroidIcon e, image, String iconFilePath) {
+saveNewIcons(AndroidIcon e, image, String iconFilePath) {
   Image newFile = copyResize(image, e.size);
   new File(android_res_folder + e.name + '/' + iconFilePath)
   ..writeAsBytesSync(encodePng(newFile));

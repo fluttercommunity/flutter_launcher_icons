@@ -12,6 +12,7 @@ import 'dart:io';
 const String default_icon_folder = "ios/Runner/Assets.xcassets/AppIcon.appiconset/";
 const String asset_folder = "ios/Runner/Assets.xcassets/";
 const String config_file = "ios/Runner.xcodeproj/project.pbxproj";
+const String default_icon_name = "Icon-App";
 
 class IosIcon {
   final String name;
@@ -21,63 +22,63 @@ class IosIcon {
 
 List<IosIcon> ios_icons = [
   new IosIcon(
-    name: "Icon-App-20x20@1x",
+    name: "-20x20@1x",
     size: 20
   ),
   new IosIcon(
-    name: "Icon-App-20x20@2x",
+    name: "-20x20@2x",
     size: 40
   ),
   new IosIcon(
-    name: "Icon-App-20x20@3x",
+    name: "-20x20@3x",
     size: 60
   ),
   new IosIcon(
-    name: "Icon-App-29x29@1x",
+    name: "-29x29@1x",
     size: 29
   ),
   new IosIcon(
-    name: "Icon-App-29x29@2x",
+    name: "-29x29@2x",
     size: 58
   ),
   new IosIcon(
-    name: "Icon-App-29x29@3x",
+    name: "-29x29@3x",
     size: 87
   ),
   new IosIcon(
-    name: "Icon-App-40x40@1x",
+    name: "-40x40@1x",
     size: 40
   ),
   new IosIcon(
-    name: "Icon-App-40x40@2x",
+    name: "-40x40@2x",
     size: 80
   ),
   new IosIcon(
-    name: "Icon-App-40x40@3x",
+    name: "-40x40@3x",
     size: 120
   ),
   new IosIcon(
-    name: "Icon-App-60x60@1x",
+    name: "-60x60@1x",
     size: 60
   ),
   new IosIcon(
-    name: "Icon-App-60x60@2x",
+    name: "-60x60@2x",
     size: 120
   ),
   new IosIcon(
-    name: "Icon-App-60x60@3x",
+    name: "-60x60@3x",
     size: 180
   ),
   new IosIcon(
-    name: "Icon-App-76x76@1x",
+    name: "-76x76@1x",
     size: 76
   ),
   new IosIcon(
-    name: "Icon-App-76x76@2x",
+    name: "-76x76@2x",
     size: 152
   ),
   new IosIcon(
-    name: "Icon-App-83.5x83.5@2x",
+    name: "-83.5x83.5@2x",
     size: 167
   ),
 ];
@@ -85,22 +86,32 @@ List<IosIcon> ios_icons = [
 convertIos(config) {
     String file_path = config['flutter_icons']['image_path'];
     Image image = decodeImage(new File(file_path).readAsBytesSync());
-    if (config['flutter_icons']['ios']) {
-      print("Saving new icon to ic_launcher.png and switching Android launcher icon to it");
+    var iosConfig = config['flutter_icons']['ios'];
+    // If the IOS configuration is a string then the user has specified a new icon to be created
+    // and for the old icon file to be kept
+    if (iosConfig is String) {
+      String newIconName = iosConfig;
+      print("Adding new IOS launcher icon");
+      ios_icons.forEach((IosIcon icon) => saveNewIcons(icon, image, newIconName));
     }
-    ios_icons.forEach((IosIcon e) => saveIcons(e, image));
-    print("IOS Launcher Icons Generated Successfully");
+    // Otherwise the user wants the new icon to use the default icons name and
+    // update config file to use it
+    else {
+      print("Overwriting default icon with new icon");
+      ios_icons.forEach((IosIcon icon) => overwriteDefaultIcons(icon, image));
+    }
 }
 
-overwriteDefaultIcons(IosIcon icon, image) {
+overwriteDefaultIcons(IosIcon icon, Image image) {
   Image newFile = copyResize(image, icon.size);
-    new File(default_icon_folder + icon.name + ".png")
+    new File(default_icon_folder + default_icon_name + icon.name + ".png")
       ..writeAsBytesSync(encodePng(newFile));
 }
 
-saveIcons(IosIcon e, image) {
-Image newFile = copyResize(image, e.size);
-    new File(default_icon_folder + e.name+ ".png")
+saveNewIcons(IosIcon icon, Image image, String newIconName) {
+  String newIconFolder = asset_folder + newIconName + ".appiconset/";
+  Image newFile = copyResize(image, icon.size);
+    new File(newIconFolder + newIconName + icon.name+ ".png")
         ..writeAsBytesSync(encodePng(newFile));
 }
 
@@ -115,7 +126,9 @@ changeIosLauncherIcon(String icon_name) async {
       line = line.replaceAll(new RegExp('\=(.*);'), "= " + icon_name + ";");
       print("*** New line ***");
       print(line);
+      lines[x] = line;
     }
   }
+  iOSConfigFile.writeAsString(lines.join("\n"));
 }
 
