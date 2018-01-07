@@ -86,6 +86,7 @@ List<IosIcon> ios_icons = [
 convertIos(config) {
     String file_path = config['flutter_icons']['image_path'];
     Image image = decodeImage(new File(file_path).readAsBytesSync());
+    String iconName;
     var iosConfig = config['flutter_icons']['ios'];
     // If the IOS configuration is a string then the user has specified a new icon to be created
     // and for the old icon file to be kept
@@ -93,13 +94,16 @@ convertIos(config) {
       String newIconName = iosConfig;
       print("Adding new IOS launcher icon");
       ios_icons.forEach((IosIcon icon) => saveNewIcons(icon, image, newIconName));
+      iconName = newIconName;
     }
     // Otherwise the user wants the new icon to use the default icons name and
     // update config file to use it
     else {
       print("Overwriting default icon with new icon");
       ios_icons.forEach((IosIcon icon) => overwriteDefaultIcons(icon, image));
+      iconName = default_icon_name;
     }
+    changeIosLauncherIcon(iconName);
 }
 
 overwriteDefaultIcons(IosIcon icon, Image image) {
@@ -111,8 +115,10 @@ overwriteDefaultIcons(IosIcon icon, Image image) {
 saveNewIcons(IosIcon icon, Image image, String newIconName) {
   String newIconFolder = asset_folder + newIconName + ".appiconset/";
   Image newFile = copyResize(image, icon.size);
-    new File(newIconFolder + newIconName + icon.name+ ".png")
-        ..writeAsBytesSync(encodePng(newFile));
+  new File(newIconFolder + newIconName + icon.name+ ".png").create(recursive: true).then((File file) {
+    print("Created new file");
+    file.writeAsBytesSync(encodePng(newFile));
+  });
 }
 
 changeIosLauncherIcon(String icon_name) async {
