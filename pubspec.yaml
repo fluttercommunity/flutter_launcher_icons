@@ -2,7 +2,9 @@ name: flutter_launcher_icons
 description: Generate ios/android launcher icons for flutter
 version: 0.0.5
 homepage: https://github.com/franzsilva/flutter_launcher_icons
-author: Franz Silva <franzsilva@gmail.com>
+authors: 
+- Franz Silva <franzsilva@gmail.com>
+- Mark O'Sullivan <mos182@hotmail.co.uk>
 
 dependencies: 
   image: "^1.1.29"

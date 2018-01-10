@@ -1,5 +1,6 @@
 import 'package:image/image.dart';
 import 'dart:io';
+import 'dart:convert';
 
 /**
  * File to handle the creation of icons for iOS platform
@@ -84,26 +85,27 @@ List<IosIcon> ios_icons = [
 ];
 
 convertIos(config) {
-    String file_path = config['flutter_icons']['image_path'];
-    Image image = decodeImage(new File(file_path).readAsBytesSync());
-    String iconName;
-    var iosConfig = config['flutter_icons']['ios'];
-    // If the IOS configuration is a string then the user has specified a new icon to be created
-    // and for the old icon file to be kept
-    if (iosConfig is String) {
-      String newIconName = iosConfig;
-      print("Adding new IOS launcher icon");
-      ios_icons.forEach((IosIcon icon) => saveNewIcons(icon, image, newIconName));
-      iconName = newIconName;
-    }
-    // Otherwise the user wants the new icon to use the default icons name and
-    // update config file to use it
-    else {
-      print("Overwriting default icon with new icon");
-      ios_icons.forEach((IosIcon icon) => overwriteDefaultIcons(icon, image));
-      iconName = default_icon_name;
-    }
-    changeIosLauncherIcon(iconName);
+  modifyContentsFile();
+//  String file_path = config['flutter_icons']['image_path'];
+//  Image image = decodeImage(new File(file_path).readAsBytesSync());
+//  String iconName;
+//  var iosConfig = config['flutter_icons']['ios'];
+//  // If the IOS configuration is a string then the user has specified a new icon to be created
+//  // and for the old icon file to be kept
+//  if (iosConfig is String) {
+//    String newIconName = iosConfig;
+//    print("Adding new IOS launcher icon");
+//    ios_icons.forEach((IosIcon icon) => saveNewIcons(icon, image, newIconName));
+//    iconName = newIconName;
+//  }
+//  // Otherwise the user wants the new icon to use the default icons name and
+//  // update config file to use it
+//  else {
+//    print("Overwriting default icon with new icon");
+//    ios_icons.forEach((IosIcon icon) => overwriteDefaultIcons(icon, image));
+//    iconName = default_icon_name;
+//  }
+//  changeIosLauncherIcon(iconName);
 }
 
 overwriteDefaultIcons(IosIcon icon, Image image) {
@@ -121,7 +123,7 @@ saveNewIcons(IosIcon icon, Image image, String newIconName) {
   });
 }
 
-changeIosLauncherIcon(String icon_name) async {
+changeIosLauncherIcon(String iconName) async {
   File iOSConfigFile = new File(config_file);
   List<String> lines = await iOSConfigFile.readAsLines();
   for (var x = 0; x < lines.length; x++) {
@@ -129,12 +131,176 @@ changeIosLauncherIcon(String icon_name) async {
     if (line.contains("ASSETCATALOG")) {
       print("*** Original line ***");
       print(line);
-      line = line.replaceAll(new RegExp('\=(.*);'), "= " + icon_name + ";");
+      line = line.replaceAll(new RegExp('\=(.*);'), "= " + iconName + ";");
       print("*** New line ***");
       print(line);
       lines[x] = line;
     }
   }
   iOSConfigFile.writeAsString(lines.join("\n"));
+}
+
+class ContentsImageObject {
+  final String size;
+  final String idiom;
+  final String filename;
+  final String scale;
+
+  ContentsImageObject({this.size, this.idiom, this.filename, this.scale});
+
+  Map toJson() {
+    Map map = new Map();
+    map["size"] = size;
+    map["idio"] = idiom;
+    map["filename"] = filename;
+    map["scale"] = scale;
+    return map;
+  }
+}
+
+class ContentsInfoObject {
+  final int version;
+  final String author;
+
+  ContentsInfoObject({ this.version, this.author});
+
+  Map toJson() {
+    Map map = new Map();
+  }
+}
+
+// Create the Contents.json file
+modifyContentsFile() {
+  var contentJson = new Map();
+  contentJson["images"] = createImageList("Test-App");
+  String jsonData = JSON.encode(contentJson);
+  print("JSON DATA");
+  print(jsonData);
+
+//  new File(asset_folder + iconName + ".appiconset/Contents.json")
+//      .create(recursive: true).then((File file) {
+//
+//  });
+}
+
+List<Map> createImageList(String fileNamePrefix) {
+  List<Map> imageList = [
+    new ContentsImageObject(
+      size: "20x20",
+      idiom: "iphone",
+      filename: fileNamePrefix + "-20x20@2x.png",
+      scale: "2x"
+    ).toJson(),
+    new ContentsImageObject(
+        size: "20x20",
+        idiom: "iphone",
+        filename: fileNamePrefix + "-20x20@3x.png",
+        scale: "3x"
+    ).toJson(),
+    new ContentsImageObject(
+    size: "29x29",
+    idiom: "iphone",
+    filename: fileNamePrefix + "-29x29@1x.png",
+    scale: "1x"
+    ).toJson(),
+    new ContentsImageObject(
+        size: "29x29",
+        idiom: "iphone",
+        filename: fileNamePrefix + "-29x29@2x.png",
+        scale: "2x"
+    ).toJson(),
+    new ContentsImageObject(
+        size: "29x29",
+        idiom: "iphone",
+        filename: fileNamePrefix + "-29x29@3x.png",
+        scale: "3x"
+    ).toJson(),
+    new ContentsImageObject(
+        size: "40x40",
+        idiom: "iphone",
+        filename: fileNamePrefix + "-40x40@2x.png",
+        scale: "2x"
+    ).toJson(),
+    new ContentsImageObject(
+        size: "40x40",
+        idiom: "iphone",
+        filename: fileNamePrefix + "-40x40@3x.png",
+        scale: "3x"
+    ).toJson(),
+    new ContentsImageObject(
+        size: "60x60",
+        idiom: "iphone",
+        filename: fileNamePrefix + "-60x60@2x.png",
+        scale: "2x"
+    ).toJson(),
+    new ContentsImageObject(
+        size: "60x60",
+        idiom: "iphone",
+        filename: fileNamePrefix + "-60x60@3x.png",
+        scale: "3x"
+    ).toJson(),
+    new ContentsImageObject(
+        size: "20x20",
+        idiom: "ipad",
+        filename: fileNamePrefix + "-20x20@1x.png",
+        scale: "1x"
+    ).toJson(),
+    new ContentsImageObject(
+        size: "20x20",
+        idiom: "ipad",
+        filename: fileNamePrefix + "-20x20@2x.png",
+        scale: "2x"
+    ).toJson(),
+    new ContentsImageObject(
+        size: "29x29",
+        idiom: "ipad",
+        filename: fileNamePrefix + "-29x29@1x.png",
+        scale: "1x"
+    ).toJson(),
+    new ContentsImageObject(
+        size: "29x29",
+        idiom: "ipad",
+        filename: fileNamePrefix + "-29x29@2x.png",
+        scale: "2x"
+    ).toJson(),
+    new ContentsImageObject(
+        size: "40x40",
+        idiom: "ipad",
+        filename: fileNamePrefix + "-40x40@1x.png",
+        scale: "1x"
+    ).toJson(),
+    new ContentsImageObject(
+        size: "40x40",
+        idiom: "ipad",
+        filename: fileNamePrefix + "-40x40@2x.png",
+        scale: "2x"
+    ).toJson(),
+    new ContentsImageObject(
+        size: "76x76",
+        idiom: "ipad",
+        filename: fileNamePrefix + "-76x76@1x.png",
+        scale: "1x"
+    ).toJson(),
+    new ContentsImageObject(
+        size: "76x76",
+        idiom: "ipad",
+        filename: fileNamePrefix + "-76x76@2x.png",
+        scale: "2x"
+    ).toJson(),
+    new ContentsImageObject(
+        size: "83.5x83.5",
+        idiom: "ipad",
+        filename: fileNamePrefix + "-83.5x83.5@2x.png",
+        scale: "2x"
+    ).toJson(),
+    new ContentsImageObject(
+        size: "1024x1024",
+        idiom: "ios-marketing",
+        filename: fileNamePrefix + "-83.5x83.5@2x.png",
+        scale: "2x"
+    ).toJson()
+  ];
+
+  return imageList;
 }
 
