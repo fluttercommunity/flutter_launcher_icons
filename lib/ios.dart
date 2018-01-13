@@ -94,7 +94,7 @@ convertIos(config) {
   // and for the old icon file to be kept
   if (iosConfig is String) {
     String newIconName = iosConfig;
-    print("Adding new IOS launcher icon");
+    print("Adding new iOS launcher icon to project");
     ios_icons.forEach((IosIcon icon) => saveNewIcons(icon, image, newIconName));
     iconName = newIconName;
     changeIosLauncherIcon(iconName);
@@ -103,11 +103,12 @@ convertIos(config) {
   // Otherwise the user wants the new icon to use the default icons name and
   // update config file to use it
   else {
-    print("Overwriting default icon with new icon");
+    print("Overwriting default iOS launcher icon with new icon");
     ios_icons.forEach((IosIcon icon) => overwriteDefaultIcons(icon, image));
     iconName = default_icon_name;
     changeIosLauncherIcon(iconName);
   }
+  print("Finished!");
 }
 
 overwriteDefaultIcons(IosIcon icon, Image image) {
@@ -120,7 +121,6 @@ saveNewIcons(IosIcon icon, Image image, String newIconName) {
   String newIconFolder = asset_folder + newIconName + ".appiconset/";
   Image newFile = copyResize(image, icon.size);
   new File(newIconFolder + newIconName + icon.name+ ".png").create(recursive: true).then((File file) {
-    print("Created new file");
     file.writeAsBytesSync(encodePng(newFile));
   });
 }
@@ -131,11 +131,7 @@ changeIosLauncherIcon(String iconName) async {
   for (var x = 0; x < lines.length; x++) {
     String line = lines[x];
     if (line.contains("ASSETCATALOG")) {
-      print("*** Original line ***");
-      print(line);
       line = line.replaceAll(new RegExp('\=(.*);'), "= " + iconName + ";");
-      print("*** New line ***");
-      print(line);
       lines[x] = line;
     }
   }
@@ -144,7 +140,6 @@ changeIosLauncherIcon(String iconName) async {
 
 // Create the Contents.json file
 modifyContentsFile(String newIconName) {
-  print("modifyContentsFile");
   String newIconFolder = asset_folder + newIconName + ".appiconset/Contents.json";
   new File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
     String contentsFileContent = generateContentsFileAsString(newIconName);

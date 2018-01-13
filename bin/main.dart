@@ -15,7 +15,8 @@ main(List<String> arguments) {
       if (iosConfig == true || iosConfig is String) {
         FlutterIconsIos.convertIos(config);
       }
-      if (((androidConfig == false) && (iosConfig == false)) || ((androidConfig == null) && (iosConfig == null))) {
+      if (((androidConfig == false) && (iosConfig == false)) ||
+          ((androidConfig == null) && (iosConfig == null))) {
         print("Error: No platform has been specified to generate launcher icons for.");
       }
     }else{
