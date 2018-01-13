@@ -9,6 +9,7 @@ import 'dart:convert';
  * 1. Config file containing icon setting: config_file_path (for Flutter projects)
  * 2. iOS launcher icon setting (perhaps) - 'ASSETCATALOG_COMPILER_APPICON_NAME = <IconFolder>;'
  * 3. IconFolder - <IconFolder>.appiconset
+ * 4. Contents.json - Assets.xcassets/<Icon-Name>.appiconset
  */
 const String default_icon_folder = "ios/Runner/Assets.xcassets/AppIcon.appiconset/";
 const String asset_folder = "ios/Runner/Assets.xcassets/";
@@ -85,27 +86,28 @@ List<IosIcon> ios_icons = [
 ];
 
 convertIos(config) {
-  modifyContentsFile();
-//  String file_path = config['flutter_icons']['image_path'];
-//  Image image = decodeImage(new File(file_path).readAsBytesSync());
-//  String iconName;
-//  var iosConfig = config['flutter_icons']['ios'];
-//  // If the IOS configuration is a string then the user has specified a new icon to be created
-//  // and for the old icon file to be kept
-//  if (iosConfig is String) {
-//    String newIconName = iosConfig;
-//    print("Adding new IOS launcher icon");
-//    ios_icons.forEach((IosIcon icon) => saveNewIcons(icon, image, newIconName));
-//    iconName = newIconName;
-//  }
-//  // Otherwise the user wants the new icon to use the default icons name and
-//  // update config file to use it
-//  else {
-//    print("Overwriting default icon with new icon");
-//    ios_icons.forEach((IosIcon icon) => overwriteDefaultIcons(icon, image));
-//    iconName = default_icon_name;
-//  }
-//  changeIosLauncherIcon(iconName);
+  String file_path = config['flutter_icons']['image_path'];
+  Image image = decodeImage(new File(file_path).readAsBytesSync());
+  String iconName;
+  var iosConfig = config['flutter_icons']['ios'];
+  // If the IOS configuration is a string then the user has specified a new icon to be created
+  // and for the old icon file to be kept
+  if (iosConfig is String) {
+    String newIconName = iosConfig;
+    print("Adding new IOS launcher icon");
+    ios_icons.forEach((IosIcon icon) => saveNewIcons(icon, image, newIconName));
+    iconName = newIconName;
+    changeIosLauncherIcon(iconName);
+    modifyContentsFile(iconName);
+  }
+  // Otherwise the user wants the new icon to use the default icons name and
+  // update config file to use it
+  else {
+    print("Overwriting default icon with new icon");
+    ios_icons.forEach((IosIcon icon) => overwriteDefaultIcons(icon, image));
+    iconName = default_icon_name;
+    changeIosLauncherIcon(iconName);
+  }
 }
 
 overwriteDefaultIcons(IosIcon icon, Image image) {
@@ -140,6 +142,26 @@ changeIosLauncherIcon(String iconName) async {
   iOSConfigFile.writeAsString(lines.join("\n"));
 }
 
+// Create the Contents.json file
+modifyContentsFile(String newIconName) {
+  print("modifyContentsFile");
+  String newIconFolder = asset_folder + newIconName + ".appiconset/Contents.json";
+  new File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
+    String contentsFileContent = generateContentsFileAsString(newIconName);
+    contentsJsonFile.writeAsString(contentsFileContent);
+  });
+}
+
+String generateContentsFileAsString(String newIconName) {
+  var contentJson = new Map();
+  contentJson["images"] = createImageList(newIconName);
+  contentJson["info"] = new ContentsInfoObject(
+      version: 1,
+      author: "xcode")
+      .toJson();
+  return JSON.encode(contentJson);
+}
+
 class ContentsImageObject {
   final String size;
   final String idiom;
@@ -151,7 +173,7 @@ class ContentsImageObject {
   Map toJson() {
     Map map = new Map();
     map["size"] = size;
-    map["idio"] = idiom;
+    map["idiom"] = idiom;
     map["filename"] = filename;
     map["scale"] = scale;
     return map;
@@ -166,21 +188,10 @@ class ContentsInfoObject {
 
   Map toJson() {
     Map map = new Map();
+    map["version"] = version;
+    map["author"] = author;
+    return map;
   }
-}
-
-// Create the Contents.json file
-modifyContentsFile() {
-  var contentJson = new Map();
-  contentJson["images"] = createImageList("Test-App");
-  String jsonData = JSON.encode(contentJson);
-  print("JSON DATA");
-  print(jsonData);
-
-//  new File(asset_folder + iconName + ".appiconset/Contents.json")
-//      .create(recursive: true).then((File file) {
-//
-//  });
 }
 
 List<Map> createImageList(String fileNamePrefix) {
@@ -300,7 +311,6 @@ List<Map> createImageList(String fileNamePrefix) {
         scale: "2x"
     ).toJson()
   ];
-
   return imageList;
 }
 
