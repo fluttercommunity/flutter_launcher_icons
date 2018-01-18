@@ -1,3 +1,5 @@
+# Last updated: 18th January 2018
+# Following guideline set here: https://pub.dartlang.org/help#health
 analyzer:
   strong-mode: true
 #   exclude:
@@ -6,10 +8,11 @@ analyzer:
 # Lint rules and documentation, see http://dart-lang.github.io/linter/lints
 linter:
   rules:
-    - cancel_subscriptions
+    - camal_case_types
     - hash_and_equals
     - iterable_contains_unrelated_type
     - list_remove_unrelated_type
-    - test_types_in_equals
     - unrelated_type_equality_checks
     - valid_regexps
+    - cancel_subscriptions
+    - test_types_in_equals
