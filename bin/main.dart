@@ -6,7 +6,7 @@ import 'package:dart_config/default_server.dart';
 main(List<String> arguments) {
   Future<Map> conf = loadConfig("pubspec.yaml");
   conf.then((Map config) {
-    if(config['flutter_icons']['image_path'] != null) {
+    if (config['flutter_icons']['image_path'] != null) {
       var androidConfig = config['flutter_icons']['android'];
       var iosConfig = config['flutter_icons']['ios'];
       if (androidConfig == true || androidConfig is String) {
@@ -17,11 +17,11 @@ main(List<String> arguments) {
       }
       if (((androidConfig == false) && (iosConfig == false)) ||
           ((androidConfig == null) && (iosConfig == null))) {
-        print("Error: No platform has been specified to generate launcher icons for.");
+        print(
+            "Error: No platform has been specified to generate launcher icons for.");
       }
-    }else{
+    } else {
       print("flutter_icons config not found in pubspec.yaml");
     }
   });
-  
 }

@@ -11,7 +11,8 @@ import 'dart:convert';
  * 3. IconFolder - <IconFolder>.appiconset
  * 4. Contents.json - Assets.xcassets/<Icon-Name>.appiconset
  */
-const String default_icon_folder = "ios/Runner/Assets.xcassets/AppIcon.appiconset/";
+const String default_icon_folder =
+    "ios/Runner/Assets.xcassets/AppIcon.appiconset/";
 const String asset_folder = "ios/Runner/Assets.xcassets/";
 const String config_file = "ios/Runner.xcodeproj/project.pbxproj";
 const String default_icon_name = "AppIcon";
@@ -23,66 +24,21 @@ class IosIcon {
 }
 
 List<IosIcon> ios_icons = [
-  new IosIcon(
-    name: "-20x20@1x",
-    size: 20
-  ),
-  new IosIcon(
-    name: "-20x20@2x",
-    size: 40
-  ),
-  new IosIcon(
-    name: "-20x20@3x",
-    size: 60
-  ),
-  new IosIcon(
-    name: "-29x29@1x",
-    size: 29
-  ),
-  new IosIcon(
-    name: "-29x29@2x",
-    size: 58
-  ),
-  new IosIcon(
-    name: "-29x29@3x",
-    size: 87
-  ),
-  new IosIcon(
-    name: "-40x40@1x",
-    size: 40
-  ),
-  new IosIcon(
-    name: "-40x40@2x",
-    size: 80
-  ),
-  new IosIcon(
-    name: "-40x40@3x",
-    size: 120
-  ),
-  new IosIcon(
-    name: "-60x60@1x",
-    size: 60
-  ),
-  new IosIcon(
-    name: "-60x60@2x",
-    size: 120
-  ),
-  new IosIcon(
-    name: "-60x60@3x",
-    size: 180
-  ),
-  new IosIcon(
-    name: "-76x76@1x",
-    size: 76
-  ),
-  new IosIcon(
-    name: "-76x76@2x",
-    size: 152
-  ),
-  new IosIcon(
-    name: "-83.5x83.5@2x",
-    size: 167
-  ),
+  new IosIcon(name: "-20x20@1x", size: 20),
+  new IosIcon(name: "-20x20@2x", size: 40),
+  new IosIcon(name: "-20x20@3x", size: 60),
+  new IosIcon(name: "-29x29@1x", size: 29),
+  new IosIcon(name: "-29x29@2x", size: 58),
+  new IosIcon(name: "-29x29@3x", size: 87),
+  new IosIcon(name: "-40x40@1x", size: 40),
+  new IosIcon(name: "-40x40@2x", size: 80),
+  new IosIcon(name: "-40x40@3x", size: 120),
+  new IosIcon(name: "-60x60@1x", size: 60),
+  new IosIcon(name: "-60x60@2x", size: 120),
+  new IosIcon(name: "-60x60@3x", size: 180),
+  new IosIcon(name: "-76x76@1x", size: 76),
+  new IosIcon(name: "-76x76@2x", size: 152),
+  new IosIcon(name: "-83.5x83.5@2x", size: 167),
 ];
 
 convertIos(config) {
@@ -113,14 +69,16 @@ convertIos(config) {
 
 overwriteDefaultIcons(IosIcon icon, Image image) {
   Image newFile = copyResize(image, icon.size);
-    new File(default_icon_folder + default_icon_name + icon.name + ".png")
-      ..writeAsBytesSync(encodePng(newFile));
+  new File(default_icon_folder + default_icon_name + icon.name + ".png")
+    ..writeAsBytesSync(encodePng(newFile));
 }
 
 saveNewIcons(IosIcon icon, Image image, String newIconName) {
   String newIconFolder = asset_folder + newIconName + ".appiconset/";
   Image newFile = copyResize(image, icon.size);
-  new File(newIconFolder + newIconName + icon.name+ ".png").create(recursive: true).then((File file) {
+  new File(newIconFolder + newIconName + icon.name + ".png")
+      .create(recursive: true)
+      .then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
   });
 }
@@ -140,7 +98,8 @@ changeIosLauncherIcon(String iconName) async {
 
 // Create the Contents.json file
 modifyContentsFile(String newIconName) {
-  String newIconFolder = asset_folder + newIconName + ".appiconset/Contents.json";
+  String newIconFolder =
+      asset_folder + newIconName + ".appiconset/Contents.json";
   new File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
     String contentsFileContent = generateContentsFileAsString(newIconName);
     contentsJsonFile.writeAsString(contentsFileContent);
@@ -150,10 +109,8 @@ modifyContentsFile(String newIconName) {
 String generateContentsFileAsString(String newIconName) {
   var contentJson = new Map();
   contentJson["images"] = createImageList(newIconName);
-  contentJson["info"] = new ContentsInfoObject(
-      version: 1,
-      author: "xcode")
-      .toJson();
+  contentJson["info"] =
+      new ContentsInfoObject(version: 1, author: "xcode").toJson();
   return JSON.encode(contentJson);
 }
 
@@ -179,7 +136,7 @@ class ContentsInfoObject {
   final int version;
   final String author;
 
-  ContentsInfoObject({ this.version, this.author});
+  ContentsInfoObject({this.version, this.author});
 
   Map toJson() {
     Map map = new Map();
@@ -192,120 +149,119 @@ class ContentsInfoObject {
 List<Map> createImageList(String fileNamePrefix) {
   List<Map> imageList = [
     new ContentsImageObject(
-      size: "20x20",
-      idiom: "iphone",
-      filename: fileNamePrefix + "-20x20@2x.png",
-      scale: "2x"
-    ).toJson(),
+            size: "20x20",
+            idiom: "iphone",
+            filename: fileNamePrefix + "-20x20@2x.png",
+            scale: "2x")
+        .toJson(),
     new ContentsImageObject(
-        size: "20x20",
-        idiom: "iphone",
-        filename: fileNamePrefix + "-20x20@3x.png",
-        scale: "3x"
-    ).toJson(),
+            size: "20x20",
+            idiom: "iphone",
+            filename: fileNamePrefix + "-20x20@3x.png",
+            scale: "3x")
+        .toJson(),
     new ContentsImageObject(
-    size: "29x29",
-    idiom: "iphone",
-    filename: fileNamePrefix + "-29x29@1x.png",
-    scale: "1x"
-    ).toJson(),
+            size: "29x29",
+            idiom: "iphone",
+            filename: fileNamePrefix + "-29x29@1x.png",
+            scale: "1x")
+        .toJson(),
     new ContentsImageObject(
-        size: "29x29",
-        idiom: "iphone",
-        filename: fileNamePrefix + "-29x29@2x.png",
-        scale: "2x"
-    ).toJson(),
+            size: "29x29",
+            idiom: "iphone",
+            filename: fileNamePrefix + "-29x29@2x.png",
+            scale: "2x")
+        .toJson(),
     new ContentsImageObject(
-        size: "29x29",
-        idiom: "iphone",
-        filename: fileNamePrefix + "-29x29@3x.png",
-        scale: "3x"
-    ).toJson(),
+            size: "29x29",
+            idiom: "iphone",
+            filename: fileNamePrefix + "-29x29@3x.png",
+            scale: "3x")
+        .toJson(),
     new ContentsImageObject(
-        size: "40x40",
-        idiom: "iphone",
-        filename: fileNamePrefix + "-40x40@2x.png",
-        scale: "2x"
-    ).toJson(),
+            size: "40x40",
+            idiom: "iphone",
+            filename: fileNamePrefix + "-40x40@2x.png",
+            scale: "2x")
+        .toJson(),
     new ContentsImageObject(
-        size: "40x40",
-        idiom: "iphone",
-        filename: fileNamePrefix + "-40x40@3x.png",
-        scale: "3x"
-    ).toJson(),
+            size: "40x40",
+            idiom: "iphone",
+            filename: fileNamePrefix + "-40x40@3x.png",
+            scale: "3x")
+        .toJson(),
     new ContentsImageObject(
-        size: "60x60",
-        idiom: "iphone",
-        filename: fileNamePrefix + "-60x60@2x.png",
-        scale: "2x"
-    ).toJson(),
+            size: "60x60",
+            idiom: "iphone",
+            filename: fileNamePrefix + "-60x60@2x.png",
+            scale: "2x")
+        .toJson(),
     new ContentsImageObject(
-        size: "60x60",
-        idiom: "iphone",
-        filename: fileNamePrefix + "-60x60@3x.png",
-        scale: "3x"
-    ).toJson(),
+            size: "60x60",
+            idiom: "iphone",
+            filename: fileNamePrefix + "-60x60@3x.png",
+            scale: "3x")
+        .toJson(),
     new ContentsImageObject(
-        size: "20x20",
-        idiom: "ipad",
-        filename: fileNamePrefix + "-20x20@1x.png",
-        scale: "1x"
-    ).toJson(),
+            size: "20x20",
+            idiom: "ipad",
+            filename: fileNamePrefix + "-20x20@1x.png",
+            scale: "1x")
+        .toJson(),
     new ContentsImageObject(
-        size: "20x20",
-        idiom: "ipad",
-        filename: fileNamePrefix + "-20x20@2x.png",
-        scale: "2x"
-    ).toJson(),
+            size: "20x20",
+            idiom: "ipad",
+            filename: fileNamePrefix + "-20x20@2x.png",
+            scale: "2x")
+        .toJson(),
     new ContentsImageObject(
-        size: "29x29",
-        idiom: "ipad",
-        filename: fileNamePrefix + "-29x29@1x.png",
-        scale: "1x"
-    ).toJson(),
+            size: "29x29",
+            idiom: "ipad",
+            filename: fileNamePrefix + "-29x29@1x.png",
+            scale: "1x")
+        .toJson(),
     new ContentsImageObject(
-        size: "29x29",
-        idiom: "ipad",
-        filename: fileNamePrefix + "-29x29@2x.png",
-        scale: "2x"
-    ).toJson(),
+            size: "29x29",
+            idiom: "ipad",
+            filename: fileNamePrefix + "-29x29@2x.png",
+            scale: "2x")
+        .toJson(),
     new ContentsImageObject(
-        size: "40x40",
-        idiom: "ipad",
-        filename: fileNamePrefix + "-40x40@1x.png",
-        scale: "1x"
-    ).toJson(),
+            size: "40x40",
+            idiom: "ipad",
+            filename: fileNamePrefix + "-40x40@1x.png",
+            scale: "1x")
+        .toJson(),
     new ContentsImageObject(
-        size: "40x40",
-        idiom: "ipad",
-        filename: fileNamePrefix + "-40x40@2x.png",
-        scale: "2x"
-    ).toJson(),
+            size: "40x40",
+            idiom: "ipad",
+            filename: fileNamePrefix + "-40x40@2x.png",
+            scale: "2x")
+        .toJson(),
     new ContentsImageObject(
-        size: "76x76",
-        idiom: "ipad",
-        filename: fileNamePrefix + "-76x76@1x.png",
-        scale: "1x"
-    ).toJson(),
+            size: "76x76",
+            idiom: "ipad",
+            filename: fileNamePrefix + "-76x76@1x.png",
+            scale: "1x")
+        .toJson(),
     new ContentsImageObject(
-        size: "76x76",
-        idiom: "ipad",
-        filename: fileNamePrefix + "-76x76@2x.png",
-        scale: "2x"
-    ).toJson(),
+            size: "76x76",
+            idiom: "ipad",
+            filename: fileNamePrefix + "-76x76@2x.png",
+            scale: "2x")
+        .toJson(),
     new ContentsImageObject(
-        size: "83.5x83.5",
-        idiom: "ipad",
-        filename: fileNamePrefix + "-83.5x83.5@2x.png",
-        scale: "2x"
-    ).toJson(),
+            size: "83.5x83.5",
+            idiom: "ipad",
+            filename: fileNamePrefix + "-83.5x83.5@2x.png",
+            scale: "2x")
+        .toJson(),
     new ContentsImageObject(
-        size: "1024x1024",
-        idiom: "ios-marketing",
-        filename: fileNamePrefix + "-83.5x83.5@2x.png",
-        scale: "2x"
-    ).toJson()
+            size: "1024x1024",
+            idiom: "ios-marketing",
+            filename: fileNamePrefix + "-83.5x83.5@2x.png",
+            scale: "2x")
+        .toJson()
   ];
   return imageList;
 }
-
