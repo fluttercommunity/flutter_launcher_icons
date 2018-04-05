@@ -35,7 +35,7 @@ dev_dependencies:
 flutter_icons:
   image_path: "icon/icon.png" 
   android: true
-  ios: "Example-Icon"
+  ios: true
 ```
 ```
 #### Attributes: 
