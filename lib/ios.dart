@@ -15,7 +15,7 @@ const String default_icon_folder =
     "ios/Runner/Assets.xcassets/AppIcon.appiconset/";
 const String asset_folder = "ios/Runner/Assets.xcassets/";
 const String config_file = "ios/Runner.xcodeproj/project.pbxproj";
-const String default_icon_name = "AppIcon";
+const String default_icon_name = "Icon-App";
 
 class IosIcon {
   final String name;
