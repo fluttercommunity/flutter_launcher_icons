@@ -41,14 +41,16 @@ convertAndroid(config) {
 
 overwriteExistingIcons(AndroidIcon e, image) {
   Image newFile = copyResize(image, e.size);
-  new File(android_res_folder + e.name + '/' + android_file_name)
-    ..writeAsBytesSync(encodePng(newFile));
+  new File(android_res_folder + e.name + '/' + android_file_name).create(recursive: true).then((File file) {
+    file.writeAsBytesSync(encodePng(newFile));
+  });
 }
 
 saveNewIcons(AndroidIcon e, image, String iconFilePath) {
   Image newFile = copyResize(image, e.size);
-  new File(android_res_folder + e.name + '/' + iconFilePath)
-    ..writeAsBytesSync(encodePng(newFile));
+  new File(android_res_folder + e.name + '/' + iconFilePath).create(recursive: true).then((File file) {
+    file.writeAsBytesSync(encodePng(newFile));
+  });
 }
 
 // NOTE: default = ic_launcher
