@@ -4,12 +4,6 @@ import 'dart:convert';
 
 /**
  * File to handle the creation of icons for iOS platform
- *
- * Notes:
- * 1. Config file containing icon setting: config_file_path (for Flutter projects)
- * 2. iOS launcher icon setting (perhaps) - 'ASSETCATALOG_COMPILER_APPICON_NAME = <IconFolder>;'
- * 3. IconFolder - <IconFolder>.appiconset
- * 4. Contents.json - Assets.xcassets/<Icon-Name>.appiconset
  */
 const String default_icon_folder =
     "ios/Runner/Assets.xcassets/AppIcon.appiconset/";
@@ -39,6 +33,7 @@ List<IosIcon> ios_icons = [
   new IosIcon(name: "-76x76@1x", size: 76),
   new IosIcon(name: "-76x76@2x", size: 152),
   new IosIcon(name: "-83.5x83.5@2x", size: 167),
+  new IosIcon(name: "-1024x1024@1x", size: 1024),
 ];
 
 convertIos(config) {

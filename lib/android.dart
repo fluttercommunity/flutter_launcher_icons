@@ -60,14 +60,10 @@ changeAndroidLauncherIcon(String icon_name) async {
   for (var x = 0; x < lines.length; x++) {
     String line = lines[x];
     if (line.contains("android:icon")) {
-      print("OLD LINE");
-      print(line);
       // Using RegExp replace the value of android:icon to point to the new icon
       line = line.replaceAll(
           new RegExp('android:icon=\"([^*]|(\"+([^"/]|)))*\"'),
           'android:icon="@mipmap/' + icon_name + '"');
-      print("NEW LINE");
-      print(line);
       lines[x] = line;
     }
   }
