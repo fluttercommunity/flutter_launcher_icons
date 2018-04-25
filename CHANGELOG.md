@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.1 (25th April 2018)
+
+- Added extra iOS icon size (1024x1024)
+- Fixed iOS default icon name (Thanks to PR #15 - Thank you!)
+- Fixed issue #10 where creation of the icons was failing due to the target folder not existing
+
+
 ## 0.2.0 (18th January 2018)
 
 - Ability to create new launcher icons without replacing the old ones added (#6)

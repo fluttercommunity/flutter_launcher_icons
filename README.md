@@ -7,9 +7,10 @@ A command-line tool to quickly generate launcher icons for both iOS and Android 
 
 ## :sparkles: What's New
 
-##### Version 0.2.0 (18th January 2018)
- * Ability to add new launcher icons without removing the old existing launcher icon
-
+##### Version 0.2.1 (25th April 2018)
+  Added extra iOS icon size (1024x1024)
+ * Fixed iOS default icon name (Thanks to PR #25 - Thank you!)
+ * Fixed issue #10 where the creation of the icons was failing due to the target folder not existing
 
 ## :mag: Guide
 
@@ -20,7 +21,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
     
-  flutter_launcher_icons: "^0.2.0"
+  flutter_launcher_icons: "^0.2.1"
 ```
 
 2. Within the same pubspec.yaml file, add flutter_icons config section
@@ -30,7 +31,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
     
-  flutter_launcher_icons: "^0.2.0"
+  flutter_launcher_icons: "^0.2.1"
   
 flutter_icons:
   image_path: "icon/icon.png" 
@@ -58,6 +59,8 @@ flutter pub pub run flutter_launcher_icons:main
 ## :eyes: Example
 
 [![Video Example](https://img.youtube.com/vi/RjNAxwcP3Tc/0.jpg)](https://www.youtube.com/watch?v=RjNAxwcP3Tc)
+
+Note: This is showing v0.0.5.
 
 ### Special thanks
 
