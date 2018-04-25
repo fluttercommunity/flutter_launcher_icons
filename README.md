@@ -8,7 +8,7 @@ A command-line tool to quickly generate launcher icons for both iOS and Android 
 ## :sparkles: What's New
 
 ##### Version 0.2.1 (25th April 2018)
-  Added extra iOS icon size (1024x1024)
+ * Added extra iOS icon size (1024x1024)
  * Fixed iOS default icon name (Thanks to PR #25 - Thank you!)
  * Fixed issue #10 where the creation of the icons was failing due to the target folder not existing
 
