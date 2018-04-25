@@ -2,8 +2,6 @@
 
 A command-line tool to quickly generate launcher icons for both iOS and Android platforms within any Flutter project.
 
-**Note:** The tool will replace the existing default launcher icons for Flutter projects and so if you wish to keep them, please make a backup before running this tool.
-
 
 ## :sparkles: What's New
 
