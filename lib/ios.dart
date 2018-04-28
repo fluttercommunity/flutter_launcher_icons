@@ -63,14 +63,25 @@ convertIos(config) {
 }
 
 overwriteDefaultIcons(IosIcon icon, Image image) {
-  Image newFile = copyResize(image, icon.size, -1, AVERAGE);
+  Image newFile;
+  if (image.width >= icon.size)
+    newFile = copyResize(image, icon.size, -1, AVERAGE);
+  else
+    newFile = copyResize(image, icon.size, -1, LINEAR);
+
   new File(default_icon_folder + default_icon_name + icon.name + ".png")
     ..writeAsBytesSync(encodePng(newFile));
 }
 
 saveNewIcons(IosIcon icon, Image image, String newIconName) {
   String newIconFolder = asset_folder + newIconName + ".appiconset/";
-  Image newFile = copyResize(image, icon.size, -1, AVERAGE);
+
+  Image newFile;
+  if (image.width >= icon.size)
+    newFile = copyResize(image, icon.size, -1, AVERAGE);
+  else
+    newFile = copyResize(image, icon.size, -1, LINEAR);
+
   new File(newIconFolder + newIconName + icon.name + ".png")
       .create(recursive: true)
       .then((File file) {

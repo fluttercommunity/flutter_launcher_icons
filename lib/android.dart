@@ -40,14 +40,24 @@ convertAndroid(config) {
 }
 
 overwriteExistingIcons(AndroidIcon e, image) {
-  Image newFile = copyResize(image, e.size, -1, AVERAGE);
+  Image newFile;
+  if (image.width >= e.size)
+    newFile = copyResize(image, e.size, -1, AVERAGE);
+  else
+    newFile = copyResize(image, e.size, -1, LINEAR);
+
   new File(android_res_folder + e.name + '/' + android_file_name).create(recursive: true).then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
   });
 }
 
 saveNewIcons(AndroidIcon e, image, String iconFilePath) {
-  Image newFile = copyResize(image, e.size, -1, AVERAGE);
+  Image newFile;
+  if (image.width >= e.size)
+    newFile = copyResize(image, e.size, -1, AVERAGE);
+  else
+    newFile = copyResize(image, e.size, -1, LINEAR);
+
   new File(android_res_folder + e.name + '/' + iconFilePath).create(recursive: true).then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
   });
