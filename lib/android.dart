@@ -33,7 +33,7 @@ convertAndroid(config) {
     android_icons.forEach((AndroidIcon e) => saveNewIcons(e, image, icon_path));
     changeAndroidLauncherIcon(icon_name);
   } else {
-    print("Saving new icon to ic_launcher.png and switching Android launcher icon to it");
+    print("Overwriting default Android launcher icon with new icon");
     android_icons.forEach((AndroidIcon e) => overwriteExistingIcons(e, image));
     changeAndroidLauncherIcon(default_icon_name);
   }
