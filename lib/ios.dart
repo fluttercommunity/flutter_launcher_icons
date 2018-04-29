@@ -45,7 +45,7 @@ convertIos(config) {
   // and for the old icon file to be kept
   if (iosConfig is String) {
     String newIconName = iosConfig;
-    print("Adding new iOS launcher icon to project");
+    print("Adding new iOS launcher icon");
     ios_icons.forEach((IosIcon icon) => saveNewIcons(icon, image, newIconName));
     iconName = newIconName;
     changeIosLauncherIcon(iconName);
@@ -59,7 +59,6 @@ convertIos(config) {
     iconName = default_icon_name;
     changeIosLauncherIcon(iconName);
   }
-  print("Finished!");
 }
 
 overwriteDefaultIcons(IosIcon icon, Image image) {

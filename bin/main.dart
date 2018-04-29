@@ -19,6 +19,8 @@ main(List<String> arguments) {
           ((androidConfig == null) && (iosConfig == null))) {
         print(
             "Error: No platform has been specified to generate launcher icons for.");
+      } else {
+        print("Finished!");
       }
     } else {
       print("flutter_icons config not found in pubspec.yaml");
