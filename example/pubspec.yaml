@@ -13,10 +13,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_launcher_icons: "^0.2.1"
+  flutter_launcher_icons:
+    path: ../
 
 flutter_icons:
-  image_path: "assets/images/icon-710x599.png"
+  image_path: "assets/images/icon-128x128.png"
   android: true # can specify file name here e.g. "ic_launcher"
   ios: true # can specify file name here e.g. "My-Launcher-Icon"
 

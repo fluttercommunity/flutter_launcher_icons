@@ -27,7 +27,6 @@ List<IosIcon> ios_icons = [
   new IosIcon(name: "-40x40@1x", size: 40),
   new IosIcon(name: "-40x40@2x", size: 80),
   new IosIcon(name: "-40x40@3x", size: 120),
-  new IosIcon(name: "-60x60@1x", size: 60),
   new IosIcon(name: "-60x60@2x", size: 120),
   new IosIcon(name: "-60x60@3x", size: 180),
   new IosIcon(name: "-76x76@1x", size: 76),
@@ -57,7 +56,6 @@ convertIos(config) {
     print("Overwriting default iOS launcher icon with new icon");
     ios_icons.forEach((IosIcon icon) => overwriteDefaultIcons(icon, image));
     iconName = default_icon_name;
-    changeIosLauncherIcon(iconName);
   }
 }
 
