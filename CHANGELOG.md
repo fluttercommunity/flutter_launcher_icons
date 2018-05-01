@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0 (1st May 2018)
+
+- Fixed issue where icons produced weren't the correct size (Due to images not with a 1:1 aspect r    ation)
+- Improved quality of smaller icons produced (Thanks to PR #17 - Thank you!)
+- Updated console printed messages to keep them consistent
+- Added example folder to GitHub project
+
 ## 0.2.1 (25th April 2018)
 
 - Added extra iOS icon size (1024x1024)
