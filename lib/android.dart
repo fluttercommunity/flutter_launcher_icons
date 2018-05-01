@@ -54,9 +54,9 @@ overwriteExistingIcons(AndroidIcon e, image) {
 saveNewIcons(AndroidIcon e, image, String iconFilePath) {
   Image newFile;
   if (image.width >= e.size)
-    newFile = copyResize(image, e.size, -1, AVERAGE);
+    newFile = copyResize(image, e.size, e.size, AVERAGE);
   else
-    newFile = copyResize(image, e.size, -1, LINEAR);
+    newFile = copyResize(image, e.size, e.size, LINEAR);
 
   new File(android_res_folder + e.name + '/' + iconFilePath).create(recursive: true).then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
