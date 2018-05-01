@@ -5,7 +5,7 @@ A command-line tool to quickly generate launcher icons for both iOS and Android 
 
 ## :sparkles: What's New
 
-##### Version 0.2.1 (25th April 2018)
+##### Version 0.3.0 (1st May 2018)
  * Fixed issue where icons produced weren't the correct size (Due to images not with a 1:1 aspect ration)
  * Improved quality of smaller icons produced (Thanks to PR #17 - Thank you!)
  * Updated console printed messages to keep them consistent
@@ -64,4 +64,4 @@ Note: This is showing v0.0.5.
 ### Special thanks
 
 - Thanks to Brendan Duncan for the underlying image package to transform the pics. 
-- All the contributors to the project. Every PR / reported issue is greatly appreciated! 
+- Big thank you to all the contributors to the project. Every PR / reported issue is greatly appreciated! 
