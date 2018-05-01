@@ -20,7 +20,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
     
-  flutter_launcher_icons: "^0.2.1"
+  flutter_launcher_icons: "^0.3.0"
 ```
 
 2. Within the same pubspec.yaml file, add flutter_icons config section
@@ -30,7 +30,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
     
-  flutter_launcher_icons: "^0.2.1"
+  flutter_launcher_icons: "^0.3.0"
   
 flutter_icons:
   image_path: "icon/icon.png" 
