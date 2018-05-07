@@ -56,6 +56,7 @@ convertIos(config) {
     print("Overwriting default iOS launcher icon with new icon");
     ios_icons.forEach((IosIcon icon) => overwriteDefaultIcons(icon, image));
     iconName = default_icon_name;
+    changeIosLauncherIcon("AppIcon");
   }
 }
 

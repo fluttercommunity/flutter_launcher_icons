@@ -1,5 +1,16 @@
 # Changelog
 
+
+## 0.3.2 (2nd May 2018)
+
+- Bug fixing
+
+
+## 0.3.1 (1st May 2018)
+
+- Bug fixing
+
+
 ## 0.3.0 (1st May 2018)
 
 - Fixed issue where icons produced weren't the correct size (Due to images not with a 1:1 aspect r    ation)
