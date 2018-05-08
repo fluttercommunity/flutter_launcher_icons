@@ -115,7 +115,7 @@ String generateContentsFileAsString(String newIconName) {
   contentJson["images"] = createImageList(newIconName);
   contentJson["info"] =
       new ContentsInfoObject(version: 1, author: "xcode").toJson();
-  return JSON.encode(contentJson);
+  return json.encode(contentJson);
 }
 
 class ContentsImageObject {
