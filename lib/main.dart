@@ -3,7 +3,7 @@ import 'package:flutter_launcher_icons/android.dart' as FlutterIconsAndroid;
 import 'package:flutter_launcher_icons/ios.dart' as FlutterIconsIos;
 import 'package:dart_config/default_server.dart';
 
-main(List<String> arguments) {
+start(List<String> arguments) {
   Future<Map> conf = loadConfig("pubspec.yaml");
   conf.then((Map config) {
     if (config['flutter_icons']['image_path'] != null) {
