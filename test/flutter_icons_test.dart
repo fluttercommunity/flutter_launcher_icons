@@ -14,4 +14,8 @@ void main() {
   test('iOS image list used to generate Contents.json for icon directory is correct size', () {
     expect(createImageList("blah").length, 19);
   });
+
+  test('loading pubspec.yaml config file', () {
+
+  });
 }
