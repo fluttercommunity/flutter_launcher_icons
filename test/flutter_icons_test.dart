@@ -19,12 +19,9 @@ void main() {
     expect(IOS.createImageList("blah").length, 19);
   });
 
-  test('pubspec.yaml is not null', () {
-    Future<Map> config = Main.loadConfigFile("test/config/test_pubspec.yaml");
-    config.then((values) {
-      expect(values.length != null, true);
-    });
-    expect(config, completes);
+  test('pubspec.yaml is not null', () async {
+    var config = await Main.loadConfigFile("test/config/test_pubspec.yaml");
+    expect(config.length, isNotNull);
   });
 
   test('pubspec.yaml is not null', () {
