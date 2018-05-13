@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:test/test.dart';
 import 'package:flutter_launcher_icons/ios.dart' as IOS;
 import 'package:flutter_launcher_icons/android.dart' as Android;
 import 'package:flutter_launcher_icons/main.dart' as Main;
-import 'package:dart_config/default_server.dart';
 
 void main() {
   test('iOS icon list is correct size', () {
@@ -19,12 +16,27 @@ void main() {
     expect(IOS.createImageList("blah").length, 19);
   });
 
-  test('pubspec.yaml is not null', () async {
-    var config = await Main.loadConfigFile("test/config/test_pubspec.yaml");
+  test('pubspec.yaml file exists', () async {
+    String path = "test/config/test_pubspec.yaml";
+    var config = await Main.loadConfigFile(path);
+    print("Contains key: " + config.containsKey("flutter_icons").toString());
     expect(config.length, isNotNull);
   });
 
-  test('pubspec.yaml is not null', () {
-    expect(Main.loadConfigFile("test/config/test_pubspec.yam"), new isInstanceOf<Future<Map>>());
+  test('Incorrect pubspec.yaml path throws correct error message', () async {
+    String incorrectPath = "test/config/test_pubspec.yam";
+    var config = Main.loadConfigFile(incorrectPath);
+    expect(config, throwsA(incorrectPath + " does not exist"));
+  });
+
+  test('Confirming Android / iOS exist in config', () async {
+    Map flutter_icons_config = {"image_path": "assets/images/icon-710x599.png",
+        "android": true, "ios": true};
+    expect(Main.hasAndroidOrIOSConfig(flutter_icons_config), true);
+  });
+
+  test('Confirm Android / iOS config missing', () async {
+    Map flutter_icons_config = {"image_path": "assets/images/icon-710x599.png"};
+    expect(Main.hasAndroidOrIOSConfig(flutter_icons_config), false);
   });
 }

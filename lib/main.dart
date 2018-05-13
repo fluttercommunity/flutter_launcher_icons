@@ -28,6 +28,28 @@ start(List<String> arguments) {
   });
 }
 
-Future<Map> loadConfigFile(String path) {
-  return loadConfig(path);
+Future<Map> loadConfigFile(String path) async {
+  var config = await loadConfig(path);
+  return config;
+}
+
+Map loadFlutterIconsConfig(Map config) {
+  return config["flutter_icons"];
+}
+
+// TODO
+String isImagePathConfigValid(Map flutter_icons_config) {
+  if (isImagePathInConfig(flutter_icons_config)) {
+
+  } else {
+    return "'image_path' missing from configuration";
+  }
+}
+
+bool isImagePathInConfig(Map flutter_icons_config) {
+  return flutter_icons_config.containsKey("image_path");
+}
+
+bool hasAndroidOrIOSConfig(Map flutter_icons_config) {
+  return flutter_icons_config.containsKey("android") || flutter_icons_config.containsKey("ios");
 }
