@@ -1,19 +1,19 @@
 import 'dart:async';
-import 'package:flutter_launcher_icons/android.dart' as FlutterIconsAndroid;
-import 'package:flutter_launcher_icons/ios.dart' as FlutterIconsIos;
+import 'package:flutter_launcher_icons/android.dart' as AndroidLauncherIcons;
+import 'package:flutter_launcher_icons/ios.dart' as IOSLauncherIcons;
 import 'package:dart_config/default_server.dart';
 
-start(List<String> arguments) {
+createIcons(List<String> arguments) {
   Future<Map> conf = loadConfig("pubspec.yaml");
   conf.then((Map config) {
     if (config['flutter_icons']['image_path'] != null) {
       var androidConfig = config['flutter_icons']['android'];
       var iosConfig = config['flutter_icons']['ios'];
       if (androidConfig == true || androidConfig is String) {
-        FlutterIconsAndroid.convertAndroid(config);
+        AndroidLauncherIcons.createIcons(config);
       }
       if (iosConfig == true || iosConfig is String) {
-        FlutterIconsIos.convertIos(config);
+        IOSLauncherIcons.createIcons(config);
       }
       if (((androidConfig == false) && (iosConfig == false)) ||
           ((androidConfig == null) && (iosConfig == null))) {
@@ -24,6 +24,30 @@ start(List<String> arguments) {
       }
     } else {
       print("flutter_icons config not found in pubspec.yaml");
+    }
+  });
+}
+
+createIcons2(List<String> arguments) async {
+  print("createIcons2");
+  loadConfigFile("pubspec.yaml").then((Map pubspecConfig) {
+    Map config = loadFlutterIconsConfig(pubspecConfig);
+    print(config);
+    if (!isImagePathInConfig(config)) {
+      print(config.toString());
+      print("Missing 'image_path' within configuration");
+      return;
+    }
+    if (!hasAndroidOrIOSConfig(config)) {
+      print("Error: No platform specified within config to generate icons for.");
+      return;
+    } else {
+      if (hasAndroidConfig(config)) {
+        AndroidLauncherIcons.createIcons(config);
+      }
+      if (hasIOSConfig(config)) {
+        IOSLauncherIcons.createIcons(config);
+      }
     }
   });
 }
@@ -52,4 +76,12 @@ bool isImagePathInConfig(Map flutter_icons_config) {
 
 bool hasAndroidOrIOSConfig(Map flutter_icons_config) {
   return flutter_icons_config.containsKey("android") || flutter_icons_config.containsKey("ios");
+}
+
+bool hasAndroidConfig(Map flutter_icons_config) {
+  return flutter_icons_config.containsKey("android");
+}
+
+bool hasIOSConfig(Map flutter_icons_config) {
+  return flutter_icons_config.containsKey("ios");
 }

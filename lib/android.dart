@@ -21,10 +21,11 @@ List<AndroidIcon> android_icons = [
   new AndroidIcon(name: "mipmap-xxxhdpi", size: 192),
 ];
 
-convertAndroid(config) {
-  String file_path = config['flutter_icons']['image_path'];
+createIcons(config) {
+  print("create icons Android");
+  String file_path = config['image_path'];
   Image image = decodeImage(new File(file_path).readAsBytesSync());
-  var androidConfig = config['flutter_icons']['android'];
+  var androidConfig = config['android'];
 
   if (androidConfig is String) {
     print("Adding new Android launcher icon");
