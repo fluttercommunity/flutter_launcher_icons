@@ -29,12 +29,9 @@ createIcons(List<String> arguments) {
 }
 
 createIcons2(List<String> arguments) async {
-  print("createIcons2");
-  loadConfigFile("pubspec.yaml").then((Map pubspecConfig) {
-    Map config = loadFlutterIconsConfig(pubspecConfig);
-    print(config);
+  loadConfigFile("pubspec.yaml").then((Map yamlConfig) {
+    Map config = loadFlutterIconsConfig(yamlConfig);
     if (!isImagePathInConfig(config)) {
-      print(config.toString());
       print("Missing 'image_path' within configuration");
       return;
     }

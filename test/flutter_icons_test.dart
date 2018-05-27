@@ -29,13 +29,19 @@ void main() {
     expect(config, throwsA(incorrectPath + " does not exist"));
   });
 
-  test('Existing Android / iOS config', () async {
+  test ('image_path is in config', () async {
+    Map flutter_icons_config = {"image_path": "assets/images/icon-710x599.png",
+      "android": true, "ios": true};
+    expect(Main.isImagePathInConfig(flutter_icons_config), true);
+  });
+
+  test('At least one platform is in config file', () async {
     Map flutter_icons_config = {"image_path": "assets/images/icon-710x599.png",
         "android": true, "ios": true};
     expect(Main.hasAndroidOrIOSConfig(flutter_icons_config), true);
   });
 
-  test('Missing Android / iOS config', () async {
+  test('No platform specified in config', () async {
     Map flutter_icons_config = {"image_path": "assets/images/icon-710x599.png"};
     expect(Main.hasAndroidOrIOSConfig(flutter_icons_config), false);
   });
