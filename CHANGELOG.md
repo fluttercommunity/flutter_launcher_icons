@@ -1,6 +1,11 @@
 # Changelog
 
 
+## 0.3.3 (28th May 2018)
+
+- Upgraded dart image package dependency to 2.0.0 (issue #26) 
+
+
 ## 0.3.2 (2nd May 2018)
 
 - Bug fixing
