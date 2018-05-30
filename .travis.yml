@@ -1,4 +1,4 @@
 language: dart
 
 dart:
-  - stable 
+  - dev
