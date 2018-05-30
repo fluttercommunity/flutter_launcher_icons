@@ -35,11 +35,11 @@ List<IosIcon> ios_icons = [
   new IosIcon(name: "-1024x1024@1x", size: 1024),
 ];
 
-convertIos(config) {
-  String file_path = config['flutter_icons']['image_path'];
+createIcons(config) {
+  String file_path = config['image_path'];
   Image image = decodeImage(new File(file_path).readAsBytesSync());
   String iconName;
-  var iosConfig = config['flutter_icons']['ios'];
+  var iosConfig = config['ios'];
   // If the IOS configuration is a string then the user has specified a new icon to be created
   // and for the old icon file to be kept
   if (iosConfig is String) {
