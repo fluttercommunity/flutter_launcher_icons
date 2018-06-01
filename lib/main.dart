@@ -9,7 +9,7 @@ createIcons(List<String> arguments) async {
     print("Generating icons with configuration: $configSectionName");
     Map config = loadFlutterIconsConfig(yamlConfig, configSectionName);
     if (!isImagePathInConfig(config)) {
-      print("Missing 'image_path' within configuration");
+      print("Missing 'image_path' or 'image_path_android + image_path_ios' within configuration");
       return;
     }
     if (!hasAndroidOrIOSConfig(config)) {
@@ -45,7 +45,7 @@ String isImagePathConfigValid(Map flutter_icons_config) {
 }
 
 bool isImagePathInConfig(Map flutter_icons_config) {
-  return flutter_icons_config.containsKey("image_path");
+  return flutter_icons_config.containsKey("image_path") || (flutter_icons_config.containsKey("image_path_android") && flutter_icons_config.containsKey("image_path_ios"));
 }
 
 bool hasAndroidOrIOSConfig(Map flutter_icons_config) {

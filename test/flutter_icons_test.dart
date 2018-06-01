@@ -33,6 +33,13 @@ void main() {
     Map flutter_icons_config = {"image_path": "assets/images/icon-710x599.png",
       "android": true, "ios": true};
     expect(Main.isImagePathInConfig(flutter_icons_config), true);
+    Map flutter_icons_config_android = {"image_path_android": "assets/images/icon-710x599.png",
+      "android": true, "ios": true};
+    expect(Main.isImagePathInConfig(flutter_icons_config_android), false);
+    Map flutter_icons_config_both = {"image_path_android": "assets/images/icon-710x599.png",
+      "image_path_ios": "assets/images/icon-710x599.png",
+      "android": true, "ios": true};
+    expect(Main.isImagePathInConfig(flutter_icons_config_both), true);
   });
 
   test('At least one platform is in config file', () async {
