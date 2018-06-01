@@ -5,7 +5,9 @@ import 'package:dart_config/default_server.dart';
 
 createIcons(List<String> arguments) async {
   loadConfigFile("pubspec.yaml").then((Map yamlConfig) {
-    Map config = loadFlutterIconsConfig(yamlConfig);
+    var configSectionName = arguments.length == 1 ? arguments[0] : "flutter_icons";
+    print("Generating icons with configuration: $configSectionName");
+    Map config = loadFlutterIconsConfig(yamlConfig, configSectionName);
     if (!isImagePathInConfig(config)) {
       print("Missing 'image_path' within configuration");
       return;
@@ -29,8 +31,8 @@ Future<Map> loadConfigFile(String path) async {
   return config;
 }
 
-Map loadFlutterIconsConfig(Map config) {
-  return config["flutter_icons"];
+Map loadFlutterIconsConfig(Map config, String configSectionName) {
+  return config[configSectionName];
 }
 
 // TODO
