@@ -19,11 +19,11 @@ class AndroidIcon {
 }
 
 List<AndroidIcon> adaptive_foreground_icons = [
-  new AndroidIcon(name: "mipmap-mdpi", size: 108),
-  new AndroidIcon(name: "mipmap-hdpi", size: 162),
-  new AndroidIcon(name: "mipmap-xhdpi", size: 216),
-  new AndroidIcon(name: "mipmap-xxhdpi", size: 324),
-  new AndroidIcon(name: "mipmap-xxxhdpi", size: 432),
+  new AndroidIcon(name: "drawable-mdpi", size: 108),
+  new AndroidIcon(name: "drawable-hdpi", size: 162),
+  new AndroidIcon(name: "drawable-xhdpi", size: 216),
+  new AndroidIcon(name: "drawable-xxhdpi", size: 324),
+  new AndroidIcon(name: "drawable-xxxhdpi", size: 432),
 ];
 
 List<AndroidIcon> android_icons = [
