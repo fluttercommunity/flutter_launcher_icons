@@ -1,9 +1,14 @@
-import 'package:image/image.dart';
 import 'dart:io';
+
+import 'package:image/image.dart';
 
 const String android_res_folder = "android/app/src/main/res/";
 const String android_manifest_file = "android/app/src/main/AndroidManifest.xml";
 const String android_file_name = "ic_launcher.png";
+const String android_adaptive_foreground_file_name = "ic_launcher_foreground.png";
+const String android_colors_xml_template = "../assets/colors.xml";
+const String android_adaptive_xml_template = "../assets/ic_launcher.xml";
+const String android_adaptive_xml_folder =  android_res_folder + "mipmap-anydpi-v26/";
 const String default_icon_name = "ic_launcher";
 
 //
@@ -12,6 +17,14 @@ class AndroidIcon {
   final int size;
   AndroidIcon({this.size, this.name});
 }
+
+List<AndroidIcon> adaptive_foreground_icons = [
+  new AndroidIcon(name: "mipmap-mdpi", size: 108),
+  new AndroidIcon(name: "mipmap-hdpi", size: 162),
+  new AndroidIcon(name: "mipmap-xhdpi", size: 216),
+  new AndroidIcon(name: "mipmap-xxhdpi", size: 324),
+  new AndroidIcon(name: "mipmap-xxxhdpi", size: 432),
+];
 
 List<AndroidIcon> android_icons = [
   new AndroidIcon(name: "mipmap-mdpi", size: 48),
@@ -35,19 +48,72 @@ createIcons(config) {
     changeAndroidLauncherIcon(icon_name);
   } else {
     print("Overwriting default Android launcher icon with new icon");
-    android_icons.forEach((AndroidIcon e) => overwriteExistingIcons(e, image));
+    android_icons.forEach((AndroidIcon e) => overwriteExistingIcons(e, image, android_file_name));
     changeAndroidLauncherIcon(default_icon_name);
   }
 }
 
-overwriteExistingIcons(AndroidIcon e, image) {
+createAdaptiveIcons(config) {
+  print("create adaptive icons Android");
+
+  //Read in the relevant configs
+  String background_color = config['adaptive_icon_background'];
+  String foreground_image_path = config['adaptive_icon_foreground'];
+  Image foreground_image = decodeImage(new File(foreground_image_path).readAsBytesSync());
+
+  //Create foreground images
+  adaptive_foreground_icons.forEach((AndroidIcon e) => overwriteExistingIcons(e, foreground_image, android_adaptive_foreground_file_name));
+
+  //Copy xml template to ic_launcher.xml
+  var adaptiveXmlLocation = android_adaptive_xml_folder + default_icon_name + '.xml';
+  var template = new File(android_adaptive_xml_template);
+  var adaptiveXmlFolder = new File(android_adaptive_xml_folder);
+  if(!adaptiveXmlFolder.existsSync()) {
+    new Directory(android_adaptive_xml_folder).createSync();
+  }
+  template.copySync(adaptiveXmlLocation);
+
+  //Check if colors.xml exists in the project
+  var colorsXml = new File(android_res_folder + "values/colors.xml");
+  //If not copy over empty template
+  if(!colorsXml.existsSync()){
+      print("Copying colors.xml template to project");
+      var colorTemplate = new File(android_colors_xml_template);
+      colorsXml.createSync();
+      colorsXml.writeAsStringSync(colorTemplate.readAsStringSync());
+  }
+
+  //Write foreground color
+  List<String> lines = colorsXml.readAsLinesSync();
+  bool foundExisting = false;
+  for (var x = 0; x < lines.length; x++) {
+    String line = lines[x];
+    if (line.contains("name=\"ic_launcher_background\"")) {
+      print("Found existing background color value");
+      foundExisting = true;
+      line = line.replaceAll(new RegExp('>(.*)<'), ">$background_color<");
+      lines[x] = line;
+      break;
+    }
+  }
+
+  //Add new line if we didn't find an existing value
+  if(!foundExisting){
+    print("Adding new background color value");
+    lines.insert(lines.length-1, "\t<color name=\"ic_launcher_background\">${background_color}</color>");
+  }
+
+  colorsXml.writeAsStringSync(lines.join("\n"));
+}
+
+overwriteExistingIcons(AndroidIcon e, image, filename) {
   Image newFile;
   if (image.width >= e.size)
     newFile = copyResize(image, e.size, -1, AVERAGE);
   else
     newFile = copyResize(image, e.size, -1, LINEAR);
 
-  new File(android_res_folder + e.name + '/' + android_file_name).create(recursive: true).then((File file) {
+  new File(android_res_folder + e.name + '/' + filename).create(recursive: true).then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
   });
 }
@@ -80,3 +146,4 @@ changeAndroidLauncherIcon(String icon_name) async {
   }
   androidManifestFile.writeAsString(lines.join("\n"));
 }
+

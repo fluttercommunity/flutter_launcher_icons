@@ -17,6 +17,9 @@ createIcons(List<String> arguments) async {
       if (hasAndroidConfig(config)) {
         AndroidLauncherIcons.createIcons(config);
       }
+      if (hasAndroidAdaptiveConfig(config)) {
+        AndroidLauncherIcons.createAdaptiveIcons(config);
+      }
       if (hasIOSConfig(config)) {
         IOSLauncherIcons.createIcons(config);
       }
@@ -52,6 +55,12 @@ bool hasAndroidOrIOSConfig(Map flutter_icons_config) {
 
 bool hasAndroidConfig(Map flutter_icons_config) {
   return flutter_icons_config.containsKey("android");
+}
+
+bool hasAndroidAdaptiveConfig(Map flutter_icons_config) {
+  return flutter_icons_config.containsKey("android") &&
+      flutter_icons_config.containsKey("adaptive_icon_background") &&
+      flutter_icons_config.containsKey("adaptive_icon_foreground");
 }
 
 bool hasIOSConfig(Map flutter_icons_config) {
