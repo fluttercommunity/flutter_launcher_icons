@@ -41,11 +41,13 @@ flutter_icons:
   android: true
   ios: "Example-Icon"
 ```
+
+### Attributes:
 ```
-#### Attributes: 
 image_path: The location of the icon image file which you want to use as the app launcher icon
-image_path_android: The location of the icon image file specific for Android platform (optional)
-image_path_ios: The location of the icon image file specific for iOS platform (optional)
+
+image_path_android: The location of the icon image file specific for Android platform (optional - if not defined then the image_path is used)
+image_path_ios: The location of the icon image file specific for iOS platform (optional - if not defined then the image_path is used)
 
 android/ios: True / False - Set as true if you want the icons generated for that platform to replace the existing launcher icon
 
