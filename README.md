@@ -7,11 +7,8 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
 ## :sparkles: What's New
 
-##### Version 0.3.0 (1st May 2018)
- * Fixed issue where icons produced weren't the correct size (Due to images not with a 1:1 aspect ration)
- * Improved quality of smaller icons produced (Thanks to PR #17 - Thank you!)
- * Updated console printed messages to keep them consistent
- * Added example folder to GitHub project
+##### Version 0.4.0 (8th June 2018)
+ * Now possible to generate icons for each platform with different image paths - one for iOS icon and a separate one for Android (Thanks to PR #27 - Thank you!)
 
 ## :mag: Guide
 
@@ -22,7 +19,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
     
-  flutter_launcher_icons: "^0.3.3"
+  flutter_launcher_icons: "^0.4.0"
 ```
 
 2. Within the same pubspec.yaml file, add flutter_icons config section
@@ -32,7 +29,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
     
-  flutter_launcher_icons: "^0.3.3"
+  flutter_launcher_icons: "^0.4.0"
   
 flutter_icons:
   image_path: "icon/icon.png"

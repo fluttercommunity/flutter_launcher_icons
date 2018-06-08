@@ -1,5 +1,9 @@
 # Changelog
 
+# 0.4.0 (9th June 2018)
+
+- Now possible to generate icons for each platform with different image paths (one for iOS icon and a separate one for Android)
+
 
 ## 0.3.3 (28th May 2018)
 
