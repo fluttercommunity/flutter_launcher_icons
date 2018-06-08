@@ -35,13 +35,19 @@ dev_dependencies:
   flutter_launcher_icons: "^0.3.3"
   
 flutter_icons:
-  image_path: "icon/icon.png" 
+  image_path: "icon/icon.png"
+  image_path_android: "icon/icon_android.png"
+  image_path_ios: "icon/icon_ios.png"
   android: true
   ios: "Example-Icon"
 ```
+
+### Attributes:
 ```
-#### Attributes: 
 image_path: The location of the icon image file which you want to use as the app launcher icon
+
+image_path_android: The location of the icon image file specific for Android platform (optional - if not defined then the image_path is used)
+image_path_ios: The location of the icon image file specific for iOS platform (optional - if not defined then the image_path is used)
 
 android/ios: True / False - Set as true if you want the icons generated for that platform to replace the existing launcher icon
 
