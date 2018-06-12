@@ -18,6 +18,8 @@ dev_dependencies:
 
 flutter_icons:
   image_path: "assets/images/icon-710x599.png"
+  image_path_android: "assets/images/icon-710x599-android.png"
+  image_path_ios: "assets/images/icon-710x599-ios.png"
   android: true # can specify file name here e.g. "ic_launcher"
   ios: true # can specify file name here e.g. "My-Launcher-Icon"
   adaptive_icon_background: "#FF22A6A4"

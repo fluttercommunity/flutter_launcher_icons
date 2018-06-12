@@ -37,7 +37,7 @@ List<AndroidIcon> android_icons = [
 
 createIcons(config) {
   print("Creating icons Android");
-  String file_path = config['image_path'];
+  String file_path = config['image_path_android'] ?? config['image_path'];
   Image image = decodeImage(new File(file_path).readAsBytesSync());
   var androidConfig = config['android'];
 
