@@ -4,6 +4,7 @@ import 'package:image/image.dart';
 
 const String android_res_folder = "android/app/src/main/res/";
 const String android_manifest_file = "android/app/src/main/AndroidManifest.xml";
+const String android_gradle_file = "android/app/build.gradle";
 const String android_file_name = "ic_launcher.png";
 const String android_adaptive_foreground_file_name = "ic_launcher_foreground.png";
 const String android_colors_xml_template = "../assets/colors.xml";
@@ -35,7 +36,7 @@ List<AndroidIcon> android_icons = [
 ];
 
 createIcons(config) {
-  print("create icons Android");
+  print("Creating icons Android");
   String file_path = config['image_path'];
   Image image = decodeImage(new File(file_path).readAsBytesSync());
   var androidConfig = config['android'];
@@ -54,7 +55,7 @@ createIcons(config) {
 }
 
 createAdaptiveIcons(config) {
-  print("create adaptive icons Android");
+  print("Creating adaptive icons Android");
 
   //Read in the relevant configs
   String background_color = config['adaptive_icon_background'];
@@ -145,5 +146,20 @@ changeAndroidLauncherIcon(String icon_name) async {
     }
   }
   androidManifestFile.writeAsString(lines.join("\n"));
+}
+
+minSdk() {
+  File androidGradleFile = new File(android_gradle_file);
+  List<String> lines = androidGradleFile.readAsLinesSync();
+  for (var x = 0; x < lines.length; x++) {
+    String line = lines[x];
+    if (line.contains("minSdkVersion")) {
+
+      String minSdk = line.replaceAll(new RegExp("[^\\d]"), "");
+      print("Android minSdkVersion = $minSdk");
+      return int.parse(minSdk);
+    }
+  }
+  return 0; //Didn't find minSdk, assume the worst
 }
 
