@@ -1,5 +1,6 @@
 import 'package:image/image.dart';
 import 'dart:io';
+import 'package:xml/xml.dart';
 
 const String android_res_folder = "android/app/src/main/res/";
 const String android_manifest_file = "android/app/src/main/AndroidManifest.xml";
