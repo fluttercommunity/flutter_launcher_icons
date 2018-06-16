@@ -10,7 +10,7 @@ const String android_file_name = "ic_launcher.png";
 const String android_adaptive_foreground_file_name = "ic_launcher_foreground.png";
 const String android_colors_xml_template = "../assets/colors.xml";
 const String android_adaptive_xml_template = "../assets/ic_launcher.xml";
-const String android_adaptive_xml_folder =  android_res_folder + "mipmap-anydpi-v26/";
+const String android_adaptive_xml_folder =  android_res_folder + "mipmap-v26/";
 const String default_icon_name = "ic_launcher";
 
 class AndroidIcon {
@@ -42,15 +42,14 @@ createIcons(config) {
   print("Creating icons Android");
   String file_path = config['image_path_android'] ?? config['image_path'];
   Image image = decodeImage(new File(file_path).readAsBytesSync());
-  var androidConfig = config['android'];
-
-  if (androidConfig is String) {
+  if (isCustomAndroidFile(config)) {
     print("Adding new Android launcher icon");
-    String icon_name = androidConfig;
+    String icon_name = getNewIconName(config);
     String icon_path = icon_name + ".png";
     android_icons.forEach((AndroidIcon e) => saveNewIcons(e, image, icon_path));
     changeAndroidLauncherIcon(icon_name);
-  } else {
+  }
+  else {
     print("Overwriting default Android launcher icon with new icon");
     android_icons.forEach((AndroidIcon e) => overwriteExistingIcons(e, image, android_file_name));
     changeAndroidLauncherIcon(default_icon_name);
@@ -69,13 +68,17 @@ createAdaptiveIcons(config) {
   adaptive_foreground_icons.forEach((AndroidIcon e) => overwriteExistingIcons(e, foreground_image, android_adaptive_foreground_file_name));
 
   //Copy xml template to ic_launcher.xml
-  var adaptiveXmlLocation = android_adaptive_xml_folder + default_icon_name + '.xml';
-  var template = new File(android_adaptive_xml_template);
-  var adaptiveXmlFolder = new File(android_adaptive_xml_folder);
-  if(!adaptiveXmlFolder.existsSync()) {
-    new Directory(android_adaptive_xml_folder).createSync();
+  if (isCustomAndroidFile(config)) {
+    new File(android_adaptive_xml_folder + getNewIconName(config)
+        + '.xml').create(recursive: true).then((File adaptive_icon) {
+          adaptive_icon.writeAsString(XmlTemplate.ic_launcher_xml);
+    });
+  } else {
+    new File(android_adaptive_xml_folder + default_icon_name + '.xml')
+        .create(recursive: true).then((File adaptive_icon) {
+          adaptive_icon.writeAsString(XmlTemplate.ic_launcher_xml);
+    });
   }
-  template.copySync(adaptiveXmlLocation);
 
   //Check if colors.xml exists in the project
   var colorsXml = new File(android_res_folder + "values/colors.xml");
@@ -108,6 +111,19 @@ createAdaptiveIcons(config) {
   }
 
   colorsXml.writeAsStringSync(lines.join("\n"));
+}
+
+bool isCustomAndroidFile(config) {
+  var androidConfig = config['android'];
+  if (androidConfig is String) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+String getNewIconName(config) {
+  return config['android'];
 }
 
 overwriteExistingIcons(AndroidIcon e, image, filename) {
