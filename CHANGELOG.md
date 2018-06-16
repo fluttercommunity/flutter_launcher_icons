@@ -1,5 +1,19 @@
 # Changelog
 
+# 0.5.0 (12th June 2018)
+
+- [Android] Support for adaptive icons added (Suggestion #23)
+
+
+# 0.4.0 (9th June 2018)
+
+- Now possible to generate icons for each platform with different image paths (one for iOS icon and a separate one for Android)
+
+
+## 0.3.3 (28th May 2018)
+
+- Upgraded dart image package dependency to 2.0.0 (issue #26) 
+
 
 ## 0.3.2 (2nd May 2018)
 

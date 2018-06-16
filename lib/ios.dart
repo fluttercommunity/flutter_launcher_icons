@@ -36,7 +36,7 @@ List<IosIcon> ios_icons = [
 ];
 
 createIcons(config) {
-  String file_path = config['image_path'];
+  String file_path = config['image_path_ios'] ?? config['image_path'];
   Image image = decodeImage(new File(file_path).readAsBytesSync());
   String iconName;
   var iosConfig = config['ios'];
