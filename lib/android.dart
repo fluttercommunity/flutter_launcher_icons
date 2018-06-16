@@ -4,12 +4,11 @@ import 'package:flutter_launcher_icons/xml_templates.dart' as XmlTemplate;
 import 'package:image/image.dart';
 
 const String android_res_folder = "android/app/src/main/res/";
+const String android_colors_file = "android/app/src/main/res/values/colors.xml";
 const String android_manifest_file = "android/app/src/main/AndroidManifest.xml";
 const String android_gradle_file = "android/app/build.gradle";
 const String android_file_name = "ic_launcher.png";
 const String android_adaptive_foreground_file_name = "ic_launcher_foreground.png";
-const String android_colors_xml_template = "../assets/colors.xml";
-const String android_adaptive_xml_template = "../assets/ic_launcher.xml";
 const String android_adaptive_xml_folder =  android_res_folder + "mipmap-v26/";
 const String default_icon_name = "ic_launcher";
 
@@ -18,9 +17,6 @@ class AndroidIcon {
   final int size;
   AndroidIcon({this.size, this.name});
 }
-
-
-
 
 List<AndroidIcon> adaptive_foreground_icons = [
   new AndroidIcon(name: "drawable-mdpi", size: 108),
@@ -59,60 +55,67 @@ createIcons(config) {
 createAdaptiveIcons(config) {
   print("Creating adaptive icons Android");
 
-  //Read in the relevant configs
+  // Read in the relevant configs
   String background_color = config['adaptive_icon_background'];
   String foreground_image_path = config['adaptive_icon_foreground'];
   Image foreground_image = decodeImage(new File(foreground_image_path).readAsBytesSync());
 
-  //Create foreground images
+  // Create foreground images
   adaptive_foreground_icons.forEach((AndroidIcon e) => overwriteExistingIcons(e, foreground_image, android_adaptive_foreground_file_name));
 
-  //Copy xml template to ic_launcher.xml
+  // Generate ic_launcher.xml
+  // If is using a string for android config, generate <file_name>.xml
+  // Otherwise use ic_launcher.xml
   if (isCustomAndroidFile(config)) {
     new File(android_adaptive_xml_folder + getNewIconName(config)
         + '.xml').create(recursive: true).then((File adaptive_icon) {
-          adaptive_icon.writeAsString(XmlTemplate.ic_launcher_xml);
+      adaptive_icon.writeAsString(XmlTemplate.ic_launcher_xml);
     });
   } else {
     new File(android_adaptive_xml_folder + default_icon_name + '.xml')
         .create(recursive: true).then((File adaptive_icon) {
-          adaptive_icon.writeAsString(XmlTemplate.ic_launcher_xml);
+      adaptive_icon.writeAsString(XmlTemplate.ic_launcher_xml);
     });
   }
 
-  //Check if colors.xml exists in the project
-  var colorsXml = new File(android_res_folder + "values/colors.xml");
-  //If not copy over empty template
-  if(!colorsXml.existsSync()){
+  // Check if colors.xml exists in the project
+  var colorsXml = new File(android_colors_file);;
+  // If not copy over empty template
+  colorsXml.exists().then((bool isExistingFile) {
+    if (!isExistingFile) {
       print("Copying colors.xml template to project");
-      var colorTemplate = new File(android_colors_xml_template);
-      colorsXml.createSync();
-      colorsXml.writeAsStringSync(colorTemplate.readAsStringSync());
-  }
+      new File(android_colors_file).create(recursive: true).then((File colors_file) {
+        colors_file.writeAsString(XmlTemplate.colors_xml);
+      });
+    } else {
+      // Write foreground color
+      List<String> lines = colorsXml.readAsLinesSync();
+      bool foundExisting = false;
+      for (var x = 0; x < lines.length; x++) {
+        String line = lines[x];
+        if (line.contains("name=\"ic_launcher_background\"")) {
+          print("Found existing background color value");
+          foundExisting = true;
+          line = line.replaceAll(new RegExp('>(.*)<'), ">$background_color<");
+          lines[x] = line;
+          break;
+        }
+      }
 
-  //Write foreground color
-  List<String> lines = colorsXml.readAsLinesSync();
-  bool foundExisting = false;
-  for (var x = 0; x < lines.length; x++) {
-    String line = lines[x];
-    if (line.contains("name=\"ic_launcher_background\"")) {
-      print("Found existing background color value");
-      foundExisting = true;
-      line = line.replaceAll(new RegExp('>(.*)<'), ">$background_color<");
-      lines[x] = line;
-      break;
+      // Add new line if we didn't find an existing value
+      if(!foundExisting){
+        print("Adding new background color value");
+        lines.insert(lines.length-1, "\t<color name=\"ic_launcher_background\">${background_color}</color>");
+      }
+
+      colorsXml.writeAsStringSync(lines.join("\n"));
     }
-  }
-
-  //Add new line if we didn't find an existing value
-  if(!foundExisting){
-    print("Adding new background color value");
-    lines.insert(lines.length-1, "\t<color name=\"ic_launcher_background\">${background_color}</color>");
-  }
-
-  colorsXml.writeAsStringSync(lines.join("\n"));
+  });
 }
 
+// Check to see if specified Android config is a string or bool
+// String - Generate new launcher icon with the string specified
+// bool - override the default flutter project icon
 bool isCustomAndroidFile(config) {
   var androidConfig = config['android'];
   if (androidConfig is String) {
@@ -122,6 +125,7 @@ bool isCustomAndroidFile(config) {
   }
 }
 
+// return the new launcher icon file name
 String getNewIconName(config) {
   return config['android'];
 }
