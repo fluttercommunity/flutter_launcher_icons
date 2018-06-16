@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:xml/xml.dart';
-
+import 'package:flutter_launcher_icons/xml_templates.dart' as XmlTemplate;
 import 'package:image/image.dart';
 
 const String android_res_folder = "android/app/src/main/res/";
@@ -13,12 +13,14 @@ const String android_adaptive_xml_template = "../assets/ic_launcher.xml";
 const String android_adaptive_xml_folder =  android_res_folder + "mipmap-anydpi-v26/";
 const String default_icon_name = "ic_launcher";
 
-//
 class AndroidIcon {
   final String name;
   final int size;
   AndroidIcon({this.size, this.name});
 }
+
+
+
 
 List<AndroidIcon> adaptive_foreground_icons = [
   new AndroidIcon(name: "drawable-mdpi", size: 108),
