@@ -9,7 +9,6 @@ authors:
 dependencies: 
   image: "^2.0.0"
   dart_config: "^0.5.0"
-  xml: "^3.0.0"
   
 environment:
   sdk: '>=2.0.0-dev.49.0 <3.0.0'
