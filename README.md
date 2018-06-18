@@ -23,17 +23,19 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
     
-  flutter_launcher_icons: "^0.5.0"
+  flutter_launcher_icons: "^0.5.1"
 ```
 
-2. Within the same pubspec.yaml file, add flutter_icons config section
+2. Within the same pubspec.yaml file, add flutter_icons config section. 
+
+Unlike your Flutter projects, you do not need to add your launcher icon images into the assets section of the pubspec.yaml.
 
 ```
 dev_dependencies: 
   flutter_test:
     sdk: flutter
     
-  flutter_launcher_icons: "^0.5.0"
+  flutter_launcher_icons: "^0.5.1"
   
 flutter_icons:
   android: true 
@@ -47,20 +49,41 @@ flutter_icons:
 
 ### Attributes:
 ```
-android/ios: True / False OR <Icon Name> - Specify whether or not you want to override the existing launcher icon or create a new one and switch to it (while keeping the old one there)
+android/ios
 
-image_path: The location of the icon image file which you want to use as the app launcher icon
-
-image_path_android: The location of the icon image file specific for Android platform (optional - if not defined then the image_path is used)
-
-image_path_ios: The location of the icon image file specific for iOS platform (optional - if not defined then the image_path is used)
+- True: Override the default existing Flutter launcher icon for the platform specified
+- False: Ignore making launcher icons for this platform
+- "Your Icon Name Here": This will generate a new launcher icons for the platform with the name you specify, without removing the old default existing Flutter launcher icon.
 
 
-Note: The next two attributes are only necessary if you want to have an adaptive icon for the Android app of your Flutter project.
+image_path
 
-adaptive_icon_background: The color which will be used to fill out the background of the adaptive icon.
+- The location of the icon image file which you want to use as the app launcher icon
 
-adaptive_icon_foreground: The image asset which will be used for the icon foreground of the adaptive icon
+
+image_path_android
+
+- The location of the icon image file specific for Android platform (optional - if not defined then the image_path is used)
+
+
+image_path_ios
+
+- The location of the icon image file specific for iOS platform (optional - if not defined then the image_path is used)
+
+
+ADAPTIVE ICONS
+
+The next two attributes are only necessary if you want to have an adaptive icon for the Android app of your Flutter project.
+
+
+adaptive_icon_background
+
+- The color which will be used to fill out the background of the adaptive icon.
+
+
+adaptive_icon_foreground 
+
+- The image asset which will be used for the icon foreground of the adaptive icon
 ```
 
 3. Run the command to generate the icons
