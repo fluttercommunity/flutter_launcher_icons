@@ -1,8 +1,4 @@
-# example
+# Flutter Launcher Icons Example Project
 
-A new Flutter project.
+This project has been setup so that you can test out the package before adding it to your own project. It is also a great way for contributors to the project can quickly test their changes to the project before they are published for everyone to download.
 
-## Getting Started
-
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).

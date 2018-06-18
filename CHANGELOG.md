@@ -1,5 +1,9 @@
 # Changelog
 
+# 0.5.1 (18th June 2018)
+
+- Fix for adaptive icons
+
 # 0.5.0 (12th June 2018)
 
 - [Android] Support for adaptive icons added (Suggestion #23)
