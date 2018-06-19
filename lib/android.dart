@@ -85,34 +85,45 @@ createAdaptiveIcons(config) {
   // If not copy over empty template
   colorsXml.exists().then((bool isExistingFile) {
     if (!isExistingFile) {
-      print("Copying colors.xml template to project");
-      new File(android_colors_file).create(recursive: true).then((File colors_file) {
-        colors_file.writeAsString(XmlTemplate.colors_xml);
-      });
+      createNewColorsFile(background_color);
     } else {
-      // Write foreground color
-      List<String> lines = colorsXml.readAsLinesSync();
-      bool foundExisting = false;
-      for (var x = 0; x < lines.length; x++) {
-        String line = lines[x];
-        if (line.contains("name=\"ic_launcher_background\"")) {
-          print("Found existing background color value");
-          foundExisting = true;
-          line = line.replaceAll(new RegExp('>(.*)<'), ">$background_color<");
-          lines[x] = line;
-          break;
-        }
-      }
-
-      // Add new line if we didn't find an existing value
-      if(!foundExisting){
-        print("Adding new background color value");
-        lines.insert(lines.length-1, "\t<color name=\"ic_launcher_background\">${background_color}</color>");
-      }
-
-      colorsXml.writeAsStringSync(lines.join("\n"));
+      updateColorsFile(colorsXml, background_color);
     }
   });
+}
+
+createNewColorsFile(String backgroundColor) {
+  print("Copying colors.xml template to project");
+  new File(android_colors_file).create(recursive: true).then((File colors_file) {
+    colors_file.writeAsString(XmlTemplate.colors_xml).then((File file) {
+      updateColorsFile(colors_file, backgroundColor);
+    });
+  });
+}
+
+updateColorsFile(File colorsFile, String backgroundColor) {
+
+  // Write foreground color
+  List<String> lines = colorsFile.readAsLinesSync();
+  bool foundExisting = false;
+  for (var x = 0; x < lines.length; x++) {
+    String line = lines[x];
+    if (line.contains("name=\"ic_launcher_background\"")) {
+      print("Found existing background color value");
+      foundExisting = true;
+      line = line.replaceAll(new RegExp('>(.*)<'), ">$backgroundColor<");
+      lines[x] = line;
+      break;
+    }
+  }
+
+  // Add new line if we didn't find an existing value
+  if(!foundExisting){
+    print("Adding new background color value");
+    lines.insert(lines.length-1, "\t<color name=\"ic_launcher_background\">${backgroundColor}</color>");
+  }
+
+  colorsFile.writeAsStringSync(lines.join("\n"));
 }
 
 /**
