@@ -1,6 +1,6 @@
 name: flutter_launcher_icons
 description: A package which simplifies the task of updating your Flutter app's launcher icon. Fully flexible, allowing you to choose what platform you wish to update the launcher icon for and if you want, the option to keep your old launcher icon in case you want to revert back sometime in the future.
-version: 0.5.1
+version: 0.5.2
 homepage: https://github.com/franzsilva/flutter_launcher_icons
 authors: 
 - Franz Silva <franzsilva@gmail.com>

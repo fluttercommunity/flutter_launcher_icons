@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:xml/xml.dart';
 import 'package:flutter_launcher_icons/xml_templates.dart' as XmlTemplate;
 import 'package:image/image.dart';
 
@@ -9,7 +8,7 @@ const String android_manifest_file = "android/app/src/main/AndroidManifest.xml";
 const String android_gradle_file = "android/app/build.gradle";
 const String android_file_name = "ic_launcher.png";
 const String android_adaptive_foreground_file_name = "ic_launcher_foreground.png";
-const String android_adaptive_xml_folder =  android_res_folder + "mipmap-v26/";
+const String android_adaptive_xml_folder =  android_res_folder + "mipmap-anydpi-v26/";
 const String default_icon_name = "ic_launcher";
 
 class AndroidIcon {
@@ -62,20 +61,23 @@ createAdaptiveIcons(config) {
 
   // Create foreground images
   adaptive_foreground_icons.forEach((AndroidIcon e) => overwriteExistingIcons(e, foreground_image, android_adaptive_foreground_file_name));
-
   // Generate ic_launcher.xml
   // If is using a string for android config, generate <file_name>.xml
   // Otherwise use ic_launcher.xml
-  if (isCustomAndroidFile(config)) {
-    new File(android_adaptive_xml_folder + getNewIconName(config)
-        + '.xml').create(recursive: true).then((File adaptive_icon) {
-      adaptive_icon.writeAsString(XmlTemplate.ic_launcher_xml);
-    });
+  if (isCorrectMipmapDirectoryForAdaptiveIcon(android_adaptive_xml_folder)) {
+    if (isCustomAndroidFile(config)) {
+      new File(android_adaptive_xml_folder + getNewIconName(config)
+          + '.xml').create(recursive: true).then((File adaptive_icon) {
+        adaptive_icon.writeAsString(XmlTemplate.ic_launcher_xml);
+      });
+    } else {
+      new File(android_adaptive_xml_folder + default_icon_name + '.xml')
+          .create(recursive: true).then((File adaptive_icon) {
+        adaptive_icon.writeAsString(XmlTemplate.ic_launcher_xml);
+      });
+    }
   } else {
-    new File(android_adaptive_xml_folder + default_icon_name + '.xml')
-        .create(recursive: true).then((File adaptive_icon) {
-      adaptive_icon.writeAsString(XmlTemplate.ic_launcher_xml);
-    });
+    print("Error: Unable to generate adaptive icon");
   }
 
   // Check if colors.xml exists in the project
@@ -111,6 +113,21 @@ createAdaptiveIcons(config) {
       colorsXml.writeAsStringSync(lines.join("\n"));
     }
   });
+}
+
+/**
+ * Ensures the correct path is used for generating adaptive icons
+ *
+ * "Next you must create alternative drawable resources in your app for use with
+ * Android 8.0 (API level 26) in res/mipmap-anydpi/ic_launcher.xml"
+ * Source: https://developer.android.com/guide/practices/ui_guidelines/icon_design_adaptive
+ */
+bool isCorrectMipmapDirectoryForAdaptiveIcon(String path) {
+  if (path != "android/app/src/main/res/mipmap-anydpi-v26/") {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 // Check to see if specified Android config is a string or bool

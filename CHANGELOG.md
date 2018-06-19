@@ -1,5 +1,9 @@
 # Changelog
 
+# 0.5.2 (19th June 2018)
+
+- Previous release didn't fix adaptive icons, just prevented the error message from appearing. This should hopefully fix it!
+
 # 0.5.1 (18th June 2018)
 
 - Fix for adaptive icons
