@@ -40,6 +40,9 @@ createIcons(config) {
   if (isCustomAndroidFile(config)) {
     print("Adding new Android launcher icon");
     String icon_name = getNewIconName(config);
+    if (!new RegExp(r"^[a-z0-9_]+$").hasMatch(icon_name)) {
+      throw new Exception('File-based resource names must contain only lowercase a-z, 0-9, or underscore');
+    }
     String icon_path = icon_name + ".png";
     android_icons.forEach((AndroidIcon e) => saveNewIcons(e, image, icon_path));
     changeAndroidLauncherIcon(icon_name);
@@ -81,7 +84,7 @@ createAdaptiveIcons(config) {
   }
 
   // Check if colors.xml exists in the project
-  var colorsXml = new File(android_colors_file);;
+  var colorsXml = new File(android_colors_file);
   // If not copy over empty template
   colorsXml.exists().then((bool isExistingFile) {
     if (!isExistingFile) {
