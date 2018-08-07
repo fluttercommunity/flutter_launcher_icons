@@ -1,22 +1,22 @@
 # Changelog
 
-# 0.6.0 (8th August 2018)
+## 0.6.0 (8th August 2018)
 - Moved the package to [Flutter Community](https://github.com/fluttercommunity/community)
  
-# 0.5.2 (19th June 2018)
+## 0.5.2 (19th June 2018)
 
 - Previous release didn't fix adaptive icons, just prevented the error message from appearing. This should hopefully fix it!
 
-# 0.5.1 (18th June 2018)
+## 0.5.1 (18th June 2018)
 
 - Fix for adaptive icons
 
-# 0.5.0 (12th June 2018)
+## 0.5.0 (12th June 2018)
 
 - [Android] Support for adaptive icons added (Suggestion #23)
 
 
-# 0.4.0 (9th June 2018)
+## 0.4.0 (9th June 2018)
 
 - Now possible to generate icons for each platform with different image paths (one for iOS icon and a separate one for Android)
 
