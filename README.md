@@ -10,7 +10,7 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 ## :sparkles: What's New
 
 #### Version 0.6.0 (8th August 2018)
- * Moved the package to [FLutter Community](https://github.com/fluttercommunity/community)
+ * Moved the package to [Flutter Community](https://github.com/fluttercommunity/community)
 
 #### Version 0.5.0 (12th June 2018)
  * [Android] Support for adaptive icons added (Thanks to PR #28 - Thank you!)
