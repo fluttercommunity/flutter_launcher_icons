@@ -1,5 +1,8 @@
 # Changelog
 
+# 0.6.0 (8th August 2018)
+- Moved the package to [FLutter Community](https://github.com/fluttercommunity/community)
+ 
 # 0.5.2 (19th June 2018)
 
 - Previous release didn't fix adaptive icons, just prevented the error message from appearing. This should hopefully fix it!
