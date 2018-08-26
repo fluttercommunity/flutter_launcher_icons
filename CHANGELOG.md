@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1(26th August 2018)
+- Upgraded test package
+- Due to issue with dart_config not working with Dart 2.1.0, now using forked version of dart_config which contains fixes from both @v3rm0n and @SPodjasek
+
 ## 0.6.0 (8th August 2018)
 - Moved the package to [Flutter Community](https://github.com/fluttercommunity/community)
  
