@@ -9,6 +9,9 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
 ## :sparkles: What's New
 
+#### Version 0.6.1 (26th August 2018)
+ * Upgraded dependencies so that it should now work with Dart 2.1.0 (thanks to @v3rm0n and @SPodjasek with the help with dart_config fixes)
+
 #### Version 0.6.0 (8th August 2018)
  * Moved the package to [Flutter Community](https://github.com/fluttercommunity/community)
 
@@ -28,7 +31,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
     
-  flutter_launcher_icons: "^0.6.0"
+  flutter_launcher_icons: "^0.6.1"
 ```
 
 2. Within the same pubspec.yaml file, add flutter_icons config section. 
@@ -40,7 +43,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
     
-  flutter_launcher_icons: "^0.6.0"
+  flutter_launcher_icons: "^0.6.1"
   
 flutter_icons:
   android: true 
