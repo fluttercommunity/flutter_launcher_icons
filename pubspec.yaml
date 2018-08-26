@@ -12,9 +12,8 @@ dependencies:
   image: "^2.0.0"
   dart_config:
       git:
-        url: https://github.com/SPodjasek/dart_config.git
-        ref: fix_dart21
-  
+        url: https://github.com/MarkOSullivan94/dart_config.git
+
 environment:
   sdk: '>=2.0.0-dev.49.0 <3.0.0'
 
