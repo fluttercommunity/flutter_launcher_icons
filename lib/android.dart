@@ -2,10 +2,10 @@ import 'dart:io';
 import 'package:flutter_launcher_icons/xml_templates.dart' as XmlTemplate;
 import 'package:image/image.dart';
 
-const String android_res_folder = "android/app/src/main/res/";
-const String android_colors_file = "android/app/src/main/res/values/colors.xml";
-const String android_manifest_file = "android/app/src/main/AndroidManifest.xml";
-const String android_gradle_file = "android/app/build.gradle";
+const String android_res_folder = ".android/app/src/main/res/";
+const String android_colors_file = ".android/app/src/main/res/values/colors.xml";
+const String android_manifest_file = ".android/app/src/main/AndroidManifest.xml";
+const String android_gradle_file = ".android/app/build.gradle";
 const String android_file_name = "ic_launcher.png";
 const String android_adaptive_foreground_file_name = "ic_launcher_foreground.png";
 const String android_adaptive_xml_folder =  android_res_folder + "mipmap-anydpi-v26/";
