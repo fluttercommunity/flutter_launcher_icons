@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dart_config/default_server.dart';
 import 'package:flutter_launcher_icons/android.dart' as AndroidLauncherIcons;
 import 'package:flutter_launcher_icons/ios.dart' as IOSLauncherIcons;
+import 'package:flutter_launcher_icons/custom_exceptions.dart';
 
 createIcons(List<String> arguments) async {
   loadConfigFile("pubspec.yaml").then((Map yamlConfig) {
@@ -22,7 +23,12 @@ createIcons(List<String> arguments) async {
     }
 
     if (hasAndroidConfig(config)) {
-      AndroidLauncherIcons.createIcons(config);
+      try {
+        AndroidLauncherIcons.createIcons(config);
+      } on Exception catch (e) {
+        print(e.toString());
+        return;
+      }
     }
     if (hasAndroidAdaptiveConfig(config)) {
       AndroidLauncherIcons.createAdaptiveIcons(config);
@@ -40,14 +46,6 @@ Future<Map> loadConfigFile(String path) async {
 
 Map loadFlutterIconsConfig(Map config) {
   return config["flutter_icons"];
-}
-
-// TODO
-String isImagePathConfigValid(Map flutter_icons_config) {
-  if (isImagePathInConfig(flutter_icons_config)) {
-  } else {
-    return "'image_path' missing from configuration";
-  }
 }
 
 bool isImagePathInConfig(Map flutter_icons_config) {
