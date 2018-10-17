@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter_launcher_icons/xml_templates.dart' as XmlTemplate;
 import 'package:image/image.dart';
+import 'package:flutter_launcher_icons/custom_exceptions.dart';
 
 const String android_res_folder = "android/app/src/main/res/";
 const String android_colors_file = "android/app/src/main/res/values/colors.xml";
@@ -40,9 +41,7 @@ createIcons(config) {
   if (isCustomAndroidFile(config)) {
     print("Adding new Android launcher icon");
     String icon_name = getNewIconName(config);
-    if (!new RegExp(r"^[a-z0-9_]+$").hasMatch(icon_name)) {
-      throw new Exception('File-based resource names must contain only lowercase a-z, 0-9, or underscore');
-    }
+    isAndroidIconNameCorrectFormat(icon_name);
     String icon_path = icon_name + ".png";
     android_icons.forEach((AndroidIcon e) => saveNewIcons(e, image, icon_path));
     changeAndroidLauncherIcon(icon_name);
@@ -52,6 +51,13 @@ createIcons(config) {
     android_icons.forEach((AndroidIcon e) => overwriteExistingIcons(e, image, android_file_name));
     changeAndroidLauncherIcon(default_icon_name);
   }
+}
+
+bool isAndroidIconNameCorrectFormat(String icon_name) {
+  if (!new RegExp(r"^[a-z0-9_]+$").hasMatch(icon_name)) {
+    throw new InvalidAndroidIconNameException('The icon name must contain only lowercase a-z, 0-9, or underscore: E.g. "ic_my_new_icon"');
+  }
+  return true;
 }
 
 createAdaptiveIcons(config) {
