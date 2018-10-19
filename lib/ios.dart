@@ -1,16 +1,11 @@
 import 'package:image/image.dart';
 import 'dart:io';
 import 'dart:convert';
+import 'package:flutter_launcher_icons/constants.dart';
 
 /**
  * File to handle the creation of icons for iOS platform
  */
-const String default_icon_folder =
-    "ios/Runner/Assets.xcassets/AppIcon.appiconset/";
-const String asset_folder = "ios/Runner/Assets.xcassets/";
-const String config_file = "ios/Runner.xcodeproj/project.pbxproj";
-const String default_icon_name = "Icon-App";
-
 class IosIcon {
   final String name;
   final int size;
@@ -55,7 +50,7 @@ createIcons(config) {
   else {
     print("Overwriting default iOS launcher icon with new icon");
     ios_icons.forEach((IosIcon icon) => overwriteDefaultIcons(icon, image));
-    iconName = default_icon_name;
+    iconName = ios_default_icon_name;
     changeIosLauncherIcon("AppIcon");
   }
 }
@@ -67,13 +62,12 @@ overwriteDefaultIcons(IosIcon icon, Image image) {
   else
     newFile = copyResize(image, icon.size, icon.size, LINEAR);
 
-  new File(default_icon_folder + default_icon_name + icon.name + ".png")
+  new File(ios_default_icon_folder + ios_default_icon_name + icon.name + ".png")
     ..writeAsBytesSync(encodePng(newFile));
 }
 
 saveNewIcons(IosIcon icon, Image image, String newIconName) {
-  String newIconFolder = asset_folder + newIconName + ".appiconset/";
-
+  String newIconFolder = ios_asset_folder + newIconName + ".appiconset/";
   Image newFile;
   if (image.width >= icon.size)
     newFile = copyResize(image, icon.size, -1, AVERAGE);
@@ -88,7 +82,7 @@ saveNewIcons(IosIcon icon, Image image, String newIconName) {
 }
 
 changeIosLauncherIcon(String iconName) async {
-  File iOSConfigFile = new File(config_file);
+  File iOSConfigFile = new File(ios_config_file);
   List<String> lines = await iOSConfigFile.readAsLines();
   for (var x = 0; x < lines.length; x++) {
     String line = lines[x];
@@ -103,7 +97,7 @@ changeIosLauncherIcon(String iconName) async {
 // Create the Contents.json file
 modifyContentsFile(String newIconName) {
   String newIconFolder =
-      asset_folder + newIconName + ".appiconset/Contents.json";
+      ios_asset_folder + newIconName + ".appiconset/Contents.json";
   new File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
     String contentsFileContent = generateContentsFileAsString(newIconName);
     contentsJsonFile.writeAsString(contentsFileContent);

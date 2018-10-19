@@ -9,6 +9,16 @@ class InvalidAndroidIconNameException implements Exception {
         'InvalidAndroidIconNameException\n'
         '$message';
   }
+}
 
+class InvalidConfigException implements Exception {
+  final String message;
+  const InvalidConfigException([this.message]);
 
+  @override
+  String toString() {
+    return '*** ERROR ***\n'
+        'InvalidConfigException\n'
+        '$message';
+  }
 }
