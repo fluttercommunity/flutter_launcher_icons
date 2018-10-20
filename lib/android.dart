@@ -196,6 +196,7 @@ changeAndroidLauncherIcon(String icon_name) async {
           new RegExp('android:icon=\"([^*]|(\"+([^"/]|)))*\"'),
           'android:icon="@mipmap/' + icon_name + '"');
       lines[x] = line;
+      lines.add(""); // used to stop git showing a diff if the icon name hasn't changed
     }
   }
   androidManifestFile.writeAsString(lines.join("\n"));

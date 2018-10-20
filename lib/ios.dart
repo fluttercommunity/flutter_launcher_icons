@@ -89,9 +89,11 @@ changeIosLauncherIcon(String iconName) async {
     if (line.contains("ASSETCATALOG")) {
       line = line.replaceAll(new RegExp('\=(.*);'), "= " + iconName + ";");
       lines[x] = line;
+      lines[lines.length - 1] = "}\n";
     }
   }
-  iOSConfigFile.writeAsString(lines.join("\n"));
+  String entireFile = lines.join("\n");
+  iOSConfigFile.writeAsString(entireFile);
 }
 
 // Create the Contents.json file
