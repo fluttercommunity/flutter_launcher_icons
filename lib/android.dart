@@ -2,15 +2,7 @@ import 'dart:io';
 import 'package:flutter_launcher_icons/xml_templates.dart' as XmlTemplate;
 import 'package:image/image.dart';
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
-
-const String android_res_folder = "android/app/src/main/res/";
-const String android_colors_file = "android/app/src/main/res/values/colors.xml";
-const String android_manifest_file = "android/app/src/main/AndroidManifest.xml";
-const String android_gradle_file = "android/app/build.gradle";
-const String android_file_name = "ic_launcher.png";
-const String android_adaptive_foreground_file_name = "ic_launcher_foreground.png";
-const String android_adaptive_xml_folder =  android_res_folder + "mipmap-anydpi-v26/";
-const String default_icon_name = "ic_launcher";
+import 'package:flutter_launcher_icons/constants.dart';
 
 class AndroidIcon {
   final String name;
@@ -49,7 +41,7 @@ createIcons(config) {
   else {
     print("Overwriting default Android launcher icon with new icon");
     android_icons.forEach((AndroidIcon e) => overwriteExistingIcons(e, image, android_file_name));
-    changeAndroidLauncherIcon(default_icon_name);
+    changeAndroidLauncherIcon(android_default_icon_name);
   }
 }
 
@@ -80,7 +72,7 @@ createAdaptiveIcons(config) {
         adaptive_icon.writeAsString(XmlTemplate.ic_launcher_xml);
       });
     } else {
-      new File(android_adaptive_xml_folder + default_icon_name + '.xml')
+      new File(android_adaptive_xml_folder + android_default_icon_name + '.xml')
           .create(recursive: true).then((File adaptive_icon) {
         adaptive_icon.writeAsString(XmlTemplate.ic_launcher_xml);
       });
@@ -169,10 +161,11 @@ String getNewIconName(config) {
 
 overwriteExistingIcons(AndroidIcon e, image, filename) {
   Image newFile;
-  if (image.width >= e.size)
+  if (image.width >= e.size) {
     newFile = copyResize(image, e.size, -1, AVERAGE);
-  else
+  } else {
     newFile = copyResize(image, e.size, -1, LINEAR);
+  }
 
   new File(android_res_folder + e.name + '/' + filename).create(recursive: true).then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
@@ -203,6 +196,7 @@ changeAndroidLauncherIcon(String icon_name) async {
           new RegExp('android:icon=\"([^*]|(\"+([^"/]|)))*\"'),
           'android:icon="@mipmap/' + icon_name + '"');
       lines[x] = line;
+      lines.add(""); // used to stop git showing a diff if the icon name hasn't changed
     }
   }
   androidManifestFile.writeAsString(lines.join("\n"));

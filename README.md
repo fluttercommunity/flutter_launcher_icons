@@ -77,7 +77,7 @@ flutter_icons:
 
 ```
 flutter pub get
-flutter pub pub run flutter_launcher_icons:main
+flutter packages pub run flutter_launcher_icons:main
 ```
 
 ## :eyes: Example

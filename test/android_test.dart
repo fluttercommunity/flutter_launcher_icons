@@ -1,17 +1,17 @@
 import 'package:test/test.dart';
 import 'package:flutter_launcher_icons/android.dart' as Android;
+import 'package:flutter_launcher_icons/constants.dart';
 
 /**
  * Unit tests for android.dart
  */
-
 void main() {
   test('Adaptive icon mipmap path is correct', () {
     String path1 = "android/app/src/main/res/";
     String path2 = "mipmap-anydpi-v26/";
     expect(Android.isCorrectMipmapDirectoryForAdaptiveIcon(path1), false);
     expect(Android.isCorrectMipmapDirectoryForAdaptiveIcon(path2), false);
-    expect(Android.isCorrectMipmapDirectoryForAdaptiveIcon(Android.android_adaptive_xml_folder), true);
+    expect(Android.isCorrectMipmapDirectoryForAdaptiveIcon(android_adaptive_xml_folder), true);
   });
 
   test('Correct number of adaptive foreground icons', () {

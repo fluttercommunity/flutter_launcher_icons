@@ -17,7 +17,7 @@ dev_dependencies:
     path: ../
 
 flutter_icons:
-  image_path: "assets/images/icon-710x599.png"
+  image_path: "assets/images/ic_launcher.png"
   image_path_android: "assets/images/icon-710x599-android.png"
   image_path_ios: "assets/images/icon-710x599-ios.png"
   android: true # can specify file name here e.g. "ic_launcher"

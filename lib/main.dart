@@ -4,31 +4,25 @@ import 'package:dart_config/default_server.dart';
 import 'package:flutter_launcher_icons/android.dart' as AndroidLauncherIcons;
 import 'package:flutter_launcher_icons/ios.dart' as IOSLauncherIcons;
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
+import 'package:flutter_launcher_icons/constants.dart';
 
 createIcons(List<String> arguments) async {
   loadConfigFile("pubspec.yaml").then((Map yamlConfig) {
     Map config = loadFlutterIconsConfig(yamlConfig);
     if (!isImagePathInConfig(config)) {
-      print("Missing 'image_path' or 'image_path_android + image_path_ios' within configuration");
-      return;
+      throw new InvalidConfigException(errorMissingImagePath);
     }
     if (!hasAndroidOrIOSConfig(config)) {
-      print("Error: No platform specified within config to generate icons for.");
-      return;
+      throw new InvalidConfigException(errorMissingPlatform);
     }
     var minSdk = AndroidLauncherIcons.minSdk();
-    if(minSdk < 26 && hasAndroidAdaptiveConfig(config) && !hasAndroidConfig(config)){
-      print("Error: Adaptive icon config found but no regular Android config. Below API 26 the regular Android config is required");
-      return;
+    if (minSdk < 26 && hasAndroidAdaptiveConfig(config) &&
+        !hasAndroidConfig(config)) {
+      throw new InvalidConfigException(errorMissingRegularAndroid);
     }
 
     if (hasAndroidConfig(config)) {
-      try {
-        AndroidLauncherIcons.createIcons(config);
-      } on Exception catch (e) {
-        print(e.toString());
-        return;
-      }
+      AndroidLauncherIcons.createIcons(config);
     }
     if (hasAndroidAdaptiveConfig(config)) {
       AndroidLauncherIcons.createAdaptiveIcons(config);
@@ -36,7 +30,7 @@ createIcons(List<String> arguments) async {
     if (hasIOSConfig(config)) {
       IOSLauncherIcons.createIcons(config);
     }
-  });
+  }).catchError((e) => print(e.toString()));
 }
 
 Future<Map> loadConfigFile(String path) async {
