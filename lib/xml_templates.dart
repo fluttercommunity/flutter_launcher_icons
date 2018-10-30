@@ -1,4 +1,4 @@
-const String ic_launcher_xml = '''
+const String icLauncherXml = '''
 <?xml version="1.0" encoding="utf-8"?>
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
 <background android:drawable="@color/ic_launcher_background"/>
@@ -6,7 +6,7 @@ const String ic_launcher_xml = '''
 </adaptive-icon>
 ''';
 
-const String colors_xml = '''
+const String colorsXml = '''
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ic_launcher_background">#FF000000</color>
