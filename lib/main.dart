@@ -10,24 +10,24 @@ createIcons(List<String> arguments) async {
   loadConfigFile("pubspec.yaml").then((Map yamlConfig) {
     Map config = loadFlutterIconsConfig(yamlConfig);
     if (!isImagePathInConfig(config)) {
-      throw new InvalidConfigException(errorMissingImagePath);
+      throw InvalidConfigException(errorMissingImagePath);
     }
     if (!hasAndroidOrIOSConfig(config)) {
-      throw new InvalidConfigException(errorMissingPlatform);
+      throw InvalidConfigException(errorMissingPlatform);
     }
     var minSdk = AndroidLauncherIcons.minSdk();
     if (minSdk < 26 && hasAndroidAdaptiveConfig(config) &&
         !hasAndroidConfig(config)) {
-      throw new InvalidConfigException(errorMissingRegularAndroid);
+      throw InvalidConfigException(errorMissingRegularAndroid);
     }
 
-    if (hasAndroidConfig(config)) {
+    if (isNeedingNewAndroidIcon(config)) {
       AndroidLauncherIcons.createIcons(config);
     }
     if (hasAndroidAdaptiveConfig(config)) {
       AndroidLauncherIcons.createAdaptiveIcons(config);
     }
-    if (hasIOSConfig(config)) {
+    if (isNeedingNewIOSIcon(config)) {
       IOSLauncherIcons.createIcons(config);
     }
   }).catchError((e) => print(e.toString()));
@@ -42,24 +42,42 @@ Map loadFlutterIconsConfig(Map config) {
   return config["flutter_icons"];
 }
 
-bool isImagePathInConfig(Map flutter_icons_config) {
-  return flutter_icons_config.containsKey("image_path") || (flutter_icons_config.containsKey("image_path_android") && flutter_icons_config.containsKey("image_path_ios"));
+bool isImagePathInConfig(Map flutterIconsConfig) {
+  return flutterIconsConfig.containsKey("image_path") || (flutterIconsConfig.containsKey("image_path_android") && flutterIconsConfig.containsKey("image_path_ios"));
 }
 
-bool hasAndroidOrIOSConfig(Map flutter_icons_config) {
-  return flutter_icons_config.containsKey("android") || flutter_icons_config.containsKey("ios");
+bool hasAndroidOrIOSConfig(Map flutterIconsConfig) {
+  return flutterIconsConfig.containsKey("android") || flutterIconsConfig.containsKey("ios");
 }
 
-bool hasAndroidConfig(Map flutter_icons_config) {
-  return flutter_icons_config.containsKey("android");
+bool hasAndroidConfig(Map flutterIconsConfig) {
+  return flutterIconsConfig.containsKey("android");
 }
 
-bool hasAndroidAdaptiveConfig(Map flutter_icons_config) {
-  return flutter_icons_config.containsKey("android") &&
-      flutter_icons_config.containsKey("adaptive_icon_background") &&
-      flutter_icons_config.containsKey("adaptive_icon_foreground");
+bool isNeedingNewAndroidIcon(Map flutterIconsConfig) {
+  if (hasAndroidConfig(flutterIconsConfig)) {
+    if (flutterIconsConfig['android'] != false) {
+      return true;
+    }
+  }
+  return false;
 }
 
-bool hasIOSConfig(Map flutter_icons_config) {
-  return flutter_icons_config.containsKey("ios");
+bool hasAndroidAdaptiveConfig(Map flutterIconsConfig) {
+  return isNeedingNewAndroidIcon(flutterIconsConfig) &&
+      flutterIconsConfig.containsKey("adaptive_icon_background") &&
+      flutterIconsConfig.containsKey("adaptive_icon_foreground");
+}
+
+bool hasIOSConfig(Map flutterIconsConfig) {
+  return flutterIconsConfig.containsKey("ios");
+}
+
+bool isNeedingNewIOSIcon(Map flutterIconsConfig) {
+  if (hasIOSConfig(flutterIconsConfig)) {
+    if (flutterIconsConfig["ios"] != false) {
+      return true;
+    }
+  }
+  return false;
 }
