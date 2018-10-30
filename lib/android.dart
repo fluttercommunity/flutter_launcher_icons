@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter_launcher_icons/xml_templates.dart' as XmlTemplate;
 import 'package:image/image.dart';
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
-import 'package:flutter_launcher_icons/constants.dart';
+import 'package:flutter_launcher_icons/constants.dart' as Constants;
 
 class AndroidIcon {
   final String name;
@@ -10,44 +10,44 @@ class AndroidIcon {
   AndroidIcon({this.size, this.name});
 }
 
-List<AndroidIcon> adaptive_foreground_icons = [
-  new AndroidIcon(name: "drawable-mdpi", size: 108),
-  new AndroidIcon(name: "drawable-hdpi", size: 162),
-  new AndroidIcon(name: "drawable-xhdpi", size: 216),
-  new AndroidIcon(name: "drawable-xxhdpi", size: 324),
-  new AndroidIcon(name: "drawable-xxxhdpi", size: 432),
+final List<AndroidIcon> adaptiveForegroundIcons = [
+  AndroidIcon(name: "drawable-mdpi", size: 108),
+  AndroidIcon(name: "drawable-hdpi", size: 162),
+  AndroidIcon(name: "drawable-xhdpi", size: 216),
+  AndroidIcon(name: "drawable-xxhdpi", size: 324),
+  AndroidIcon(name: "drawable-xxxhdpi", size: 432),
 ];
 
-List<AndroidIcon> android_icons = [
-  new AndroidIcon(name: "mipmap-mdpi", size: 48),
-  new AndroidIcon(name: "mipmap-hdpi", size: 72),
-  new AndroidIcon(name: "mipmap-xhdpi", size: 96),
-  new AndroidIcon(name: "mipmap-xxhdpi", size: 144),
-  new AndroidIcon(name: "mipmap-xxxhdpi", size: 192),
+List<AndroidIcon> androidIcons = [
+  AndroidIcon(name: "mipmap-mdpi", size: 48),
+  AndroidIcon(name: "mipmap-hdpi", size: 72),
+  AndroidIcon(name: "mipmap-xhdpi", size: 96),
+  AndroidIcon(name: "mipmap-xxhdpi", size: 144),
+  AndroidIcon(name: "mipmap-xxxhdpi", size: 192),
 ];
 
 createIcons(config) {
   print("Creating icons Android");
-  String file_path = config['image_path_android'] ?? config['image_path'];
-  Image image = decodeImage(new File(file_path).readAsBytesSync());
+  String filePath = getAndroidIconPath(config);
+  Image image = decodeImage(File(filePath).readAsBytesSync());
   if (isCustomAndroidFile(config)) {
     print("Adding new Android launcher icon");
-    String icon_name = getNewIconName(config);
-    isAndroidIconNameCorrectFormat(icon_name);
-    String icon_path = icon_name + ".png";
-    android_icons.forEach((AndroidIcon e) => saveNewIcons(e, image, icon_path));
-    changeAndroidLauncherIcon(icon_name);
+    String iconName = getNewIconName(config);
+    isAndroidIconNameCorrectFormat(iconName);
+    String iconPath = iconName + ".png";
+    androidIcons.forEach((AndroidIcon e) => saveNewIcons(e, image, iconPath));
+    changeAndroidLauncherIcon(iconName);
   }
   else {
     print("Overwriting default Android launcher icon with new icon");
-    android_icons.forEach((AndroidIcon e) => overwriteExistingIcons(e, image, android_file_name));
-    changeAndroidLauncherIcon(android_default_icon_name);
+    androidIcons.forEach((AndroidIcon e) => overwriteExistingIcons(e, image, Constants.androidFileName));
+    changeAndroidLauncherIcon(Constants.androidDefaultIconName);
   }
 }
 
-bool isAndroidIconNameCorrectFormat(String icon_name) {
-  if (!new RegExp(r"^[a-z0-9_]+$").hasMatch(icon_name)) {
-    throw new InvalidAndroidIconNameException('The icon name must contain only lowercase a-z, 0-9, or underscore: E.g. "ic_my_new_icon"');
+bool isAndroidIconNameCorrectFormat(String iconName) {
+  if (!RegExp(r"^[a-z0-9_]+$").hasMatch(iconName)) {
+    throw InvalidAndroidIconNameException('The icon name must contain only lowercase a-z, 0-9, or underscore: E.g. "ic_my_new_icon"');
   }
   return true;
 }
@@ -56,25 +56,25 @@ createAdaptiveIcons(config) {
   print("Creating adaptive icons Android");
 
   // Read in the relevant configs
-  String background_color = config['adaptive_icon_background'];
-  String foreground_image_path = config['adaptive_icon_foreground'];
-  Image foreground_image = decodeImage(new File(foreground_image_path).readAsBytesSync());
+  String backgroundColor = config['adaptive_icon_background'];
+  String foregroundImagePath = config['adaptive_icon_foreground'];
+  Image foregroundImage = decodeImage(File(foregroundImagePath).readAsBytesSync());
 
   // Create foreground images
-  adaptive_foreground_icons.forEach((AndroidIcon e) => overwriteExistingIcons(e, foreground_image, android_adaptive_foreground_file_name));
+  adaptiveForegroundIcons.forEach((AndroidIcon e) => overwriteExistingIcons(e, foregroundImage, Constants.androidAdaptiveForegroundFileName));
   // Generate ic_launcher.xml
   // If is using a string for android config, generate <file_name>.xml
   // Otherwise use ic_launcher.xml
-  if (isCorrectMipmapDirectoryForAdaptiveIcon(android_adaptive_xml_folder)) {
+  if (isCorrectMipmapDirectoryForAdaptiveIcon(Constants.androidAdaptiveXmlFolder)) {
     if (isCustomAndroidFile(config)) {
-      new File(android_adaptive_xml_folder + getNewIconName(config)
-          + '.xml').create(recursive: true).then((File adaptive_icon) {
-        adaptive_icon.writeAsString(XmlTemplate.ic_launcher_xml);
+      File(Constants.androidAdaptiveXmlFolder + getNewIconName(config)
+          + '.xml').create(recursive: true).then((File adaptiveIcon) {
+        adaptiveIcon.writeAsString(XmlTemplate.icLauncherXml);
       });
     } else {
-      new File(android_adaptive_xml_folder + android_default_icon_name + '.xml')
-          .create(recursive: true).then((File adaptive_icon) {
-        adaptive_icon.writeAsString(XmlTemplate.ic_launcher_xml);
+      File(Constants.androidAdaptiveXmlFolder + Constants.androidDefaultIconName + '.xml')
+          .create(recursive: true).then((File adaptiveIcon) {
+        adaptiveIcon.writeAsString(XmlTemplate.icLauncherXml);
       });
     }
   } else {
@@ -82,22 +82,22 @@ createAdaptiveIcons(config) {
   }
 
   // Check if colors.xml exists in the project
-  var colorsXml = new File(android_colors_file);
+  var colorsXml = File(Constants.androidColorsFile);
   // If not copy over empty template
   colorsXml.exists().then((bool isExistingFile) {
     if (!isExistingFile) {
-      createNewColorsFile(background_color);
+      createNewColorsFile(backgroundColor);
     } else {
-      updateColorsFile(colorsXml, background_color);
+      updateColorsFile(colorsXml, backgroundColor);
     }
   });
 }
 
 createNewColorsFile(String backgroundColor) {
   print("Copying colors.xml template to project");
-  new File(android_colors_file).create(recursive: true).then((File colors_file) {
-    colors_file.writeAsString(XmlTemplate.colors_xml).then((File file) {
-      updateColorsFile(colors_file, backgroundColor);
+  File(Constants.androidColorsFile).create(recursive: true).then((File colorsFile) {
+    colorsFile.writeAsString(XmlTemplate.colorsXml).then((File file) {
+      updateColorsFile(colorsFile, backgroundColor);
     });
   });
 }
@@ -112,7 +112,7 @@ updateColorsFile(File colorsFile, String backgroundColor) {
     if (line.contains("name=\"ic_launcher_background\"")) {
       print("Found existing background color value");
       foundExisting = true;
-      line = line.replaceAll(new RegExp('>(.*)<'), ">$backgroundColor<");
+      line = line.replaceAll(RegExp('>(.*)<'), ">$backgroundColor<");
       lines[x] = line;
       break;
     }
@@ -167,7 +167,7 @@ overwriteExistingIcons(AndroidIcon e, image, filename) {
     newFile = copyResize(image, e.size, -1, LINEAR);
   }
 
-  new File(android_res_folder + e.name + '/' + filename).create(recursive: true).then((File file) {
+  File(Constants.androidResFolder + e.name + '/' + filename).create(recursive: true).then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
   });
 }
@@ -179,22 +179,22 @@ saveNewIcons(AndroidIcon e, image, String iconFilePath) {
   else
     newFile = copyResize(image, e.size, e.size, LINEAR);
 
-  new File(android_res_folder + e.name + '/' + iconFilePath).create(recursive: true).then((File file) {
+  File(Constants.androidResFolder + e.name + '/' + iconFilePath).create(recursive: true).then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
   });
 }
 
 // NOTE: default = ic_launcher
-changeAndroidLauncherIcon(String icon_name) async {
-  File androidManifestFile = new File(android_manifest_file);
+changeAndroidLauncherIcon(String iconName) async {
+  File androidManifestFile = File(Constants.androidManifestFile);
   List<String> lines = await androidManifestFile.readAsLines();
   for (var x = 0; x < lines.length; x++) {
     String line = lines[x];
     if (line.contains("android:icon")) {
       // Using RegExp replace the value of android:icon to point to the new icon
       line = line.replaceAll(
-          new RegExp('android:icon=\"([^*]|(\"+([^"/]|)))*\"'),
-          'android:icon="@mipmap/' + icon_name + '"');
+          RegExp('android:icon=\"([^*]|(\"+([^"/]|)))*\"'),
+          'android:icon="@mipmap/' + iconName + '"');
       lines[x] = line;
       lines.add(""); // used to stop git showing a diff if the icon name hasn't changed
     }
@@ -203,17 +203,22 @@ changeAndroidLauncherIcon(String icon_name) async {
 }
 
 minSdk() {
-  File androidGradleFile = new File(android_gradle_file);
+  File androidGradleFile = File(Constants.androidGradleFile);
   List<String> lines = androidGradleFile.readAsLinesSync();
   for (var x = 0; x < lines.length; x++) {
     String line = lines[x];
     if (line.contains("minSdkVersion")) {
 
-      String minSdk = line.replaceAll(new RegExp("[^\\d]"), "");
+      String minSdk = line.replaceAll(RegExp("[^\\d]"), "");
       print("Android minSdkVersion = $minSdk");
       return int.parse(minSdk);
     }
   }
   return 0; //Didn't find minSdk, assume the worst
+}
+
+// prioritises the image_path_android if it exists over the image_path
+String getAndroidIconPath(Map config) {
+  return config['image_path_android'] ?? config['image_path'];
 }
 
