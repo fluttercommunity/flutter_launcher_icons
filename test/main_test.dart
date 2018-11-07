@@ -1,3 +1,4 @@
+import 'package:args/args.dart';
 import 'package:test/test.dart';
 import 'package:flutter_launcher_icons/ios.dart' as IOS;
 import 'package:flutter_launcher_icons/android.dart' as Android;
@@ -23,6 +24,20 @@ void main() {
     String path = "test/config/test_pubspec.yaml";
     var config = await Main.loadConfigFile(path);
     expect(config.length, isNotNull);
+  });
+
+  test('load config file from arg results', () async {
+    String path = "test/config/test_pubspec.yaml";
+    var parser = ArgParser();
+    parser.addOption(Main.fileOption,
+        abbr: "f", help: "Config file");
+    var argResults = parser.parse(['-f', path]);
+    var config = await Main.loadConfigFileFromArgResults(argResults);
+    expect(config.length, isNotNull);
+
+    argResults = parser.parse(['-f', 'dummy_path_to_pubspec.yaml']);
+    config = await Main.loadConfigFileFromArgResults(argResults);
+    expect(config, isNull);
   });
 
   test('Incorrect pubspec.yaml path throws correct error message', () async {
