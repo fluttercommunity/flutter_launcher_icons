@@ -20,6 +20,7 @@ createIconsFromArguments(List<String> arguments) async {
   var argResults = parser.parse(arguments);
 
   if (argResults[helpFlag]) {
+    stdout.writeln('Generates icons for iOS and Android');
     stdout.writeln(parser.usage);
     exit(0);
   }
