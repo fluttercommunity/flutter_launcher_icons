@@ -14,8 +14,9 @@ const defaultConfigFile = "flutter_launcher_icons.yaml";
 createIconsFromArguments(List<String> arguments) async {
   var parser = ArgParser(allowTrailingOptions: true);
   parser.addFlag("help", abbr: "h", help: "Usage help", negatable: false);
+  // Make default null to differentiate when it is explicitly set
   parser.addOption(fileOption,
-      abbr: "f", help: "Config file", defaultsTo: defaultConfigFile);
+      abbr: "f", help: "Config file (default: $defaultConfigFile)");
   var argResults = parser.parse(arguments);
 
   if (argResults[helpFlag]) {
@@ -73,14 +74,20 @@ Future<Map> loadConfigFileFromArgResults(ArgResults argResults,
   Map yamlConfig;
   // If none set try flutter_launcher_icons.yaml first then pubspec.yaml
   // for compatibility
-  if (configFile == defaultConfigFile) {
+  if (configFile == defaultConfigFile || configFile == null) {
     try {
       yamlConfig = await loadConfigFile(defaultConfigFile);
     } catch (e) {
-      try {
-        // Try pubspec.yaml for compatibility
-        yamlConfig = await loadConfigFile("pubspec.yaml");
-      } catch (_) {
+      if (configFile == null) {
+        try {
+          // Try pubspec.yaml for compatibility
+          yamlConfig = await loadConfigFile("pubspec.yaml");
+        } catch (_) {
+          if (verbose) {
+            stderr.writeln(e);
+          }
+        }
+      } else {
         if (verbose) {
           stderr.writeln(e);
         }
