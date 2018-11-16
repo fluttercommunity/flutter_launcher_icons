@@ -9,18 +9,22 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
 ## :sparkles: What's New
 
+#### Version 0.7.0 (Unreleased)
+ * Now ensuring that the Android file name is valid - An error will be thrown if it doesn't meet the criteria
+ * Fixed issue where there was a git diff when there was no change
+ * Fixed issue where iOS icon would be generated when it shouldn't be
+ * Added support for drawables to be used for adaptive icon backgrounds
+ * Added support for Flutter Launcher Icons to be able to run with it's own config file (no longer necessary to add to pubspec.yaml)
+
 #### Version 0.6.1 (26th August 2018)
- * Upgraded dependencies so that it should now work with Dart 2.1.0 (thanks to @v3rm0n and @SPodjasek with the help with dart_config fixes)
+ * Upgraded dependencies so that it should now work with Dart 2.1.0
 
 #### Version 0.6.0 (8th August 2018)
  * Moved the package to [Flutter Community](https://github.com/fluttercommunity/community)
 
 #### Version 0.5.0 (12th June 2018)
- * [Android] Support for adaptive icons added (Thanks to PR #28 - Thank you!)
+ * [Android] Support for adaptive icons added
 
-
-##### Version 0.4.0 (8th June 2018)
- * Now possible to generate icons for each platform with different image paths - one for iOS icon and a separate one for Android (Thanks to PR #27 - Thank you!)
 
 ## :mag: Guide
 
@@ -31,7 +35,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
     
-  flutter_launcher_icons: "^0.6.1"
+  flutter_launcher_icons: "^0.7.0"
 ```
 
 2. Within the same pubspec.yaml file, add flutter_icons config section. 
@@ -43,7 +47,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
     
-  flutter_launcher_icons: "^0.6.1"
+  flutter_launcher_icons: "^0.7.0"
   
 flutter_icons:
   android: true 
