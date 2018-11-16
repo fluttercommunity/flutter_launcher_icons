@@ -6,6 +6,7 @@ final String androidManifestFile = "android/app/src/main/AndroidManifest.xml";
 final String androidGradleFile = "android/app/build.gradle";
 final String androidFileName = "ic_launcher.png";
 final String androidAdaptiveForegroundFileName = "ic_launcher_foreground.png";
+final String androidAdaptiveBackgroundFileName = "ic_launcher_background.png";
 final String androidAdaptiveXmlFolder =  androidResFolder + "mipmap-anydpi-v26/";
 final String androidDefaultIconName = "ic_launcher";
 

@@ -59,7 +59,7 @@ createIconsFromConfig(Map yamlConfig) async {
   }
 
   if (isNeedingNewAndroidIcon(config)) {
-    AndroidLauncherIcons.createIcons(config);
+    AndroidLauncherIcons.createDefaultIcons(config);
   }
   if (hasAndroidAdaptiveConfig(config)) {
     AndroidLauncherIcons.createAdaptiveIcons(config);
@@ -128,32 +128,40 @@ bool hasAndroidOrIOSConfig(Map flutterIconsConfig) {
       flutterIconsConfig.containsKey("ios");
 }
 
-bool hasAndroidConfig(Map flutterIconsConfig) {
-  return flutterIconsConfig.containsKey("android");
+bool hasAndroidConfig(Map flutterLauncherIcons) {
+  return flutterLauncherIcons.containsKey("android");
 }
 
-bool isNeedingNewAndroidIcon(Map flutterIconsConfig) {
-  if (hasAndroidConfig(flutterIconsConfig)) {
-    if (flutterIconsConfig['android'] != false) {
+bool isNeedingNewAndroidIcon(Map flutterLauncherIconsConfig) {
+  if (hasAndroidConfig(flutterLauncherIconsConfig)) {
+    if (flutterLauncherIconsConfig['android'] != false) {
       return true;
     }
   }
   return false;
 }
 
-bool hasAndroidAdaptiveConfig(Map flutterIconsConfig) {
-  return isNeedingNewAndroidIcon(flutterIconsConfig) &&
-      flutterIconsConfig.containsKey("adaptive_icon_background") &&
-      flutterIconsConfig.containsKey("adaptive_icon_foreground");
+bool hasAndroidAdaptiveConfig(Map flutterLauncherIconsConfig) {
+  return isNeedingNewAndroidIcon(flutterLauncherIconsConfig) &&
+      flutterLauncherIconsConfig.containsKey("adaptive_icon_background") &&
+      flutterLauncherIconsConfig.containsKey("adaptive_icon_foreground");
 }
 
-bool hasIOSConfig(Map flutterIconsConfig) {
-  return flutterIconsConfig.containsKey("ios");
+bool isMissingDefaultIconConfig(Map flutterLauncherIconsConfig) {
+  var minSdk = AndroidLauncherIcons.minSdk();
+  if (minSdk < 26 && hasAndroidAdaptiveConfig(flutterLauncherIconsConfig) &&
+      !hasAndroidConfig(flutterLauncherIconsConfig)) {
+    throw InvalidConfigException(errorMissingRegularAndroid);
+  }
 }
 
-bool isNeedingNewIOSIcon(Map flutterIconsConfig) {
-  if (hasIOSConfig(flutterIconsConfig)) {
-    if (flutterIconsConfig["ios"] != false) {
+bool hasIOSConfig(Map flutterLauncherIconsConfig) {
+  return flutterLauncherIconsConfig.containsKey("ios");
+}
+
+bool isNeedingNewIOSIcon(Map flutterLauncherIconsConfig) {
+  if (hasIOSConfig(flutterLauncherIconsConfig)) {
+    if (flutterLauncherIconsConfig["ios"] != false) {
       return true;
     }
   }
