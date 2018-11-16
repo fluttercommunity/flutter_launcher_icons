@@ -22,3 +22,15 @@ class InvalidConfigException implements Exception {
         '$message';
   }
 }
+
+class NoConfigFoundException implements Exception {
+  final String message;
+  const NoConfigFoundException([this.message]);
+
+  @override
+  String toString() {
+    return '*** ERROR ***\n'
+        'NoConfigFoundException\n'
+        '$message';
+  }
+}
