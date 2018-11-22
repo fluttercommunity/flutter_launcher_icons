@@ -30,7 +30,8 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
 #### 1. Setup the config file
 
-Add your Flutter Launcher Icons configuration to your `pubspec.yaml` or create a new config file called `flutter_launcher_icons.yaml`. An example is shown below.
+Add your Flutter Launcher Icons configuration to your `pubspec.yaml` or create a new config file called `flutter_launcher_icons.yaml`. 
+An example is shown below. A more complex example [can be found in the example project](https://github.com/fluttercommunity/flutter_launcher_icons/blob/master/example/pubspec.yaml).
 ```yaml
 dev_dependencies: 
   flutter_launcher_icons: "^0.7.0"

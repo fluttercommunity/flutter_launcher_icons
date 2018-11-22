@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.7.0 (Unreleased))
+## 0.7.0 (Unreleased)
 
  - Now ensuring that the Android file name is valid - An error will be thrown if it doesn't meet the criteria
  - Fixed issue where there was a git diff when there was no change
