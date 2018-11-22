@@ -9,82 +9,92 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
 ## :sparkles: What's New
 
+#### Version 0.7.0 (22nd November 2018)
+ * Added check to ensure the Android file name is valid
+ * Fixed issue where there was a git diff when there was no change
+ * Fixed issue where iOS icon would be generated when it shouldn't be
+ * Added support for drawables to be used for adaptive icon backgrounds
+ * Added support for Flutter Launcher Icons to be able to run with it's own config file (no longer necessary to add to pubspec.yaml)
+
 #### Version 0.6.1 (26th August 2018)
- * Upgraded dependencies so that it should now work with Dart 2.1.0 (thanks to @v3rm0n and @SPodjasek with the help with dart_config fixes)
+ * Upgraded dependencies so that it should now work with Dart 2.1.0
 
 #### Version 0.6.0 (8th August 2018)
  * Moved the package to [Flutter Community](https://github.com/fluttercommunity/community)
 
 #### Version 0.5.0 (12th June 2018)
- * [Android] Support for adaptive icons added (Thanks to PR #28 - Thank you!)
+ * [Android] Support for adaptive icons added
 
 
-##### Version 0.4.0 (8th June 2018)
- * Now possible to generate icons for each platform with different image paths - one for iOS icon and a separate one for Android (Thanks to PR #27 - Thank you!)
+## :book: Guide
 
-## :mag: Guide
+#### 1. Setup the config file
 
-1. Add dependency to your Flutter project's pubspec.yaml below any existing dependencies
-
+Add your Flutter Launcher Icons configuration to your `pubspec.yaml` or create a new config file called `flutter_launcher_icons.yaml`. 
+An example is shown below. A more complex example [can be found in the example project](https://github.com/fluttercommunity/flutter_launcher_icons/blob/master/example/pubspec.yaml).
 ```yaml
 dev_dependencies: 
-  flutter_test:
-    sdk: flutter
-    
-  flutter_launcher_icons: "^0.6.1"
-```
-
-2. Within the same pubspec.yaml file, add flutter_icons config section. 
-
-Unlike your Flutter projects, you do not need to add your launcher icon images into the assets section of the pubspec.yaml.
-
-```
-dev_dependencies: 
-  flutter_test:
-    sdk: flutter
-    
-  flutter_launcher_icons: "^0.6.1"
+  flutter_launcher_icons: "^0.7.0"
   
 flutter_icons:
-  android: true 
-  ios: "Example-Icon"
+  android: "launcher_icon" 
+  ios: true
   image_path: "assets/icon/icon.png"
-  image_path_android: "assets/icon/icon_android.png"
-  image_path_ios: "assets/icon/icon_ios.png"
-  adaptive_icon_background: "#FFFAFAFA"
-  adaptive_icon_foreground: "assets/icon/icon-foreground.png"
+```
+If you name your configuration file something other than `flutter_launcher_icons.yaml` or `pubspec.yaml` you will need to specify 
+the name of the file when running the package.
+
+```
+flutter packages get
+flutter packages pub run flutter_launcher_icons:main -f <your config file name here>
 ```
 
-### Attributes:
+Note: If you are not using the existing `pubspec.yaml` ensure that your config file is located in the same directory as it.
+
+#### 2. Run the package
+
+After setting up the configuration, all that is left to do is run the package.
+
+```
+flutter packages get
+flutter packages pub run flutter_launcher_icons:main
+```
+
+If you encounter any issues [please report them here](https://github.com/fluttercommunity/flutter_launcher_icons/issues).
+
+
+In the above configuration, the package is setup to replace the existing launcher icons in both the Android and iOS project 
+with the icon located in the image path specified above and given the name "launcher_icon" in the Android project and "Example-Icon" in the iOS project.
+
+
+## :mag: Attributes
+
+Shown below is the full list of attributes which you can specify within your Flutter Launcher Icons configuration.
 
 - `android`/`ios`
   - `true`: Override the default existing Flutter launcher icon for the platform specified
   - `false`: Ignore making launcher icons for this platform
   - `icon/path/here.png`: This will generate a new launcher icons for the platform with the name you specify, without removing the old default existing Flutter launcher icon.
 
-- `image_path`: The location of the icon image file which you want to use as the app launcher icon
+- `image_path`: The location of the icon image file which you want to use as the app launcher icon 
 
 - `image_path_android`: The location of the icon image file specific for Android platform (optional - if not defined then the image_path is used)
 
 - `image_path_ios`: The location of the icon image file specific for iOS platform (optional - if not defined then the image_path is used)
 
-- Adaptive icons: The next two attributes are only necessary if you want to have an adaptive icon for the Android app of your Flutter project.
-  - `adaptive_icon_background`: The color which will be used to fill out the background of the adaptive icon.
-  - `adaptive_icon_foreground`: The image asset which will be used for the icon foreground of the adaptive icon
+The next two attributes are only used when generating Android launcher icon
 
+- `adaptive_icon_background`: The color (E.g. `"#ffffff"`) or image asset (E.g. `"assets/images/christmas-background.png"`) which will 
+be used to fill out the background of the adaptive icon. 
 
-3. Run the command to generate the icons
+- `adaptive_icon_foreground`: The image asset which will be used for the icon foreground of the adaptive icon
 
-```
-flutter pub get
-flutter packages pub run flutter_launcher_icons:main
-```
 
 ## :eyes: Example
 
 [![Video Example](https://img.youtube.com/vi/RjNAxwcP3Tc/0.jpg)](https://www.youtube.com/watch?v=RjNAxwcP3Tc)
 
-Note: This is showing v0.0.5.
+Note: This is showing a very old version (v0.0.5)
 
 ### Special thanks
 

@@ -1,10 +1,20 @@
 # Changelog
 
-## 0.6.1(26th August 2018)
+## 0.7.0 (22nd November 2018)
+
+ - Now ensuring that the Android file name is valid - An error will be thrown if it doesn't meet the criteria
+ - Fixed issue where there was a git diff when there was no change
+ - Fixed issue where iOS icon would be generated when it shouldn't be
+ - Added support for drawables to be used for adaptive icon backgrounds
+ - Added support for Flutter Launcher Icons to be able to run with it's own config file (no longer necessary to add to pubspec.yaml)
+
+## 0.6.1 (26th August 2018)
+
 - Upgraded test package
 - Due to issue with dart_config not working with Dart 2.1.0, now using forked version of dart_config which contains fixes from both @v3rm0n and @SPodjasek
 
 ## 0.6.0 (8th August 2018)
+
 - Moved the package to [Flutter Community](https://github.com/fluttercommunity/community)
  
 ## 0.5.2 (19th June 2018)
