@@ -9,7 +9,7 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
 ## :sparkles: What's New
 
-#### Version 0.7.0 (Unreleased)
+#### Version 0.7.0 (22nd November 2018)
  * Added check to ensure the Android file name is valid
  * Fixed issue where there was a git diff when there was no change
  * Fixed issue where iOS icon would be generated when it shouldn't be
@@ -44,7 +44,7 @@ flutter_icons:
 If you name your configuration file something other than `flutter_launcher_icons.yaml` or `pubspec.yaml` you will need to specify 
 the name of the file when running the package.
 
-```yaml
+```
 flutter packages get
 flutter packages pub run flutter_launcher_icons:main -f <your config file name here>
 ```
@@ -55,7 +55,7 @@ Note: If you are not using the existing `pubspec.yaml` ensure that your config f
 
 After setting up the configuration, all that is left to do is run the package.
 
-```yaml
+```
 flutter packages get
 flutter packages pub run flutter_launcher_icons:main
 ```
