@@ -38,17 +38,17 @@ createIcons(config, String flavor) {
   if (flavor != null) {
     String flavorIconName = "AppIcon-$flavor";
     print("Building iOS launcher icon for $flavor");
-    iosIcons.forEach((IosIcon icon) => saveNewIcons(icon, image, flavorIconName));
-    iconName = flavorIconName;
-    changeIosLauncherIcon(iconName, flavor);
-    modifyContentsFile(iconName);
+    iosIcons.forEach((IosIcon icon) => saveNewIcons(icon, image, flavorIconName, iosDefaultIconName));
+    iconName = iosDefaultIconName;
+    changeIosLauncherIcon(flavorIconName, flavor);
+    modifyContentsFile(flavorIconName);
   }
   // If the IOS configuration is a string then the user has specified a new icon to be created
   // and for the old icon file to be kept
   else if (iosConfig is String) {
     String newIconName = iosConfig;
     print("Adding new iOS launcher icon");
-    iosIcons.forEach((IosIcon icon) => saveNewIcons(icon, image, newIconName));
+    iosIcons.forEach((IosIcon icon) => saveNewIcons(icon, image, newIconName, newIconName));
     iconName = newIconName;
     changeIosLauncherIcon(iconName, flavor);
     modifyContentsFile(iconName);
@@ -74,8 +74,8 @@ overwriteDefaultIcons(IosIcon icon, Image image) {
     ..writeAsBytesSync(encodePng(newFile));
 }
 
-saveNewIcons(IosIcon icon, Image image, String newIconName) {
-  String newIconFolder = iosAssetFolder + newIconName + ".appiconset/";
+saveNewIcons(IosIcon icon, Image image, String newCatalogName, String newIconName) {
+  String newIconFolder = iosAssetFolder + newCatalogName + ".appiconset/";
   Image newFile;
   if (image.width >= icon.size)
     newFile = copyResize(image, icon.size, -1, AVERAGE);

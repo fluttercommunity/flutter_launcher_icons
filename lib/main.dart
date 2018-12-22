@@ -12,6 +12,8 @@ const helpFlag = "help";
 const defaultConfigFile = "flutter_launcher_icons.yaml";
 const flavorConfigFilePattern = "\./flutter_launcher_icons-(.*).yaml";
 
+String flavorConfigFile(String flavor) => "flutter_launcher_icons-$flavor.yaml";
+
 List<String> getFlavors() {
   List<String> flavors = [];
   for (var item in Directory('.').listSync()) {
@@ -68,6 +70,7 @@ createIconsFromArguments(List<String> arguments) async {
       }
 
       for (var flavor in flavors) {
+        yamlConfig = await loadConfigFile(flavorConfigFile(flavor));
         await createIconsFromConfig(yamlConfig, flavor);
       }
     } catch (e) {
