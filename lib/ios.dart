@@ -36,12 +36,12 @@ createIcons(config, String flavor) {
   String iconName;
   var iosConfig = config['ios'];
   if (flavor != null) {
-    String flavorIconName = "AppIcon-$flavor";
+    String catalogName = "AppIcon-$flavor";
     print("Building iOS launcher icon for $flavor");
-    iosIcons.forEach((IosIcon icon) => saveNewIcons(icon, image, flavorIconName, iosDefaultIconName));
+    iosIcons.forEach((IosIcon icon) => saveNewIcons(icon, image, catalogName, iosDefaultIconName));
     iconName = iosDefaultIconName;
-    changeIosLauncherIcon(flavorIconName, flavor);
-    modifyContentsFile(flavorIconName);
+    changeIosLauncherIcon(catalogName, flavor);
+    modifyContentsFile(catalogName, iconName);
   }
   // If the IOS configuration is a string then the user has specified a new icon to be created
   // and for the old icon file to be kept
@@ -51,7 +51,7 @@ createIcons(config, String flavor) {
     iosIcons.forEach((IosIcon icon) => saveNewIcons(icon, image, newIconName, newIconName));
     iconName = newIconName;
     changeIosLauncherIcon(iconName, flavor);
-    modifyContentsFile(iconName);
+    modifyContentsFile(iconName, iconName);
   }
   // Otherwise the user wants the new icon to use the default icons name and
   // update config file to use it
@@ -113,21 +113,19 @@ changeIosLauncherIcon(String iconName, String flavor) async {
       if (currentConfig != null
           && (flavor == null || currentConfig.contains("-$flavor"))
           && line.contains("ASSETCATALOG")) {
-        line = line.replaceAll(RegExp('\=(.*);'), "= " + iconName + ";");
-        lines[x] = line;
-        lines[lines.length - 1] = "}\n";
+        lines[x] = line.replaceAll(RegExp('\=(.*);'), "= $iconName;");
       }
     }
   }
 
   String entireFile = lines.join("\n");
-  iOSConfigFile.writeAsString(entireFile);
+  iOSConfigFile.writeAsString("$entireFile\n");
 }
 
 // Create the Contents.json file
-modifyContentsFile(String newIconName) {
+modifyContentsFile(String catalogName, String newIconName) {
   String newIconFolder =
-      iosAssetFolder + newIconName + ".appiconset/Contents.json";
+      iosAssetFolder + catalogName + ".appiconset/Contents.json";
   File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
     String contentsFileContent = generateContentsFileAsString(newIconName);
     contentsJsonFile.writeAsString(contentsFileContent);
