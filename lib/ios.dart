@@ -30,19 +30,27 @@ List<IosIcon> iosIcons = [
   IosIcon(name: "-1024x1024@1x", size: 1024),
 ];
 
-createIcons(config) {
+createIcons(config, String flavor) {
   String filePath = config['image_path_ios'] ?? config['image_path'];
   Image image = decodeImage(File(filePath).readAsBytesSync());
   String iconName;
   var iosConfig = config['ios'];
+  if (flavor != null) {
+    String flavorIconName = "AppIcon-$flavor";
+    print("Building iOS launcher icon for $flavor");
+    iosIcons.forEach((IosIcon icon) => saveNewIcons(icon, image, flavorIconName));
+    iconName = flavorIconName;
+    changeIosLauncherIcon(iconName, flavor);
+    modifyContentsFile(iconName);
+  }
   // If the IOS configuration is a string then the user has specified a new icon to be created
   // and for the old icon file to be kept
-  if (iosConfig is String) {
+  else if (iosConfig is String) {
     String newIconName = iosConfig;
     print("Adding new iOS launcher icon");
     iosIcons.forEach((IosIcon icon) => saveNewIcons(icon, image, newIconName));
     iconName = newIconName;
-    changeIosLauncherIcon(iconName);
+    changeIosLauncherIcon(iconName, flavor);
     modifyContentsFile(iconName);
   }
   // Otherwise the user wants the new icon to use the default icons name and
@@ -51,7 +59,7 @@ createIcons(config) {
     print("Overwriting default iOS launcher icon with new icon");
     iosIcons.forEach((IosIcon icon) => overwriteDefaultIcons(icon, image));
     iconName = iosDefaultIconName;
-    changeIosLauncherIcon("AppIcon");
+    changeIosLauncherIcon("AppIcon", flavor);
   }
 }
 
@@ -81,17 +89,37 @@ saveNewIcons(IosIcon icon, Image image, String newIconName) {
   });
 }
 
-changeIosLauncherIcon(String iconName) async {
+changeIosLauncherIcon(String iconName, String flavor) async {
   File iOSConfigFile = File(iosConfigFile);
   List<String> lines = await iOSConfigFile.readAsLines();
+
+  bool onConfigurationSection = false;
+  String currentConfig;
   for (var x = 0; x < lines.length; x++) {
     String line = lines[x];
-    if (line.contains("ASSETCATALOG")) {
-      line = line.replaceAll(RegExp('\=(.*);'), "= " + iconName + ";");
-      lines[x] = line;
-      lines[lines.length - 1] = "}\n";
+
+    if (line.contains("/* Begin XCBuildConfiguration section */")) {
+      onConfigurationSection = true;
+    }
+    if (line.contains("/* End XCBuildConfiguration section */")) {
+      onConfigurationSection = false;
+    }
+    if (onConfigurationSection) {
+      var match = RegExp(".*/\\* (.*)\.xcconfig \\*/;").firstMatch(line);
+      if (match != null) {
+        currentConfig = match.group(1);
+      }
+
+      if (currentConfig != null
+          && (flavor == null || currentConfig.contains("-$flavor"))
+          && line.contains("ASSETCATALOG")) {
+        line = line.replaceAll(RegExp('\=(.*);'), "= " + iconName + ";");
+        lines[x] = line;
+        lines[lines.length - 1] = "}\n";
+      }
     }
   }
+
   String entireFile = lines.join("\n");
   iOSConfigFile.writeAsString(entireFile);
 }

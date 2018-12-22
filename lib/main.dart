@@ -99,7 +99,7 @@ createIconsFromConfig(Map yamlConfig, [String flavor]) async {
     AndroidLauncherIcons.createAdaptiveIcons(config, flavor);
   }
   if (isNeedingNewIOSIcon(config)) {
-    IOSLauncherIcons.createIcons(config);
+    IOSLauncherIcons.createIcons(config, flavor);
   }
 }
 
