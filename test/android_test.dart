@@ -11,7 +11,7 @@ void main() {
     String path2 = "mipmap-anydpi-v26/";
     expect(Android.isCorrectMipmapDirectoryForAdaptiveIcon(path1), false);
     expect(Android.isCorrectMipmapDirectoryForAdaptiveIcon(path2), false);
-    expect(Android.isCorrectMipmapDirectoryForAdaptiveIcon(androidAdaptiveXmlFolder), true);
+    expect(Android.isCorrectMipmapDirectoryForAdaptiveIcon(androidAdaptiveXmlFolder(null)), true);
   });
 
   test('Correct number of adaptive foreground icons', () {

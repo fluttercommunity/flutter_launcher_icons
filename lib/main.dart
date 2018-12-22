@@ -10,6 +10,20 @@ import 'package:flutter_launcher_icons/constants.dart';
 const fileOption = "file";
 const helpFlag = "help";
 const defaultConfigFile = "flutter_launcher_icons.yaml";
+const flavorConfigFilePattern = "\./flutter_launcher_icons-(.*).yaml";
+
+List<String> getFlavors() {
+  List<String> flavors = [];
+  for (var item in Directory('.').listSync()) {
+    if (item is File) {
+      var match = RegExp(flavorConfigFilePattern).firstMatch(item.path);
+      if (match != null) {
+        flavors.add(match.group(1));
+      }
+    }
+  }
+  return flavors;
+}
 
 createIconsFromArguments(List<String> arguments) async {
   var parser = ArgParser(allowTrailingOptions: true);
@@ -25,25 +39,45 @@ createIconsFromArguments(List<String> arguments) async {
     exit(0);
   }
 
+  // Flavors manangement
+  var flavors = getFlavors();
+  var hasFlavors = flavors.isNotEmpty;
+
   // Load the config file
   var yamlConfig =
       await loadConfigFileFromArgResults(argResults, verbose: true);
-  if ((yamlConfig == null) || (!(yamlConfig["flutter_icons"] is Map))) {
-    stderr.writeln(NoConfigFoundException(
-        'Check that your config file `${argResults[fileOption] ?? defaultConfigFile}` has a `flutter_icons` section'));
-    exit(1);
-  }
 
   // Create icons
-  try {
-    await createIconsFromConfig(yamlConfig);
-  } catch (e) {
-    stderr.writeln(e);
-    exit(2);
+  if (!hasFlavors) {
+    if ((yamlConfig == null) || (!(yamlConfig["flutter_icons"] is Map))) {
+      stderr.writeln(NoConfigFoundException(
+          'Check that your config file `${argResults[fileOption] ?? defaultConfigFile}` has a `flutter_icons` section'));
+      exit(1);
+    }
+
+    try {
+      await createIconsFromConfig(yamlConfig);
+    } catch (e) {
+      stderr.writeln(e);
+      exit(2);
+    }
+  } else {
+    try {
+      if ((yamlConfig != null) && (yamlConfig["flutter_icons"] is Map)) {
+        await createIconsFromConfig(yamlConfig);
+      }
+
+      for (var flavor in flavors) {
+        await createIconsFromConfig(yamlConfig, flavor);
+      }
+    } catch (e) {
+      stderr.writeln(e);
+      exit(2);
+    }
   }
 }
 
-createIconsFromConfig(Map yamlConfig) async {
+createIconsFromConfig(Map yamlConfig, [String flavor]) async {
   Map config = loadFlutterIconsConfig(yamlConfig);
   if (!isImagePathInConfig(config)) {
     throw InvalidConfigException(errorMissingImagePath);
@@ -59,10 +93,10 @@ createIconsFromConfig(Map yamlConfig) async {
   }
 
   if (isNeedingNewAndroidIcon(config)) {
-    AndroidLauncherIcons.createDefaultIcons(config);
+    AndroidLauncherIcons.createDefaultIcons(config, flavor);
   }
   if (hasAndroidAdaptiveConfig(config)) {
-    AndroidLauncherIcons.createAdaptiveIcons(config);
+    AndroidLauncherIcons.createAdaptiveIcons(config, flavor);
   }
   if (isNeedingNewIOSIcon(config)) {
     IOSLauncherIcons.createIcons(config);
@@ -153,6 +187,7 @@ bool isMissingDefaultIconConfig(Map flutterLauncherIconsConfig) {
       !hasAndroidConfig(flutterLauncherIconsConfig)) {
     throw InvalidConfigException(errorMissingRegularAndroid);
   }
+  return true;
 }
 
 bool hasIOSConfig(Map flutterLauncherIconsConfig) {
