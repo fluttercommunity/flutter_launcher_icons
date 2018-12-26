@@ -82,6 +82,8 @@ Shown below is the full list of attributes which you can specify within your Flu
 
 - `image_path_ios`: The location of the icon image file specific for iOS platform (optional - if not defined then the image_path is used)
 
+_Note: iOS icons should [fill the entire image](https://stackoverflow.com/questions/26014461/black-border-on-my-ios-icon) and not contain transparent borders._
+
 The next two attributes are only used when generating Android launcher icon
 
 - `adaptive_icon_background`: The color (E.g. `"#ffffff"`) or image asset (E.g. `"assets/images/christmas-background.png"`) which will 
