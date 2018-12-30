@@ -78,9 +78,9 @@ saveNewIcons(IosIcon icon, Image image, String newCatalogName, String newIconNam
   String newIconFolder = iosAssetFolder + newCatalogName + ".appiconset/";
   Image newFile;
   if (image.width >= icon.size)
-    newFile = copyResize(image, icon.size, -1, AVERAGE);
+    newFile = copyResize(image, icon.size, icon.size, AVERAGE);
   else
-    newFile = copyResize(image, icon.size, -1, LINEAR);
+    newFile = copyResize(image, icon.size, icon.size, LINEAR);
 
   File(newIconFolder + newIconName + icon.name + ".png")
       .create(recursive: true)
