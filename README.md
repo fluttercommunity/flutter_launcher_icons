@@ -90,6 +90,12 @@ be used to fill out the background of the adaptive icon.
 - `adaptive_icon_foreground`: The image asset which will be used for the icon foreground of the adaptive icon
 
 
+## Flavor support
+
+Create a Flutter Launcher Icons configuration file for your flavor. The config file is called `flutter_laucher_icons-<flavor>.yaml` by replacing `<flavor>` by the name of your desired flavor.
+
+The configuration file format is the same.
+
 ## :eyes: Example
 
 [![Video Example](https://img.youtube.com/vi/RjNAxwcP3Tc/0.jpg)](https://www.youtube.com/watch?v=RjNAxwcP3Tc)
