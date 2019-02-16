@@ -30,20 +30,28 @@ List<IosIcon> iosIcons = [
   IosIcon(name: "-1024x1024@1x", size: 1024),
 ];
 
-createIcons(config) {
+createIcons(config, String flavor) {
   String filePath = config['image_path_ios'] ?? config['image_path'];
   Image image = decodeImage(File(filePath).readAsBytesSync());
   String iconName;
   var iosConfig = config['ios'];
+  if (flavor != null) {
+    String catalogName = "AppIcon-$flavor";
+    print("Building iOS launcher icon for $flavor");
+    iosIcons.forEach((IosIcon icon) => saveNewIcons(icon, image, catalogName, iosDefaultIconName));
+    iconName = iosDefaultIconName;
+    changeIosLauncherIcon(catalogName, flavor);
+    modifyContentsFile(catalogName, iconName);
+  }
   // If the IOS configuration is a string then the user has specified a new icon to be created
   // and for the old icon file to be kept
-  if (iosConfig is String) {
+  else if (iosConfig is String) {
     String newIconName = iosConfig;
     print("Adding new iOS launcher icon");
-    iosIcons.forEach((IosIcon icon) => saveNewIcons(icon, image, newIconName));
+    iosIcons.forEach((IosIcon icon) => saveNewIcons(icon, image, newIconName, newIconName));
     iconName = newIconName;
-    changeIosLauncherIcon(iconName);
-    modifyContentsFile(iconName);
+    changeIosLauncherIcon(iconName, flavor);
+    modifyContentsFile(iconName, iconName);
   }
   // Otherwise the user wants the new icon to use the default icons name and
   // update config file to use it
@@ -51,7 +59,7 @@ createIcons(config) {
     print("Overwriting default iOS launcher icon with new icon");
     iosIcons.forEach((IosIcon icon) => overwriteDefaultIcons(icon, image));
     iconName = iosDefaultIconName;
-    changeIosLauncherIcon("AppIcon");
+    changeIosLauncherIcon("AppIcon", flavor);
   }
 }
 
@@ -66,8 +74,8 @@ overwriteDefaultIcons(IosIcon icon, Image image) {
     ..writeAsBytesSync(encodePng(newFile));
 }
 
-saveNewIcons(IosIcon icon, Image image, String newIconName) {
-  String newIconFolder = iosAssetFolder + newIconName + ".appiconset/";
+saveNewIcons(IosIcon icon, Image image, String newCatalogName, String newIconName) {
+  String newIconFolder = iosAssetFolder + newCatalogName + ".appiconset/";
   Image newFile;
   if (image.width >= icon.size)
     newFile = copyResize(image, icon.size, icon.size, AVERAGE);
@@ -81,25 +89,43 @@ saveNewIcons(IosIcon icon, Image image, String newIconName) {
   });
 }
 
-changeIosLauncherIcon(String iconName) async {
+changeIosLauncherIcon(String iconName, String flavor) async {
   File iOSConfigFile = File(iosConfigFile);
   List<String> lines = await iOSConfigFile.readAsLines();
+
+  bool onConfigurationSection = false;
+  String currentConfig;
   for (var x = 0; x < lines.length; x++) {
     String line = lines[x];
-    if (line.contains("ASSETCATALOG")) {
-      line = line.replaceAll(RegExp('\=(.*);'), "= " + iconName + ";");
-      lines[x] = line;
-      lines[lines.length - 1] = "}\n";
+
+    if (line.contains("/* Begin XCBuildConfiguration section */")) {
+      onConfigurationSection = true;
+    }
+    if (line.contains("/* End XCBuildConfiguration section */")) {
+      onConfigurationSection = false;
+    }
+    if (onConfigurationSection) {
+      var match = RegExp(".*/\\* (.*)\.xcconfig \\*/;").firstMatch(line);
+      if (match != null) {
+        currentConfig = match.group(1);
+      }
+
+      if (currentConfig != null
+          && (flavor == null || currentConfig.contains("-$flavor"))
+          && line.contains("ASSETCATALOG")) {
+        lines[x] = line.replaceAll(RegExp('\=(.*);'), "= $iconName;");
+      }
     }
   }
+
   String entireFile = lines.join("\n");
-  iOSConfigFile.writeAsString(entireFile);
+  iOSConfigFile.writeAsString("$entireFile\n");
 }
 
 // Create the Contents.json file
-modifyContentsFile(String newIconName) {
+modifyContentsFile(String catalogName, String newIconName) {
   String newIconFolder =
-      iosAssetFolder + newIconName + ".appiconset/Contents.json";
+      iosAssetFolder + catalogName + ".appiconset/Contents.json";
   File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
     String contentsFileContent = generateContentsFileAsString(newIconName);
     contentsJsonFile.writeAsString(contentsFileContent);

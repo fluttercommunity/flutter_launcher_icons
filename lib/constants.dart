@@ -1,13 +1,13 @@
 
 
-final String androidResFolder = "android/app/src/main/res/";
-final String androidColorsFile = "android/app/src/main/res/values/colors.xml";
-final String androidManifestFile = "android/app/src/main/AndroidManifest.xml";
+String androidResFolder(String flavor) => "android/app/src/${flavor ?? 'main'}/res/";
+String androidColorsFile(String flavor) => "android/app/src/${flavor ?? 'main'}/res/values/colors.xml";
+String androidManifestFile(String flavor) => "android/app/src/${flavor ?? 'main'}/AndroidManifest.xml";
+String androidAdaptiveXmlFolder(String flavor) => androidResFolder(flavor) + "mipmap-anydpi-v26/";
 final String androidGradleFile = "android/app/build.gradle";
 final String androidFileName = "ic_launcher.png";
 final String androidAdaptiveForegroundFileName = "ic_launcher_foreground.png";
 final String androidAdaptiveBackgroundFileName = "ic_launcher_background.png";
-final String androidAdaptiveXmlFolder =  androidResFolder + "mipmap-anydpi-v26/";
 final String androidDefaultIconName = "ic_launcher";
 
 final String iosDefaultIconFolder =
