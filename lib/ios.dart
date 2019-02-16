@@ -28,21 +28,30 @@ List<IosIconTemplate> iosIcons = <IosIconTemplate>[
   IosIconTemplate(name: '-1024x1024@1x', size: 1024),
 ];
 
-void createIcons(Map<String, dynamic> config) {
+void createIcons(Map<String, dynamic> config, String flavor) {
   final String filePath = config['image_path_ios'] ?? config['image_path'];
   final Image image = decodeImage(File(filePath).readAsBytesSync());
   String iconName;
   final dynamic iosConfig = config['ios'];
-  // If the IOS configuration is a string then the user has specified a new icon to be created
-  // and for the old icon file to be kept
-  if (iosConfig is String) {
+  if ( flavor != null ) {
+    final String catalogName = "AppIcon-$flavor";
+    print("Building iOS launcher icon for $flavor");
+    for (IosIconTemplate template in iosIcons) {
+      saveNewIcons(template, image, catalogName);
+    }
+    iconName = iosDefaultIconName;
+    changeIosLauncherIcon(catalogName, flavor);
+    modifyContentsFile(catalogName);
+  } else if (iosConfig is String) {
+    // If the IOS configuration is a string then the user has specified a new icon to be created
+    // and for the old icon file to be kept
     final String newIconName = iosConfig;
     print('Adding new iOS launcher icon');
     for (IosIconTemplate template in iosIcons) {
       saveNewIcons(template, image, newIconName);
     }
     iconName = newIconName;
-    changeIosLauncherIcon(iconName);
+    changeIosLauncherIcon(iconName, flavor);
     modifyContentsFile(iconName);
   }
   // Otherwise the user wants the new icon to use the default icons name and
@@ -53,7 +62,7 @@ void createIcons(Map<String, dynamic> config) {
       overwriteDefaultIcons(template, image);
     }
     iconName = iosDefaultIconName;
-    changeIosLauncherIcon('AppIcon');
+    changeIosLauncherIcon('AppIcon', flavor);
   }
 }
 
@@ -87,16 +96,35 @@ Image createResizedImage(IosIconTemplate template, Image image) {
   }
 }
 
-Future<void> changeIosLauncherIcon(String iconName) async {
+Future<void> changeIosLauncherIcon(String iconName, String flavor) async {
   final File iOSConfigFile = File(iosConfigFile);
   final List<String> lines = await iOSConfigFile.readAsLines();
+
+  bool onConfigurationSection = false;
+  String currentConfig;
+
   for (int x = 0; x < lines.length; x++) {
     String line = lines[x];
-    if (line.contains('ASSETCATALOG')) {
-      line = line.replaceAll(RegExp(r'=.*;'), '= $iconName;');
-      lines[x] = line;
-      lines[lines.length - 1] = '}\n';
+        if (line.contains("/* Begin XCBuildConfiguration section */")) {
+      onConfigurationSection = true;
     }
+    if (line.contains("/* End XCBuildConfiguration section */")) {
+      onConfigurationSection = false;
+    }
+    if (onConfigurationSection) {
+      var match = RegExp(".*/\\* (.*)\.xcconfig \\*/;").firstMatch(line);
+      if (match != null) {
+        currentConfig = match.group(1);
+      }
+
+      if (currentConfig != null
+          && (flavor == null || currentConfig.contains("-$flavor"))
+          && line.contains("ASSETCATALOG")) {
+
+        lines[x] = line.replaceAll(RegExp('\=(.*);'), "= $iconName;");
+      }
+    }
+
   }
   final String entireFile = lines.join('\n');
   iOSConfigFile.writeAsString(entireFile);

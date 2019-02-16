@@ -10,6 +10,21 @@ import 'package:flutter_launcher_icons/custom_exceptions.dart';
 const String fileOption = 'file';
 const String helpFlag = 'help';
 const String defaultConfigFile = 'flutter_launcher_icons.yaml';
+const String flavorConfigFilePattern = "\./flutter_launcher_icons-(.*).yaml";
+String flavorConfigFile(String flavor) => "flutter_launcher_icons-$flavor.yaml";
+
+List<String> getFlavors() {
+  List<String> flavors = [];
+  for (var item in Directory('.').listSync()) {
+    if (item is File) {
+      var match = RegExp(flavorConfigFilePattern).firstMatch(item.path);
+      if (match != null) {
+        flavors.add(match.group(1));
+      }
+    }
+  }
+  return flavors;
+}
 
 Future<void> createIconsFromArguments(List<String> arguments) async {
   final ArgParser parser = ArgParser(allowTrailingOptions: true);
@@ -25,19 +40,35 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
     exit(0);
   }
 
+  // Flavors manangement
+  var flavors = getFlavors();
+  var hasFlavors = flavors.isNotEmpty;
+
   // Load the config file
   final Map<String, dynamic> yamlConfig = loadConfigFileFromArgResults(argResults, verbose: true);
 
   // Create icons
-  try {
-    createIconsFromConfig(yamlConfig);
-  } catch (e) {
-    stderr.writeln(e);
-    exit(2);
+  if ( !hasFlavors ) {
+    try {
+      createIconsFromConfig(yamlConfig);
+    } catch (e) {
+      stderr.writeln(e);
+      exit(2);
+    }
+  } else {
+    try {
+      for (var flavor in flavors) {
+        final Map<String, dynamic> yamlConfig = loadConfigFile(flavorConfigFile(flavor), flavorConfigFile(flavor));
+        await createIconsFromConfig(yamlConfig, flavor);
+      }
+    } catch (e) {
+      stderr.writeln(e);
+      exit(2);
+    }
   }
 }
 
-Future<void> createIconsFromConfig(Map<String, dynamic> config) async {
+Future<void> createIconsFromConfig(Map<String, dynamic> config, [String flavor]) async {
   if (!isImagePathInConfig(config)) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
@@ -52,13 +83,13 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config) async {
   }
 
   if (isNeedingNewAndroidIcon(config)) {
-    android_launcher_icons.createDefaultIcons(config);
+    android_launcher_icons.createDefaultIcons(config, flavor);
   }
   if (hasAndroidAdaptiveConfig(config)) {
-    android_launcher_icons.createAdaptiveIcons(config);
+    android_launcher_icons.createAdaptiveIcons(config, flavor);
   }
   if (isNeedingNewIOSIcon(config)) {
-    ios_launcher_icons.createIcons(config);
+    ios_launcher_icons.createIcons(config, flavor);
   }
 }
 
