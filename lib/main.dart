@@ -13,7 +13,7 @@ const defaultConfigFile = "flutter_launcher_icons.yaml";
 
 createIconsFromArguments(List<String> arguments) async {
   var parser = ArgParser(allowTrailingOptions: true);
-  parser.addFlag("help", abbr: "h", help: "Usage help", negatable: false);
+  parser.addFlag(helpFlag, abbr: "h", help: "Usage help", negatable: false);
   // Make default null to differentiate when it is explicitly set
   parser.addOption(fileOption,
       abbr: "f", help: "Config file (default: $defaultConfigFile)");
