@@ -10,7 +10,7 @@ import 'package:flutter_launcher_icons/constants.dart';
 const fileOption = "file";
 const helpFlag = "help";
 const defaultConfigFile = "flutter_launcher_icons.yaml";
-const flavorConfigFilePattern = "\./flutter_launcher_icons-(.*).yaml";
+const flavorConfigFilePattern = "flutter_launcher_icons-(.*).yaml";
 
 String flavorConfigFile(String flavor) => "flutter_launcher_icons-$flavor.yaml";
 
