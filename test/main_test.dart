@@ -26,14 +26,14 @@ void main() {
 
   test('pubspec.yaml file exists', () async {
     String path = 'test/config/test_pubspec.yaml';
-    var config = await main_dart.loadConfigFile(path);
+    Map config = await main_dart.loadConfigFile(path);
     expect(config.length, isNotNull);
   });
 
   group('config file from args', () {
     // Create mini parser with only the wanted option, mocking the real one
-    final parser = ArgParser()..addOption(main_dart.fileOption, abbr: 'f');
-    final  testDir =
+    final ArgParser parser = ArgParser()..addOption(main_dart.fileOption, abbr: 'f');
+    final String testDir =
         join('.dart_tool', 'flutter_launcher_icons', 'test', 'config_file');
 
     String currentDirectory;
@@ -56,8 +56,8 @@ flutter_icons:
   android: true
   ios: false
 ''');
-      var argResults = parser.parse([]);
-      var config = await main_dart.loadConfigFileFromArgResults(argResults);
+      ArgResults argResults = parser.parse([]);
+      Map config = await main_dart.loadConfigFileFromArgResults(argResults);
       expect(config['flutter_icons']['android'], true);
     });
     test('default_use_pubspec', () async {
@@ -67,8 +67,8 @@ flutter_icons:
   android: true
   ios: false
 ''');
-      var argResults = parser.parse([]);
-      var config = await main_dart.loadConfigFileFromArgResults(argResults);
+      ArgResults argResults = parser.parse([]);
+      Map config = await main_dart.loadConfigFileFromArgResults(argResults);
       expect(config['flutter_icons']['ios'], false);
 
       // fails if forcing default file
@@ -84,8 +84,8 @@ flutter_icons:
   ios: true
 ''');
       // if no argument set, should fail
-      var argResults = parser.parse(['-f', 'custom.yaml']);
-      var config = await main_dart.loadConfigFileFromArgResults(argResults);
+      ArgResults argResults = parser.parse(['-f', 'custom.yaml']);
+      Map config = await main_dart.loadConfigFileFromArgResults(argResults);
       expect(config['flutter_icons']['ios'], true);
 
       // should fail if no argument

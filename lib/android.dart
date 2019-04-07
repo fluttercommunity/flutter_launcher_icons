@@ -47,7 +47,7 @@ void createDefaultIcons(Map flutterLauncherIconsConfig) {
   }
 }
 
-/// Ensures that the Android icon name is in the correct format 
+/// Ensures that the Android icon name is in the correct format
 bool isAndroidIconNameCorrectFormat(String iconName) {
   const String errorMessage = 'The icon name must contain only lowercase a-z, 0-9, or underscore: E.g. "ic_my_new_icon"';
   if (!RegExp(r"^[a-z0-9_]+$").hasMatch(iconName)) {
@@ -174,7 +174,7 @@ void updateColorsFile(File colorsFile, String backgroundColor) {
   // Write foreground color
   final List<String> lines = colorsFile.readAsLinesSync();
   bool foundExisting = false;
-  for (var x = 0; x < lines.length; x++) {
+  for (int x = 0; x < lines.length; x++) {
     String line = lines[x];
     if (line.contains("name=\"ic_launcher_background\"")) {
       foundExisting = true;
@@ -198,10 +198,7 @@ void updateColorsFile(File colorsFile, String backgroundColor) {
 /// bool - override the default flutter project icon
 bool isCustomAndroidFile(Map config) {
   dynamic androidConfig = config['android'];
-  if (androidConfig is String) {
-    return true;
-  }
-  return false;
+  return androidConfig is String;
 }
 
 /// return the new launcher icon file name
@@ -251,7 +248,7 @@ void saveNewImages(AndroidIconTemplate template, Image image, String iconFilePat
 Future<void> overwriteAndroidManifestWithNewLauncherIcon(String iconName) async {
   File androidManifestFile = File(constants.androidManifestFile);
   List<String> lines = await androidManifestFile.readAsLines();
-  for (var x = 0; x < lines.length; x++) {
+  for (int x = 0; x < lines.length; x++) {
     String line = lines[x];
     if (line.contains('android:icon')) {
       // Using RegExp replace the value of android:icon to point to the new icon
@@ -277,7 +274,7 @@ int minSdk() {
       return int.parse(minSdk);
     }
   }
-  return 0; //Didn't find minSdk, assume the worst
+  return 0; // Didn't find minSdk, assume the worst
 }
 
 /// Method for the retrieval of the Android icon path

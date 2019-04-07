@@ -12,12 +12,12 @@ const String helpFlag = "help";
 const String defaultConfigFile = "flutter_launcher_icons.yaml";
 
 void createIconsFromArguments(List<String> arguments) async {
-  var parser = ArgParser(allowTrailingOptions: true);
+  ArgParser parser = ArgParser(allowTrailingOptions: true);
   parser.addFlag(helpFlag, abbr: "h", help: "Usage help", negatable: false);
   // Make default null to differentiate when it is explicitly set
-  parser.addOption(
-      fileOption, abbr: "f", help: "Config file (default: $defaultConfigFile)");
-  var argResults = parser.parse(arguments);
+  parser.addOption(fileOption,
+      abbr: "f", help: "Config file (default: $defaultConfigFile)");
+  ArgResults argResults = parser.parse(arguments);
 
   if (argResults[helpFlag]) {
     stdout.writeln('Generates icons for iOS and Android');
@@ -26,12 +26,11 @@ void createIconsFromArguments(List<String> arguments) async {
   }
 
   // Load the config file
-  var yamlConfig =
-  await loadConfigFileFromArgResults(argResults, verbose: true);
-  if ((yamlConfig == null) || (!(yamlConfig["flutter_icons"] is Map))) {
-    stderr.writeln(NoConfigFoundException(
-        'Check that your config file `${argResults[fileOption] ??
-            defaultConfigFile}` has a `flutter_icons` section'));
+  Map yamlConfig = await loadConfigFileFromArgResults(argResults, verbose: true);
+  if (yamlConfig == null || !(yamlConfig["flutter_icons"] is Map)) {
+    stderr.writeln(NoConfigFoundException('Check that your config file '
+        '`${argResults[fileOption] ?? defaultConfigFile}`'
+        ' has a `flutter_icons` section'));
     exit(1);
   }
 
@@ -52,7 +51,7 @@ void createIconsFromConfig(Map yamlConfig) async {
   if (!hasAndroidOrIOSConfig(config)) {
     throw InvalidConfigException(errorMissingPlatform);
   }
-  var minSdk = android_launcher_icons.minSdk();
+  int minSdk = android_launcher_icons.minSdk();
   if (minSdk < 26 &&
       hasAndroidAdaptiveConfig(config) &&
       !hasAndroidConfig(config)) {
@@ -112,8 +111,7 @@ Map loadConfigFileFromArgResults(ArgResults argResults,
 Map loadConfigFile(String path) {
   File file = File(path);
   String yamlString = file.readAsStringSync();
-  Map config = loadYaml(yamlString);
-  return config;
+  return loadYaml(yamlString);
 }
 
 Map loadFlutterIconsConfig(Map config) {

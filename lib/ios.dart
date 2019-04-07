@@ -86,7 +86,7 @@ Image createResizedImage(IosIconTemplate template, Image image) {
 Future<void> changeIosLauncherIcon(String iconName) async {
   File iOSConfigFile = File(iosConfigFile);
   List<String> lines = await iOSConfigFile.readAsLines();
-  for (var x = 0; x < lines.length; x++) {
+  for (int x = 0; x < lines.length; x++) {
     String line = lines[x];
     if (line.contains('ASSETCATALOG')) {
       line = line.replaceAll(RegExp('\=(.*);'), '= ' + iconName + ';');
