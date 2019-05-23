@@ -1,5 +1,5 @@
-import 'package:flutter_launcher_icons/main.dart' as FlutterLauncherIcons;
+import 'package:flutter_launcher_icons/main.dart' as flutter_launcher_icons;
 
-main(List<String> arguments) {
-  FlutterLauncherIcons.createIconsFromArguments(arguments);
+void main(List<String> arguments) {
+  flutter_launcher_icons.createIconsFromArguments(arguments);
 }

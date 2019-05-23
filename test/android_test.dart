@@ -26,14 +26,14 @@ void main() {
   });
 
   test('Config contains string for generating new launcher icons', () {
-    Map flutterIconsConfig = {
+    final Map flutterIconsConfig = <String, dynamic>{
       "image_path": "assets/images/icon-710x599.png",
       "android": true,
       "ios": true
     };
     expect(Android.isCustomAndroidFile(flutterIconsConfig), false);
 
-    Map flutterIconsNewIconConfig = {
+    Map flutterIconsNewIconConfig = <String, dynamic>{
       "image_path": "assets/images/icon-710x599.png",
       "android": "New Icon",
       "ios": true
