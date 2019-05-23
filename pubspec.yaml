@@ -9,7 +9,7 @@ authors:
 - Mark O'Sullivan <mos182@hotmail.co.uk>
 
 dependencies: 
-  image: "^2.0.0"
+  image: "^2.1.1"
   args: "^1.5.0"
   dart_config:
       git:

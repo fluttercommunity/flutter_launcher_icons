@@ -203,12 +203,7 @@ String getNewIconName(config) {
  */
 overwriteExistingIcons(AndroidIconTemplate e, image, filename) {
   Image newFile;
-  if (image.width >= e.size) {
-    newFile = copyResize(image, e.size, -1, AVERAGE);
-  } else {
-    newFile = copyResize(image, e.size, -1, LINEAR);
-  }
-
+  newFile = copyResize(image, width: e.size, height: -1, interpolation: Interpolation.cubic);
   File(Constants.androidResFolder + e.directoryName + '/' + filename).create(recursive: true).then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
   });
@@ -219,12 +214,7 @@ overwriteExistingIcons(AndroidIconTemplate e, image, filename) {
  */
 saveNewImages(AndroidIconTemplate template, image, String iconFilePath) {
   Image newFile;
-  if (image.width >= template.size) {
-    newFile = copyResize(image, template.size, template.size, AVERAGE);
-  }
-  else {
-    newFile = copyResize(image, template.size, template.size, LINEAR);
-  }
+  newFile = copyResize(image, width: template.size, height: template.size, interpolation: Interpolation.cubic);
   File(Constants.androidResFolder + template.directoryName + '/' + iconFilePath).create(recursive: true).then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
   });
