@@ -197,7 +197,7 @@ void updateColorsFile(File colorsFile, String backgroundColor) {
 /// String - Generate new launcher icon with the string specified
 /// bool - override the default flutter project icon
 bool isCustomAndroidFile(Map config) {
-  Map androidConfig = config['android'];
+  dynamic androidConfig = config['android'];
   if (androidConfig is String) {
     return true;
   }
