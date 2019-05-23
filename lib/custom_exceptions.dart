@@ -1,4 +1,3 @@
-
 class InvalidAndroidIconNameException implements Exception {
   final String message;
   const InvalidAndroidIconNameException([this.message]);

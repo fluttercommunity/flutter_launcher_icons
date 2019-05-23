@@ -45,8 +45,8 @@ If you name your configuration file something other than `flutter_launcher_icons
 the name of the file when running the package.
 
 ```
-flutter packages get
-flutter packages pub run flutter_launcher_icons:main -f <your config file name here>
+flutter pub get
+flutter pub run flutter_launcher_icons:main -f <your config file name here>
 ```
 
 Note: If you are not using the existing `pubspec.yaml` ensure that your config file is located in the same directory as it.
@@ -56,8 +56,8 @@ Note: If you are not using the existing `pubspec.yaml` ensure that your config f
 After setting up the configuration, all that is left to do is run the package.
 
 ```
-flutter packages get
-flutter packages pub run flutter_launcher_icons:main
+flutter pub get
+flutter pub pub run flutter_launcher_icons:main
 ```
 
 If you encounter any issues [please report them here](https://github.com/fluttercommunity/flutter_launcher_icons/issues).

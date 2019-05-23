@@ -11,7 +11,10 @@ void main() {
     String path2 = "mipmap-anydpi-v26/";
     expect(Android.isCorrectMipmapDirectoryForAdaptiveIcon(path1), false);
     expect(Android.isCorrectMipmapDirectoryForAdaptiveIcon(path2), false);
-    expect(Android.isCorrectMipmapDirectoryForAdaptiveIcon(androidAdaptiveXmlFolder), true);
+    expect(
+        Android.isCorrectMipmapDirectoryForAdaptiveIcon(
+            androidAdaptiveXmlFolder),
+        true);
   });
 
   test('Correct number of adaptive foreground icons', () {
@@ -23,19 +26,29 @@ void main() {
   });
 
   test('Config contains string for generating new launcher icons', () {
-    Map flutterIconsConfig = {"image_path": "assets/images/icon-710x599.png",
-      "android": true, "ios": true};
+    Map flutterIconsConfig = {
+      "image_path": "assets/images/icon-710x599.png",
+      "android": true,
+      "ios": true
+    };
     expect(Android.isCustomAndroidFile(flutterIconsConfig), false);
 
-    Map flutterIconsNewIconConfig = {"image_path": "assets/images/icon-710x599.png",
-      "android": "New Icon", "ios": true};
+    Map flutterIconsNewIconConfig = {
+      "image_path": "assets/images/icon-710x599.png",
+      "android": "New Icon",
+      "ios": true
+    };
     expect(Android.isCustomAndroidFile(flutterIconsNewIconConfig), true);
   });
 
   test('Prioritise image_path_android over image_path', () {
-    Map flutterIconsNewIconConfig = {"image_path": "assets/images/icon-710x599.png",
+    Map flutterIconsNewIconConfig = {
+      "image_path": "assets/images/icon-710x599.png",
       "image_path_android": "assets/images/icon-android.png",
-      "android": "New Icon", "ios": true};
-    expect(Android.getAndroidIconPath(flutterIconsNewIconConfig), "assets/images/icon-android.png");
+      "android": "New Icon",
+      "ios": true
+    };
+    expect(Android.getAndroidIconPath(flutterIconsNewIconConfig),
+        "assets/images/icon-android.png");
   });
 }

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:args/args.dart';
-import 'package:dart_config/default_server.dart';
+import 'package:yaml/yaml.dart';
 import 'package:flutter_launcher_icons/android.dart' as AndroidLauncherIcons;
 import 'package:flutter_launcher_icons/ios.dart' as IOSLauncherIcons;
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
@@ -109,7 +109,9 @@ Future<Map> loadConfigFileFromArgResults(ArgResults argResults,
 }
 
 Future<Map> loadConfigFile(String path) async {
-  var config = await loadConfig(path);
+  File file = File(path);
+  String yamlString = file.readAsStringSync();
+  var config = loadYaml(yamlString);
   return config;
 }
 
@@ -149,7 +151,8 @@ bool hasAndroidAdaptiveConfig(Map flutterLauncherIconsConfig) {
 
 bool isMissingDefaultIconConfig(Map flutterLauncherIconsConfig) {
   var minSdk = AndroidLauncherIcons.minSdk();
-  if (minSdk < 26 && hasAndroidAdaptiveConfig(flutterLauncherIconsConfig) &&
+  if (minSdk < 26 &&
+      hasAndroidAdaptiveConfig(flutterLauncherIconsConfig) &&
       !hasAndroidConfig(flutterLauncherIconsConfig)) {
     throw InvalidConfigException(errorMissingRegularAndroid);
   }
