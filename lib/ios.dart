@@ -4,28 +4,28 @@ import 'package:image/image.dart';
 import 'package:flutter_launcher_icons/constants.dart';
 
 /// File to handle the creation of icons for iOS platform
-class IosIcon {
-  IosIcon({this.size, this.name});
+class IosIconTemplate {
+  IosIconTemplate({this.size, this.name});
   final String name;
   final int size;
 }
 
-List<IosIcon> iosIcons = [
-  IosIcon(name: '-20x20@1x', size: 20),
-  IosIcon(name: '-20x20@2x', size: 40),
-  IosIcon(name: '-20x20@3x', size: 60),
-  IosIcon(name: '-29x29@1x', size: 29),
-  IosIcon(name: '-29x29@2x', size: 58),
-  IosIcon(name: '-29x29@3x', size: 87),
-  IosIcon(name: '-40x40@1x', size: 40),
-  IosIcon(name: '-40x40@2x', size: 80),
-  IosIcon(name: '-40x40@3x', size: 120),
-  IosIcon(name: '-60x60@2x', size: 120),
-  IosIcon(name: '-60x60@3x', size: 180),
-  IosIcon(name: '-76x76@1x', size: 76),
-  IosIcon(name: '-76x76@2x', size: 152),
-  IosIcon(name: '-83.5x83.5@2x', size: 167),
-  IosIcon(name: '-1024x1024@1x', size: 1024),
+List<IosIconTemplate> iosIcons = [
+  IosIconTemplate(name: '-20x20@1x', size: 20),
+  IosIconTemplate(name: '-20x20@2x', size: 40),
+  IosIconTemplate(name: '-20x20@3x', size: 60),
+  IosIconTemplate(name: '-29x29@1x', size: 29),
+  IosIconTemplate(name: '-29x29@2x', size: 58),
+  IosIconTemplate(name: '-29x29@3x', size: 87),
+  IosIconTemplate(name: '-40x40@1x', size: 40),
+  IosIconTemplate(name: '-40x40@2x', size: 80),
+  IosIconTemplate(name: '-40x40@3x', size: 120),
+  IosIconTemplate(name: '-60x60@2x', size: 120),
+  IosIconTemplate(name: '-60x60@3x', size: 180),
+  IosIconTemplate(name: '-76x76@1x', size: 76),
+  IosIconTemplate(name: '-76x76@2x', size: 152),
+  IosIconTemplate(name: '-83.5x83.5@2x', size: 167),
+  IosIconTemplate(name: '-1024x1024@1x', size: 1024),
 ];
 
 void createIcons(Map config) {
@@ -38,7 +38,7 @@ void createIcons(Map config) {
   if (iosConfig is String) {
     final String newIconName = iosConfig;
     print('Adding new iOS launcher icon');
-    iosIcons.forEach((IosIcon icon) => saveNewIcons(icon, image, newIconName));
+    iosIcons.forEach((IosIconTemplate template) => saveNewIcons(template, image, newIconName));
     iconName = newIconName;
     changeIosLauncherIcon(iconName);
     modifyContentsFile(iconName);
@@ -47,30 +47,40 @@ void createIcons(Map config) {
   // update config file to use it
   else {
     print('Overwriting default iOS launcher icon with new icon');
-    iosIcons.forEach((IosIcon icon) => overwriteDefaultIcons(icon, image));
+    iosIcons.forEach((IosIconTemplate template) => overwriteDefaultIcons(template, image));
     iconName = iosDefaultIconName;
     changeIosLauncherIcon('AppIcon');
   }
 }
 
-void overwriteDefaultIcons(IosIcon icon, Image image) {
-  Image newFile;
-  newFile = copyResize(image,
-      width: icon.size, height: icon.size, interpolation: Interpolation.cubic);
-  File(iosDefaultIconFolder + iosDefaultIconName + icon.name + '.png')
+/// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
+/// interpolation)
+/// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
+void overwriteDefaultIcons(IosIconTemplate template, Image image) {
+  final Image newFile = createResizedImage(template, image);
+  File(iosDefaultIconFolder + iosDefaultIconName + template.name + '.png')
     ..writeAsBytesSync(encodePng(newFile));
 }
 
-void saveNewIcons(IosIcon icon, Image image, String newIconName) {
+/// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
+/// interpolation)
+/// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
+void saveNewIcons(IosIconTemplate template, Image image, String newIconName) {
   final String newIconFolder = iosAssetFolder + newIconName + '.appiconset/';
-  Image newFile;
-  newFile = copyResize(image,
-      width: icon.size, height: icon.size, interpolation: Interpolation.cubic);
-  File(newIconFolder + newIconName + icon.name + '.png')
+  final Image newFile = createResizedImage(template, image);
+  File(newIconFolder + newIconName + template.name + '.png')
       .create(recursive: true)
       .then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
   });
+}
+
+Image createResizedImage(IosIconTemplate template, Image image) {
+  if (image.width >= template.size) {
+    return copyResize(image, width: template.size, height: template.size, interpolation: Interpolation.average);
+  } else {
+    return copyResize(image, width: template.size, height: template.size, interpolation: Interpolation.linear);
+  }
 }
 
 Future<void> changeIosLauncherIcon(String iconName) async {

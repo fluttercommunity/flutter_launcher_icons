@@ -62,11 +62,11 @@ void createAdaptiveIcons(Map flutterLauncherIconsConfig) {
 
   // Retrieve the necessary Flutter Launcher Icons configuration from the pubspec.yaml file
   String backgroundConfig =
-      flutterLauncherIconsConfig['adaptive_icon_background'];
+  flutterLauncherIconsConfig['adaptive_icon_background'];
   String foregroundImagePath =
-      flutterLauncherIconsConfig['adaptive_icon_foreground'];
+  flutterLauncherIconsConfig['adaptive_icon_foreground'];
   Image foregroundImage =
-      decodeImage(File(foregroundImagePath).readAsBytesSync());
+  decodeImage(File(foregroundImagePath).readAsBytesSync());
 
   // Create adaptive icon foreground images
   adaptiveForegroundIcons.forEach((AndroidIconTemplate androidIcon) =>
@@ -108,16 +108,16 @@ void updateColorsXmlFile(String backgroundConfig) {
 void createAdaptiveIconMipmapXmlFile(Map flutterLauncherIconsConfig) {
   if (isCustomAndroidFile(flutterLauncherIconsConfig)) {
     File(constants.androidAdaptiveXmlFolder +
-            getNewIconName(flutterLauncherIconsConfig) +
-            '.xml')
+        getNewIconName(flutterLauncherIconsConfig) +
+        '.xml')
         .create(recursive: true)
         .then((File adaptiveIcon) {
       adaptiveIcon.writeAsString(xml_template.icLauncherXml);
     });
   } else {
     File(constants.androidAdaptiveXmlFolder +
-            constants.androidDefaultIconName +
-            '.xml')
+        constants.androidDefaultIconName +
+        '.xml')
         .create(recursive: true)
         .then((File adaptiveIcon) {
       adaptiveIcon.writeAsString(xml_template.icLauncherXml);
@@ -141,16 +141,16 @@ void createAdaptiveBackgrounds(
   // FILE LOCATED HERE:  res/mipmap-anydpi/{icon-name-from-yaml-config}.xml
   if (isCustomAndroidFile(yamlConfig)) {
     File(constants.androidAdaptiveXmlFolder +
-            getNewIconName(yamlConfig) +
-            '.xml')
+        getNewIconName(yamlConfig) +
+        '.xml')
         .create(recursive: true)
         .then((File adaptiveIcon) {
       adaptiveIcon.writeAsString(xml_template.icLauncherDrawableBackgroundXml);
     });
   } else {
     File(constants.androidAdaptiveXmlFolder +
-            constants.androidDefaultIconName +
-            '.xml')
+        constants.androidDefaultIconName +
+        '.xml')
         .create(recursive: true)
         .then((File adaptiveIcon) {
       adaptiveIcon.writeAsString(xml_template.icLauncherDrawableBackgroundXml);
@@ -210,11 +210,17 @@ String getNewIconName(Map config) {
 }
 
 /// Overrides the existing launcher icons in the project
-void overwriteExistingIcons(AndroidIconTemplate e, Image image, String filename) {
+/// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
+/// interpolation)
+/// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
+void overwriteExistingIcons(AndroidIconTemplate template, Image image, String filename) {
   Image newFile;
-  newFile = copyResize(image,
-      width: e.size, height: -1, interpolation: Interpolation.cubic);
-  File(constants.androidResFolder + e.directoryName + '/' + filename)
+  if (image.width > template.size) {
+    newFile = copyResize(image, width: template.size, height: -1, interpolation: Interpolation.average);
+  } else {
+    newFile = copyResize(image, width: template.size, height: -1, interpolation: Interpolation.linear);
+  }
+  File(constants.androidResFolder + template.directoryName + '/' + filename)
       .create(recursive: true)
       .then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
@@ -222,12 +228,15 @@ void overwriteExistingIcons(AndroidIconTemplate e, Image image, String filename)
 }
 
 /// Saves new launcher icons to the project, keeping the old launcher icons.
+/// Note: Do not change interpolation unless you end up with better results
+/// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
 void saveNewImages(AndroidIconTemplate template, Image image, String iconFilePath) {
   Image newFile;
-  newFile = copyResize(image,
-      width: template.size,
-      height: template.size,
-      interpolation: Interpolation.cubic);
+  if (image.width >= template.size) {
+    newFile = copyResize(image, width: template.size, height: template.size, interpolation: Interpolation.average);
+  } else {
+    newFile = copyResize(image, width: template.size, height: template.size, interpolation: Interpolation.linear);
+  }
   File(constants.androidResFolder + template.directoryName + '/' + iconFilePath)
       .create(recursive: true)
       .then((File file) {
