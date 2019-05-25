@@ -211,7 +211,7 @@ String getNewIconName(Map config) {
 
 /// Overrides the existing launcher icons in the project
 /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
-/// interpolation)  
+/// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
 void overwriteExistingIcons(AndroidIconTemplate template, Image image, String filename) {
   Image newFile;
