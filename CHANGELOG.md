@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.2 (25th May 2019)
+
+- Reverted back using old interpolation method
+
+
 ## 0.7.1 (24th May 2019)
 
 - Fixed issue with image dependency not working on latest version of Flutter (thanks to @sboutet06)

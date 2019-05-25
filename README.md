@@ -9,6 +9,9 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
 ## :sparkles: What's New
 
+#### Version 0.7.2 (25th May 2019)
+ * Reverted back using old interpolation method
+
 #### Version 0.7.1 (24th May 2019)
  * Fixed issue with image dependency not working on latest version of Flutter (thanks to @sboutet06)
  * Fixed iOS icon sizes which were incorrect (thanks to @sestegra)
@@ -39,7 +42,7 @@ Add your Flutter Launcher Icons configuration to your `pubspec.yaml` or create a
 An example is shown below. A more complex example [can be found in the example project](https://github.com/fluttercommunity/flutter_launcher_icons/blob/master/example/pubspec.yaml).
 ```yaml
 dev_dependencies: 
-  flutter_launcher_icons: "^0.7.1"
+  flutter_launcher_icons: "^0.7.2"
   
 flutter_icons:
   android: "launcher_icon" 
@@ -97,6 +100,29 @@ be used to fill out the background of the adaptive icon.
 - `adaptive_icon_foreground`: The image asset which will be used for the icon foreground of the adaptive icon
 
 
+## :question: Troubleshooting
+
+Listed a couple common issues with solutions for them
+
+
+#### Generated icon color is different from the original icon
+
+Caused by an update to the image dependency which is used by Flutter Launcher Icons. 
+
+```
+Use #AARRGGBB for colors instead of ##AABBGGRR, to be compatible with Flutter image class.
+```
+
+[Related issue](https://github.com/fluttercommunity/flutter_launcher_icons/issues/98)
+
+
+#### Image foreground is too big / too small
+
+For best results try and use a foreground image which has padding much like [the one in the example](https://github.com/fluttercommunity/flutter_launcher_icons/blob/master/example/assets/images/icon-foreground-432x432.png).
+
+[Related issue](https://github.com/fluttercommunity/flutter_launcher_icons/issues/96)
+ 
+
 ## :eyes: Example
 
 [![Video Example](https://img.youtube.com/vi/RjNAxwcP3Tc/0.jpg)](https://www.youtube.com/watch?v=RjNAxwcP3Tc)
@@ -105,5 +131,5 @@ Note: This is showing a very old version (v0.0.5)
 
 ### Special thanks
 
-- Thanks to Brendan Duncan for the underlying image package to transform the pics. 
+- Thanks to Brendan Duncan for the underlying [image package](https://pub.dev/packages/image) to transform the icons. 
 - Big thank you to all the contributors to the project. Every PR / reported issue is greatly appreciated! 
