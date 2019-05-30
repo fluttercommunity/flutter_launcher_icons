@@ -1,6 +1,6 @@
 class InvalidAndroidIconNameException implements Exception {
-  final String message;
   const InvalidAndroidIconNameException([this.message]);
+  final String message;
 
   @override
   String toString() {
@@ -11,8 +11,8 @@ class InvalidAndroidIconNameException implements Exception {
 }
 
 class InvalidConfigException implements Exception {
-  final String message;
   const InvalidConfigException([this.message]);
+  final String message;
 
   @override
   String toString() {
@@ -23,8 +23,8 @@ class InvalidConfigException implements Exception {
 }
 
 class NoConfigFoundException implements Exception {
-  final String message;
   const NoConfigFoundException([this.message]);
+  final String message;
 
   @override
   String toString() {
