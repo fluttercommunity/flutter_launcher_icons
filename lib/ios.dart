@@ -109,10 +109,10 @@ void modifyContentsFile(String newIconName) {
 }
 
 String generateContentsFileAsString(String newIconName) {
-  Map contentJson = Map<dynamic, dynamic>();
-  contentJson['images'] = createImageList(newIconName);
-  contentJson['info'] =
-      ContentsInfoObject(version: 1, author: 'xcode').toJson();
+  Map<String, dynamic> contentJson = <String, dynamic>{
+    'images': createImageList(newIconName),
+    'info': ContentsInfoObject(version: 1, author: 'xcode').toJson()
+  };
   return json.encode(contentJson);
 }
 
@@ -123,14 +123,13 @@ class ContentsImageObject {
   final String filename;
   final String scale;
 
-
-  Map toJson() {
-    Map map = Map<dynamic, dynamic>();
-    map['size'] = size;
-    map['idiom'] = idiom;
-    map['filename'] = filename;
-    map['scale'] = scale;
-    return map;
+  Map<String, String> toJson() {
+    return <String, String>{
+      'size': size,
+      'idiom': idiom,
+      'filename': filename,
+      'scale': scale
+    };
   }
 }
 
@@ -139,12 +138,11 @@ class ContentsInfoObject {
   final int version;
   final String author;
 
-
-  Map toJson() {
-    Map map = Map<dynamic, dynamic>();
-    map['version'] = version;
-    map['author'] = author;
-    return map;
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'version': version,
+      'author': author,
+    };
   }
 }
 
