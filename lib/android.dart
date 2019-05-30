@@ -50,7 +50,7 @@ void createDefaultIcons(Map flutterLauncherIconsConfig) {
 /// Ensures that the Android icon name is in the correct format
 bool isAndroidIconNameCorrectFormat(String iconName) {
   const String errorMessage = 'The icon name must contain only lowercase a-z, 0-9, or underscore: E.g. "ic_my_new_icon"';
-  if (!RegExp(r"^[a-z0-9_]+$").hasMatch(iconName)) {
+  if (!RegExp(r'^[a-z0-9_]+$').hasMatch(iconName)) {
     throw const InvalidAndroidIconNameException(
         errorMessage);
   }
@@ -176,9 +176,9 @@ void updateColorsFile(File colorsFile, String backgroundColor) {
   bool foundExisting = false;
   for (int x = 0; x < lines.length; x++) {
     String line = lines[x];
-    if (line.contains("name=\"ic_launcher_background\"")) {
+    if (line.contains('name="ic_launcher_background"')) {
       foundExisting = true;
-      line = line.replaceAll(RegExp('>(.*)<'), ">$backgroundColor<");
+      line = line.replaceAll(RegExp('>(.*)<'), '>$backgroundColor<');
       lines[x] = line;
       break;
     }
@@ -187,10 +187,10 @@ void updateColorsFile(File colorsFile, String backgroundColor) {
   // Add new line if we didn't find an existing value
   if (!foundExisting) {
     lines.insert(lines.length - 1,
-        "\t<color name=\"ic_launcher_background\">${backgroundColor}</color>");
+        '\t<color name="ic_launcher_background">${backgroundColor}</color>');
   }
 
-  colorsFile.writeAsStringSync(lines.join("\n"));
+  colorsFile.writeAsStringSync(lines.join('\n'));
 }
 
 /// Check to see if specified Android config is a string or bool
@@ -252,7 +252,7 @@ Future<void> overwriteAndroidManifestWithNewLauncherIcon(String iconName) async 
     String line = lines[x];
     if (line.contains('android:icon')) {
       // Using RegExp replace the value of android:icon to point to the new icon
-      line = line.replaceAll(RegExp('android:icon=\"([^*]|(\"+([^"/]|)))*\"'),
+      line = line.replaceAll(RegExp('android:icon="([^*]|("+([^"/]|)))*"'),
           'android:icon="@mipmap/' + iconName + '"');
       lines[x] = line;
       lines.add(
@@ -269,7 +269,7 @@ int minSdk() {
   for (int x = 0; x < lines.length; x++) {
     String line = lines[x];
     if (line.contains('minSdkVersion')) {
-      String minSdk = line.replaceAll(RegExp("[^\\d]"), "");
+      String minSdk = line.replaceAll(RegExp('[^\\d]'), '');
       print('Android minSdkVersion = $minSdk');
       return int.parse(minSdk);
     }
@@ -286,7 +286,7 @@ String getAndroidIconPath(Map config) {
 
 /// Returns true if the adaptive icon configuration is a PNG image
 bool isAdaptiveIconConfigPngFile(String backgroundFile) {
-  if (backgroundFile.endsWith(".png")) {
+  if (backgroundFile.endsWith('.png')) {
     return true;
   }
   return false;
@@ -298,7 +298,7 @@ bool isAdaptiveIconConfigPngFile(String backgroundFile) {
 /// Android 8.0 (API level 26) in res/mipmap-anydpi/ic_launcher.xml"
 /// Source: https://developer.android.com/guide/practices/ui_guidelines/icon_design_adaptive
 bool isCorrectMipmapDirectoryForAdaptiveIcon(String path) {
-  if (path != "android/app/src/main/res/mipmap-anydpi-v26/") {
+  if (path != 'android/app/src/main/res/mipmap-anydpi-v26/') {
     return false;
   } else {
     return true;

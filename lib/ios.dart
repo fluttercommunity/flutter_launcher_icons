@@ -91,10 +91,10 @@ Future<void> changeIosLauncherIcon(String iconName) async {
     if (line.contains('ASSETCATALOG')) {
       line = line.replaceAll(RegExp('\=(.*);'), '= ' + iconName + ';');
       lines[x] = line;
-      lines[lines.length - 1] = "}\n";
+      lines[lines.length - 1] = '}\n';
     }
   }
-  final String entireFile = lines.join("\n");
+  final String entireFile = lines.join('\n');
   iOSConfigFile.writeAsString(entireFile);
 }
 
