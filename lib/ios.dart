@@ -10,7 +10,7 @@ class IosIconTemplate {
   final int size;
 }
 
-List<IosIconTemplate> iosIcons = [
+List<IosIconTemplate> iosIcons = <IosIconTemplate>[
   IosIconTemplate(name: '-20x20@1x', size: 20),
   IosIconTemplate(name: '-20x20@2x', size: 40),
   IosIconTemplate(name: '-20x20@3x', size: 60),
@@ -147,7 +147,7 @@ class ContentsInfoObject {
 }
 
 List<Map> createImageList(String fileNamePrefix) {
-  List<Map> imageList = [
+  List<Map<String, String>> imageList = <Map<String, String>>[
     ContentsImageObject(
             size: '20x20',
             idiom: 'iphone',
