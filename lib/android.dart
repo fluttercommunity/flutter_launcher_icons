@@ -286,10 +286,7 @@ String getAndroidIconPath(Map config) {
 
 /// Returns true if the adaptive icon configuration is a PNG image
 bool isAdaptiveIconConfigPngFile(String backgroundFile) {
-  if (backgroundFile.endsWith('.png')) {
-    return true;
-  }
-  return false;
+  return backgroundFile.endsWith('.png');
 }
 
 /// (NOTE THIS IS JUST USED FOR UNIT TEST)
@@ -298,9 +295,5 @@ bool isAdaptiveIconConfigPngFile(String backgroundFile) {
 /// Android 8.0 (API level 26) in res/mipmap-anydpi/ic_launcher.xml"
 /// Source: https://developer.android.com/guide/practices/ui_guidelines/icon_design_adaptive
 bool isCorrectMipmapDirectoryForAdaptiveIcon(String path) {
-  if (path != 'android/app/src/main/res/mipmap-anydpi-v26/') {
-    return false;
-  } else {
-    return true;
-  }
+  return path == 'android/app/src/main/res/mipmap-anydpi-v26/';
 }
