@@ -93,16 +93,14 @@ void createAdaptiveIcons(Map flutterLauncherIconsConfig) {
 /// background is included in the new colors.xml file.
 void updateColorsXmlFile(String backgroundConfig) {
   final File colorsXml = File(constants.androidColorsFile);
-  colorsXml.exists().then((bool isColorsXmlAlreadyInProject) {
-    if (isColorsXmlAlreadyInProject) {
-      print('Updating colors.xml with color for adaptive icon background');
-      updateColorsFile(colorsXml, backgroundConfig);
-    } else {
-      print('No colors.xml file found in your Android project');
-      print('Creating colors.xml file and adding it to your Android project');
-      createNewColorsFile(backgroundConfig);
-    }
-  });
+  if (colorsXml.existsSync()) {
+    print('Updating colors.xml with color for adaptive icon background');
+    updateColorsFile(colorsXml, backgroundConfig);
+  } else {
+    print('No colors.xml file found in your Android project');
+    print('Creating colors.xml file and adding it to your Android project');
+    createNewColorsFile(backgroundConfig);
+  }
 }
 
 /// Creates the xml file required for the adaptive launcher icon
