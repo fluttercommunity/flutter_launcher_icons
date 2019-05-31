@@ -35,13 +35,15 @@ void createDefaultIcons(Map flutterLauncherIconsConfig) {
     String iconName = getNewIconName(flutterLauncherIconsConfig);
     isAndroidIconNameCorrectFormat(iconName);
     String iconPath = iconName + '.png';
-    androidIcons.forEach((AndroidIconTemplate template) =>
-        saveNewImages(template, image, iconPath));
+    for (AndroidIconTemplate template in androidIcons) {
+      saveNewImages(template, image, iconPath);
+    }
     overwriteAndroidManifestWithNewLauncherIcon(iconName);
   } else {
     print('Overwriting the default Android launcher icon with a new icon');
-    androidIcons.forEach((AndroidIconTemplate e) =>
-        overwriteExistingIcons(e, image, constants.androidFileName));
+    for (AndroidIconTemplate template in androidIcons) {
+      overwriteExistingIcons(template, image, constants.androidFileName);
+    }
     overwriteAndroidManifestWithNewLauncherIcon(
         constants.androidDefaultIconName);
   }
@@ -69,9 +71,9 @@ void createAdaptiveIcons(Map flutterLauncherIconsConfig) {
   decodeImage(File(foregroundImagePath).readAsBytesSync());
 
   // Create adaptive icon foreground images
-  adaptiveForegroundIcons.forEach((AndroidIconTemplate androidIcon) =>
-      overwriteExistingIcons(androidIcon, foregroundImage,
-          constants.androidAdaptiveForegroundFileName));
+  for (AndroidIconTemplate androidIcon in adaptiveForegroundIcons) {
+    overwriteExistingIcons(androidIcon, foregroundImage, constants.androidAdaptiveForegroundFileName);
+  }
 
   // Create adaptive icon background
   if (isAdaptiveIconConfigPngFile(backgroundConfig)) {
@@ -133,9 +135,9 @@ void createAdaptiveBackgrounds(
 
   // creates a png image (ic_adaptive_background.png) for the adaptive icon background in each of the locations
   // it is required
-  adaptiveForegroundIcons.forEach((AndroidIconTemplate androidIcon) =>
-      saveNewImages(
-          androidIcon, image, constants.androidAdaptiveBackgroundFileName));
+  for (AndroidIconTemplate androidIcon in adaptiveForegroundIcons) {
+    saveNewImages(androidIcon, image, constants.androidAdaptiveBackgroundFileName);
+  }
 
   // Creates the xml file required for the adaptive launcher icon
   // FILE LOCATED HERE:  res/mipmap-anydpi/{icon-name-from-yaml-config}.xml

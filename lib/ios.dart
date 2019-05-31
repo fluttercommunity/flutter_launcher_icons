@@ -38,7 +38,9 @@ void createIcons(Map config) {
   if (iosConfig is String) {
     final String newIconName = iosConfig;
     print('Adding new iOS launcher icon');
-    iosIcons.forEach((IosIconTemplate template) => saveNewIcons(template, image, newIconName));
+    for (IosIconTemplate template in iosIcons) {
+      saveNewIcons(template, image, newIconName);
+    }
     iconName = newIconName;
     changeIosLauncherIcon(iconName);
     modifyContentsFile(iconName);
@@ -47,7 +49,9 @@ void createIcons(Map config) {
   // update config file to use it
   else {
     print('Overwriting default iOS launcher icon with new icon');
-    iosIcons.forEach((IosIconTemplate template) => overwriteDefaultIcons(template, image));
+    for (IosIconTemplate template in iosIcons) {
+      overwriteDefaultIcons(template, image);
+    }
     iconName = iosDefaultIconName;
     changeIosLauncherIcon('AppIcon');
   }
