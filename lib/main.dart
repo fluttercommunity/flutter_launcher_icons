@@ -12,12 +12,12 @@ const String helpFlag = 'help';
 const String defaultConfigFile = 'flutter_launcher_icons.yaml';
 
 Future<void> createIconsFromArguments(List<String> arguments) async {
-  ArgParser parser = ArgParser(allowTrailingOptions: true);
+  final ArgParser parser = ArgParser(allowTrailingOptions: true);
   parser.addFlag(helpFlag, abbr: 'h', help: 'Usage help', negatable: false);
   // Make default null to differentiate when it is explicitly set
   parser.addOption(fileOption,
       abbr: 'f', help: 'Config file (default: $defaultConfigFile)');
-  ArgResults argResults = parser.parse(arguments);
+  final ArgResults argResults = parser.parse(arguments);
 
   if (argResults[helpFlag]) {
     stdout.writeln('Generates icons for iOS and Android');
@@ -26,7 +26,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   }
 
   // Load the config file
-  Map yamlConfig = loadConfigFileFromArgResults(argResults, verbose: true);
+  final Map yamlConfig = loadConfigFileFromArgResults(argResults, verbose: true);
   if (yamlConfig == null || !(yamlConfig['flutter_icons'] is Map)) {
     stderr.writeln(NoConfigFoundException('Check that your config file '
         '`${argResults[fileOption] ?? defaultConfigFile}`'
@@ -44,14 +44,14 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
 }
 
 Future<void> createIconsFromConfig(Map yamlConfig) async {
-  Map config = loadFlutterIconsConfig(yamlConfig);
+  final Map config = loadFlutterIconsConfig(yamlConfig);
   if (!isImagePathInConfig(config)) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
   if (!hasAndroidOrIOSConfig(config)) {
     throw const InvalidConfigException(errorMissingPlatform);
   }
-  int minSdk = android_launcher_icons.minSdk();
+  final int minSdk = android_launcher_icons.minSdk();
   if (minSdk < 26 &&
       hasAndroidAdaptiveConfig(config) &&
       !hasAndroidConfig(config)) {
@@ -72,7 +72,7 @@ Future<void> createIconsFromConfig(Map yamlConfig) async {
 Map loadConfigFileFromArgResults(ArgResults argResults,
     {bool verbose}) {
   verbose ??= false;
-  String configFile = argResults[fileOption];
+  final String configFile = argResults[fileOption];
 
   Map yamlConfig;
   // If none set try flutter_launcher_icons.yaml first then pubspec.yaml
@@ -109,8 +109,8 @@ Map loadConfigFileFromArgResults(ArgResults argResults,
 }
 
 Map loadConfigFile(String path) {
-  File file = File(path);
-  String yamlString = file.readAsStringSync();
+  final File file = File(path);
+  final String yamlString = file.readAsStringSync();
   return loadYaml(yamlString);
 }
 

@@ -5,8 +5,8 @@ import 'package:flutter_launcher_icons/constants.dart';
 // unit tests for android.dart
 void main() {
   test('Adaptive icon mipmap path is correct', () {
-    String path1 = 'android/app/src/main/res/';
-    String path2 = 'mipmap-anydpi-v26/';
+    const String path1 = 'android/app/src/main/res/';
+    const String path2 = 'mipmap-anydpi-v26/';
     expect(android.isCorrectMipmapDirectoryForAdaptiveIcon(path1), false);
     expect(android.isCorrectMipmapDirectoryForAdaptiveIcon(path2), false);
     expect(

@@ -32,7 +32,7 @@ void createIcons(Map config) {
   final String filePath = config['image_path_ios'] ?? config['image_path'];
   final Image image = decodeImage(File(filePath).readAsBytesSync());
   String iconName;
-  dynamic iosConfig = config['ios'];
+  final dynamic iosConfig = config['ios'];
   // If the IOS configuration is a string then the user has specified a new icon to be created
   // and for the old icon file to be kept
   if (iosConfig is String) {
@@ -88,8 +88,8 @@ Image createResizedImage(IosIconTemplate template, Image image) {
 }
 
 Future<void> changeIosLauncherIcon(String iconName) async {
-  File iOSConfigFile = File(iosConfigFile);
-  List<String> lines = await iOSConfigFile.readAsLines();
+  final File iOSConfigFile = File(iosConfigFile);
+  final List<String> lines = await iOSConfigFile.readAsLines();
   for (int x = 0; x < lines.length; x++) {
     String line = lines[x];
     if (line.contains('ASSETCATALOG')) {
@@ -113,7 +113,7 @@ void modifyContentsFile(String newIconName) {
 }
 
 String generateContentsFileAsString(String newIconName) {
-  Map<String, dynamic> contentJson = <String, dynamic>{
+  final Map<String, dynamic> contentJson = <String, dynamic>{
     'images': createImageList(newIconName),
     'info': ContentsInfoObject(version: 1, author: 'xcode').toJson()
   };
@@ -151,7 +151,7 @@ class ContentsInfoObject {
 }
 
 List<Map> createImageList(String fileNamePrefix) {
-  List<Map<String, String>> imageList = <Map<String, String>>[
+  final List<Map<String, String>> imageList = <Map<String, String>>[
     ContentsImageObject(
             size: '20x20',
             idiom: 'iphone',

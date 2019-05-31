@@ -28,13 +28,13 @@ List<AndroidIconTemplate> androidIcons = <AndroidIconTemplate>[
 
 void createDefaultIcons(Map flutterLauncherIconsConfig) {
   print('Creating default icons Android');
-  String filePath = getAndroidIconPath(flutterLauncherIconsConfig);
-  Image image = decodeImage(File(filePath).readAsBytesSync());
+  final String filePath = getAndroidIconPath(flutterLauncherIconsConfig);
+  final Image image = decodeImage(File(filePath).readAsBytesSync());
   if (isCustomAndroidFile(flutterLauncherIconsConfig)) {
     print('Adding a new Android launcher icon');
-    String iconName = getNewIconName(flutterLauncherIconsConfig);
+    final String iconName = getNewIconName(flutterLauncherIconsConfig);
     isAndroidIconNameCorrectFormat(iconName);
-    String iconPath = iconName + '.png';
+    final String iconPath = iconName + '.png';
     for (AndroidIconTemplate template in androidIcons) {
       saveNewImages(template, image, iconPath);
     }
@@ -63,11 +63,11 @@ void createAdaptiveIcons(Map flutterLauncherIconsConfig) {
   print('Creating adaptive icons Android');
 
   // Retrieve the necessary Flutter Launcher Icons configuration from the pubspec.yaml file
-  String backgroundConfig =
+  final String backgroundConfig =
   flutterLauncherIconsConfig['adaptive_icon_background'];
-  String foregroundImagePath =
+  final String foregroundImagePath =
   flutterLauncherIconsConfig['adaptive_icon_foreground'];
-  Image foregroundImage =
+  final Image foregroundImage =
   decodeImage(File(foregroundImagePath).readAsBytesSync());
 
   // Create adaptive icon foreground images
@@ -130,8 +130,8 @@ void createAdaptiveIconMipmapXmlFile(Map flutterLauncherIconsConfig) {
 /// creates adaptive background using png image
 void createAdaptiveBackgrounds(
     Map yamlConfig, String adaptiveIconBackgroundImagePath) {
-  String filePath = adaptiveIconBackgroundImagePath;
-  Image image = decodeImage(File(filePath).readAsBytesSync());
+  final String filePath = adaptiveIconBackgroundImagePath;
+  final Image image = decodeImage(File(filePath).readAsBytesSync());
 
   // creates a png image (ic_adaptive_background.png) for the adaptive icon background in each of the locations
   // it is required
@@ -199,7 +199,7 @@ void updateColorsFile(File colorsFile, String backgroundColor) {
 /// String - Generate new launcher icon with the string specified
 /// bool - override the default flutter project icon
 bool isCustomAndroidFile(Map config) {
-  dynamic androidConfig = config['android'];
+  final dynamic androidConfig = config['android'];
   return androidConfig is String;
 }
 
@@ -248,8 +248,8 @@ void saveNewImages(AndroidIconTemplate template, Image image, String iconFilePat
 ///
 /// Note: default iconName = "ic_launcher"
 Future<void> overwriteAndroidManifestWithNewLauncherIcon(String iconName) async {
-  File androidManifestFile = File(constants.androidManifestFile);
-  List<String> lines = await androidManifestFile.readAsLines();
+  final File androidManifestFile = File(constants.androidManifestFile);
+  final List<String> lines = await androidManifestFile.readAsLines();
   for (int x = 0; x < lines.length; x++) {
     String line = lines[x];
     if (line.contains('android:icon')) {
@@ -267,11 +267,11 @@ Future<void> overwriteAndroidManifestWithNewLauncherIcon(String iconName) async 
 /// Retrieves the minSdk value from the Android build.gradle file
 int minSdk() {
   final File androidGradleFile = File(constants.androidGradleFile);
-  List<String> lines = androidGradleFile.readAsLinesSync();
+  final List<String> lines = androidGradleFile.readAsLinesSync();
   for (int x = 0; x < lines.length; x++) {
     String line = lines[x];
     if (line.contains('minSdkVersion')) {
-      String minSdk = line.replaceAll(RegExp('[^\\d]'), '');
+      final String minSdk = line.replaceAll(RegExp('[^\\d]'), '');
       print('Android minSdkVersion = $minSdk');
       return int.parse(minSdk);
     }
