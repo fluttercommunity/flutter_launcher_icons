@@ -46,16 +46,16 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
 Future<void> createIconsFromConfig(Map yamlConfig) async {
   Map config = loadFlutterIconsConfig(yamlConfig);
   if (!isImagePathInConfig(config)) {
-    throw InvalidConfigException(errorMissingImagePath);
+    throw const InvalidConfigException(errorMissingImagePath);
   }
   if (!hasAndroidOrIOSConfig(config)) {
-    throw InvalidConfigException(errorMissingPlatform);
+    throw const InvalidConfigException(errorMissingPlatform);
   }
   int minSdk = android_launcher_icons.minSdk();
   if (minSdk < 26 &&
       hasAndroidAdaptiveConfig(config) &&
       !hasAndroidConfig(config)) {
-    throw InvalidConfigException(errorMissingRegularAndroid);
+    throw const InvalidConfigException(errorMissingRegularAndroid);
   }
 
   if (isNeedingNewAndroidIcon(config)) {
