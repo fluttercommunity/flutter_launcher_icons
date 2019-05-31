@@ -51,10 +51,9 @@ void createDefaultIcons(Map flutterLauncherIconsConfig) {
 
 /// Ensures that the Android icon name is in the correct format
 bool isAndroidIconNameCorrectFormat(String iconName) {
-  const String errorMessage = 'The icon name must contain only lowercase a-z, 0-9, or underscore: E.g. "ic_my_new_icon"';
   if (!RegExp(r'^[a-z0-9_]+$').hasMatch(iconName)) {
     throw const InvalidAndroidIconNameException(
-        errorMessage);
+        constants.errorIncorrectIconName);
   }
   return true;
 }
