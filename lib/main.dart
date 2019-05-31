@@ -11,7 +11,7 @@ const String fileOption = 'file';
 const String helpFlag = 'help';
 const String defaultConfigFile = 'flutter_launcher_icons.yaml';
 
-void createIconsFromArguments(List<String> arguments) async {
+Future<void> createIconsFromArguments(List<String> arguments) async {
   ArgParser parser = ArgParser(allowTrailingOptions: true);
   parser.addFlag(helpFlag, abbr: 'h', help: 'Usage help', negatable: false);
   // Make default null to differentiate when it is explicitly set
@@ -43,7 +43,7 @@ void createIconsFromArguments(List<String> arguments) async {
   }
 }
 
-void createIconsFromConfig(Map yamlConfig) async {
+Future<void> createIconsFromConfig(Map yamlConfig) async {
   Map config = loadFlutterIconsConfig(yamlConfig);
   if (!isImagePathInConfig(config)) {
     throw InvalidConfigException(errorMissingImagePath);

@@ -37,7 +37,7 @@ void main() {
         join('.dart_tool', 'flutter_launcher_icons', 'test', 'config_file');
 
     String currentDirectory;
-    setCurrentDirectory(String path) async {
+    Future<void> setCurrentDirectory(String path) async {
       path = join(testDir, path);
       await Directory(path).create(recursive: true);
       Directory.current = path;
