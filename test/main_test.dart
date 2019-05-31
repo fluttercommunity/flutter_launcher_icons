@@ -26,7 +26,7 @@ void main() {
 
   test('pubspec.yaml file exists', () async {
     String path = 'test/config/test_pubspec.yaml';
-    Map config = await main_dart.loadConfigFile(path);
+    Map config = main_dart.loadConfigFile(path);
     expect(config.length, isNotNull);
   });
 
@@ -57,7 +57,7 @@ flutter_icons:
   ios: false
 ''');
       ArgResults argResults = parser.parse([]);
-      Map config = await main_dart.loadConfigFileFromArgResults(argResults);
+      Map config = main_dart.loadConfigFileFromArgResults(argResults);
       expect(config['flutter_icons']['android'], true);
     });
     test('default_use_pubspec', () async {
@@ -68,12 +68,12 @@ flutter_icons:
   ios: false
 ''');
       ArgResults argResults = parser.parse([]);
-      Map config = await main_dart.loadConfigFileFromArgResults(argResults);
+      Map config = main_dart.loadConfigFileFromArgResults(argResults);
       expect(config['flutter_icons']['ios'], false);
 
       // fails if forcing default file
       argResults = parser.parse(['-f', defaultConfigFile]);
-      expect(await main_dart.loadConfigFileFromArgResults(argResults), isNull);
+      expect(main_dart.loadConfigFileFromArgResults(argResults), isNull);
     });
 
     test('custom', () async {
@@ -85,16 +85,16 @@ flutter_icons:
 ''');
       // if no argument set, should fail
       ArgResults argResults = parser.parse(['-f', 'custom.yaml']);
-      Map config = await main_dart.loadConfigFileFromArgResults(argResults);
+      Map config = main_dart.loadConfigFileFromArgResults(argResults);
       expect(config['flutter_icons']['ios'], true);
 
       // should fail if no argument
       argResults = parser.parse([]);
-      expect(await main_dart.loadConfigFileFromArgResults(argResults), isNull);
+      expect(main_dart.loadConfigFileFromArgResults(argResults), isNull);
 
       // or missing file
       argResults = parser.parse(['-f', 'missing_custom.yaml']);
-      expect(await main_dart.loadConfigFileFromArgResults(argResults), isNull);
+      expect(main_dart.loadConfigFileFromArgResults(argResults), isNull);
     });
   });
 

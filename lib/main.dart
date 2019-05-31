@@ -26,7 +26,7 @@ void createIconsFromArguments(List<String> arguments) async {
   }
 
   // Load the config file
-  Map yamlConfig = await loadConfigFileFromArgResults(argResults, verbose: true);
+  Map yamlConfig = loadConfigFileFromArgResults(argResults, verbose: true);
   if (yamlConfig == null || !(yamlConfig['flutter_icons'] is Map)) {
     stderr.writeln(NoConfigFoundException('Check that your config file '
         '`${argResults[fileOption] ?? defaultConfigFile}`'
