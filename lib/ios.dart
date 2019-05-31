@@ -150,7 +150,7 @@ class ContentsInfoObject {
   }
 }
 
-List<Map> createImageList(String fileNamePrefix) {
+List<Map<String, String>> createImageList(String fileNamePrefix) {
   final List<Map<String, String>> imageList = <Map<String, String>>[
     ContentsImageObject(
             size: '20x20',

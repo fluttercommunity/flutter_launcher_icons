@@ -24,14 +24,14 @@ void main() {
   });
 
   test('Config contains string for generating new launcher icons', () {
-    final Map flutterIconsConfig = <String, dynamic>{
+    final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
       'image_path': 'assets/images/icon-710x599.png',
       'android': true,
       'ios': true
     };
     expect(android.isCustomAndroidFile(flutterIconsConfig), false);
 
-    final Map flutterIconsNewIconConfig = <String, dynamic>{
+    final Map<String, dynamic> flutterIconsNewIconConfig = <String, dynamic>{
       'image_path': 'assets/images/icon-710x599.png',
       'android': 'New Icon',
       'ios': true
@@ -40,7 +40,7 @@ void main() {
   });
 
   test('Prioritise image_path_android over image_path', () {
-    final Map flutterIconsNewIconConfig = <String, dynamic>{
+    final Map<String, dynamic> flutterIconsNewIconConfig = <String, dynamic>{
       'image_path': 'assets/images/icon-710x599.png',
       'image_path_android': 'assets/images/icon-android.png',
       'android': 'New Icon',
