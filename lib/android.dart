@@ -187,7 +187,7 @@ void updateColorsFile(File colorsFile, String backgroundColor) {
   // Add new line if we didn't find an existing value
   if (!foundExisting) {
     lines.insert(lines.length - 1,
-        '\t<color name="ic_launcher_background">${backgroundColor}</color>');
+        '\t<color name="ic_launcher_background">$backgroundColor</color>');
   }
 
   colorsFile.writeAsStringSync(lines.join('\n'));
@@ -266,8 +266,7 @@ Future<void> overwriteAndroidManifestWithNewLauncherIcon(String iconName) async 
 int minSdk() {
   final File androidGradleFile = File(constants.androidGradleFile);
   final List<String> lines = androidGradleFile.readAsLinesSync();
-  for (int x = 0; x < lines.length; x++) {
-    String line = lines[x];
+  for (String line in lines) {
     if (line.contains('minSdkVersion')) {
       final String minSdk = line.replaceAll(RegExp('[^\\d]'), '');
       print('Android minSdkVersion = $minSdk');
