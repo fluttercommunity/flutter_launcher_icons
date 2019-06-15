@@ -93,7 +93,7 @@ Future<void> changeIosLauncherIcon(String iconName) async {
   for (int x = 0; x < lines.length; x++) {
     String line = lines[x];
     if (line.contains('ASSETCATALOG')) {
-      line = line.replaceAll(RegExp('\=(.*);'), '= ' + iconName + ';');
+      line = line.replaceAll(RegExp(r'=.*;'), '= $iconName;');
       lines[x] = line;
       lines[lines.length - 1] = '}\n';
     }
