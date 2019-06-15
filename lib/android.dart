@@ -254,8 +254,8 @@ Future<void> overwriteAndroidManifestWithNewLauncherIcon(String iconName) async 
       line = line.replaceAll(RegExp('android:icon="([^*]|("+([^"/]|)))*"'),
           'android:icon="@mipmap/' + iconName + '"');
       lines[x] = line;
-      lines.add(
-          ''); // used to stop git showing a diff if the icon name hasn't changed
+      // used to stop git showing a diff if the icon name hasn't changed
+      lines.add('');
     }
   }
   androidManifestFile.writeAsString(lines.join('\n'));
