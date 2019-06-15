@@ -51,6 +51,7 @@ void createDefaultIcons(Map flutterLauncherIconsConfig) {
 
 /// Ensures that the Android icon name is in the correct format
 bool isAndroidIconNameCorrectFormat(String iconName) {
+  // assure the icon only consists of lowercase letters, numbers and underscore
   if (!RegExp(r'^[a-z0-9_]+$').hasMatch(iconName)) {
     throw const InvalidAndroidIconNameException(
         constants.errorIncorrectIconName);
@@ -177,7 +178,8 @@ void updateColorsFile(File colorsFile, String backgroundColor) {
     String line = lines[x];
     if (line.contains('name="ic_launcher_background"')) {
       foundExisting = true;
-      line = line.replaceAll(RegExp('>(.*)<'), '>$backgroundColor<');
+      // replace anything between tags which does not contain another tag
+      line = line.replaceAll(RegExp(r'>([^><]*)<'), '>$backgroundColor<');
       lines[x] = line;
       break;
     }
@@ -251,8 +253,14 @@ Future<void> overwriteAndroidManifestWithNewLauncherIcon(String iconName) async 
     String line = lines[x];
     if (line.contains('android:icon')) {
       // Using RegExp replace the value of android:icon to point to the new icon
-      line = line.replaceAll(RegExp('android:icon="([^*]|("+([^"/]|)))*"'),
-          'android:icon="@mipmap/' + iconName + '"');
+      // anything but a quote of any length: [^"]*
+      // an escaped quote: \\" (escape slash, because it exists regex)
+      // quote, no quote / quote with things behind : \"[^"]*
+      // repeat as often as wanted with no quote at start: [^"]*(\"[^"]*)*
+      // escaping the slash to place in string: [^"]*(\\"[^"]*)*"
+      // result: any string which does only include escaped quotes
+      line = line.replaceAll(RegExp(r'android:icon="[^"]*(\\"[^"]*)*"'),
+          'android:icon="@mipmap/$iconName"');
       lines[x] = line;
       // used to stop git showing a diff if the icon name hasn't changed
       lines.add('');
@@ -267,7 +275,8 @@ int minSdk() {
   final List<String> lines = androidGradleFile.readAsLinesSync();
   for (String line in lines) {
     if (line.contains('minSdkVersion')) {
-      final String minSdk = line.replaceAll(RegExp('[^\\d]'), '');
+      // remove anything from the line that is not a digit
+      final String minSdk = line.replaceAll(RegExp(r'[^\d]'), '');
       print('Android minSdkVersion = $minSdk');
       return int.parse(minSdk);
     }
