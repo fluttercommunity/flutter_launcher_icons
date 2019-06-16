@@ -26,7 +26,7 @@ List<AndroidIconTemplate> androidIcons = <AndroidIconTemplate>[
   AndroidIconTemplate(directoryName: 'mipmap-xxxhdpi', size: 192),
 ];
 
-void createDefaultIcons(Map flutterLauncherIconsConfig) {
+void createDefaultIcons(Map<String, dynamic> flutterLauncherIconsConfig) {
   print('Creating default icons Android');
   final String filePath = getAndroidIconPath(flutterLauncherIconsConfig);
   final Image image = decodeImage(File(filePath).readAsBytesSync());
@@ -59,7 +59,7 @@ bool isAndroidIconNameCorrectFormat(String iconName) {
   return true;
 }
 
-void createAdaptiveIcons(Map flutterLauncherIconsConfig) {
+void createAdaptiveIcons(Map<String, dynamic> flutterLauncherIconsConfig) {
   print('Creating adaptive icons Android');
 
   // Retrieve the necessary Flutter Launcher Icons configuration from the pubspec.yaml file
@@ -105,7 +105,7 @@ void updateColorsXmlFile(String backgroundConfig) {
 
 /// Creates the xml file required for the adaptive launcher icon
 /// FILE LOCATED HERE: res/mipmap-anydpi/{icon-name-from-yaml-config}.xml
-void createAdaptiveIconMipmapXmlFile(Map flutterLauncherIconsConfig) {
+void createAdaptiveIconMipmapXmlFile(Map<String, dynamic> flutterLauncherIconsConfig) {
   if (isCustomAndroidFile(flutterLauncherIconsConfig)) {
     File(constants.androidAdaptiveXmlFolder +
         getNewIconName(flutterLauncherIconsConfig) +
@@ -127,7 +127,7 @@ void createAdaptiveIconMipmapXmlFile(Map flutterLauncherIconsConfig) {
 
 /// creates adaptive background using png image
 void createAdaptiveBackgrounds(
-    Map yamlConfig, String adaptiveIconBackgroundImagePath) {
+    Map<String, dynamic> yamlConfig, String adaptiveIconBackgroundImagePath) {
   final String filePath = adaptiveIconBackgroundImagePath;
   final Image image = decodeImage(File(filePath).readAsBytesSync());
 
@@ -197,13 +197,13 @@ void updateColorsFile(File colorsFile, String backgroundColor) {
 /// Check to see if specified Android config is a string or bool
 /// String - Generate new launcher icon with the string specified
 /// bool - override the default flutter project icon
-bool isCustomAndroidFile(Map config) {
+bool isCustomAndroidFile(Map<String, dynamic> config) {
   final dynamic androidConfig = config['android'];
   return androidConfig is String;
 }
 
 /// return the new launcher icon file name
-String getNewIconName(Map config) {
+String getNewIconName(Map<String, dynamic> config) {
   return config['android'];
 }
 
@@ -287,7 +287,7 @@ int minSdk() {
 /// Method for the retrieval of the Android icon path
 /// If image_path_android is found, this will be prioritised over the image_path
 /// value.
-String getAndroidIconPath(Map config) {
+String getAndroidIconPath(Map<String, dynamic> config) {
   return config['image_path_android'] ?? config['image_path'];
 }
 

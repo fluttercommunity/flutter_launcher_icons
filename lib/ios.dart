@@ -28,7 +28,7 @@ List<IosIconTemplate> iosIcons = <IosIconTemplate>[
   IosIconTemplate(name: '-1024x1024@1x', size: 1024),
 ];
 
-void createIcons(Map config) {
+void createIcons(Map<String, dynamic> config) {
   final String filePath = config['image_path_ios'] ?? config['image_path'];
   final Image image = decodeImage(File(filePath).readAsBytesSync());
   String iconName;

@@ -26,7 +26,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   }
 
   // Load the config file
-  final Map yamlConfig = loadConfigFileFromArgResults(argResults, verbose: true);
+  final Map<String, dynamic> yamlConfig = loadConfigFileFromArgResults(argResults, verbose: true);
 
   // Create icons
   try {
@@ -37,7 +37,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   }
 }
 
-Future<void> createIconsFromConfig(Map config) async {
+Future<void> createIconsFromConfig(Map<String, dynamic> config) async {
   if (!isImagePathInConfig(config)) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
@@ -62,13 +62,13 @@ Future<void> createIconsFromConfig(Map config) async {
   }
 }
 
-Map loadConfigFileFromArgResults(ArgResults argResults,
+Map<String, dynamic> loadConfigFileFromArgResults(ArgResults argResults,
     {bool verbose}) {
   verbose ??= false;
   final String configFile = argResults[fileOption];
   final String fileOptionResult = argResults[fileOption];
 
-  Map yamlConfig;
+  Map<String, dynamic> yamlConfig;
   // If none set try flutter_launcher_icons.yaml first then pubspec.yaml
   // for compatibility
   if (configFile == defaultConfigFile || configFile == null) {
@@ -124,37 +124,37 @@ Map<String, dynamic> loadConfigFile(String path, String fileOptionResult) {
   return config;
 }
 
-bool isImagePathInConfig(Map flutterIconsConfig) {
+bool isImagePathInConfig(Map<String, dynamic> flutterIconsConfig) {
   return flutterIconsConfig.containsKey('image_path') ||
       (flutterIconsConfig.containsKey('image_path_android') &&
           flutterIconsConfig.containsKey('image_path_ios'));
 }
 
-bool hasAndroidOrIOSConfig(Map flutterIconsConfig) {
+bool hasAndroidOrIOSConfig(Map<String, dynamic> flutterIconsConfig) {
   return flutterIconsConfig.containsKey('android') ||
       flutterIconsConfig.containsKey('ios');
 }
 
-bool hasAndroidConfig(Map flutterLauncherIcons) {
+bool hasAndroidConfig(Map<String, dynamic> flutterLauncherIcons) {
   return flutterLauncherIcons.containsKey('android');
 }
 
-bool isNeedingNewAndroidIcon(Map flutterLauncherIconsConfig) {
+bool isNeedingNewAndroidIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
   return hasAndroidConfig(flutterLauncherIconsConfig) &&
       flutterLauncherIconsConfig['android'] != false;
 }
 
-bool hasAndroidAdaptiveConfig(Map flutterLauncherIconsConfig) {
+bool hasAndroidAdaptiveConfig(Map<String, dynamic> flutterLauncherIconsConfig) {
   return isNeedingNewAndroidIcon(flutterLauncherIconsConfig) &&
       flutterLauncherIconsConfig.containsKey('adaptive_icon_background') &&
       flutterLauncherIconsConfig.containsKey('adaptive_icon_foreground');
 }
 
-bool hasIOSConfig(Map flutterLauncherIconsConfig) {
+bool hasIOSConfig(Map<String, dynamic> flutterLauncherIconsConfig) {
   return flutterLauncherIconsConfig.containsKey('ios');
 }
 
-bool isNeedingNewIOSIcon(Map flutterLauncherIconsConfig) {
+bool isNeedingNewIOSIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
   return hasIOSConfig(flutterLauncherIconsConfig) &&
       flutterLauncherIconsConfig['ios'] != false;
 }

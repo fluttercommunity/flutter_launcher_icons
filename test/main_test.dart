@@ -26,7 +26,7 @@ void main() {
 
   test('pubspec.yaml file exists', () async {
     const String path = 'test/config/test_pubspec.yaml';
-    final Map config = main_dart.loadConfigFile(path, null);
+    final Map<String, dynamic> config = main_dart.loadConfigFile(path, null);
     expect(config.length, isNotNull);
   });
 
@@ -57,7 +57,7 @@ flutter_icons:
   ios: false
 ''');
       final ArgResults argResults = parser.parse(<String>[]);
-      final Map config = main_dart.loadConfigFileFromArgResults(argResults);
+      final Map<String, dynamic> config = main_dart.loadConfigFileFromArgResults(argResults);
       expect(config['android'], true);
     });
     test('default_use_pubspec', () async {
@@ -68,7 +68,7 @@ flutter_icons:
   ios: false
 ''');
       ArgResults argResults = parser.parse(<String>[]);
-      final Map config = main_dart.loadConfigFileFromArgResults(argResults);
+      final Map<String, dynamic> config = main_dart.loadConfigFileFromArgResults(argResults);
       expect(config['ios'], false);
 
       // fails if forcing default file
@@ -85,7 +85,7 @@ flutter_icons:
 ''');
       // if no argument set, should fail
       ArgResults argResults = parser.parse(<String>['-f', 'custom.yaml']);
-      final Map config = main_dart.loadConfigFileFromArgResults(argResults);
+      final Map<String, dynamic> config = main_dart.loadConfigFileFromArgResults(argResults);
       expect(config['ios'], true);
 
       // should fail if no argument
