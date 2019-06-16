@@ -27,12 +27,6 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
 
   // Load the config file
   final Map yamlConfig = loadConfigFileFromArgResults(argResults, verbose: true);
-  if (yamlConfig == null || !(yamlConfig['flutter_icons'] is Map)) {
-    stderr.writeln(NoConfigFoundException('Check that your config file '
-        '`${argResults[fileOption] ?? defaultConfigFile}`'
-        ' has a `flutter_icons` section'));
-    exit(1);
-  }
 
   // Create icons
   try {
@@ -43,8 +37,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   }
 }
 
-Future<void> createIconsFromConfig(Map yamlConfig) async {
-  final Map config = loadFlutterIconsConfig(yamlConfig);
+Future<void> createIconsFromConfig(Map config) async {
   if (!isImagePathInConfig(config)) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
@@ -73,18 +66,19 @@ Map loadConfigFileFromArgResults(ArgResults argResults,
     {bool verbose}) {
   verbose ??= false;
   final String configFile = argResults[fileOption];
+  final String fileOptionResult = argResults[fileOption];
 
   Map yamlConfig;
   // If none set try flutter_launcher_icons.yaml first then pubspec.yaml
   // for compatibility
   if (configFile == defaultConfigFile || configFile == null) {
     try {
-      yamlConfig = loadConfigFile(defaultConfigFile);
+      yamlConfig = loadConfigFile(defaultConfigFile, fileOptionResult);
     } catch (e) {
       if (configFile == null) {
         try {
           // Try pubspec.yaml for compatibility
-          yamlConfig = loadConfigFile('pubspec.yaml');
+          yamlConfig = loadConfigFile('pubspec.yaml', fileOptionResult);
         } catch (_) {
           if (verbose) {
             stderr.writeln(e);
@@ -98,7 +92,7 @@ Map loadConfigFileFromArgResults(ArgResults argResults,
     }
   } else {
     try {
-      yamlConfig = loadConfigFile(configFile);
+      yamlConfig = loadConfigFile(configFile, fileOptionResult);
     } catch (e) {
       if (verbose) {
         stderr.writeln(e);
@@ -108,14 +102,26 @@ Map loadConfigFileFromArgResults(ArgResults argResults,
   return yamlConfig;
 }
 
-Map loadConfigFile(String path) {
+Map<String, dynamic> loadConfigFile(String path, String fileOptionResult) {
   final File file = File(path);
   final String yamlString = file.readAsStringSync();
-  return loadYaml(yamlString);
-}
+  final Map yamlMap = loadYaml(yamlString);
 
-Map loadFlutterIconsConfig(Map config) {
-  return config['flutter_icons'];
+  if (yamlMap == null || !(yamlMap['flutter_icons'] is Map)) {
+    stderr.writeln(NoConfigFoundException('Check that your config file '
+        '`${fileOptionResult ?? defaultConfigFile}`'
+        ' has a `flutter_icons` section'));
+    exit(1);
+  }
+  Map yamlConfig = yamlMap['flutter_icons'];
+
+  // the YamlMap object this uses has several unwanted sideefects
+  final Map<String, dynamic> config = <String, dynamic>{};
+  for (String key in yamlConfig.keys) {
+    config[key] = yamlConfig[key];
+  }
+
+  return config;
 }
 
 bool isImagePathInConfig(Map flutterIconsConfig) {
