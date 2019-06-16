@@ -113,9 +113,9 @@ Map<String, dynamic> loadConfigFile(String path, String fileOptionResult) {
         ' has a `flutter_icons` section'));
     exit(1);
   }
-  Map yamlConfig = yamlMap['flutter_icons'];
+  final Map yamlConfig = yamlMap['flutter_icons'];
 
-  // the YamlMap object this uses has several unwanted sideefects
+  // the YamlMap object this uses has several unwanted sideeffects
   final Map<String, dynamic> config = <String, dynamic>{};
   for (String key in yamlConfig.keys) {
     config[key] = yamlConfig[key];
