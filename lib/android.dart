@@ -34,7 +34,7 @@ void createDefaultIcons(Map<String, dynamic> flutterLauncherIconsConfig) {
     print('Adding a new Android launcher icon');
     final String iconName = getNewIconName(flutterLauncherIconsConfig);
     isAndroidIconNameCorrectFormat(iconName);
-    final String iconPath = iconName + '.png';
+    final String iconPath = '$iconName.png';
     for (AndroidIconTemplate template in androidIcons) {
       saveNewImages(template, image, iconPath);
     }

@@ -5,7 +5,7 @@ const String androidGradleFile = 'android/app/build.gradle';
 const String androidFileName = 'ic_launcher.png';
 const String androidAdaptiveForegroundFileName = 'ic_launcher_foreground.png';
 const String androidAdaptiveBackgroundFileName = 'ic_launcher_background.png';
-const String androidAdaptiveXmlFolder = androidResFolder + 'mipmap-anydpi-v26/';
+const String androidAdaptiveXmlFolder = '${androidResFolder}mipmap-anydpi-v26/';
 const String androidDefaultIconName = 'ic_launcher';
 
 const String iosDefaultIconFolder =
