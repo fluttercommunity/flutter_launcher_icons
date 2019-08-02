@@ -68,38 +68,36 @@ Map<String, dynamic> loadConfigFileFromArgResults(ArgResults argResults,
   final String configFile = argResults[fileOption];
   final String fileOptionResult = argResults[fileOption];
 
-  Map<String, dynamic> yamlConfig;
-  // If none set try flutter_launcher_icons.yaml first then pubspec.yaml
-  // for compatibility
-  if (configFile == defaultConfigFile || configFile == null) {
+  // if icon is given, try to load icon
+  if (configFile != null && configFile != defaultConfigFile) {
     try {
-      yamlConfig = loadConfigFile(defaultConfigFile, fileOptionResult);
-    } catch (e) {
-      if (configFile == null) {
-        try {
-          // Try pubspec.yaml for compatibility
-          yamlConfig = loadConfigFile('pubspec.yaml', fileOptionResult);
-        } catch (_) {
-          if (verbose) {
-            stderr.writeln(e);
-          }
-        }
-      } else {
-        if (verbose) {
-          stderr.writeln(e);
-        }
-      }
-    }
-  } else {
-    try {
-      yamlConfig = loadConfigFile(configFile, fileOptionResult);
+      return loadConfigFile(configFile, fileOptionResult);
     } catch (e) {
       if (verbose) {
         stderr.writeln(e);
       }
+      return <String, dynamic>{};
     }
   }
-  return yamlConfig;
+
+  // If none set try flutter_launcher_icons.yaml first then pubspec.yaml
+  // for compatibility
+  try {
+    return loadConfigFile(defaultConfigFile, fileOptionResult);
+  } catch (e) {
+    // Try pubspec.yaml for compatibility
+    if (configFile == null) {
+      try {
+        return loadConfigFile('pubspec.yaml', fileOptionResult);
+      } catch (_) {}
+    }
+
+    // if nothing got returned, print error
+    if (verbose) {
+      stderr.writeln(e);
+    }
+  }
+  return <String, dynamic>{};
 }
 
 Map<String, dynamic> loadConfigFile(String path, String fileOptionResult) {
