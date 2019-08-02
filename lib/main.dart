@@ -76,7 +76,8 @@ Map<String, dynamic> loadConfigFileFromArgResults(ArgResults argResults,
       if (verbose) {
         stderr.writeln(e);
       }
-      return <String, dynamic>{};
+
+      return null;
     }
   }
 
@@ -97,7 +98,8 @@ Map<String, dynamic> loadConfigFileFromArgResults(ArgResults argResults,
       stderr.writeln(e);
     }
   }
-  return <String, dynamic>{};
+
+  return null;
 }
 
 Map<String, dynamic> loadConfigFile(String path, String fileOptionResult) {
