@@ -25,19 +25,19 @@ void main() {
   });
 
   test('pubspec.yaml file exists', () async {
-    String path = 'test/config/test_pubspec.yaml';
-    var config = await main_dart.loadConfigFile(path);
+    const String path = 'test/config/test_pubspec.yaml';
+    final Map<String, dynamic> config = main_dart.loadConfigFile(path, null);
     expect(config.length, isNotNull);
   });
 
   group('config file from args', () {
     // Create mini parser with only the wanted option, mocking the real one
-    final parser = ArgParser()..addOption(main_dart.fileOption, abbr: 'f');
-    final  testDir =
+    final ArgParser parser = ArgParser()..addOption(main_dart.fileOption, abbr: 'f');
+    final String testDir =
         join('.dart_tool', 'flutter_launcher_icons', 'test', 'config_file');
 
     String currentDirectory;
-    setCurrentDirectory(String path) async {
+    Future<void> setCurrentDirectory(String path) async {
       path = join(testDir, path);
       await Directory(path).create(recursive: true);
       Directory.current = path;
@@ -56,9 +56,9 @@ flutter_icons:
   android: true
   ios: false
 ''');
-      var argResults = parser.parse([]);
-      var config = await main_dart.loadConfigFileFromArgResults(argResults);
-      expect(config['flutter_icons']['android'], true);
+      final ArgResults argResults = parser.parse(<String>[]);
+      final Map<String, dynamic> config = main_dart.loadConfigFileFromArgResults(argResults);
+      expect(config['android'], true);
     });
     test('default_use_pubspec', () async {
       await setCurrentDirectory('pubspec_only');
@@ -67,13 +67,13 @@ flutter_icons:
   android: true
   ios: false
 ''');
-      var argResults = parser.parse([]);
-      var config = await main_dart.loadConfigFileFromArgResults(argResults);
-      expect(config['flutter_icons']['ios'], false);
+      ArgResults argResults = parser.parse(<String>[]);
+      final Map<String, dynamic> config = main_dart.loadConfigFileFromArgResults(argResults);
+      expect(config['ios'], false);
 
       // fails if forcing default file
-      argResults = parser.parse(['-f', defaultConfigFile]);
-      expect(await main_dart.loadConfigFileFromArgResults(argResults), isNull);
+      argResults = parser.parse(<String>['-f', defaultConfigFile]);
+      expect(main_dart.loadConfigFileFromArgResults(argResults), isNull);
     });
 
     test('custom', () async {
@@ -84,39 +84,39 @@ flutter_icons:
   ios: true
 ''');
       // if no argument set, should fail
-      var argResults = parser.parse(['-f', 'custom.yaml']);
-      var config = await main_dart.loadConfigFileFromArgResults(argResults);
-      expect(config['flutter_icons']['ios'], true);
+      ArgResults argResults = parser.parse(<String>['-f', 'custom.yaml']);
+      final Map<String, dynamic> config = main_dart.loadConfigFileFromArgResults(argResults);
+      expect(config['ios'], true);
 
       // should fail if no argument
-      argResults = parser.parse([]);
-      expect(await main_dart.loadConfigFileFromArgResults(argResults), isNull);
+      argResults = parser.parse(<String>[]);
+      expect(main_dart.loadConfigFileFromArgResults(argResults), isNull);
 
       // or missing file
-      argResults = parser.parse(['-f', 'missing_custom.yaml']);
-      expect(await main_dart.loadConfigFileFromArgResults(argResults), isNull);
+      argResults = parser.parse(<String>['-f', 'missing_custom.yaml']);
+      expect(main_dart.loadConfigFileFromArgResults(argResults), isNull);
     });
   });
 
   test('Incorrect pubspec.yaml path throws correct error message', () async {
-    String incorrectPath = 'test/config/test_pubspec.yam';
-    expect(() => main_dart.loadConfigFile(incorrectPath), throwsA(const TypeMatcher<FileSystemException>()));
+    const String incorrectPath = 'test/config/test_pubspec.yam';
+    expect(() => main_dart.loadConfigFile(incorrectPath, null), throwsA(const TypeMatcher<FileSystemException>()));
   });
 
   test('image_path is in config', () {
-   final Map flutterIconsConfig = <String, dynamic>{
+    final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
       'image_path': 'assets/images/icon-710x599.png',
       'android': true,
       'ios': true
     };
     expect(main_dart.isImagePathInConfig(flutterIconsConfig), true);
-    Map flutterIconsConfigAndroid = <String, dynamic>{
+    final Map<String, dynamic> flutterIconsConfigAndroid = <String, dynamic>{
       'image_path_android': 'assets/images/icon-710x599.png',
       'android': true,
       'ios': true
     };
     expect(main_dart.isImagePathInConfig(flutterIconsConfigAndroid), false);
-    Map flutterIconsConfigBoth = <String, dynamic>{
+    final Map<String, dynamic> flutterIconsConfigBoth = <String, dynamic>{
       'image_path_android': 'assets/images/icon-710x599.png',
       'image_path_ios': 'assets/images/icon-710x599.png',
       'android': true,
@@ -126,7 +126,7 @@ flutter_icons:
   });
 
   test('At least one platform is in config file', () {
-    Map flutterIconsConfig = <String, dynamic>{
+    final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
       'image_path': 'assets/images/icon-710x599.png',
       'android': true,
       'ios': true
@@ -135,12 +135,14 @@ flutter_icons:
   });
 
   test('No platform specified in config', () {
-    Map flutterIconsConfig = <String, dynamic>{'image_path': 'assets/images/icon-710x599.png'};
+    final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
+      'image_path': 'assets/images/icon-710x599.png'
+    };
     expect(main_dart.hasAndroidOrIOSConfig(flutterIconsConfig), false);
   });
 
   test('No new Android icon needed - android: false', () {
-    Map flutterIconsConfig = <String, dynamic>{
+    final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
       'image_path': 'assets/images/icon-710x599.png',
       'android': false,
       'ios': true
@@ -149,7 +151,7 @@ flutter_icons:
   });
 
   test('No new Android icon needed - no Android config', () {
-    Map flutterIconsConfig = <String, dynamic>{
+    final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
       'image_path': 'assets/images/icon-710x599.png',
       'ios': true
     };
@@ -157,7 +159,7 @@ flutter_icons:
   });
 
   test('No new iOS icon needed - ios: false', () {
-    Map flutterIconsConfig = <String, dynamic> {
+    final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
       'image_path': 'assets/images/icon-710x599.png',
       'android': true,
       'ios': false
@@ -166,7 +168,7 @@ flutter_icons:
   });
 
   test('No new iOS icon needed - no iOS config', () {
-    Map flutterIconsConfig = <String, dynamic>{
+    final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
       'image_path': 'assets/images/icon-710x599.png',
       'android': true
     };

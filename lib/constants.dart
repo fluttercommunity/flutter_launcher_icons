@@ -5,7 +5,7 @@ const String androidGradleFile = 'android/app/build.gradle';
 const String androidFileName = 'ic_launcher.png';
 const String androidAdaptiveForegroundFileName = 'ic_launcher_foreground.png';
 const String androidAdaptiveBackgroundFileName = 'ic_launcher_background.png';
-const String androidAdaptiveXmlFolder = androidResFolder + 'mipmap-anydpi-v26/';
+const String androidAdaptiveXmlFolder = '${androidResFolder}mipmap-anydpi-v26/';
 const String androidDefaultIconName = 'ic_launcher';
 
 const String iosDefaultIconFolder =
@@ -21,3 +21,6 @@ const String errorMissingPlatform =
 const String errorMissingRegularAndroid =
     'Adaptive icon config found but no regular Android config. '
     'Below API 26 the regular Android config is required';
+const String errorIncorrectIconName =
+    'The icon name must contain only lowercase a-z, 0-9, or underscore: '
+    'E.g. "ic_my_new_icon"';
