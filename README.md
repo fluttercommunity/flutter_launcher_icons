@@ -9,6 +9,10 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
 ## :sparkles: What's New
 
+#### Version 0.7.3 (3rd Sept 2019)
+ * Lot of refactoring and improving code quality (thanks to @connectety)
+ * Added correct App Store icon settings (thanks to @richgoldmd)
+
 #### Version 0.7.2 (25th May 2019)
  * Reverted back using old interpolation method
 
@@ -42,7 +46,7 @@ Add your Flutter Launcher Icons configuration to your `pubspec.yaml` or create a
 An example is shown below. A more complex example [can be found in the example project](https://github.com/fluttercommunity/flutter_launcher_icons/blob/master/example/pubspec.yaml).
 ```yaml
 dev_dependencies: 
-  flutter_launcher_icons: "^0.7.2"
+  flutter_launcher_icons: "^0.7.3"
   
 flutter_icons:
   android: "launcher_icon" 

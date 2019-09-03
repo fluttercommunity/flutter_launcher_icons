@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.3 (3rd Sept 2019)
+
+- Lot of refactoring and improving code quality (thanks to @connectety)
+- Added correct App Store icon settings (thanks to @richgoldmd)
+
+
 ## 0.7.2 (25th May 2019)
 
 - Reverted back using old interpolation method
