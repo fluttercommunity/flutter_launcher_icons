@@ -26,10 +26,10 @@ List<AndroidIconTemplate> androidIcons = <AndroidIconTemplate>[
   AndroidIconTemplate(directoryName: 'mipmap-xxxhdpi', size: 192),
 ];
 
-createDefaultIcons(Map<String,dynamic> flutterLauncherIconsConfig, String flavor) {
-  print("Creating default icons Android");
-  String filePath = getAndroidIconPath(flutterLauncherIconsConfig);
-  Image image = decodeImage(File(filePath).readAsBytesSync());
+void createDefaultIcons(Map<String, dynamic> flutterLauncherIconsConfig, String flavor) {
+  print('Creating default icons Android');
+  final String filePath = getAndroidIconPath(flutterLauncherIconsConfig);
+  final Image image = decodeImage(File(filePath).readAsBytesSync());
   if (isCustomAndroidFile(flutterLauncherIconsConfig)) {
     print('Adding a new Android launcher icon');
     final String iconName = getNewIconName(flutterLauncherIconsConfig);
