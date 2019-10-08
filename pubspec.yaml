@@ -1,6 +1,6 @@
 name: flutter_launcher_icons
 description: A package which simplifies the task of updating your Flutter app's launcher icon. Fully flexible, allowing you to choose what platform you wish to update the launcher icon for and if you want, the option to keep your old launcher icon in case you want to revert back sometime in the future.
-version: 0.7.0
+version: 0.7.2+1
 maintainer: Mark O'Sullivan (@MarkOSullivan94)
 homepage: https://github.com/fluttercommunity/flutter_launcher_icons
 authors: 
@@ -9,14 +9,12 @@ authors:
 - Mark O'Sullivan <mos182@hotmail.co.uk>
 
 dependencies: 
-  image: "^2.0.0"
+  image: "^2.1.1"
   args: "^1.5.0"
-  dart_config:
-      git:
-        url: https://github.com/MarkOSullivan94/dart_config.git
+  yaml: "^2.1.15"
 
 environment:
-  sdk: '>=2.0.0-dev.49.0 <3.0.0'
+  sdk: '>=2.2.0 <3.0.0'
 
 dev_dependencies:
-  test: '^1.3.4'
+  test: '^1.6.3'

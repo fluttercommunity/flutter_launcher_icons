@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.7.2 (25th May 2019)
+
+- Reverted back using old interpolation method
+
+
+## 0.7.1 (24th May 2019)
+
+- Fixed issue with image dependency not working on latest version of Flutter (thanks to @sboutet06)
+- Fixed iOS icon sizes which were incorrect (thanks to @sestegra)
+- Removed dart_config git dependency and replaced with yaml dependency
+- Refactoring of code
+
 ## 0.7.0 (22nd November 2018)
 
  - Now ensuring that the Android file name is valid - An error will be thrown if it doesn't meet the criteria
