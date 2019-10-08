@@ -99,7 +99,6 @@ be used to fill out the background of the adaptive icon.
 
 - `adaptive_icon_foreground`: The image asset which will be used for the icon foreground of the adaptive icon
 
-
 ## :question: Troubleshooting
 
 Listed a couple common issues with solutions for them
@@ -122,7 +121,7 @@ For best results try and use a foreground image which has padding much like [the
 
 [Related issue](https://github.com/fluttercommunity/flutter_launcher_icons/issues/96)
  
-=======
+
 ## Flavor support
 
 Create a Flutter Launcher Icons configuration file for your flavor. The config file is called `flutter_laucher_icons-<flavor>.yaml` by replacing `<flavor>` by the name of your desired flavor.

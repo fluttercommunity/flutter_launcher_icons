@@ -90,6 +90,7 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config, [String flavor])
   }
   if (isNeedingNewIOSIcon(config)) {
     ios_launcher_icons.createIcons(config, flavor);
+
   }
 }
 

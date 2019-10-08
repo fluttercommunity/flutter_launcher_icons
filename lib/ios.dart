@@ -53,6 +53,7 @@ void createIcons(Map<String, dynamic> config, String flavor) {
     iconName = newIconName;
     changeIosLauncherIcon(iconName, flavor);
     modifyContentsFile(iconName);
+
   }
   // Otherwise the user wants the new icon to use the default icons name and
   // update config file to use it
@@ -63,6 +64,7 @@ void createIcons(Map<String, dynamic> config, String flavor) {
     }
     iconName = iosDefaultIconName;
     changeIosLauncherIcon('AppIcon', flavor);
+
   }
 }
 
@@ -82,6 +84,7 @@ void saveNewIcons(IosIconTemplate template, Image image, String newIconName) {
   final String newIconFolder = iosAssetFolder + newIconName + '.appiconset/';
   final Image newFile = createResizedImage(template, image);
   File(newIconFolder + newIconName + template.name + '.png')
+
       .create(recursive: true)
       .then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
@@ -126,6 +129,7 @@ Future<void> changeIosLauncherIcon(String iconName, String flavor) async {
     }
 
   }
+  
   final String entireFile = lines.join('\n');
   iOSConfigFile.writeAsString(entireFile);
 }
