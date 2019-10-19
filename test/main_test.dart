@@ -11,7 +11,7 @@ import 'package:flutter_launcher_icons/main.dart' as main_dart;
 // Unit tests for main.dart
 void main() {
   test('iOS icon list is correct size', () {
-    expect(ios.iosIcons.length, 15);
+    expect(ios.iosIcons.length, 21);
   });
 
   test('Android icon list is correct size', () {
