@@ -9,7 +9,7 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
 ## :sparkles: What's New
 
-### Version 0.7.4 (28th Oct 2019)
+#### Version 0.7.4 (28th Oct 2019)
 
 - Worked on suggestions from [pub.dev](https://pub.dev/packages/flutter_launcher_icons#-analysis-tab-)
 
