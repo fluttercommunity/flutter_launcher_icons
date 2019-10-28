@@ -30,7 +30,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
 
   // Create icons
   try {
-    createIconsFromConfig(yamlConfig);
+    await createIconsFromConfig(yamlConfig);
   } catch (e) {
     stderr.writeln(e);
     exit(2);

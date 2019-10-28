@@ -266,7 +266,7 @@ Future<void> overwriteAndroidManifestWithNewLauncherIcon(String iconName) async 
       lines.add('');
     }
   }
-  androidManifestFile.writeAsString(lines.join('\n'));
+  await androidManifestFile.writeAsString(lines.join('\n'));
 }
 
 /// Retrieves the minSdk value from the Android build.gradle file

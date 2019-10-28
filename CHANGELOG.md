@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.4 (28th Oct 2019)
+
+- Worked on suggestions from [pub.dev](https://pub.dev/packages/flutter_launcher_icons#-analysis-tab-)
+
 ## 0.7.3 (3rd Sept 2019)
 
 - Lot of refactoring and improving code quality (thanks to @connectety)
