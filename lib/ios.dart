@@ -269,7 +269,7 @@ List<Map<String, String>> createImageList(String fileNamePrefix) {
     ContentsImageObject(
             size: '1024x1024',
             idiom: 'ios-marketing',
-            filename: fileNamePrefix + '-1024x1024@1x.png',
+            filename: '$fileNamePrefix-1024x1024@1x.png',
             scale: '1x')
         .toJson()
   ];
