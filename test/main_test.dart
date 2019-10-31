@@ -1,12 +1,13 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:crypto/crypto.dart' show md5;
+import 'package:flutter_launcher_icons/android.dart' as android;
+import 'package:flutter_launcher_icons/ios.dart' as ios;
 import 'package:flutter_launcher_icons/main.dart' show defaultConfigFile;
+import 'package:flutter_launcher_icons/main.dart' as main_dart;
 import 'package:path/path.dart';
 import 'package:test/test.dart';
-import 'package:flutter_launcher_icons/ios.dart' as ios;
-import 'package:flutter_launcher_icons/android.dart' as android;
-import 'package:flutter_launcher_icons/main.dart' as main_dart;
 
 // Unit tests for main.dart
 void main() {
@@ -18,10 +19,13 @@ void main() {
     expect(android.androidIcons.length, 5);
   });
 
-  test(
-      'iOS image list used to generate Contents.json for icon directory is correct size',
-      () {
+  test('Verify all iOS Contents.json list is correct size', () {
     expect(ios.createImageList('blah').length, 19);
+  });
+
+  test('Verify Contents.json output', () {
+    final String json = ios.generateContentsFileAsString('blah');
+    expect('${md5.convert(json.codeUnits)}', '03d214ac22ec8c02d9be86431d8cdb77');
   });
 
   test('pubspec.yaml file exists', () async {
@@ -33,8 +37,7 @@ void main() {
   group('config file from args', () {
     // Create mini parser with only the wanted option, mocking the real one
     final ArgParser parser = ArgParser()..addOption(main_dart.fileOption, abbr: 'f');
-    final String testDir =
-        join('.dart_tool', 'flutter_launcher_icons', 'test', 'config_file');
+    final String testDir = join('.dart_tool', 'flutter_launcher_icons', 'test', 'config_file');
 
     String currentDirectory;
     Future<void> setCurrentDirectory(String path) async {
@@ -135,9 +138,7 @@ flutter_icons:
   });
 
   test('No platform specified in config', () {
-    final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
-      'image_path': 'assets/images/icon-710x599.png'
-    };
+    final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{'image_path': 'assets/images/icon-710x599.png'};
     expect(main_dart.hasAndroidOrIOSConfig(flutterIconsConfig), false);
   });
 

@@ -1,6 +1,6 @@
-import 'package:test/test.dart';
 import 'package:flutter_launcher_icons/android.dart' as android;
 import 'package:flutter_launcher_icons/constants.dart';
+import 'package:test/test.dart';
 
 // unit tests for android.dart
 void main() {
@@ -9,10 +9,7 @@ void main() {
     const String path2 = 'mipmap-anydpi-v26/';
     expect(android.isCorrectMipmapDirectoryForAdaptiveIcon(path1), false);
     expect(android.isCorrectMipmapDirectoryForAdaptiveIcon(path2), false);
-    expect(
-        android.isCorrectMipmapDirectoryForAdaptiveIcon(
-            androidAdaptiveXmlFolder),
-        true);
+    expect(android.isCorrectMipmapDirectoryForAdaptiveIcon(androidAdaptiveXmlFolder), true);
   });
 
   test('Correct number of adaptive foreground icons', () {
@@ -46,7 +43,6 @@ void main() {
       'android': 'New Icon',
       'ios': true
     };
-    expect(android.getAndroidIconPath(flutterIconsNewIconConfig),
-        'assets/images/icon-android.png');
+    expect(android.getAndroidIconPath(flutterIconsNewIconConfig), 'assets/images/icon-android.png');
   });
 }

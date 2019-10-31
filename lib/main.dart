@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:yaml/yaml.dart';
 import 'package:flutter_launcher_icons/android.dart' as android_launcher_icons;
-import 'package:flutter_launcher_icons/ios.dart' as ios_launcher_icons;
 import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
+import 'package:flutter_launcher_icons/ios.dart' as ios_launcher_icons;
+import 'package:yaml/yaml.dart';
 
 const String fileOption = 'file';
 const String helpFlag = 'help';
@@ -15,8 +15,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   final ArgParser parser = ArgParser(allowTrailingOptions: true);
   parser.addFlag(helpFlag, abbr: 'h', help: 'Usage help', negatable: false);
   // Make default null to differentiate when it is explicitly set
-  parser.addOption(fileOption,
-      abbr: 'f', help: 'Config file (default: $defaultConfigFile)');
+  parser.addOption(fileOption, abbr: 'f', help: 'Config file (default: $defaultConfigFile)');
   final ArgResults argResults = parser.parse(arguments);
 
   if (argResults[helpFlag]) {
@@ -45,9 +44,7 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config) async {
     throw const InvalidConfigException(errorMissingPlatform);
   }
   final int minSdk = android_launcher_icons.minSdk();
-  if (minSdk < 26 &&
-      hasAndroidAdaptiveConfig(config) &&
-      !hasAndroidConfig(config)) {
+  if (minSdk < 26 && hasAndroidAdaptiveConfig(config) && !hasAndroidConfig(config)) {
     throw const InvalidConfigException(errorMissingRegularAndroid);
   }
 
@@ -62,8 +59,7 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config) async {
   }
 }
 
-Map<String, dynamic> loadConfigFileFromArgResults(ArgResults argResults,
-    {bool verbose}) {
+Map<String, dynamic> loadConfigFileFromArgResults(ArgResults argResults, {bool verbose}) {
   verbose ??= false;
   final String configFile = argResults[fileOption];
   final String fileOptionResult = argResults[fileOption];
@@ -105,7 +101,7 @@ Map<String, dynamic> loadConfigFileFromArgResults(ArgResults argResults,
 Map<String, dynamic> loadConfigFile(String path, String fileOptionResult) {
   final File file = File(path);
   final String yamlString = file.readAsStringSync();
-  final Map yamlMap = loadYaml(yamlString);
+  final YamlMap yamlMap = loadYaml(yamlString);
 
   if (yamlMap == null || !(yamlMap['flutter_icons'] is Map)) {
     stderr.writeln(NoConfigFoundException('Check that your config file '
@@ -125,13 +121,11 @@ Map<String, dynamic> loadConfigFile(String path, String fileOptionResult) {
 
 bool isImagePathInConfig(Map<String, dynamic> flutterIconsConfig) {
   return flutterIconsConfig.containsKey('image_path') ||
-      (flutterIconsConfig.containsKey('image_path_android') &&
-          flutterIconsConfig.containsKey('image_path_ios'));
+      (flutterIconsConfig.containsKey('image_path_android') && flutterIconsConfig.containsKey('image_path_ios'));
 }
 
 bool hasAndroidOrIOSConfig(Map<String, dynamic> flutterIconsConfig) {
-  return flutterIconsConfig.containsKey('android') ||
-      flutterIconsConfig.containsKey('ios');
+  return flutterIconsConfig.containsKey('android') || flutterIconsConfig.containsKey('ios');
 }
 
 bool hasAndroidConfig(Map<String, dynamic> flutterLauncherIcons) {
@@ -139,8 +133,7 @@ bool hasAndroidConfig(Map<String, dynamic> flutterLauncherIcons) {
 }
 
 bool isNeedingNewAndroidIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
-  return hasAndroidConfig(flutterLauncherIconsConfig) &&
-      flutterLauncherIconsConfig['android'] != false;
+  return hasAndroidConfig(flutterLauncherIconsConfig) && flutterLauncherIconsConfig['android'] != false;
 }
 
 bool hasAndroidAdaptiveConfig(Map<String, dynamic> flutterLauncherIconsConfig) {
@@ -154,6 +147,5 @@ bool hasIOSConfig(Map<String, dynamic> flutterLauncherIconsConfig) {
 }
 
 bool isNeedingNewIOSIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
-  return hasIOSConfig(flutterLauncherIconsConfig) &&
-      flutterLauncherIconsConfig['ios'] != false;
+  return hasIOSConfig(flutterLauncherIconsConfig) && flutterLauncherIconsConfig['ios'] != false;
 }
