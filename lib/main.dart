@@ -41,7 +41,7 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config) async {
   if (!isImagePathInConfig(config)) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
-  if (!hasAndroidOrIOSConfig(config)) {
+  if (!hasPlatformConfig(config)) {
     throw const InvalidConfigException(errorMissingPlatform);
   }
   final int minSdk = android_launcher_icons.minSdk();
@@ -129,9 +129,9 @@ bool isImagePathInConfig(Map<String, dynamic> flutterIconsConfig) {
           flutterIconsConfig.containsKey('image_path_ios'));
 }
 
-bool hasAndroidOrIOSConfig(Map<String, dynamic> flutterIconsConfig) {
-  return flutterIconsConfig.containsKey('android') ||
-      flutterIconsConfig.containsKey('ios');
+bool hasPlatformConfig(Map<String, dynamic> flutterIconsConfig) {
+  return hasAndroidConfig(flutterIconsConfig) ||
+      hasIOSConfig(flutterIconsConfig);
 }
 
 bool hasAndroidConfig(Map<String, dynamic> flutterLauncherIcons) {
