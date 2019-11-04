@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter_launcher_icons/utils.dart';
 import 'package:flutter_launcher_icons/xml_templates.dart' as xml_template;
 import 'package:image/image.dart';
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
@@ -212,12 +213,7 @@ String getNewIconName(Map<String, dynamic> config) {
 /// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
 void overwriteExistingIcons(AndroidIconTemplate template, Image image, String filename) {
-  Image newFile;
-  if (image.width > template.size) {
-    newFile = copyResize(image, width: template.size, height: -1, interpolation: Interpolation.average);
-  } else {
-    newFile = copyResize(image, width: template.size, height: -1, interpolation: Interpolation.linear);
-  }
+  final Image newFile = createResizedImage(template.size, image);
   File(constants.androidResFolder + template.directoryName + '/' + filename)
       .create(recursive: true)
       .then((File file) {
@@ -229,12 +225,7 @@ void overwriteExistingIcons(AndroidIconTemplate template, Image image, String fi
 /// Note: Do not change interpolation unless you end up with better results
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
 void saveNewImages(AndroidIconTemplate template, Image image, String iconFilePath) {
-  Image newFile;
-  if (image.width >= template.size) {
-    newFile = copyResize(image, width: template.size, height: template.size, interpolation: Interpolation.average);
-  } else {
-    newFile = copyResize(image, width: template.size, height: template.size, interpolation: Interpolation.linear);
-  }
+  final Image newFile = createResizedImage(template.size, image);
   File(constants.androidResFolder + template.directoryName + '/' + iconFilePath)
       .create(recursive: true)
       .then((File file) {

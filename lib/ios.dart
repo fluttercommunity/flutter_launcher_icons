@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_launcher_icons/utils.dart';
 import 'package:image/image.dart';
 import 'package:flutter_launcher_icons/constants.dart';
 
@@ -67,7 +68,7 @@ void createIcons(Map<String, dynamic> config) {
 /// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
 void overwriteDefaultIcons(IosIconTemplate template, Image image) {
-  final Image newFile = createResizedImage(template, image);
+  final Image newFile = createResizedImage(template.size, image);
   File(iosDefaultIconFolder + iosDefaultIconName + template.name + '.png')
     ..writeAsBytesSync(encodePng(newFile));
 }
@@ -77,20 +78,12 @@ void overwriteDefaultIcons(IosIconTemplate template, Image image) {
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
 void saveNewIcons(IosIconTemplate template, Image image, String newIconName) {
   final String newIconFolder = iosAssetFolder + newIconName + '.appiconset/';
-  final Image newFile = createResizedImage(template, image);
+  final Image newFile = createResizedImage(template.size, image);
   File(newIconFolder + newIconName + template.name + '.png')
       .create(recursive: true)
       .then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
   });
-}
-
-Image createResizedImage(IosIconTemplate template, Image image) {
-  if (image.width >= template.size) {
-    return copyResize(image, width: template.size, height: template.size, interpolation: Interpolation.average);
-  } else {
-    return copyResize(image, width: template.size, height: template.size, interpolation: Interpolation.linear);
-  }
 }
 
 Future<void> changeIosLauncherIcon(String iconName) async {
