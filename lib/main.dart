@@ -44,11 +44,14 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config) async {
   if (!hasPlatformConfig(config)) {
     throw const InvalidConfigException(errorMissingPlatform);
   }
-  final int minSdk = android_launcher_icons.minSdk();
-  if (minSdk < 26 &&
-      hasAndroidAdaptiveConfig(config) &&
-      !hasAndroidConfig(config)) {
-    throw const InvalidConfigException(errorMissingRegularAndroid);
+
+  if (isNeedingNewAndroidIcon(config) || hasAndroidAdaptiveConfig(config)) {
+    final int minSdk = android_launcher_icons.minSdk();
+    if (minSdk < 26 &&
+        hasAndroidAdaptiveConfig(config) &&
+        !hasAndroidConfig(config)) {
+      throw const InvalidConfigException(errorMissingRegularAndroid);
+    }
   }
 
   if (isNeedingNewAndroidIcon(config)) {
