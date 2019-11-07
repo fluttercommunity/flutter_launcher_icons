@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter_launcher_icons/constants.dart' as constants;
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
+import 'package:flutter_launcher_icons/svg2png.dart';
+import 'package:flutter_launcher_icons/utils.dart';
 import 'package:flutter_launcher_icons/xml_templates.dart' as xml_template;
 import 'package:image/image.dart';
 import 'package:path/path.dart' as p;
@@ -74,7 +76,7 @@ void createAdaptiveIcons(Map<String, dynamic> flutterLauncherIconsConfig) {
   }
 
   // Create adaptive icon background
-  if (isAdaptiveIconConfigPngFile(backgroundConfig)) {
+  if (isPngImage(backgroundConfig)) {
     createAdaptiveBackgrounds(flutterLauncherIconsConfig, backgroundConfig);
   } else {
     createAdaptiveIconMipmapXmlFile(flutterLauncherIconsConfig);
@@ -197,6 +199,7 @@ Future<void> overwriteExistingIcons(AndroidIconTemplate template, Image image, S
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
 Future<void> saveNewImages(AndroidIconTemplate template, Image image, String iconFilePath) async {
   Image newImage;
+  // todo add check for svg
   if (image.width >= template.size) {
     newImage = copyResize(image, width: template.size, height: template.size, interpolation: Interpolation.average);
   } else {
@@ -253,11 +256,6 @@ int minSdk() {
 /// value.
 String getAndroidIconPath(Map<String, dynamic> config) {
   return config['image_path_android'] ?? config['image_path'];
-}
-
-/// Returns true if the adaptive icon configuration is a PNG image
-bool isAdaptiveIconConfigPngFile(String backgroundFile) {
-  return backgroundFile.endsWith('.png');
 }
 
 /// (NOTE THIS IS JUST USED FOR UNIT TEST)
