@@ -11,7 +11,11 @@ bool isSvgImage(String backgroundFile) {
 }
 
 String generateSvgToPngFileName(String originalFilePath) {
-  return originalFilePath.replaceAll('.svg', '.png');
+  if (!isSvgImage(originalFilePath)) {
+    return originalFilePath;
+  }
+
+  return originalFilePath.replaceRange(originalFilePath.length - 4, originalFilePath.length , '.png');
 }
 
 

@@ -36,3 +36,16 @@ class NoConfigFoundException implements Exception {
         '$message';
   }
 }
+
+class InvalidImageFormat implements Exception {
+  const InvalidImageFormat([this.message]);
+
+  final String message;
+
+  @override
+  String toString() {
+    return '*** ERROR ***\n'
+        'InvalidImageFormat\n'
+        '$message';
+  }
+}
