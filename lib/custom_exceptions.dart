@@ -37,8 +37,8 @@ class NoConfigFoundException implements Exception {
   }
 }
 
-class InvalidImageFormat implements Exception {
-  const InvalidImageFormat([this.message]);
+class InvalidImageFormatException implements Exception {
+  const InvalidImageFormatException([this.message]);
 
   final String message;
 
