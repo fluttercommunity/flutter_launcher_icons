@@ -29,6 +29,7 @@ class ConversionException implements Exception {
   String toString() => message;
 }
 
+/// Finds the inkscape executable
 String findExecutable(String name, {String orElse()}) {
   String found;
   final String filename = Platform.isWindows ? '$name.exe' : name;

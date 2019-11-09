@@ -36,26 +36,26 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   }
 }
 
-Future<void> createIconsFromConfig(Map<String, dynamic> config) async {
-  if (!isImagePathInConfig(config)) {
+Future<void> createIconsFromConfig(Map<String, dynamic> yamlConfig) async {
+  if (!isImagePathInConfig(yamlConfig)) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
-  if (!hasAndroidOrIOSConfig(config)) {
+  if (!hasAndroidOrIOSConfig(yamlConfig)) {
     throw const InvalidConfigException(errorMissingPlatform);
   }
   final int minSdk = android_launcher_icons.minSdk();
-  if (minSdk < 26 && hasAndroidAdaptiveConfig(config) && !hasAndroidConfig(config)) {
+  if (minSdk < 26 && hasAndroidAdaptiveConfig(yamlConfig) && !hasAndroidConfig(yamlConfig)) {
     throw const InvalidConfigException(errorMissingRegularAndroid);
   }
 
-  if (isNeedingNewAndroidIcon(config)) {
-    android_launcher_icons.createDefaultIcons(config);
+  if (isNeedingNewAndroidIcon(yamlConfig)) {
+    android_launcher_icons.createDefaultIcons(yamlConfig);
   }
-  if (hasAndroidAdaptiveConfig(config)) {
-    android_launcher_icons.createAdaptiveIcons(config);
+  if (hasAndroidAdaptiveConfig(yamlConfig)) {
+    android_launcher_icons.createAdaptiveIcons(yamlConfig);
   }
-  if (isNeedingNewIOSIcon(config)) {
-    ios_launcher_icons.createIcons(config);
+  if (isNeedingNewIOSIcon(yamlConfig)) {
+    ios_launcher_icons.createIcons(yamlConfig);
   }
 }
 

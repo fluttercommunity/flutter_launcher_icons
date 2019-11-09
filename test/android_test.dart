@@ -26,14 +26,14 @@ void main() {
       'android': true,
       'ios': true
     };
-    expect(android.isCustomAndroidFile(flutterIconsConfig), false);
+    expect(android.isAddingNewIconFile(flutterIconsConfig), false);
 
     final Map<String, dynamic> flutterIconsNewIconConfig = <String, dynamic>{
       'image_path': 'assets/images/icon-710x599.png',
       'android': 'New Icon',
       'ios': true
     };
-    expect(android.isCustomAndroidFile(flutterIconsNewIconConfig), true);
+    expect(android.isAddingNewIconFile(flutterIconsNewIconConfig), true);
   });
 
   test('Prioritise image_path_android over image_path', () {
