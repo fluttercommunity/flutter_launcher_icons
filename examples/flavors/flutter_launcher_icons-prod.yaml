@@ -1,0 +1,4 @@
+flutter_icons:
+  image_path: 'assets/images/icon-128x128.png'
+  android: true
+  ios: true
