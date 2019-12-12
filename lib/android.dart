@@ -65,15 +65,19 @@ void createAdaptiveIcons(Map<String, dynamic> flutterLauncherIconsConfig) {
 
   // Retrieve the necessary Flutter Launcher Icons configuration from the pubspec.yaml file
   final String backgroundConfig =
-  flutterLauncherIconsConfig['adaptive_icon_background'];
+      flutterLauncherIconsConfig['adaptive_icon_background'];
   final String foregroundImagePath =
-  flutterLauncherIconsConfig['adaptive_icon_foreground'];
+      flutterLauncherIconsConfig['adaptive_icon_foreground'];
   final Image foregroundImage =
-  decodeImage(File(foregroundImagePath).readAsBytesSync());
+      decodeImage(File(foregroundImagePath).readAsBytesSync());
 
   // Create adaptive icon foreground images
   for (AndroidIconTemplate androidIcon in adaptiveForegroundIcons) {
-    overwriteExistingIcons(androidIcon, foregroundImage, constants.androidAdaptiveForegroundFileName);
+    overwriteExistingIcons(
+      androidIcon,
+      foregroundImage,
+      constants.androidAdaptiveForegroundFileName,
+    );
   }
 
   // Create adaptive icon background
@@ -106,19 +110,20 @@ void updateColorsXmlFile(String backgroundConfig) {
 
 /// Creates the xml file required for the adaptive launcher icon
 /// FILE LOCATED HERE: res/mipmap-anydpi/{icon-name-from-yaml-config}.xml
-void createAdaptiveIconMipmapXmlFile(Map<String, dynamic> flutterLauncherIconsConfig) {
+void createAdaptiveIconMipmapXmlFile(
+    Map<String, dynamic> flutterLauncherIconsConfig) {
   if (isCustomAndroidFile(flutterLauncherIconsConfig)) {
     File(constants.androidAdaptiveXmlFolder +
-        getNewIconName(flutterLauncherIconsConfig) +
-        '.xml')
+            getNewIconName(flutterLauncherIconsConfig) +
+            '.xml')
         .create(recursive: true)
         .then((File adaptiveIcon) {
       adaptiveIcon.writeAsString(xml_template.icLauncherXml);
     });
   } else {
     File(constants.androidAdaptiveXmlFolder +
-        constants.androidDefaultIconName +
-        '.xml')
+            constants.androidDefaultIconName +
+            '.xml')
         .create(recursive: true)
         .then((File adaptiveIcon) {
       adaptiveIcon.writeAsString(xml_template.icLauncherXml);
@@ -135,23 +140,27 @@ void createAdaptiveBackgrounds(
   // creates a png image (ic_adaptive_background.png) for the adaptive icon background in each of the locations
   // it is required
   for (AndroidIconTemplate androidIcon in adaptiveForegroundIcons) {
-    saveNewImages(androidIcon, image, constants.androidAdaptiveBackgroundFileName);
+    saveNewImages(
+      androidIcon,
+      image,
+      constants.androidAdaptiveBackgroundFileName,
+    );
   }
 
   // Creates the xml file required for the adaptive launcher icon
   // FILE LOCATED HERE:  res/mipmap-anydpi/{icon-name-from-yaml-config}.xml
   if (isCustomAndroidFile(yamlConfig)) {
     File(constants.androidAdaptiveXmlFolder +
-        getNewIconName(yamlConfig) +
-        '.xml')
+            getNewIconName(yamlConfig) +
+            '.xml')
         .create(recursive: true)
         .then((File adaptiveIcon) {
       adaptiveIcon.writeAsString(xml_template.icLauncherDrawableBackgroundXml);
     });
   } else {
     File(constants.androidAdaptiveXmlFolder +
-        constants.androidDefaultIconName +
-        '.xml')
+            constants.androidDefaultIconName +
+            '.xml')
         .create(recursive: true)
         .then((File adaptiveIcon) {
       adaptiveIcon.writeAsString(xml_template.icLauncherDrawableBackgroundXml);
@@ -212,7 +221,8 @@ String getNewIconName(Map<String, dynamic> config) {
 /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
 /// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-void overwriteExistingIcons(AndroidIconTemplate template, Image image, String filename) {
+void overwriteExistingIcons(
+    AndroidIconTemplate template, Image image, String filename) {
   final Image newFile = createResizedImage(template.size, image);
   File(constants.androidResFolder + template.directoryName + '/' + filename)
       .create(recursive: true)
@@ -224,7 +234,8 @@ void overwriteExistingIcons(AndroidIconTemplate template, Image image, String fi
 /// Saves new launcher icons to the project, keeping the old launcher icons.
 /// Note: Do not change interpolation unless you end up with better results
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-void saveNewImages(AndroidIconTemplate template, Image image, String iconFilePath) {
+void saveNewImages(
+    AndroidIconTemplate template, Image image, String iconFilePath) {
   final Image newFile = createResizedImage(template.size, image);
   File(constants.androidResFolder + template.directoryName + '/' + iconFilePath)
       .create(recursive: true)
@@ -237,7 +248,8 @@ void saveNewImages(AndroidIconTemplate template, Image image, String iconFilePat
 /// with the new icon name (only if it has changed)
 ///
 /// Note: default iconName = "ic_launcher"
-Future<void> overwriteAndroidManifestWithNewLauncherIcon(String iconName) async {
+Future<void> overwriteAndroidManifestWithNewLauncherIcon(
+    String iconName) async {
   final File androidManifestFile = File(constants.androidManifestFile);
   final List<String> lines = await androidManifestFile.readAsLines();
   for (int x = 0; x < lines.length; x++) {

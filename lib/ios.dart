@@ -106,7 +106,8 @@ void modifyContentsFile(String newIconName) {
   final String newIconFolder =
       iosAssetFolder + newIconName + '.appiconset/Contents.json';
   File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
-    final String contentsFileContent = generateContentsFileAsString(newIconName);
+    final String contentsFileContent =
+        generateContentsFileAsString(newIconName);
     contentsJsonFile.writeAsString(contentsFileContent);
   });
 }
