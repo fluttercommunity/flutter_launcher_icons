@@ -4,6 +4,7 @@ import 'package:args/args.dart';
 import 'package:yaml/yaml.dart';
 import 'package:flutter_launcher_icons/android.dart' as android_launcher_icons;
 import 'package:flutter_launcher_icons/ios.dart' as ios_launcher_icons;
+import 'package:flutter_launcher_icons/web.dart' as web_launcher_icons;
 import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
 
@@ -14,13 +15,14 @@ const String defaultConfigFile = 'flutter_launcher_icons.yaml';
 Future<void> createIconsFromArguments(List<String> arguments) async {
   final ArgParser parser = ArgParser(allowTrailingOptions: true);
   parser.addFlag(helpFlag, abbr: 'h', help: 'Usage help', negatable: false);
+  
   // Make default null to differentiate when it is explicitly set
   parser.addOption(fileOption,
       abbr: 'f', help: 'Config file (default: $defaultConfigFile)');
   final ArgResults argResults = parser.parse(arguments);
 
   if (argResults[helpFlag]) {
-    stdout.writeln('Generates icons for iOS and Android');
+    stdout.writeln('Generates icons for iOS, web, and Android');
     stdout.writeln(parser.usage);
     exit(0);
   }
@@ -41,9 +43,12 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config) async {
   if (!isImagePathInConfig(config)) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
-  if (!hasAndroidOrIOSConfig(config)) {
+
+  if (!hasSomeIconConfig(config)) {
     throw const InvalidConfigException(errorMissingPlatform);
   }
+  
+  
   final int minSdk = android_launcher_icons.minSdk();
   if (minSdk < 26 &&
       hasAndroidAdaptiveConfig(config) &&
@@ -54,11 +59,17 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config) async {
   if (isNeedingNewAndroidIcon(config)) {
     android_launcher_icons.createDefaultIcons(config);
   }
+  
   if (hasAndroidAdaptiveConfig(config)) {
     android_launcher_icons.createAdaptiveIcons(config);
   }
+  
   if (isNeedingNewIOSIcon(config)) {
     ios_launcher_icons.createIcons(config);
+  }
+  
+  if (isNeedingNewWebIcon(config)) {
+    web_launcher_icons.createIcons(config);
   }
 }
 
@@ -124,14 +135,19 @@ Map<String, dynamic> loadConfigFile(String path, String fileOptionResult) {
 }
 
 bool isImagePathInConfig(Map<String, dynamic> flutterIconsConfig) {
+  // Each is true if all required icons for the stated platform are provided.
+  bool hasAndroid = flutterIconsConfig.containsKey('image_path_android') || !hasAndroidConfig(flutterIconsConfig);
+  bool hasIOS = flutterIconsConfig.containsKey('image_path_ios') || !hasIOSConfig(flutterIconsConfig);
+  bool hasWeb = flutterIconsConfig.containsKey('image_path_web') || !hasWebConfig(flutterIconsConfig);
+
   return flutterIconsConfig.containsKey('image_path') ||
-      (flutterIconsConfig.containsKey('image_path_android') &&
-          flutterIconsConfig.containsKey('image_path_ios'));
+      (hasAndroid && hasIOS && hasWeb);
 }
 
-bool hasAndroidOrIOSConfig(Map<String, dynamic> flutterIconsConfig) {
+bool hasSomeIconConfig(Map<String, dynamic> flutterIconsConfig) {
   return flutterIconsConfig.containsKey('android') ||
-      flutterIconsConfig.containsKey('ios');
+      flutterIconsConfig.containsKey('ios') ||
+      flutterIconsConfig.containsKey('web');
 }
 
 bool hasAndroidConfig(Map<String, dynamic> flutterLauncherIcons) {
@@ -156,4 +172,13 @@ bool hasIOSConfig(Map<String, dynamic> flutterLauncherIconsConfig) {
 bool isNeedingNewIOSIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
   return hasIOSConfig(flutterLauncherIconsConfig) &&
       flutterLauncherIconsConfig['ios'] != false;
+}
+
+bool hasWebConfig(Map<String, dynamic> flutterLauncherIconsConfig) {
+  return flutterLauncherIconsConfig.containsKey('web');
+}
+
+bool isNeedingNewWebIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
+  return hasWebConfig(flutterLauncherIconsConfig) &&
+      flutterLauncherIconsConfig['web'] != false;
 }

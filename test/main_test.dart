@@ -103,42 +103,74 @@ flutter_icons:
     expect(() => main_dart.loadConfigFile(incorrectPath, null), throwsA(const TypeMatcher<FileSystemException>()));
   });
 
-  test('image_path is in config', () {
+  test('image_path is in config -- All platforms set to true & image_path given.', () {
     final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
       'image_path': 'assets/images/icon-710x599.png',
       'android': true,
-      'ios': true
+      'ios': true,
+      'web': true,
     };
     expect(main_dart.isImagePathInConfig(flutterIconsConfig), true);
+  });
+
+  test('image_path is in config -- android & ios requested, but only android given',
+  () {
     final Map<String, dynamic> flutterIconsConfigAndroid = <String, dynamic>{
       'image_path_android': 'assets/images/icon-710x599.png',
       'android': true,
       'ios': true
     };
     expect(main_dart.isImagePathInConfig(flutterIconsConfigAndroid), false);
-    final Map<String, dynamic> flutterIconsConfigBoth = <String, dynamic>{
+  });
+
+  test('image_path is in config -- Android and iOS both active and icons given for both',
+  () {
+    final Map<String, dynamic> flutterIconsConfigIOSAndroid = <String, dynamic>{
       'image_path_android': 'assets/images/icon-710x599.png',
       'image_path_ios': 'assets/images/icon-710x599.png',
       'android': true,
       'ios': true
     };
-    expect(main_dart.isImagePathInConfig(flutterIconsConfigBoth), true);
+    expect(main_dart.isImagePathInConfig(flutterIconsConfigIOSAndroid), true);
+  });
+
+  test('image_path is in config -- Icons for all systems given.',
+  () {
+    final Map<String, dynamic> flutterIconsConfigAll = <String, dynamic>{
+      'image_path_android': 'assets/images/icon-710x599.png',
+      'image_path_ios': 'assets/images/icon-710x599.png',
+      'image_path_web': 'assets/images/icon-710x599.png',
+      'android': true,
+      'ios': true,
+      'web': true,
+    };
+    expect(main_dart.isImagePathInConfig(flutterIconsConfigAll), true);
+  });
+
+  test('image_path is in config -- only image_path for ios given & does not match target (web).',
+  () {
+    final Map<String, dynamic> flutterIconsConfigWeb = <String, dynamic>{
+      'image_path_ios': 'assets/images/icon-710x599.png',
+      'web': true,
+    };
+    expect(main_dart.isImagePathInConfig(flutterIconsConfigWeb), false);
   });
 
   test('At least one platform is in config file', () {
     final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
       'image_path': 'assets/images/icon-710x599.png',
       'android': true,
-      'ios': true
+      'ios': true,
+      'web': true,
     };
-    expect(main_dart.hasAndroidOrIOSConfig(flutterIconsConfig), true);
+    expect(main_dart.hasSomeIconConfig(flutterIconsConfig), true);
   });
 
   test('No platform specified in config', () {
     final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
       'image_path': 'assets/images/icon-710x599.png'
     };
-    expect(main_dart.hasAndroidOrIOSConfig(flutterIconsConfig), false);
+    expect(main_dart.hasSomeIconConfig(flutterIconsConfig), false);
   });
 
   test('No new Android icon needed - android: false', () {
@@ -173,5 +205,22 @@ flutter_icons:
       'android': true
     };
     expect(main_dart.isNeedingNewIOSIcon(flutterIconsConfig), false);
+  });
+  
+  test('No new web icon needed -- no web config', () {
+    final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
+      'image_path': 'assets/images/icon-710x599.png',
+      'android': true
+    };
+    expect(main_dart.isNeedingNewIOSIcon(flutterIconsConfig), false);
+  });
+  
+  test('No new web icon needed -- web: false', () {
+    final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
+      'image_path': 'assets/images/icon-710x599.png',
+      'web': false,
+      'ios': true
+    };
+    expect(main_dart.isNeedingNewWebIcon(flutterIconsConfig), false);
   });
 }

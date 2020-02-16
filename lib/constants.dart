@@ -14,8 +14,14 @@ const String iosAssetFolder = 'ios/Runner/Assets.xcassets/';
 const String iosConfigFile = 'ios/Runner.xcodeproj/project.pbxproj';
 const String iosDefaultIconName = 'Icon-App';
 
+const String webFaviconLocation =
+    'web/';
+const String webIconLocation =
+    'web/icons/';
+
 const String errorMissingImagePath =
-    'Missing "image_path" or "image_path_android" + "image_path_ios" within configuration';
+    'Missing "image_path" or "image_path_android" + "image_path_ios"' + 
+    ' + "image_path_web" within configuration';
 const String errorMissingPlatform =
     'No platform specified within config to generate icons for.';
 const String errorMissingRegularAndroid =
