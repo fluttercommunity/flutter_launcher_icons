@@ -34,5 +34,5 @@ const String errorIncorrectIconName =
 const String errorWebCustomLocationNotSupported =
     'Icon generation for web does not support specification of a custom '
     'icon location! Please manually save a copy of the prefered icon theme '
-    '(perhaps by making a copy and renaming it). Custom locations are not'
+    '(perhaps by making a copy and renaming it). Custom locations are not '
     'supported.';
