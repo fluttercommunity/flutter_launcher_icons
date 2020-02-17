@@ -139,11 +139,11 @@ For best results try and use a foreground image which has padding much like [the
 #### Launcher icons not present in debug mode
 
 `favicon.png` may not be served with `index.html` when `flutter run -d web-server` is used. Try this!
-`bash
+```bash
 $ flutter build web
 $ cd build/web
 $ python3 -m http.server
-`
+```
 
 Favicons should now be present!
 
