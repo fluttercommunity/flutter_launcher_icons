@@ -20,7 +20,7 @@ const String webIconLocation =
     'web/icons/';
 
 const String errorMissingImagePath =
-    'Missing "image_path" or "image_path_android" + "image_path_ios"' + 
+    'Missing "image_path" or "image_path_android" + "image_path_ios"' 
     ' + "image_path_web" within configuration';
 const String errorMissingPlatform =
     'No platform specified within config to generate icons for.';
@@ -30,3 +30,9 @@ const String errorMissingRegularAndroid =
 const String errorIncorrectIconName =
     'The icon name must contain only lowercase a-z, 0-9, or underscore: '
     'E.g. "ic_my_new_icon"';
+
+const String errorWebCustomLocationNotSupported =
+    'Icon generation for web does not support specification of a custom '
+    'icon location! Please manually save a copy of the prefered icon theme '
+    '(perhaps by making a copy and renaming it). Custom locations are not'
+    'supported.';

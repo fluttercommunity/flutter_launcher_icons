@@ -136,9 +136,9 @@ Map<String, dynamic> loadConfigFile(String path, String fileOptionResult) {
 
 bool isImagePathInConfig(Map<String, dynamic> flutterIconsConfig) {
   // Each is true if all required icons for the stated platform are provided.
-  bool hasAndroid = flutterIconsConfig.containsKey('image_path_android') || !hasAndroidConfig(flutterIconsConfig);
-  bool hasIOS = flutterIconsConfig.containsKey('image_path_ios') || !hasIOSConfig(flutterIconsConfig);
-  bool hasWeb = flutterIconsConfig.containsKey('image_path_web') || !hasWebConfig(flutterIconsConfig);
+  final bool hasAndroid = flutterIconsConfig.containsKey('image_path_android') || !hasAndroidConfig(flutterIconsConfig),
+             hasIOS = flutterIconsConfig.containsKey('image_path_ios') || !hasIOSConfig(flutterIconsConfig),
+             hasWeb = flutterIconsConfig.containsKey('image_path_web') || !hasWebConfig(flutterIconsConfig);
 
   return flutterIconsConfig.containsKey('image_path') ||
       (hasAndroid && hasIOS && hasWeb);

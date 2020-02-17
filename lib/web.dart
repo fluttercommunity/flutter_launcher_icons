@@ -48,11 +48,20 @@ List<WebIconTemplate> webIcons = <WebIconTemplate>[
 void createIcons(Map<String, dynamic> config) {
   final String filePath = config['image_path_web'] ?? config['image_path'];
   final Image image = decodeImage(File(filePath).readAsBytesSync());
+  final dynamic webConfig = config['web'];
 
-  print ('Overwriting web favicon and launcher icons...');
-  
-  for (WebIconTemplate template in webIcons) {
-    overwriteDefaultIcon(template, image);
+  // If a String is given, the user wants to be able to revert
+  //to the previous icon set. Back up the previous set.
+  if (webConfig is String) {
+    // As there is only one favicon, fail. Request that the user
+    //manually backup requested icons.
+    print (constants.errorWebCustomLocationNotSupported);
+  } else {
+    print ('Overwriting web favicon and launcher icons...');
+    
+    for (WebIconTemplate template in webIcons) {
+      overwriteDefaultIcon(template, image);
+    }
   }
 }
 
