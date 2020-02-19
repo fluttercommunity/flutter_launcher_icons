@@ -18,11 +18,19 @@ class WebIconTemplate {
       interpolation = Interpolation.linear;
     }
 
+    // cropOffsetX and cropOffsetY are locations for the upper-left
+    //and upper-right corners of the crop region, respectively.
     int cropOffsetX = 0,
         cropOffsetY = 0;
     int resizeSize;
 
-    final int cropOffset = ((image.width - image.height) / 2.0).floor();
+    // Create a single cropOffset that we use to determine
+    //cropOffsetX and cropOffsetY.
+    final int spaceRemoved = image.width - image.height; // How much space
+                                                         //will be removed from
+                                                         //the image.
+    final int cropOffset = (spaceRemoved / 2.0).floor(); // We want only one side
+                                                         //for the offset.
 
     if (cropOffset >= 0) { // If the image is stretched horizontally.
       cropOffsetX = cropOffset;
@@ -32,14 +40,13 @@ class WebIconTemplate {
       resizeSize = image.width;
     }
 
-    print ('offset x: $cropOffsetX\noffset y: $cropOffsetY');
-
     final Image croppedImage = copyCrop(image,
-        cropOffsetX, cropOffsetY,
+        cropOffsetX, cropOffsetY, // X & Y position
         resizeSize, resizeSize); // Width & height
 
+    // The image is now square. Resize it.
     final Image resizedImg = copyResize(croppedImage, 
-        width: size, height: size, // Auto width
+        width: size, height: size,
         interpolation: interpolation);
     
     return resizedImg;
