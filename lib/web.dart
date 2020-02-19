@@ -18,17 +18,31 @@ class WebIconTemplate {
       interpolation = Interpolation.linear;
     }
 
-    final Image resizedImg = copyResize(image, 
-        width: -1, height: size, // Auto width
-        interpolation: interpolation);
+    int cropOffsetX = 0,
+        cropOffsetY = 0;
+    int resizeSize;
 
-    final int cropOffsetX = ((resizedImg.width - size) / 2.0).floor();
+    final int cropOffset = ((image.width - image.height) / 2.0).floor();
+
+    if (cropOffset >= 0) { // If the image is stretched horizontally.
+      cropOffsetX = cropOffset;
+      resizeSize = image.height;
+    } else { // Else, it is stretched vertically.
+      cropOffsetY = -cropOffset;
+      resizeSize = image.width;
+    }
+
+    print ('offset x: $cropOffsetX\noffset y: $cropOffsetY');
+
+    final Image croppedImage = copyCrop(image,
+        cropOffsetX, cropOffsetY,
+        resizeSize, resizeSize); // Width & height
+
+    final Image resizedImg = copyResize(croppedImage, 
+        width: size, height: size, // Auto width
+        interpolation: interpolation);
     
-    final Image newFile = copyCrop(resizedImg,
-        cropOffsetX, 0, // zero crop offset y
-        size, size); // Width & height
-    
-    return newFile;
+    return resizedImg;
   }
 
   void updateFile(Image image) {
