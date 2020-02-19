@@ -8,8 +8,7 @@ const String wideImagePath   = 'test/images/wide.png';
 const String tallImagePath   = 'test/images/tall.png';
 const String squareImagePath = 'test/images/square.png';
 
-void main()
-{
+void main() {
   
   test('Has favicon support.', () {
     bool hasFavicon = false;
