@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.8.0 (22nd Feb 2020)
+ - Support for web favicons and launcer icons.
+
 ## 0.7.4 (28th Oct 2019)
 
 - Worked on suggestions from [pub.dev](https://pub.dev/packages/flutter_launcher_icons#-analysis-tab-)
