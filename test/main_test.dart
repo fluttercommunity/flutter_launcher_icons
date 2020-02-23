@@ -207,10 +207,11 @@ flutter_icons:
     expect(main_dart.isNeedingNewIOSIcon(flutterIconsConfig), false);
   });
   
-  test('No new web icon needed -- no web config', () {
+  test('No new iOS icon needed -- only Android and web configs', () {
     final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
       'image_path': 'assets/images/icon-710x599.png',
-      'android': true
+      'android': true,
+      'web': true,
     };
     expect(main_dart.isNeedingNewIOSIcon(flutterIconsConfig), false);
   });
