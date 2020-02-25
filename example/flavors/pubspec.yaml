@@ -9,7 +9,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_launcher_icons:
-    path: ..
+    path: ../..
 
 flutter:
   uses-material-design: true

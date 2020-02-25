@@ -14,7 +14,7 @@ dev_dependencies:
     sdk: flutter
 
   flutter_launcher_icons:
-    path: ../
+    path: ../..
 
 flutter_icons:
 #  image_path: "assets/images/icon-128x128.png"
