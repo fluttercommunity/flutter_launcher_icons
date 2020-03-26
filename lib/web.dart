@@ -12,9 +12,9 @@ class WebIconTemplate {
   Image createFrom(Image image) {
     Interpolation interpolation = Interpolation.average;
 
-    // Select interpolation based on that done by the iOS
+    // Select interpolation based on that used by the iOS
     //launcher icon generator.
-    if (image.width >= size) {
+    if (image.width < size) {
       interpolation = Interpolation.linear;
     }
 
