@@ -266,8 +266,6 @@ List<String> transformAndroidManifestWithNewLauncherIcon(List<String> oldManifes
       line = line.replaceAll(RegExp(r'android:icon="[^"]*(\\"[^"]*)*"'),
           'android:icon="@mipmap/$iconName"');
       oldManifestLines[x] = line;
-      // used to stop git showing a diff if the icon name hasn't changed
-      oldManifestLines.add('');
     }
   }
   return oldManifestLines;
