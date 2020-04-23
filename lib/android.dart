@@ -252,9 +252,10 @@ Future<void> overwriteAndroidManifestWithNewLauncherIcon(String iconName) async 
   final List<String> transformedLines = transformAndroidManifestWithNewLauncherIcon(oldManifestLines, iconName);
   await androidManifestFile.writeAsString(transformedLines.join('\n'));
 }
+
+/// Updates only the line containing android:icon with the specified iconName
 List<String> transformAndroidManifestWithNewLauncherIcon(List<String> oldManifestLines, String iconName) {
-  for (int x = 0; x < oldManifestLines.length; x++) {
-    String line = oldManifestLines[x];
+  return oldManifestLines.map((String line) {
     if (line.contains('android:icon')) {
       // Using RegExp replace the value of android:icon to point to the new icon
       // anything but a quote of any length: [^"]*
@@ -263,14 +264,13 @@ List<String> transformAndroidManifestWithNewLauncherIcon(List<String> oldManifes
       // repeat as often as wanted with no quote at start: [^"]*(\"[^"]*)*
       // escaping the slash to place in string: [^"]*(\\"[^"]*)*"
       // result: any string which does only include escaped quotes
-      line = line.replaceAll(RegExp(r'android:icon="[^"]*(\\"[^"]*)*"'),
+      return line.replaceAll(RegExp(r'android:icon="[^"]*(\\"[^"]*)*"'),
           'android:icon="@mipmap/$iconName"');
-      oldManifestLines[x] = line;
+    } else {
+      return line;
     }
-  }
-  return oldManifestLines;
+  }).toList();
 }
-
 
 /// Retrieves the minSdk value from the Android build.gradle file
 int minSdk() {
