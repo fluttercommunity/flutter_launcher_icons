@@ -248,9 +248,13 @@ void saveNewImages(AndroidIconTemplate template, Image image, String iconFilePat
 /// Note: default iconName = "ic_launcher"
 Future<void> overwriteAndroidManifestWithNewLauncherIcon(String iconName) async {
   final File androidManifestFile = File(constants.androidManifestFile);
-  final List<String> lines = await androidManifestFile.readAsLines();
-  for (int x = 0; x < lines.length; x++) {
-    String line = lines[x];
+  final List<String> oldManifestLines = await androidManifestFile.readAsLines();
+  final List<String> transformedLines = transformAndroidManifestWithNewLauncherIcon(oldManifestLines, iconName);
+  await androidManifestFile.writeAsString(transformedLines.join('\n'));
+}
+List<String> transformAndroidManifestWithNewLauncherIcon(List<String> oldManifestLines, String iconName) {
+  for (int x = 0; x < oldManifestLines.length; x++) {
+    String line = oldManifestLines[x];
     if (line.contains('android:icon')) {
       // Using RegExp replace the value of android:icon to point to the new icon
       // anything but a quote of any length: [^"]*
@@ -261,13 +265,14 @@ Future<void> overwriteAndroidManifestWithNewLauncherIcon(String iconName) async 
       // result: any string which does only include escaped quotes
       line = line.replaceAll(RegExp(r'android:icon="[^"]*(\\"[^"]*)*"'),
           'android:icon="@mipmap/$iconName"');
-      lines[x] = line;
+      oldManifestLines[x] = line;
       // used to stop git showing a diff if the icon name hasn't changed
-      lines.add('');
+      oldManifestLines.add('');
     }
   }
-  await androidManifestFile.writeAsString(lines.join('\n'));
+  return oldManifestLines;
 }
+
 
 /// Retrieves the minSdk value from the Android build.gradle file
 int minSdk() {

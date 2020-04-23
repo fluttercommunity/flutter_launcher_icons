@@ -49,4 +49,49 @@ void main() {
     expect(android.getAndroidIconPath(flutterIconsNewIconConfig),
         'assets/images/icon-android.png');
   });
+
+  test('Transforming manifest without icon must add icon', () {
+    final String inputManifest = getAndroidManifestExample('android:icon="@mipmap/ic_launcher"');
+    final String expectedManifest = getAndroidManifestExample('android:icon="@mipmap/ic_other_icon_name"');
+
+    final String actual = android.transformAndroidManifestWithNewLauncherIcon(
+        inputManifest.split('\n'), 'ic_other_icon_name').join('\n');
+    expect(actual, equals(expectedManifest));
+  });
+
+  test('Transforming manifest with icon already in place should leave it unchanged', () {
+    final String inputManifest = getAndroidManifestExample('android:icon="@mipmap/ic_launcher"');
+    final String actual = android.transformAndroidManifestWithNewLauncherIcon(inputManifest.split('\n'), 'ic_launcher')
+        .join('\n');
+    expect(actual, equals(inputManifest));
+  });
+}
+
+String getAndroidManifestExample(String iconLine) {
+  return '''
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.myapplication">
+
+    <application
+        android:allowBackup="true"
+        $iconLine
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
+  '''.trim();
 }
