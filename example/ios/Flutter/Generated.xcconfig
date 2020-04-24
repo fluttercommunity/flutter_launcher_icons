@@ -5,4 +5,6 @@ FLUTTER_TARGET=/Users/mos/FlutterProjects/flutter_launcher_icons/example/lib/mai
 FLUTTER_BUILD_DIR=build
 SYMROOT=${SOURCE_ROOT}/../build/ios
 FLUTTER_FRAMEWORK_DIR=/Users/mos/Flutter/bin/cache/artifacts/engine/ios
+FLUTTER_BUILD_NAME=1.0.0
+FLUTTER_BUILD_NUMBER=1
 TRACK_WIDGET_CREATION=true
