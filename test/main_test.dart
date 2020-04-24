@@ -131,14 +131,14 @@ flutter_icons:
       'android': true,
       'ios': true
     };
-    expect(main_dart.hasAndroidOrIOSConfig(flutterIconsConfig), true);
+    expect(main_dart.hasPlatformConfig(flutterIconsConfig), true);
   });
 
   test('No platform specified in config', () {
     final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
       'image_path': 'assets/images/icon-710x599.png'
     };
-    expect(main_dart.hasAndroidOrIOSConfig(flutterIconsConfig), false);
+    expect(main_dart.hasPlatformConfig(flutterIconsConfig), false);
   });
 
   test('No new Android icon needed - android: false', () {
