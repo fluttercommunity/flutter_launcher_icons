@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.5 (24th April 2020)
+
+- Fixed issue where new lines were added to Android manifest (thanks to @mreichelt)
+- Improvements to code quality and general tidying up (thanks to @connectety)
+
 ## 0.7.4 (28th Oct 2019)
 
 - Worked on suggestions from [pub.dev](https://pub.dev/packages/flutter_launcher_icons#-analysis-tab-)

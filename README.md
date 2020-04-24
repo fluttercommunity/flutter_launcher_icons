@@ -9,6 +9,11 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
 ## :sparkles: What's New
 
+#### Version 0.7.5 (24th Apr 2020)
+
+- Fixed issue where new lines were added to Android manifest (thanks to @mreichelt)
+- Improvements to code quality and general tidying up (thanks to @connectety)
+
 #### Version 0.7.4 (28th Oct 2019)
 
 - Worked on suggestions from [pub.dev](https://pub.dev/packages/flutter_launcher_icons#-analysis-tab-)
@@ -35,12 +40,7 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 #### Version 0.6.1 (26th August 2018)
  * Upgraded dependencies so that it should now work with Dart 2.1.0
 
-#### Version 0.6.0 (8th August 2018)
- * Moved the package to [Flutter Community](https://github.com/fluttercommunity/community)
-
-#### Version 0.5.0 (12th June 2018)
- * [Android] Support for adaptive icons added
-
+Want to see older changes? Be sure to check out the [Changelog](https://github.com/fluttercommunity/flutter_launcher_icons/blob/master/CHANGELOG.md).
 
 ## :book: Guide
 
