@@ -4,6 +4,7 @@
 
 - Fixed issue where new lines were added to Android manifest (thanks to @mreichelt)
 - Improvements to code quality and general tidying up (thanks to @connectety)
+- Fixed Android example project not running (needed to be migrated to AndroidX)
 
 ## 0.7.4 (28th Oct 2019)
 

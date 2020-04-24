@@ -13,6 +13,7 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
 - Fixed issue where new lines were added to Android manifest (thanks to @mreichelt)
 - Improvements to code quality and general tidying up (thanks to @connectety)
+- Fixed Android example project not running (needed to be migrated to AndroidX)
 
 #### Version 0.7.4 (28th Oct 2019)
 
