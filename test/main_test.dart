@@ -8,6 +8,8 @@ import 'package:flutter_launcher_icons/ios.dart' as ios;
 import 'package:flutter_launcher_icons/android.dart' as android;
 import 'package:flutter_launcher_icons/main.dart' as main_dart;
 
+
+
 // Unit tests for main.dart
 void main() {
   test('iOS icon list is correct size', () {
@@ -25,7 +27,7 @@ void main() {
   });
 
   test('pubspec.yaml file exists', () async {
-    const String path = 'test/config/test_pubspec.yaml';
+    const String path = 'config/test_pubspec.yaml';
     final Map<String, dynamic> config = main_dart.loadConfigFile(path, null);
     expect(config.length, isNotNull);
   });
@@ -163,14 +165,14 @@ flutter_icons:
       'ios': true,
       'web': true,
     };
-    expect(main_dart.hasSomeIconConfig(flutterIconsConfig), true);
+    expect(main_dart.hasPlatformConfig(flutterIconsConfig), true);
   });
 
   test('No platform specified in config', () {
     final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
       'image_path': 'assets/images/icon-710x599.png'
     };
-    expect(main_dart.hasSomeIconConfig(flutterIconsConfig), false);
+    expect(main_dart.hasPlatformConfig(flutterIconsConfig), false);
   });
 
   test('No new Android icon needed - android: false', () {

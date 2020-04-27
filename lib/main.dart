@@ -28,7 +28,8 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   }
 
   // Load the config file
-  final Map<String, dynamic> yamlConfig = loadConfigFileFromArgResults(argResults, verbose: true);
+  final Map<String, dynamic> yamlConfig =
+      loadConfigFileFromArgResults(argResults, verbose: true);
 
   // Create icons
   try {
@@ -43,17 +44,17 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config) async {
   if (!isImagePathInConfig(config)) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
-
-  if (!hasSomeIconConfig(config)) {
+  if (!hasPlatformConfig(config)) {
     throw const InvalidConfigException(errorMissingPlatform);
   }
-  
-  
-  final int minSdk = android_launcher_icons.minSdk();
-  if (minSdk < 26 &&
-      hasAndroidAdaptiveConfig(config) &&
-      !hasAndroidConfig(config)) {
-    throw const InvalidConfigException(errorMissingRegularAndroid);
+
+  if (isNeedingNewAndroidIcon(config) || hasAndroidAdaptiveConfig(config)) {
+    final int minSdk = android_launcher_icons.minSdk();
+    if (minSdk < 26 &&
+        hasAndroidAdaptiveConfig(config) &&
+        !hasAndroidConfig(config)) {
+      throw const InvalidConfigException(errorMissingRegularAndroid);
+    }
   }
 
   if (isNeedingNewAndroidIcon(config)) {
@@ -116,6 +117,7 @@ Map<String, dynamic> loadConfigFileFromArgResults(ArgResults argResults,
 Map<String, dynamic> loadConfigFile(String path, String fileOptionResult) {
   final File file = File(path);
   final String yamlString = file.readAsStringSync();
+  // ignore: always_specify_types
   final Map yamlMap = loadYaml(yamlString);
 
   if (yamlMap == null || !(yamlMap['flutter_icons'] is Map)) {
@@ -144,10 +146,10 @@ bool isImagePathInConfig(Map<String, dynamic> flutterIconsConfig) {
       (hasAndroid && hasIOS && hasWeb);
 }
 
-bool hasSomeIconConfig(Map<String, dynamic> flutterIconsConfig) {
-  return flutterIconsConfig.containsKey('android') ||
-      flutterIconsConfig.containsKey('ios') ||
-      flutterIconsConfig.containsKey('web');
+bool hasPlatformConfig(Map<String, dynamic> flutterIconsConfig) {
+  return hasAndroidConfig(flutterIconsConfig) ||
+      hasIOSConfig(flutterIconsConfig) ||
+      hasWebConfig(flutterIconsConfig);
 }
 
 bool hasAndroidConfig(Map<String, dynamic> flutterLauncherIcons) {

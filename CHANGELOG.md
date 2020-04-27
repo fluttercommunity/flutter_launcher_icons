@@ -3,6 +3,12 @@
 ## 0.8.0 (22nd Feb 2020)
  - Support for web favicons and launcer icons.
 
+## 0.7.5 (24th April 2020)
+
+- Fixed issue where new lines were added to Android manifest (thanks to @mreichelt)
+- Improvements to code quality and general tidying up (thanks to @connectety)
+- Fixed Android example project not running (needed to be migrated to AndroidX)
+
 ## 0.7.4 (28th Oct 2019)
 
 - Worked on suggestions from [pub.dev](https://pub.dev/packages/flutter_launcher_icons#-analysis-tab-)
@@ -41,7 +47,7 @@
 ## 0.6.0 (8th August 2018)
 
 - Moved the package to [Flutter Community](https://github.com/fluttercommunity/community)
- 
+
 ## 0.5.2 (19th June 2018)
 
 - Previous release didn't fix adaptive icons, just prevented the error message from appearing. This should hopefully fix it!
@@ -62,7 +68,7 @@
 
 ## 0.3.3 (28th May 2018)
 
-- Upgraded dart image package dependency to 2.0.0 (issue #26) 
+- Upgraded dart image package dependency to 2.0.0 (issue #26)
 
 
 ## 0.3.2 (2nd May 2018)
