@@ -17,7 +17,8 @@ List<String> getFlavors() {
   List<String> flavors = [];
   for (var item in Directory('.').listSync()) {
     if (item is File) {
-      var match = RegExp(flavorConfigFilePattern).firstMatch(item.path);
+      var path = item.path.replaceAll('\\', '/');
+      var match = RegExp(flavorConfigFilePattern).firstMatch(path);
       if (match != null) {
         flavors.add(match.group(1));
       }
@@ -44,12 +45,13 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   var flavors = getFlavors();
   var hasFlavors = flavors.isNotEmpty;
 
-  // Load the config file
-  final Map<String, dynamic> yamlConfig = loadConfigFileFromArgResults(argResults, verbose: true);
 
   // Create icons
   if ( !hasFlavors ) {
     try {
+      // Load the config file
+      final Map<String, dynamic> yamlConfig = loadConfigFileFromArgResults(argResults, verbose: true);
+
       createIconsFromConfig(yamlConfig);
     } catch (e) {
       stderr.writeln(e);
