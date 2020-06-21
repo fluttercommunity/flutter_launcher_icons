@@ -7,6 +7,7 @@ import 'package:flutter_launcher_icons/constants.dart' as constants;
 
 class AndroidIconTemplate {
   AndroidIconTemplate({this.size, this.directoryName});
+
   final String directoryName;
   final int size;
 }
@@ -252,12 +253,14 @@ Future<void> overwriteAndroidManifestWithNewLauncherIcon(
     String iconName) async {
   final File androidManifestFile = File(constants.androidManifestFile);
   final List<String> oldManifestLines = await androidManifestFile.readAsLines();
-  final List<String> transformedLines = transformAndroidManifestWithNewLauncherIcon(oldManifestLines, iconName);
+  final List<String> transformedLines =
+      transformAndroidManifestWithNewLauncherIcon(oldManifestLines, iconName);
   await androidManifestFile.writeAsString(transformedLines.join('\n'));
 }
 
 /// Updates only the line containing android:icon with the specified iconName
-List<String> transformAndroidManifestWithNewLauncherIcon(List<String> oldManifestLines, String iconName) {
+List<String> transformAndroidManifestWithNewLauncherIcon(
+    List<String> oldManifestLines, String iconName) {
   return oldManifestLines.map((String line) {
     if (line.contains('android:icon')) {
       // Using RegExp replace the value of android:icon to point to the new icon

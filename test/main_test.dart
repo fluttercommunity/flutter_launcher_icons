@@ -32,7 +32,8 @@ void main() {
 
   group('config file from args', () {
     // Create mini parser with only the wanted option, mocking the real one
-    final ArgParser parser = ArgParser()..addOption(main_dart.fileOption, abbr: 'f');
+    final ArgParser parser = ArgParser()
+      ..addOption(main_dart.fileOption, abbr: 'f');
     final String testDir =
         join('.dart_tool', 'flutter_launcher_icons', 'test', 'config_file');
 
@@ -57,7 +58,8 @@ flutter_icons:
   ios: false
 ''');
       final ArgResults argResults = parser.parse(<String>[]);
-      final Map<String, dynamic> config = main_dart.loadConfigFileFromArgResults(argResults);
+      final Map<String, dynamic> config =
+          main_dart.loadConfigFileFromArgResults(argResults);
       expect(config['android'], true);
     });
     test('default_use_pubspec', () async {
@@ -68,7 +70,8 @@ flutter_icons:
   ios: false
 ''');
       ArgResults argResults = parser.parse(<String>[]);
-      final Map<String, dynamic> config = main_dart.loadConfigFileFromArgResults(argResults);
+      final Map<String, dynamic> config =
+          main_dart.loadConfigFileFromArgResults(argResults);
       expect(config['ios'], false);
 
       // fails if forcing default file
@@ -85,7 +88,8 @@ flutter_icons:
 ''');
       // if no argument set, should fail
       ArgResults argResults = parser.parse(<String>['-f', 'custom.yaml']);
-      final Map<String, dynamic> config = main_dart.loadConfigFileFromArgResults(argResults);
+      final Map<String, dynamic> config =
+          main_dart.loadConfigFileFromArgResults(argResults);
       expect(config['ios'], true);
 
       // should fail if no argument
@@ -100,7 +104,8 @@ flutter_icons:
 
   test('Incorrect pubspec.yaml path throws correct error message', () async {
     const String incorrectPath = 'test/config/test_pubspec.yam';
-    expect(() => main_dart.loadConfigFile(incorrectPath, null), throwsA(const TypeMatcher<FileSystemException>()));
+    expect(() => main_dart.loadConfigFile(incorrectPath, null),
+        throwsA(const TypeMatcher<FileSystemException>()));
   });
 
   test('image_path is in config', () {

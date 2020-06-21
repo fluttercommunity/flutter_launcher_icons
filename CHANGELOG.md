@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.6 (21st June 2020)
+
+- Update image: ^2.1.1 -> 2.1.13
+- Update args: ^1.5.0 -> 1.6.0
+- Update yaml: 2.1.15 -> 2.2.1
+- Format source code
+
 ## 0.7.5 (24th April 2020)
 
 - Fixed issue where new lines were added to Android manifest (thanks to @mreichelt)

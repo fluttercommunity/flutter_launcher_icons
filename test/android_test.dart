@@ -10,9 +10,9 @@ void main() {
     expect(android.isCorrectMipmapDirectoryForAdaptiveIcon(path1), false);
     expect(android.isCorrectMipmapDirectoryForAdaptiveIcon(path2), false);
     expect(
-        android.isCorrectMipmapDirectoryForAdaptiveIcon(
-            androidAdaptiveXmlFolder),
-        true);
+      android.isCorrectMipmapDirectoryForAdaptiveIcon(androidAdaptiveXmlFolder),
+      true,
+    );
   });
 
   test('Correct number of adaptive foreground icons', () {
@@ -51,17 +51,33 @@ void main() {
   });
 
   test('Transforming manifest without icon must add icon', () {
-    final String inputManifest = getAndroidManifestExample('android:icon="@mipmap/ic_launcher"');
-    final String expectedManifest = getAndroidManifestExample('android:icon="@mipmap/ic_other_icon_name"');
+    final String inputManifest = getAndroidManifestExample(
+      'android:icon="@mipmap/ic_launcher"',
+    );
+    final String expectedManifest = getAndroidManifestExample(
+      'android:icon="@mipmap/ic_other_icon_name"',
+    );
 
-    final String actual = android.transformAndroidManifestWithNewLauncherIcon(
-        inputManifest.split('\n'), 'ic_other_icon_name').join('\n');
+    final String actual = android
+        .transformAndroidManifestWithNewLauncherIcon(
+          inputManifest.split('\n'),
+          'ic_other_icon_name',
+        )
+        .join('\n');
     expect(actual, equals(expectedManifest));
   });
 
-  test('Transforming manifest with icon already in place should leave it unchanged', () {
-    final String inputManifest = getAndroidManifestExample('android:icon="@mipmap/ic_launcher"');
-    final String actual = android.transformAndroidManifestWithNewLauncherIcon(inputManifest.split('\n'), 'ic_launcher')
+  test(
+      'Transforming manifest with icon already in place should leave it unchanged',
+      () {
+    final String inputManifest = getAndroidManifestExample(
+      'android:icon="@mipmap/ic_launcher"',
+    );
+    final String actual = android
+        .transformAndroidManifestWithNewLauncherIcon(
+          inputManifest.split('\n'),
+          'ic_launcher',
+        )
         .join('\n');
     expect(actual, equals(inputManifest));
   });
@@ -93,5 +109,6 @@ String getAndroidManifestExample(String iconLine) {
     </application>
 
 </manifest>
-  '''.trim();
+  '''
+      .trim();
 }

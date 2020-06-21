@@ -7,6 +7,7 @@ import 'package:flutter_launcher_icons/constants.dart';
 /// File to handle the creation of icons for iOS platform
 class IosIconTemplate {
   IosIconTemplate({this.size, this.name});
+
   final String name;
   final int size;
 }
@@ -122,6 +123,7 @@ String generateContentsFileAsString(String newIconName) {
 
 class ContentsImageObject {
   ContentsImageObject({this.size, this.idiom, this.filename, this.scale});
+
   final String size;
   final String idiom;
   final String filename;
@@ -139,6 +141,7 @@ class ContentsImageObject {
 
 class ContentsInfoObject {
   ContentsInfoObject({this.version, this.author});
+
   final int version;
   final String author;
 
