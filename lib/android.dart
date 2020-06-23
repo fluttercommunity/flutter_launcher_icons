@@ -63,19 +63,39 @@ bool isAndroidIconNameCorrectFormat(String iconName) {
 void createAdaptiveIcons(Map<String, dynamic> flutterLauncherIconsConfig) {
   print('Creating adaptive icons Android');
 
-  // Retrieve the necessary Flutter Launcher Icons configuration from the pubspec.yaml file
+  // Retrieve the necessary Flutter Launcher Icons configuration from the yaml file
   final String backgroundConfig =
       flutterLauncherIconsConfig['adaptive_icon_background'];
   final String foregroundImagePath =
       flutterLauncherIconsConfig['adaptive_icon_foreground'];
   final Image foregroundImage =
       decodeImage(File(foregroundImagePath).readAsBytesSync());
+  final double foregroundScaleFactor =
+      flutterLauncherIconsConfig['adaptive_icon_foreground_scale_factor'];
+
+  final bool rescale =
+      foregroundScaleFactor != null && foregroundScaleFactor > 0;
+
+  Image newCanvas;
+  // Scales the image prior to converting to icon.  This is mainly for scaling down to match adaptive icon spec
+  if (rescale) {
+    print('Rescaling icon by $foregroundScaleFactor');
+    final int height = foregroundImage.height;
+    final int width = foregroundImage.width;
+    final int scaledHeight = (height * 1/foregroundScaleFactor).floor();
+    final int scaledWidth = (width * 1/foregroundScaleFactor).floor();
+    newCanvas = Image(scaledHeight, scaledWidth);
+    newCanvas.fill(0);
+    copyInto(newCanvas, foregroundImage,
+        dstX: ((scaledHeight - height) / 2).floor(),
+        dstY: ((scaledWidth - width) / 2).floor());
+  }
 
   // Create adaptive icon foreground images
   for (AndroidIconTemplate androidIcon in adaptiveForegroundIcons) {
     overwriteExistingIcons(
       androidIcon,
-      foregroundImage,
+      rescale ? newCanvas : foregroundImage,
       constants.androidAdaptiveForegroundFileName,
     );
   }
@@ -252,12 +272,14 @@ Future<void> overwriteAndroidManifestWithNewLauncherIcon(
     String iconName) async {
   final File androidManifestFile = File(constants.androidManifestFile);
   final List<String> oldManifestLines = await androidManifestFile.readAsLines();
-  final List<String> transformedLines = transformAndroidManifestWithNewLauncherIcon(oldManifestLines, iconName);
+  final List<String> transformedLines =
+      transformAndroidManifestWithNewLauncherIcon(oldManifestLines, iconName);
   await androidManifestFile.writeAsString(transformedLines.join('\n'));
 }
 
 /// Updates only the line containing android:icon with the specified iconName
-List<String> transformAndroidManifestWithNewLauncherIcon(List<String> oldManifestLines, String iconName) {
+List<String> transformAndroidManifestWithNewLauncherIcon(
+    List<String> oldManifestLines, String iconName) {
   return oldManifestLines.map((String line) {
     if (line.contains('android:icon')) {
       // Using RegExp replace the value of android:icon to point to the new icon
