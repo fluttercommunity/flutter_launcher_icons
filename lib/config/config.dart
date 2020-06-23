@@ -28,6 +28,8 @@ class Config {
     this.adaptiveIconForeground,
     this.adaptiveIconBackground,
     this.adaptiveIconMonochrome,
+    this.adaptiveIconForegroundScaleFactor,
+    this.adaptiveIconForegroundScaleFillColor,
     this.minSdkAndroid = constants.androidDefaultAndroidMinSDK,
     this.removeAlphaIOS = false,
     this.backgroundColorIOS = '#ffffff',
@@ -125,6 +127,14 @@ class Config {
   @JsonKey(name: 'adaptive_icon_background')
   final String? adaptiveIconBackground;
 
+  /// android adaptive_icon_foreground_scale_factor
+  @JsonKey(name: 'adaptive_icon_foreground_scale_factor')
+  final double? adaptiveIconForegroundScaleFactor;
+
+  /// android adaptive_icon_foreground_scale_fill_color
+  @JsonKey(name: 'adaptive_icon_foreground_scale_fill_color')
+  final String? adaptiveIconForegroundScaleFillColor;
+
   /// android adaptive_icon_background image
   @JsonKey(name: 'adaptive_icon_monochrome')
   final String? adaptiveIconMonochrome;
@@ -195,6 +205,11 @@ class Config {
 
   /// if we are needing a new iOS icon
   bool get isNeedingNewIOSIcon => ios != false;
+
+  /// wether to rescale the foreground android icon
+  bool get rescaleAndroidIcon =>
+      adaptiveIconForegroundScaleFactor != null &&
+      adaptiveIconForegroundScaleFactor! > 0;
 
   /// Method for the retrieval of the Android icon path
   /// If image_path_android is found, this will be prioritised over the image_path

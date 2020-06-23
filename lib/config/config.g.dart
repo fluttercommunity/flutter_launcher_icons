@@ -19,6 +19,10 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
           imagePathIOS: $checkedConvert('image_path_ios', (v) => v as String?),
           adaptiveIconForeground:
               $checkedConvert('adaptive_icon_foreground', (v) => v as String?),
+          adaptiveIconForegroundScaleFactor: $checkedConvert(
+              'adaptive_icon_foreground_scale_factor', (v) => v as double?),
+          adaptiveIconForegroundScaleFillColor: $checkedConvert(
+              'adaptive_icon_foreground_scale_fill_color', (v) => v as String?),
           adaptiveIconBackground:
               $checkedConvert('adaptive_icon_background', (v) => v as String?),
           adaptiveIconMonochrome:
@@ -43,6 +47,10 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
         'imagePathAndroid': 'image_path_android',
         'imagePathIOS': 'image_path_ios',
         'adaptiveIconForeground': 'adaptive_icon_foreground',
+        'adaptiveIconForegroundScaleFactor':
+            'adaptive_icon_foreground_scale_factor',
+        'adaptiveIconForegroundScaleFillColor':
+            'adaptive_icon_foreground_scale_fill_color',
         'adaptiveIconBackground': 'adaptive_icon_background',
         'adaptiveIconMonochrome': 'adaptive_icon_monochrome',
         'minSdkAndroid': 'min_sdk_android',
@@ -61,6 +69,10 @@ Map<String, dynamic> _$ConfigToJson(Config instance) => <String, dynamic>{
       'image_path_android': instance.imagePathAndroid,
       'image_path_ios': instance.imagePathIOS,
       'adaptive_icon_foreground': instance.adaptiveIconForeground,
+      'adaptive_icon_foreground_scale_factor':
+          instance.adaptiveIconForegroundScaleFactor,
+      'adaptive_icon_foreground_scale_fill_color':
+          instance.adaptiveIconForegroundScaleFillColor,
       'adaptive_icon_background': instance.adaptiveIconBackground,
       'adaptive_icon_monochrome': instance.adaptiveIconMonochrome,
       'min_sdk_android': instance.minSdkAndroid,

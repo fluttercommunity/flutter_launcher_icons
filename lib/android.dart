@@ -34,6 +34,19 @@ List<AndroidIconTemplate> androidIcons = <AndroidIconTemplate>[
   AndroidIconTemplate(directoryName: 'mipmap-xxxhdpi', size: 192),
 ];
 
+// https://stackoverflow.com/questions/50081213/how-do-i-use-hexadecimal-color-strings-in-flutter
+extension HexColor on Color {
+  /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
+  static Color fromHex(String hexString) {
+    final int hexValue = int.parse(hexString.replaceAll('#', ''), radix: 16);
+    final int r = (hexValue >> 24) & 0xFF;
+    final int g = (hexValue >> 16) & 0xFF;
+    final int b = (hexValue >> 8) & 0xFF;
+    final int a = hexValue & 0xFF;
+    return ColorUint8.rgba(r, g, b, a);
+  }
+}
+
 void createDefaultIcons(
   Config config,
   String? flavor,
@@ -105,11 +118,39 @@ void createAdaptiveIcons(
     return;
   }
 
+  Image rescaledForegroundImage;
+  // Scales the image prior to converting to icon.  This is mainly for scaling down to match adaptive icon spec
+  if (config.rescaleAndroidIcon) {
+    final double foregroundScaleFactor =
+        config.adaptiveIconForegroundScaleFactor!;
+    final String? foregroundScaleFillColor =
+        config.adaptiveIconForegroundScaleFillColor;
+
+    utils.printStatus('Rescaling icon by $foregroundScaleFactor');
+    final int height = foregroundImage.height;
+    final int width = foregroundImage.width;
+    final int scaledHeight = (height * 1 / foregroundScaleFactor).floor();
+    final int scaledWidth = (width * 1 / foregroundScaleFactor).floor();
+    rescaledForegroundImage =
+        Image(height: scaledHeight, width: scaledWidth, numChannels: 4);
+    final backgroundColor = foregroundScaleFillColor != null
+        ? HexColor.fromHex(foregroundScaleFillColor)
+        : ColorUint8.rgba(0, 0, 0, 0);
+    rescaledForegroundImage.clear(backgroundColor);
+    compositeImage(
+      rescaledForegroundImage,
+      foregroundImage,
+      center: true,
+    );
+  } else {
+    rescaledForegroundImage = foregroundImage;
+  }
+
   // Create adaptive icon foreground images
   for (AndroidIconTemplate androidIcon in adaptiveForegroundIcons) {
     overwriteExistingIcons(
       androidIcon,
-      foregroundImage,
+      rescaledForegroundImage,
       constants.androidAdaptiveForegroundFileName,
       flavor,
     );
