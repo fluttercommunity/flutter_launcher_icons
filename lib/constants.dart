@@ -14,6 +14,12 @@ const String iosAssetFolder = 'ios/Runner/Assets.xcassets/';
 const String iosConfigFile = 'ios/Runner.xcodeproj/project.pbxproj';
 const String iosDefaultIconName = 'Icon-App';
 
+const String macosDefaultIconFolder =
+    'macos/Runner/Assets.xcassets/AppIcon.appiconset/';
+const String macosAssetFolder = 'macos/Runner/Assets.xcassets/';
+const String macosConfigFile = 'macos/Runner.xcodeproj/project.pbxproj';
+const String macosDefaultIconName = 'app_icon';
+
 const String errorMissingImagePath =
     'Missing "image_path" or "image_path_android" + "image_path_ios" within configuration';
 const String errorMissingPlatform =
