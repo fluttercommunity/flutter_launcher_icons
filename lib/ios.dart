@@ -38,6 +38,12 @@ List<IosIconTemplate> iosIcons = <IosIconTemplate>[
 void createIcons(Map<String, dynamic> config) {
   final String filePath = config['image_path_ios'] ?? config['image_path'];
   final Image image = decodeImage(File(filePath).readAsBytesSync());
+  if (config['remove_alpha_ios'] is bool && config['remove_alpha_ios']) {
+    image.channels = Channels.rgb;
+  }
+  if (image.channels == Channels.rgba) {
+    print('\nWARNING: Icons with alpha channel are not allowed in the Apple App Store.\nSet "remove_alpha_ios: true" to remove it.\n');
+  }
   String iconName;
   final dynamic iosConfig = config['ios'];
   // If the IOS configuration is a string then the user has specified a new icon to be created
