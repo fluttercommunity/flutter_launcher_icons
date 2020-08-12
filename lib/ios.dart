@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_launcher_icons/utils.dart';
 import 'package:image/image.dart';
 import 'package:flutter_launcher_icons/constants.dart';
 
 /// File to handle the creation of icons for iOS platform
 class IosIconTemplate {
   IosIconTemplate({this.size, this.name});
+
   final String name;
   final int size;
 }
@@ -33,7 +35,7 @@ void createIcons(Map<String, dynamic> config, String flavor) {
   final Image image = decodeImage(File(filePath).readAsBytesSync());
   String iconName;
   final dynamic iosConfig = config['ios'];
-  if ( flavor != null ) {
+  if (flavor != null) {
     final String catalogName = "AppIcon-$flavor";
     print("Building iOS launcher icon for $flavor");
     for (IosIconTemplate template in iosIcons) {
@@ -53,7 +55,6 @@ void createIcons(Map<String, dynamic> config, String flavor) {
     iconName = newIconName;
     changeIosLauncherIcon(iconName, flavor);
     modifyContentsFile(iconName);
-
   }
   // Otherwise the user wants the new icon to use the default icons name and
   // update config file to use it
@@ -64,7 +65,6 @@ void createIcons(Map<String, dynamic> config, String flavor) {
     }
     iconName = iosDefaultIconName;
     changeIosLauncherIcon('AppIcon', flavor);
-
   }
 }
 
@@ -84,7 +84,6 @@ void saveNewIcons(IosIconTemplate template, Image image, String newIconName) {
   final String newIconFolder = iosAssetFolder + newIconName + '.appiconset/';
   final Image newFile = createResizedImage(template, image);
   File(newIconFolder + newIconName + template.name + '.png')
-
       .create(recursive: true)
       .then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
@@ -93,9 +92,15 @@ void saveNewIcons(IosIconTemplate template, Image image, String newIconName) {
 
 Image createResizedImage(IosIconTemplate template, Image image) {
   if (image.width >= template.size) {
-    return copyResize(image, width: template.size, height: template.size, interpolation: Interpolation.average);
+    return copyResize(image,
+        width: template.size,
+        height: template.size,
+        interpolation: Interpolation.average);
   } else {
-    return copyResize(image, width: template.size, height: template.size, interpolation: Interpolation.linear);
+    return copyResize(image,
+        width: template.size,
+        height: template.size,
+        interpolation: Interpolation.linear);
   }
 }
 
@@ -108,7 +113,7 @@ Future<void> changeIosLauncherIcon(String iconName, String flavor) async {
 
   for (int x = 0; x < lines.length; x++) {
     String line = lines[x];
-        if (line.contains("/* Begin XCBuildConfiguration section */")) {
+    if (line.contains("/* Begin XCBuildConfiguration section */")) {
       onConfigurationSection = true;
     }
     if (line.contains("/* End XCBuildConfiguration section */")) {
@@ -120,18 +125,16 @@ Future<void> changeIosLauncherIcon(String iconName, String flavor) async {
         currentConfig = match.group(1);
       }
 
-      if (currentConfig != null
-          && (flavor == null || currentConfig.contains("-$flavor"))
-          && line.contains("ASSETCATALOG")) {
-
+      if (currentConfig != null &&
+          (flavor == null || currentConfig.contains("-$flavor")) &&
+          line.contains("ASSETCATALOG")) {
         lines[x] = line.replaceAll(RegExp('\=(.*);'), "= $iconName;");
       }
     }
-
   }
-  
+
   final String entireFile = lines.join('\n');
-  iOSConfigFile.writeAsString(entireFile);
+  await iOSConfigFile.writeAsString(entireFile);
 }
 
 /// Create the Contents.json file
@@ -139,7 +142,8 @@ void modifyContentsFile(String newIconName) {
   final String newIconFolder =
       iosAssetFolder + newIconName + '.appiconset/Contents.json';
   File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
-    final String contentsFileContent = generateContentsFileAsString(newIconName);
+    final String contentsFileContent =
+        generateContentsFileAsString(newIconName);
     contentsJsonFile.writeAsString(contentsFileContent);
   });
 }
@@ -154,6 +158,7 @@ String generateContentsFileAsString(String newIconName) {
 
 class ContentsImageObject {
   ContentsImageObject({this.size, this.idiom, this.filename, this.scale});
+
   final String size;
   final String idiom;
   final String filename;
@@ -171,6 +176,7 @@ class ContentsImageObject {
 
 class ContentsInfoObject {
   ContentsInfoObject({this.version, this.author});
+
   final int version;
   final String author;
 
@@ -295,7 +301,7 @@ List<Map<String, String>> createImageList(String fileNamePrefix) {
     ContentsImageObject(
             size: '1024x1024',
             idiom: 'ios-marketing',
-            filename: fileNamePrefix + '-1024x1024@1x.png',
+            filename: '$fileNamePrefix-1024x1024@1x.png',
             scale: '1x')
         .toJson()
   ];

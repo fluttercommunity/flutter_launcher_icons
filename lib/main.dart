@@ -45,7 +45,8 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   var hasFlavors = flavors.isNotEmpty;
 
   // Load the config file
-  final Map<String, dynamic> yamlConfig = loadConfigFileFromArgResults(argResults, verbose: true);
+  final Map<String, dynamic> yamlConfig =
+      loadConfigFileFromArgResults(argResults, verbose: true);
 
   // Create icons
   if ( !hasFlavors ) {
@@ -72,14 +73,17 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config, [String flavor])
   if (!isImagePathInConfig(config)) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
-  if (!hasAndroidOrIOSConfig(config)) {
+  if (!hasPlatformConfig(config)) {
     throw const InvalidConfigException(errorMissingPlatform);
   }
-  final int minSdk = android_launcher_icons.minSdk();
-  if (minSdk < 26 &&
-      hasAndroidAdaptiveConfig(config) &&
-      !hasAndroidConfig(config)) {
-    throw const InvalidConfigException(errorMissingRegularAndroid);
+
+  if (isNeedingNewAndroidIcon(config) || hasAndroidAdaptiveConfig(config)) {
+    final int minSdk = android_launcher_icons.minSdk();
+    if (minSdk < 26 &&
+        hasAndroidAdaptiveConfig(config) &&
+        !hasAndroidConfig(config)) {
+      throw const InvalidConfigException(errorMissingRegularAndroid);
+    }
   }
 
   if (isNeedingNewAndroidIcon(config)) {
@@ -137,6 +141,7 @@ Map<String, dynamic> loadConfigFileFromArgResults(ArgResults argResults,
 Map<String, dynamic> loadConfigFile(String path, String fileOptionResult) {
   final File file = File(path);
   final String yamlString = file.readAsStringSync();
+  // ignore: always_specify_types
   final Map yamlMap = loadYaml(yamlString);
 
   if (yamlMap == null || !(yamlMap['flutter_icons'] is Map)) {
@@ -161,9 +166,9 @@ bool isImagePathInConfig(Map<String, dynamic> flutterIconsConfig) {
           flutterIconsConfig.containsKey('image_path_ios'));
 }
 
-bool hasAndroidOrIOSConfig(Map<String, dynamic> flutterIconsConfig) {
-  return flutterIconsConfig.containsKey('android') ||
-      flutterIconsConfig.containsKey('ios');
+bool hasPlatformConfig(Map<String, dynamic> flutterIconsConfig) {
+  return hasAndroidConfig(flutterIconsConfig) ||
+      hasIOSConfig(flutterIconsConfig);
 }
 
 bool hasAndroidConfig(Map<String, dynamic> flutterLauncherIcons) {
