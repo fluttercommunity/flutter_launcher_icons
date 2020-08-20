@@ -134,7 +134,7 @@ For best results try and use a foreground image which has padding much like [the
 
 ## :eyes: Example
 
-[![Video Example](https://img.youtube.com/vi/RjNAxwcP3Tc/0.jpg)](https://www.youtube.com/watch?v=RjNAxwcP3Tc)
+[![Video Example](https://i.imgur.com/R28hqdz.png)](https://www.youtube.com/watch?v=RjNAxwcP3Tc)
 
 Note: This is showing a very old version (v0.0.5)
 

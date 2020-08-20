@@ -40,14 +40,14 @@ void createDefaultIcons(Map<String, dynamic> flutterLauncherIconsConfig) {
     for (AndroidIconTemplate template in androidIcons) {
       saveNewImages(template, image, iconPath);
     }
-    overwriteAndroidManifestWithNewLauncherIcon(iconName);
+    overwriteAndroidManifestWithNewLauncherIcon(iconName, File(constants.androidManifestFile));
   } else {
     print('Overwriting the default Android launcher icon with a new icon');
     for (AndroidIconTemplate template in androidIcons) {
       overwriteExistingIcons(template, image, constants.androidFileName);
     }
     overwriteAndroidManifestWithNewLauncherIcon(
-        constants.androidDefaultIconName);
+        constants.androidDefaultIconName, File(constants.androidManifestFile));
   }
 }
 
@@ -250,9 +250,9 @@ void saveNewImages(
 ///
 /// Note: default iconName = "ic_launcher"
 Future<void> overwriteAndroidManifestWithNewLauncherIcon(
-    String iconName) async {
-  final File androidManifestFile = File(constants.androidManifestFile);
-  final List<String> oldManifestLines = await androidManifestFile.readAsLines();
+    String iconName, File androidManifestFile) async {
+  // we do not use `file.readAsLinesSync()` here because that always gets rid of the last empty newline
+  final List<String> oldManifestLines = (await androidManifestFile.readAsString()).split('\n');
   final List<String> transformedLines =
       transformAndroidManifestWithNewLauncherIcon(oldManifestLines, iconName);
   await androidManifestFile.writeAsString(transformedLines.join('\n'));
