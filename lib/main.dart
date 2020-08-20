@@ -10,8 +10,8 @@ import 'package:flutter_launcher_icons/custom_exceptions.dart';
 const String fileOption = 'file';
 const String helpFlag = 'help';
 const String defaultConfigFile = 'flutter_launcher_icons.yaml';
-const String flavorConfigFilePattern = "\./flutter_launcher_icons-(.*).yaml";
-String flavorConfigFile(String flavor) => "flutter_launcher_icons-$flavor.yaml";
+const String flavorConfigFilePattern = '\./flutter_launcher_icons-(.*).yaml';
+String flavorConfigFile(String flavor) => 'flutter_launcher_icons-$flavor.yaml';
 
 List<String> getFlavors() {
   List<String> flavors = [];

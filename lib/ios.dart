@@ -36,8 +36,8 @@ void createIcons(Map<String, dynamic> config, String flavor) {
   String iconName;
   final dynamic iosConfig = config['ios'];
   if (flavor != null) {
-    final String catalogName = "AppIcon-$flavor";
-    print("Building iOS launcher icon for $flavor");
+    final String catalogName = 'AppIcon-$flavor';
+    print('Building iOS launcher icon for $flavor');
     for (IosIconTemplate template in iosIcons) {
       saveNewIcons(template, image, catalogName);
     }
@@ -113,22 +113,22 @@ Future<void> changeIosLauncherIcon(String iconName, String flavor) async {
 
   for (int x = 0; x < lines.length; x++) {
     String line = lines[x];
-    if (line.contains("/* Begin XCBuildConfiguration section */")) {
+    if (line.contains('/* Begin XCBuildConfiguration section */')) {
       onConfigurationSection = true;
     }
-    if (line.contains("/* End XCBuildConfiguration section */")) {
+    if (line.contains('/* End XCBuildConfiguration section */')) {
       onConfigurationSection = false;
     }
     if (onConfigurationSection) {
-      var match = RegExp(".*/\\* (.*)\.xcconfig \\*/;").firstMatch(line);
+      var match = RegExp('.*/\\* (.*)\.xcconfig \\*/;').firstMatch(line);
       if (match != null) {
         currentConfig = match.group(1);
       }
 
       if (currentConfig != null &&
-          (flavor == null || currentConfig.contains("-$flavor")) &&
-          line.contains("ASSETCATALOG")) {
-        lines[x] = line.replaceAll(RegExp('\=(.*);'), "= $iconName;");
+          (flavor == null || currentConfig.contains('-$flavor')) &&
+          line.contains('ASSETCATALOG')) {
+        lines[x] = line.replaceAll(RegExp('\=(.*);'), '= $iconName;');
       }
     }
   }
