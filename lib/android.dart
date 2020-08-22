@@ -33,6 +33,7 @@ void createDefaultIcons(
   print('Creating default icons Android');
   final String filePath = getAndroidIconPath(flutterLauncherIconsConfig);
   final Image image = decodeImage(File(filePath).readAsBytesSync());
+  final File androidManifestFile = File(constants.androidManifestFile);
   if (isCustomAndroidFile(flutterLauncherIconsConfig)) {
     print('Adding a new Android launcher icon');
     final String iconName = getNewIconName(flutterLauncherIconsConfig);
@@ -41,17 +42,14 @@ void createDefaultIcons(
     for (AndroidIconTemplate template in androidIcons) {
       saveNewImages(template, image, iconPath, flavor);
     }
-    overwriteAndroidManifestWithNewLauncherIcon(
-        iconName, File(constants.androidManifestFile(flavor)));
+    overwriteAndroidManifestWithNewLauncherIcon(iconName, androidManifestFile);
   } else {
     print('Overwriting the default Android launcher icon with a new icon');
     for (AndroidIconTemplate template in androidIcons) {
       overwriteExistingIcons(
           template, image, constants.androidFileName, flavor);
     }
-    overwriteAndroidManifestWithNewLauncherIcon(
-        constants.androidDefaultIconName,
-        File(constants.androidManifestFile(flavor)));
+    overwriteAndroidManifestWithNewLauncherIcon(constants.androidDefaultIconName, androidManifestFile);
   }
 }
 

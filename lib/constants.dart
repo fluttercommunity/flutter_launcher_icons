@@ -1,6 +1,6 @@
 String androidResFolder(String flavor) => "android/app/src/${flavor ?? 'main'}/res/";
 String androidColorsFile(String flavor) => "android/app/src/${flavor ?? 'main'}/res/values/colors.xml";
-String androidManifestFile(String flavor) => "android/app/src/${flavor ?? 'main'}/AndroidManifest.xml";
+const String androidManifestFile = 'android/app/src/main/AndroidManifest.xml';
 const String androidGradleFile = 'android/app/build.gradle';
 const String androidFileName = 'ic_launcher.png';
 const String androidAdaptiveForegroundFileName = 'ic_launcher_foreground.png';
