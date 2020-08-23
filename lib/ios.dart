@@ -37,7 +37,7 @@ void createIcons(Map<String, dynamic> config, String flavor) {
   final dynamic iosConfig = config['ios'];
   if (flavor != null) {
     final String catalogName = 'AppIcon-$flavor';
-    print('Building iOS launcher icon for $flavor');
+    printStatus('Building iOS launcher icon for $flavor');
     for (IosIconTemplate template in iosIcons) {
       saveNewIcons(template, image, catalogName);
     }
@@ -48,7 +48,7 @@ void createIcons(Map<String, dynamic> config, String flavor) {
     // If the IOS configuration is a string then the user has specified a new icon to be created
     // and for the old icon file to be kept
     final String newIconName = iosConfig;
-    print('Adding new iOS launcher icon');
+    printStatus('Adding new iOS launcher icon');
     for (IosIconTemplate template in iosIcons) {
       saveNewIcons(template, image, newIconName);
     }
@@ -59,7 +59,7 @@ void createIcons(Map<String, dynamic> config, String flavor) {
   // Otherwise the user wants the new icon to use the default icons name and
   // update config file to use it
   else {
-    print('Overwriting default iOS launcher icon with new icon');
+    printStatus('Overwriting default iOS launcher icon with new icon');
     for (IosIconTemplate template in iosIcons) {
       overwriteDefaultIcons(template, image);
     }
