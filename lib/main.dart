@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:args/args.dart';
+import 'package:flutter_launcher_icons/utils.dart';
 import 'package:yaml/yaml.dart';
 import 'package:flutter_launcher_icons/android.dart' as android_launcher_icons;
 import 'package:flutter_launcher_icons/ios.dart' as ios_launcher_icons;
@@ -56,16 +57,21 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
     } catch (e) {
       stderr.writeln(e);
       exit(2);
+    } finally {
+      print('\n✓ Successfully generated launcher icons');
     }
   } else {
     try {
-      for (var flavor in flavors) {
+      for (String flavor in flavors) {
+        print('\nFlavor: $flavor');
         final Map<String, dynamic> yamlConfig = loadConfigFile(flavorConfigFile(flavor), flavorConfigFile(flavor));
         await createIconsFromConfig(yamlConfig, flavor);
       }
     } catch (e) {
       stderr.writeln(e);
       exit(2);
+    } finally {
+      print('\n✓ Successfully generated launcher icons for flavors');
     }
   }
 }

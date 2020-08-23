@@ -30,12 +30,12 @@ List<AndroidIconTemplate> androidIcons = <AndroidIconTemplate>[
 
 void createDefaultIcons(
     Map<String, dynamic> flutterLauncherIconsConfig, String flavor) {
-  print('Creating default icons Android');
+  printStatus('Creating default icons Android');
   final String filePath = getAndroidIconPath(flutterLauncherIconsConfig);
   final Image image = decodeImage(File(filePath).readAsBytesSync());
   final File androidManifestFile = File(constants.androidManifestFile);
   if (isCustomAndroidFile(flutterLauncherIconsConfig)) {
-    print('Adding a new Android launcher icon');
+    printStatus('Adding a new Android launcher icon');
     final String iconName = getNewIconName(flutterLauncherIconsConfig);
     isAndroidIconNameCorrectFormat(iconName);
     final String iconPath = '$iconName.png';
@@ -44,7 +44,7 @@ void createDefaultIcons(
     }
     overwriteAndroidManifestWithNewLauncherIcon(iconName, androidManifestFile);
   } else {
-    print('Overwriting the default Android launcher icon with a new icon');
+    printStatus('Overwriting the default Android launcher icon with a new icon');
     for (AndroidIconTemplate template in androidIcons) {
       overwriteExistingIcons(
           template, image, constants.androidFileName, flavor);
@@ -65,7 +65,7 @@ bool isAndroidIconNameCorrectFormat(String iconName) {
 
 void createAdaptiveIcons(
     Map<String, dynamic> flutterLauncherIconsConfig, String flavor) {
-  print('Creating adaptive icons Android');
+  printStatus('Creating adaptive icons Android');
 
   // Retrieve the necessary Flutter Launcher Icons configuration from the pubspec.yaml file
   final String backgroundConfig =
@@ -101,11 +101,11 @@ void createAdaptiveIcons(
 void updateColorsXmlFile(String backgroundConfig, String flavor) {
   final File colorsXml = File(constants.androidColorsFile(flavor));
   if (colorsXml.existsSync()) {
-    print('Updating colors.xml with color for adaptive icon background');
+    printStatus('Updating colors.xml with color for adaptive icon background');
     updateColorsFile(colorsXml, backgroundConfig);
   } else {
-    print('No colors.xml file found in your Android project');
-    print('Creating colors.xml file and adding it to your Android project');
+    printStatus('No colors.xml file found in your Android project');
+    printStatus('Creating colors.xml file and adding it to your Android project');
     createNewColorsFile(backgroundConfig, flavor);
   }
 }
@@ -291,7 +291,6 @@ int minSdk() {
     if (line.contains('minSdkVersion')) {
       // remove anything from the line that is not a digit
       final String minSdk = line.replaceAll(RegExp(r'[^\d]'), '');
-      print('Android minSdkVersion = $minSdk');
       return int.parse(minSdk);
     }
   }

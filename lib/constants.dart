@@ -24,3 +24,9 @@ const String errorMissingRegularAndroid =
 const String errorIncorrectIconName =
     'The icon name must contain only lowercase a-z, 0-9, or underscore: '
     'E.g. "ic_my_new_icon"';
+
+String introMessage(String currentVersion) => '''
+  ════════════════════════════════════════════
+     FLUTTER LAUNCHER ICONS (v$currentVersion)                               
+  ════════════════════════════════════════════
+  ''';
