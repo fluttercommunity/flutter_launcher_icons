@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -15,17 +17,22 @@ class MyApp extends StatelessWidget {
         // application has a blue toolbar. Then, without quitting the app, try
         // changing the primarySwatch below to Colors.green and then invoke
         // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
-        // counter didn't reset back to zero; the application is not restarted.
+        // or simply save your changes to "hot reload" in a Flutter IDE).
+        // Notice that the counter didn't reset back to zero; the application
+        // is not restarted.
         primarySwatch: Colors.blue,
+        // This makes the visual density adapt to the platform that you run
+        // the app on. For desktop platforms, the controls will be smaller and
+        // closer together (more dense) than on mobile platforms.
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -74,13 +81,14 @@ class _MyHomePageState extends State<MyHomePage> {
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
-          // Column is also layout widget. It takes a list of children and
+          // Column is also a layout widget. It takes a list of children and
           // arranges them vertically. By default, it sizes itself to fit its
           // children horizontally, and tries to be as tall as its parent.
           //
-          // Invoke "debug paint" (press "p" in the console where you ran
-          // "flutter run", or select "Toggle Debug Paint" from the Flutter tool
-          // window in IntelliJ) to see the wireframe for each widget.
+          // Invoke "debug painting" (press "p" in the console, choose the
+          // "Toggle Debug Paint" action from the Flutter Inspector in Android
+          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+          // to see the wireframe for each widget.
           //
           // Column has various properties to control how it sizes itself and
           // how it positions its children. Here we use mainAxisAlignment to
@@ -89,12 +97,12 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
+            Text(
               'You have pushed the button this many times:',
             ),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.display1,
+              style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
@@ -102,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
