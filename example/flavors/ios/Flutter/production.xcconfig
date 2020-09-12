@@ -1,0 +1,6 @@
+#include "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug-production.xcconfig"
+#include "Pods/Target Support Files/Pods-Runner/Pods-Runner.release-production .xcconfig"
+#include "Generated.xcconfig"
+FLAVOR=production
+FLAVOR_DISPLAY_NAME=example_with_flavors
+FLAVOR_BUNDLE_IDENTIFIER=com.flutter.icons.example_with_flavors
