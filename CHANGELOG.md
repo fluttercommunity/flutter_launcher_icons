@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.0 (12th Sept 2020)
+
+- Added flavours support (thanks to @sestegra & @jorgecoca)
+- Removed unassigned iOS icons (thanks to @melvinsalas)
+- Fixing formatting (thanks to @mreichelt)
+
 ## 0.7.5 (24th April 2020)
 
 - Fixed issue where new lines were added to Android manifest (thanks to @mreichelt)
