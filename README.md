@@ -9,6 +9,10 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
 ## :sparkles: What's New
 
+#### 0.8.1 (2nd Oct 2020)
+
+- Fixed flavor support on windows (@slightfoot)
+
 #### Version 0.8.0 (12th Sept 2020)
 
 - Added flavours support (thanks to @sestegra & @jorgecoca)
@@ -113,7 +117,7 @@ be used to fill out the background of the adaptive icon.
 
 ## Flavor support
 
-Create a Flutter Launcher Icons configuration file for your flavor. The config file is called `flutter_laucher_icons-<flavor>.yaml` by replacing `<flavor>` by the name of your desired flavor.
+Create a Flutter Launcher Icons configuration file for your flavor. The config file is called `flutter_launcher_icons-<flavor>.yaml` by replacing `<flavor>` by the name of your desired flavor.
 
 The configuration file format is the same.
 
