@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.1 (2nd Oct 2020)
+
+- Fixed flavor support on windows (@slightfoot)
+
 ## 0.8.0 (12th Sept 2020)
 
 - Added flavours support (thanks to @sestegra & @jorgecoca)
