@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:args/args.dart';
 import 'package:flutter_launcher_icons/utils.dart';
+import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';
 import 'package:flutter_launcher_icons/android.dart' as android_launcher_icons;
 import 'package:flutter_launcher_icons/ios.dart' as ios_launcher_icons;
@@ -12,14 +13,15 @@ import 'package:flutter_launcher_icons/custom_exceptions.dart';
 const String fileOption = 'file';
 const String helpFlag = 'help';
 const String defaultConfigFile = 'flutter_launcher_icons.yaml';
-const String flavorConfigFilePattern = '\./flutter_launcher_icons-(.*).yaml';
+const String flavorConfigFilePattern = r'^flutter_launcher_icons-(.*).yaml$';
 String flavorConfigFile(String flavor) => 'flutter_launcher_icons-$flavor.yaml';
 
 List<String> getFlavors() {
   List<String> flavors = [];
   for (var item in Directory('.').listSync()) {
     if (item is File) {
-      var match = RegExp(flavorConfigFilePattern).firstMatch(item.path);
+      final name = path.basename(item.path);
+      final match = RegExp(flavorConfigFilePattern).firstMatch(name);
       if (match != null) {
         flavors.add(match.group(1));
       }
