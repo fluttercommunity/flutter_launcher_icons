@@ -1,6 +1,9 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:args/args.dart';
+import 'package:flutter_launcher_icons/utils.dart';
+import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';
 import 'package:flutter_launcher_icons/android.dart' as android_launcher_icons;
 import 'package:flutter_launcher_icons/ios.dart' as ios_launcher_icons;
@@ -11,6 +14,22 @@ import 'package:flutter_launcher_icons/custom_exceptions.dart';
 const String fileOption = 'file';
 const String helpFlag = 'help';
 const String defaultConfigFile = 'flutter_launcher_icons.yaml';
+const String flavorConfigFilePattern = r'^flutter_launcher_icons-(.*).yaml$';
+String flavorConfigFile(String flavor) => 'flutter_launcher_icons-$flavor.yaml';
+
+List<String> getFlavors() {
+  List<String> flavors = [];
+  for (var item in Directory('.').listSync()) {
+    if (item is File) {
+      final name = path.basename(item.path);
+      final match = RegExp(flavorConfigFilePattern).firstMatch(name);
+      if (match != null) {
+        flavors.add(match.group(1));
+      }
+    }
+  }
+  return flavors;
+}
 
 Future<void> createIconsFromArguments(List<String> arguments) async {
   final ArgParser parser = ArgParser(allowTrailingOptions: true);
@@ -27,20 +46,41 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
     exit(0);
   }
 
+  // Flavors manangement
+  var flavors = getFlavors();
+  var hasFlavors = flavors.isNotEmpty;
+
   // Load the config file
   final Map<String, dynamic> yamlConfig =
       loadConfigFileFromArgResults(argResults, verbose: true);
 
   // Create icons
-  try {
-    await createIconsFromConfig(yamlConfig);
-  } catch (e) {
-    stderr.writeln(e);
-    exit(2);
+  if ( !hasFlavors ) {
+    try {
+      createIconsFromConfig(yamlConfig);
+    } catch (e) {
+      stderr.writeln(e);
+      exit(2);
+    } finally {
+      print('\n✓ Successfully generated launcher icons');
+    }
+  } else {
+    try {
+      for (String flavor in flavors) {
+        print('\nFlavor: $flavor');
+        final Map<String, dynamic> yamlConfig = loadConfigFile(flavorConfigFile(flavor), flavorConfigFile(flavor));
+        await createIconsFromConfig(yamlConfig, flavor);
+      }
+    } catch (e) {
+      stderr.writeln(e);
+      exit(2);
+    } finally {
+      print('\n✓ Successfully generated launcher icons for flavors');
+    }
   }
 }
 
-Future<void> createIconsFromConfig(Map<String, dynamic> config) async {
+Future<void> createIconsFromConfig(Map<String, dynamic> config, [String flavor]) async {
   if (!isImagePathInConfig(config)) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
@@ -58,15 +98,16 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config) async {
   }
 
   if (isNeedingNewAndroidIcon(config)) {
-    android_launcher_icons.createDefaultIcons(config);
+    android_launcher_icons.createDefaultIcons(config, flavor);
   }
   
   if (hasAndroidAdaptiveConfig(config)) {
-    android_launcher_icons.createAdaptiveIcons(config);
+    android_launcher_icons.createAdaptiveIcons(config, flavor);
   }
   
   if (isNeedingNewIOSIcon(config)) {
-    ios_launcher_icons.createIcons(config);
+    ios_launcher_icons.createIcons(config, flavor);
+
   }
   
   if (isNeedingNewWebIcon(config)) {

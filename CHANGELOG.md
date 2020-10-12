@@ -1,7 +1,18 @@
 # Changelog
 
-## 0.8.0 (22nd Feb 2020)
+## 0.8.2 (12th Oct 2020)
+
  - Support for web favicons and launcer icons.
+
+## 0.8.1 (2nd Oct 2020)
+
+- Fixed flavor support on windows (@slightfoot)
+
+## 0.8.0 (12th Sept 2020)
+
+- Added flavours support (thanks to @sestegra & @jorgecoca)
+- Removed unassigned iOS icons (thanks to @melvinsalas)
+- Fixing formatting (thanks to @mreichelt)
 
 ## 0.7.5 (24th April 2020)
 
