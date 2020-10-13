@@ -4,9 +4,9 @@ import 'package:flutter_launcher_icons/web.dart';
 import 'package:image/image.dart';
 import 'package:test/test.dart';
 
-const String wideImagePath   = 'images/wide.png';
-const String tallImagePath   = 'images/tall.png';
-const String squareImagePath = 'images/square.png';
+const String wideImagePath   = 'test/images/wide.png';
+const String tallImagePath   = 'test/images/tall.png';
+const String squareImagePath = 'test/images/square.png';
 
 void main() {
   

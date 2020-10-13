@@ -27,7 +27,7 @@ void main() {
   });
 
   test('pubspec.yaml file exists', () async {
-    const String path = 'config/test_pubspec.yaml';
+    const String path = 'test/config/test_pubspec.yaml';
     final Map<String, dynamic> config = main_dart.loadConfigFile(path, null);
     expect(config.length, isNotNull);
   });
@@ -38,65 +38,69 @@ void main() {
     final String testDir =
         join('.dart_tool', 'flutter_launcher_icons', 'test', 'config_file');
 
-    String currentDirectory;
+    String currentDirectory = testDir;
     Future<void> setCurrentDirectory(String path) async {
-      path = join(testDir, path);
-      await Directory(path).create(recursive: true);
-      Directory.current = path;
+      currentDirectory = join(testDir, path);
+      await Directory(currentDirectory).create(recursive: true);
     }
 
-    setUp(() {
-      currentDirectory = Directory.current.path;
-    });
-    tearDown(() {
-      Directory.current = currentDirectory;
-    });
+    File getFile(String filename) {
+      final String path = join(currentDirectory, filename);
+
+      return File(path);
+    }
+
+    Map<String, dynamic> loadConfig(ArgResults args) {
+      return main_dart.loadConfigFileFromArgResults(args, cwd: currentDirectory);
+    }
+
     test('default', () async {
       await setCurrentDirectory('default');
-      await File('flutter_launcher_icons.yaml').writeAsString('''
+      await getFile('flutter_launcher_icons.yaml').writeAsString('''
 flutter_icons:
   android: true
   ios: false
 ''');
       final ArgResults argResults = parser.parse(<String>[]);
-      final Map<String, dynamic> config = main_dart.loadConfigFileFromArgResults(argResults);
+      final Map<String, dynamic> config = loadConfig(argResults);
       expect(config['android'], true);
     });
+
     test('default_use_pubspec', () async {
       await setCurrentDirectory('pubspec_only');
-      await File('pubspec.yaml').writeAsString('''
+      await getFile('pubspec.yaml').writeAsString('''
 flutter_icons:
   android: true
   ios: false
 ''');
       ArgResults argResults = parser.parse(<String>[]);
-      final Map<String, dynamic> config = main_dart.loadConfigFileFromArgResults(argResults);
+      final Map<String, dynamic> config = loadConfig(argResults);
       expect(config['ios'], false);
 
       // fails if forcing default file
       argResults = parser.parse(<String>['-f', defaultConfigFile]);
-      expect(main_dart.loadConfigFileFromArgResults(argResults), isNull);
+      expect(loadConfig(argResults), isNull);
     });
 
     test('custom', () async {
       await setCurrentDirectory('custom');
-      await File('custom.yaml').writeAsString('''
+      await getFile('custom.yaml').writeAsString('''
 flutter_icons:
   android: true
   ios: true
 ''');
       // if no argument set, should fail
       ArgResults argResults = parser.parse(<String>['-f', 'custom.yaml']);
-      final Map<String, dynamic> config = main_dart.loadConfigFileFromArgResults(argResults);
+      final Map<String, dynamic> config = loadConfig(argResults);
       expect(config['ios'], true);
 
       // should fail if no argument
       argResults = parser.parse(<String>[]);
-      expect(main_dart.loadConfigFileFromArgResults(argResults), isNull);
+      expect(loadConfig(argResults), isNull);
 
       // or missing file
       argResults = parser.parse(<String>['-f', 'missing_custom.yaml']);
-      expect(main_dart.loadConfigFileFromArgResults(argResults), isNull);
+      expect(loadConfig(argResults), isNull);
     });
   });
 

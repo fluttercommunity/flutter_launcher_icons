@@ -116,10 +116,16 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config, [String flavor])
 }
 
 Map<String, dynamic> loadConfigFileFromArgResults(ArgResults argResults,
-    {bool verbose}) {
+    {bool verbose, String cwd}) {
   verbose ??= false;
-  final String configFile = argResults[fileOption];
+  cwd ??= './';
+
+  String configFile = argResults[fileOption];
   final String fileOptionResult = argResults[fileOption];
+
+  if (configFile != null) {
+    configFile = path.join(cwd, configFile);
+  }
 
   // if icon is given, try to load icon
   if (configFile != null && configFile != defaultConfigFile) {
@@ -137,12 +143,12 @@ Map<String, dynamic> loadConfigFileFromArgResults(ArgResults argResults,
   // If none set try flutter_launcher_icons.yaml first then pubspec.yaml
   // for compatibility
   try {
-    return loadConfigFile(defaultConfigFile, fileOptionResult);
+    return loadConfigFile(path.join(cwd, defaultConfigFile), fileOptionResult);
   } catch (e) {
     // Try pubspec.yaml for compatibility
     if (configFile == null) {
       try {
-        return loadConfigFile('pubspec.yaml', fileOptionResult);
+        return loadConfigFile(path.join(cwd, 'pubspec.yaml'), fileOptionResult);
       } catch (_) {}
     }
 
