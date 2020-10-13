@@ -1,4 +1,9 @@
 language: dart
 
+# See https://medium.com/flutter/test-flutter-apps-on-travis-3fd5142ecd8c
+#     
 dart:
   - dev
+
+install:
+  - flutter pub get
