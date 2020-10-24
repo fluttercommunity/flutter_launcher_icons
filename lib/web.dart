@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:image/image.dart';
 import 'package:flutter_launcher_icons/constants.dart' as constants;
+import 'utils.dart';
 
 class WebIconTemplate {
   WebIconTemplate({this.size, this.name, this.location=constants.webIconLocation});
@@ -10,46 +11,7 @@ class WebIconTemplate {
   final String location;
 
   Image createFrom(Image image) {
-    Interpolation interpolation = Interpolation.average;
-
-    // Select interpolation based on that used by the iOS
-    //launcher icon generator.
-    if (image.width < size) {
-      interpolation = Interpolation.linear;
-    }
-
-    // cropOffsetX and cropOffsetY are locations for the upper-left
-    //and upper-right corners of the crop region, respectively.
-    int cropOffsetX = 0,
-        cropOffsetY = 0;
-    int resizeSize;
-
-    // Create a single cropOffset that we use to determine
-    //cropOffsetX and cropOffsetY.
-    final int spaceRemoved = image.width - image.height; // How much space
-                                                         //will be removed from
-                                                         //the image.
-    final int cropOffset = (spaceRemoved / 2.0).floor(); // We want only one side
-                                                         //for the offset.
-
-    if (cropOffset >= 0) { // If the image is stretched horizontally.
-      cropOffsetX = cropOffset;
-      resizeSize = image.height;
-    } else { // Else, it is stretched vertically.
-      cropOffsetY = -cropOffset;
-      resizeSize = image.width;
-    }
-
-    final Image croppedImage = copyCrop(image,
-        cropOffsetX, cropOffsetY, // X & Y position
-        resizeSize, resizeSize); // Width & height
-
-    // The image is now square. Resize it.
-    final Image resizedImg = copyResize(croppedImage, 
-        width: size, height: size,
-        interpolation: interpolation);
-    
-    return resizedImg;
+    return createResizedImage(size, image);
   }
 
   void updateFile(Image image) {
