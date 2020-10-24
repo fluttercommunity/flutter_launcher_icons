@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:flutter_launcher_icons/main.dart' show defaultConfigFile;
 import 'package:path/path.dart';
 import 'package:test/test.dart';
 import 'package:flutter_launcher_icons/ios.dart' as ios;
 import 'package:flutter_launcher_icons/android.dart' as android;
 import 'package:flutter_launcher_icons/main.dart' as main_dart;
+import 'package:flutter_launcher_icons/constants.dart' as constants;
 
 
 
@@ -34,7 +34,7 @@ void main() {
 
   group('config file from args', () {
     // Create mini parser with only the wanted option, mocking the real one
-    final ArgParser parser = ArgParser()..addOption(main_dart.fileOption, abbr: 'f');
+    final ArgParser parser = ArgParser()..addOption(constants.fileOption, abbr: 'f');
     final String testDir =
         join('.dart_tool', 'flutter_launcher_icons', 'test', 'config_file');
 
@@ -78,7 +78,7 @@ flutter_icons:
       expect(config['ios'], false);
 
       // fails if forcing default file
-      argResults = parser.parse(<String>['-f', defaultConfigFile]);
+      argResults = parser.parse(<String>['-f', constants.defaultConfigFile]);
       expect(loadConfig(argResults), isNull);
     });
 

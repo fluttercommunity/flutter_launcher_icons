@@ -42,3 +42,8 @@ String introMessage(String currentVersion) => '''
      FLUTTER LAUNCHER ICONS (v$currentVersion)                               
   ════════════════════════════════════════════
   ''';
+
+const String fileOption = 'file';
+const String helpFlag = 'help';
+const String defaultConfigFile = 'flutter_launcher_icons.yaml';
+const String flavorConfigFilePattern = r'^flutter_launcher_icons-(.*).yaml$';

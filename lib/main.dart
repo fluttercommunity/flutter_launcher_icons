@@ -11,10 +11,6 @@ import 'package:flutter_launcher_icons/web.dart' as web_launcher_icons;
 import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
 
-const String fileOption = 'file';
-const String helpFlag = 'help';
-const String defaultConfigFile = 'flutter_launcher_icons.yaml';
-const String flavorConfigFilePattern = r'^flutter_launcher_icons-(.*).yaml$';
 String flavorConfigFile(String flavor) => 'flutter_launcher_icons-$flavor.yaml';
 
 List<String> getFlavors() {
