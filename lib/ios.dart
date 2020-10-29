@@ -65,6 +65,7 @@ void createIcons(Map<String, dynamic> config, String flavor) {
     }
     iconName = iosDefaultIconName;
     changeIosLauncherIcon('AppIcon', flavor);
+    modifyContentsFile('AppIcon');
   }
 }
 
