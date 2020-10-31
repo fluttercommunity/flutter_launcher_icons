@@ -4,6 +4,19 @@
 .pub/
 .idea/
 build/
+
+# Don't check everything in the example projects in!
+# We do, however, now have to run `flutter create .` in
+# each example project's root directory.
+example/*/web/
+example/*/android/
+example/*/ios/
+example/*/linux/
+example/*/.dart_tool/
+example/*/.pub/
+example/*/.packages
+example/*/pubspec.lock
+
 # Remove the following pattern if you wish to check in your lock file
 pubspec.lock
 
