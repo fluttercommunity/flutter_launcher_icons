@@ -1,7 +1,7 @@
 
 
 abstract class AbstractPlatform {
-  AbstractPlatform(this.platformConfigKey);
+  const AbstractPlatform(this.platformConfigKey);
 
   final String platformConfigKey;
 
@@ -12,7 +12,8 @@ abstract class AbstractPlatform {
   /// inConfig might check for the presence of the
   /// "android" key in [config.]
   bool inConfig(final Map<String, dynamic> config) {
-    return config.containsKey(platformConfigKey);
+    return config.containsKey(platformConfigKey)
+         && config[platformConfigKey] != false;
   }
 
   /// Check whether the given configuration is valid.

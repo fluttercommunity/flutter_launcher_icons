@@ -16,7 +16,7 @@ List<IconTemplate> webIcons = <IconTemplate>[
 
 class WebIconGenerator extends AbstractPlatform
 {
-  WebIconGenerator() : super('web');
+  const WebIconGenerator() : super('web');
 
   @override
   void createIcons(Map<String, dynamic> config, String flavor) {

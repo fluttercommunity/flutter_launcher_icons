@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:flutter_launcher_icons/icon_template.dart';
 import 'package:flutter_launcher_icons/constants.dart';
+import 'package:flutter_launcher_icons/abstract_platform.dart';
 
 import 'package:image/image.dart';
 
@@ -29,106 +30,6 @@ List<IconTemplate> iosIcons = <IconTemplate>[
   templateGenerator.get(name: '-83.5x83.5@2x', size: 167),
   templateGenerator.get(name: '-1024x1024@1x', size: 1024),
 ];
-
-void createIcons(Map<String, dynamic> config, String flavor) {
-  final String filePath = config['image_path_ios'] ?? config['image_path'];
-  final Image image = decodeImage(File(filePath).readAsBytesSync());
-  String iconName;
-  final dynamic iosConfig = config['ios'];
-  if (flavor != null) {
-    final String catalogName = 'AppIcon-$flavor';
-    printStatus('Building iOS launcher icon for $flavor');
-    for (IconTemplate template in iosIcons) {
-      saveNewIcons(template, image, catalogName);
-    }
-    iconName = iosDefaultIconName;
-    changeIosLauncherIcon(catalogName, flavor);
-    modifyContentsFile(catalogName);
-  } else if (iosConfig is String) {
-    // If the IOS configuration is a string then the user has specified a new icon to be created
-    // and for the old icon file to be kept
-    final String newIconName = iosConfig;
-    printStatus('Adding new iOS launcher icon');
-    for (IconTemplate template in iosIcons) {
-      saveNewIcons(template, image, newIconName);
-    }
-    iconName = newIconName;
-    changeIosLauncherIcon(iconName, flavor);
-    modifyContentsFile(iconName);
-  }
-  // Otherwise the user wants the new icon to use the default icons name and
-  // update config file to use it
-  else {
-    printStatus('Overwriting default iOS launcher icon with new icon');
-    for (IconTemplate template in iosIcons) {
-      overwriteDefaultIcons(template, image);
-    }
-    iconName = iosDefaultIconName;
-    changeIosLauncherIcon('AppIcon', flavor);
-  }
-}
-
-void overwriteDefaultIcons(IconTemplate template, Image image) {
-  template.updateFile(image, prefix: iosDefaultIconName);
-}
-
-void saveNewIcons(IconTemplate template, Image image, String newIconName) {
-  final String newIconFolder = iosAssetFolder + newIconName + '.appiconset/';
-
-  template.updateFile(image, location: newIconFolder, prefix: newIconName);
-}
-
-Future<void> changeIosLauncherIcon(String iconName, String flavor) async {
-  final File iOSConfigFile = File(iosConfigFile);
-  final List<String> lines = await iOSConfigFile.readAsLines();
-
-  bool onConfigurationSection = false;
-  String currentConfig;
-
-  for (int x = 0; x < lines.length; x++) {
-    final String line = lines[x];
-    if (line.contains('/* Begin XCBuildConfiguration section */')) {
-      onConfigurationSection = true;
-    }
-    if (line.contains('/* End XCBuildConfiguration section */')) {
-      onConfigurationSection = false;
-    }
-    if (onConfigurationSection) {
-      var match = RegExp('.*/\\* (.*)\.xcconfig \\*/;').firstMatch(line);
-      if (match != null) {
-        currentConfig = match.group(1);
-      }
-
-      if (currentConfig != null &&
-          (flavor == null || currentConfig.contains('-$flavor')) &&
-          line.contains('ASSETCATALOG')) {
-        lines[x] = line.replaceAll(RegExp('\=(.*);'), '= $iconName;');
-      }
-    }
-  }
-
-  final String entireFile = lines.join('\n');
-  await iOSConfigFile.writeAsString(entireFile);
-}
-
-/// Create the Contents.json file
-void modifyContentsFile(String newIconName) {
-  final String newIconFolder =
-      iosAssetFolder + newIconName + '.appiconset/Contents.json';
-  File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
-    final String contentsFileContent =
-        generateContentsFileAsString(newIconName);
-    contentsJsonFile.writeAsString(contentsFileContent);
-  });
-}
-
-String generateContentsFileAsString(String newIconName) {
-  final Map<String, dynamic> contentJson = <String, dynamic>{
-    'images': createImageList(newIconName),
-    'info': ContentsInfoObject(version: 1, author: 'xcode').toJson()
-  };
-  return json.encode(contentJson);
-}
 
 class ContentsImageObject {
   ContentsImageObject({this.size, this.idiom, this.filename, this.scale});
@@ -281,3 +182,109 @@ List<Map<String, String>> createImageList(String fileNamePrefix) {
   ];
   return imageList;
 }
+
+class IOSIconGenerator extends AbstractPlatform {
+  const IOSIconGenerator() : super('ios');
+
+  @override
+  void createIcons(Map<String, dynamic> config, String flavor) {
+    final String filePath = config['image_path_ios'] ?? config['image_path'];
+    final Image image = decodeImage(File(filePath).readAsBytesSync());
+    String iconName;
+    final dynamic iosConfig = config['ios'];
+    if (flavor != null) {
+      final String catalogName = 'AppIcon-$flavor';
+      printStatus('Building iOS launcher icon for $flavor');
+      for (IconTemplate template in iosIcons) {
+        _saveNewIcons(template, image, catalogName);
+      }
+      iconName = iosDefaultIconName;
+      _changeIosLauncherIcon(catalogName, flavor);
+      _modifyContentsFile(catalogName);
+    } else if (iosConfig is String) {
+      // If the IOS configuration is a string then the user has specified a new icon to be created
+      // and for the old icon file to be kept
+      final String newIconName = iosConfig;
+      printStatus('Adding new iOS launcher icon');
+      for (IconTemplate template in iosIcons) {
+        _saveNewIcons(template, image, newIconName);
+      }
+      iconName = newIconName;
+      _changeIosLauncherIcon(iconName, flavor);
+      _modifyContentsFile(iconName);
+    }
+    // Otherwise the user wants the new icon to use the default icons name and
+    // update config file to use it
+    else {
+      printStatus('Overwriting default iOS launcher icon with new icon');
+      for (IconTemplate template in iosIcons) {
+        _overwriteDefaultIcons(template, image);
+      }
+      iconName = iosDefaultIconName;
+      _changeIosLauncherIcon('AppIcon', flavor);
+    }
+  }
+
+  void _overwriteDefaultIcons(IconTemplate template, Image image) {
+    template.updateFile(image, prefix: iosDefaultIconName);
+  }
+
+  void _saveNewIcons(IconTemplate template, Image image, String newIconName) {
+    final String newIconFolder = iosAssetFolder + newIconName + '.appiconset/';
+
+    template.updateFile(image, location: newIconFolder, prefix: newIconName);
+  }
+
+  Future<void> _changeIosLauncherIcon(String iconName, String flavor) async {
+    final File iOSConfigFile = File(iosConfigFile);
+    final List<String> lines = await iOSConfigFile.readAsLines();
+
+    bool onConfigurationSection = false;
+    String currentConfig;
+
+    for (int x = 0; x < lines.length; x++) {
+      final String line = lines[x];
+      if (line.contains('/* Begin XCBuildConfiguration section */')) {
+        onConfigurationSection = true;
+      }
+      if (line.contains('/* End XCBuildConfiguration section */')) {
+        onConfigurationSection = false;
+      }
+      if (onConfigurationSection) {
+        var match = RegExp('.*/\\* (.*)\.xcconfig \\*/;').firstMatch(line);
+        if (match != null) {
+          currentConfig = match.group(1);
+        }
+
+        if (currentConfig != null &&
+            (flavor == null || currentConfig.contains('-$flavor')) &&
+            line.contains('ASSETCATALOG')) {
+          lines[x] = line.replaceAll(RegExp('\=(.*);'), '= $iconName;');
+        }
+      }
+    }
+
+    final String entireFile = lines.join('\n');
+    await iOSConfigFile.writeAsString(entireFile);
+  }
+
+  /// Create the Contents.json file
+  void _modifyContentsFile(String newIconName) {
+    final String newIconFolder =
+        iosAssetFolder + newIconName + '.appiconset/Contents.json';
+    File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
+      final String contentsFileContent =
+          _generateContentsFileAsString(newIconName);
+      contentsJsonFile.writeAsString(contentsFileContent);
+    });
+  }
+
+  String _generateContentsFileAsString(String newIconName) {
+    final Map<String, dynamic> contentJson = <String, dynamic>{
+      'images': createImageList(newIconName),
+      'info': ContentsInfoObject(version: 1, author: 'xcode').toJson()
+    };
+    return json.encode(contentJson);
+  }
+}
+

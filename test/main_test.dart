@@ -116,7 +116,7 @@ flutter_icons:
       'ios': true,
       'web': true,
     };
-    expect(main_dart.isImagePathInConfig(flutterIconsConfig), true);
+    expect(main_dart.isConfigValid(flutterIconsConfig), true);
   });
 
   test('image_path is in config -- android & ios requested, but only android given',
@@ -126,7 +126,7 @@ flutter_icons:
       'android': true,
       'ios': true
     };
-    expect(main_dart.isImagePathInConfig(flutterIconsConfigAndroid), false);
+    expect(main_dart.isConfigValid(flutterIconsConfigAndroid), false);
   });
 
   test('image_path is in config -- Android and iOS both active and icons given for both',
@@ -137,7 +137,7 @@ flutter_icons:
       'android': true,
       'ios': true
     };
-    expect(main_dart.isImagePathInConfig(flutterIconsConfigIOSAndroid), true);
+    expect(main_dart.isConfigValid(flutterIconsConfigIOSAndroid), true);
   });
 
   test('image_path is in config -- Icons for all systems given.',
@@ -150,7 +150,7 @@ flutter_icons:
       'ios': true,
       'web': true,
     };
-    expect(main_dart.isImagePathInConfig(flutterIconsConfigAll), true);
+    expect(main_dart.isConfigValid(flutterIconsConfigAll), true);
   });
 
   test('image_path is in config -- only image_path for ios given & does not match target (web).',
@@ -159,7 +159,7 @@ flutter_icons:
       'image_path_ios': 'assets/images/icon-710x599.png',
       'web': true,
     };
-    expect(main_dart.isImagePathInConfig(flutterIconsConfigWeb), false);
+    expect(main_dart.isConfigValid(flutterIconsConfigWeb), false);
   });
 
   test('At least one platform is in config file', () {
@@ -185,7 +185,7 @@ flutter_icons:
       'android': false,
       'ios': true
     };
-    expect(main_dart.isNeedingNewAndroidIcon(flutterIconsConfig), false);
+    expect(main_dart.platforms['android'].inConfig(flutterIconsConfig), false);
   });
 
   test('No new Android icon needed - no Android config', () {
@@ -193,7 +193,7 @@ flutter_icons:
       'image_path': 'assets/images/icon-710x599.png',
       'ios': true
     };
-    expect(main_dart.isNeedingNewAndroidIcon(flutterIconsConfig), false);
+    expect(main_dart.platforms['android'].inConfig(flutterIconsConfig), false);
   });
 
   test('No new iOS icon needed - ios: false', () {
@@ -202,15 +202,24 @@ flutter_icons:
       'android': true,
       'ios': false
     };
-    expect(main_dart.isNeedingNewIOSIcon(flutterIconsConfig), false);
+    expect(main_dart.platforms['ios'].inConfig(flutterIconsConfig), false);
   });
 
-  test('No new iOS icon needed - no iOS config', () {
+  test('New iOS icon needed - ios: true, android: true', () {
     final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
       'image_path': 'assets/images/icon-710x599.png',
-      'android': true
+      'android': true,
+      'ios': true
     };
-    expect(main_dart.isNeedingNewIOSIcon(flutterIconsConfig), false);
+    expect(main_dart.platforms['ios'].inConfig(flutterIconsConfig), true);
+  });
+
+  test('New iOS icon needed - ios: true', () {
+    final Map<String, dynamic> flutterIconsConfig = <String, dynamic>{
+      'image_path': 'assets/images/icon-710x599.png',
+      'ios': true,
+    };
+    expect(main_dart.platforms['ios'].inConfig(flutterIconsConfig), true);
   });
   
   test('No new iOS icon needed -- only Android and web configs', () {
@@ -219,7 +228,7 @@ flutter_icons:
       'android': true,
       'web': true,
     };
-    expect(main_dart.isNeedingNewIOSIcon(flutterIconsConfig), false);
+    expect(main_dart.platforms['ios'].inConfig(flutterIconsConfig), false);
   });
   
   test('No new web icon needed -- web: false', () {
@@ -228,6 +237,6 @@ flutter_icons:
       'web': false,
       'ios': true
     };
-    expect(main_dart.isNeedingNewWebIcon(flutterIconsConfig), false);
+    expect(main_dart.platforms['web'].inConfig(flutterIconsConfig), false);
   });
 }
