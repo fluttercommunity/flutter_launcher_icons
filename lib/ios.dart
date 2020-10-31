@@ -7,15 +7,6 @@ import 'package:flutter_launcher_icons/constants.dart';
 
 import 'package:image/image.dart';
 
-/// File to handle the creation of icons for iOS platform
-class IosIconTemplate {
-  IosIconTemplate({this.size, this.name});
-
-  final String name;
-  final int size;
-}
-
-
 final IconTemplateGenerator templateGenerator = IconTemplateGenerator(
   defaultLocation: iosDefaultIconFolder,
   defaultSuffix: '.png'
@@ -83,7 +74,7 @@ void overwriteDefaultIcons(IconTemplate template, Image image) {
 
 void saveNewIcons(IconTemplate template, Image image, String newIconName) {
   final String newIconFolder = iosAssetFolder + newIconName + '.appiconset/';
-  
+
   template.updateFile(image, location: newIconFolder, prefix: newIconName);
 }
 

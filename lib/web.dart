@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter_launcher_icons/abstract_platform.dart';
 import 'package:flutter_launcher_icons/icon_template.dart';
 import 'package:image/image.dart';
 import 'package:flutter_launcher_icons/constants.dart' as constants;
@@ -13,26 +14,33 @@ List<IconTemplate> webIcons = <IconTemplate>[
       location: constants.webFaviconLocation),      // unless already squares.
 ];
 
-void createIcons(Map<String, dynamic> config) {
-  final String filePath = config['image_path_web'] ?? config['image_path'];
-  final Image image = decodeImage(File(filePath).readAsBytesSync());
-  final dynamic webConfig = config['web'];
+class WebIconGenerator extends AbstractPlatform
+{
+  WebIconGenerator() : super('web');
 
-  // If a String is given, the user wants to be able to revert
-  //to the previous icon set. Back up the previous set.
-  if (webConfig is String) {
-    // As there is only one favicon, fail. Request that the user
-    //manually backup requested icons.
-    print (constants.errorWebCustomLocationNotSupported);
-  } else {
-    print ('Overwriting web favicon and launcher icons...');
-    
-    for (IconTemplate template in webIcons) {
-      overwriteDefaultIcon(template, image);
+  @override
+  void createIcons(Map<String, dynamic> config, String flavor) {
+    final String filePath = config['image_path_web'] ?? config['image_path'];
+    final Image image = decodeImage(File(filePath).readAsBytesSync());
+    final dynamic webConfig = config['web'];
+
+    // If a String is given, the user wants to be able to revert
+    //to the previous icon set. Back up the previous set.
+    if (webConfig is String) {
+      // As there is only one favicon, fail. Request that the user
+      //manually backup requested icons.
+      print (constants.errorWebCustomLocationNotSupported);
+    } else {
+      print ('Overwriting web favicon and launcher icons...');
+      
+      for (IconTemplate template in webIcons) {
+        _overwriteDefaultIcon(template, image);
+      }
     }
+  }
+
+  void _overwriteDefaultIcon(IconTemplate template, Image image) {
+    template.updateFile(image);
   }
 }
 
-void overwriteDefaultIcon(IconTemplate template, Image image) {
-  template.updateFile(image);
-}
