@@ -152,7 +152,6 @@ For best results try and use a foreground image which has padding much like [the
 
 [Related issue](https://github.com/fluttercommunity/flutter_launcher_icons/issues/96)
 
-<<<<<<< HEAD
 #### Launcher icons not present in debug mode
 
 `favicon.png` may not be served with `index.html` when `flutter run -d web-server` is used. Try this!
@@ -164,8 +163,6 @@ $ python3 -m http.server
 
 Favicons should now be present!
 
-=======
->>>>>>> 4efc228d9259981eecfbff7be0656b8d74d8c091
 ## :eyes: Example
 
 [![Video Example](https://i.imgur.com/R28hqdz.png)](https://www.youtube.com/watch?v=RjNAxwcP3Tc)
