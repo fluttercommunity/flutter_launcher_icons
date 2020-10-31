@@ -13,9 +13,14 @@ class IconTemplate {
     return createResizedImage(size, image);
   }
 
-  void updateFile(Image image, { String location = '', String prefix = '' }) {
+  /// Write to a file based on the provided image, optionally overriding 
+  /// [this.location] with [location] and [this.name] with either [prefix + this.name]
+  /// or [prefix + name].
+  void updateFile(Image image, 
+      { String location, String name, String prefix = '' }) {
     final Image newLauncher = createFrom(image);
     location = location ?? this.location;
+    name = name ?? this.name;
 
     File(location + prefix + name)
         .create(recursive: true)
