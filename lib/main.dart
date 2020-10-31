@@ -56,7 +56,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
 
 
   // Create icons
-  if ( !hasFlavors || argResults[fileOption] ) {
+  if ( !hasFlavors || argResults[fileOption] != null ) {
     // Load the config file
     final Map<String, dynamic> yamlConfig =
         loadConfigFileFromArgResults(argResults, verbose: true);
