@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_launcher_icons/icon_template.dart';
 import 'package:flutter_launcher_icons/web.dart';
 import 'package:image/image.dart';
 import 'package:test/test.dart';
@@ -13,7 +14,7 @@ void main() {
   test('Has favicon support.', () {
     bool hasFavicon = false;
 
-    for (WebIconTemplate template in webIcons) {
+    for (IconTemplate template in webIcons) {
       hasFavicon = template.name == 'favicon.png';
     }
 
@@ -34,7 +35,7 @@ void main() {
 }
 
 void testImageCrop(String imagePath, int expectedSize) {
-    final WebIconTemplate testTemplate = WebIconTemplate(name: 'Icon-$expectedSize.png', size: expectedSize);
+    final IconTemplate testTemplate = iconGenerator.get(name: 'Icon-$expectedSize.png', size: expectedSize);
     final Image testImage = decodeImage(File(imagePath).readAsBytesSync());
 
     final Image resizedImage = testTemplate.createFrom(testImage);

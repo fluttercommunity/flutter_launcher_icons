@@ -1,30 +1,15 @@
 import 'dart:io';
+import 'package:flutter_launcher_icons/icon_template.dart';
 import 'package:image/image.dart';
 import 'package:flutter_launcher_icons/constants.dart' as constants;
-import 'utils.dart';
 
-class WebIconTemplate {
-  WebIconTemplate({this.size, this.name, this.location=constants.webIconLocation});
+final IconTemplateGenerator iconGenerator
+     = IconTemplateGenerator(defaultLocation: constants.webIconLocation);
 
-  final String name;
-  final int size;
-  final String location;
-
-  Image createFrom(Image image) {
-    return createResizedImage(size, image);
-  }
-
-  void updateFile(Image image) {
-    final Image newLauncher = createFrom(image);
-
-    File(location + name).writeAsBytesSync(encodePng(newLauncher));
-  }
-}
-
-List<WebIconTemplate> webIcons = <WebIconTemplate>[
-  WebIconTemplate(name: 'Icon-192.png', size: 192), // Note: iOS Safari Web Apps seems
-  WebIconTemplate(name: 'Icon-512.png', size: 512), // to require images of specific sizes,
-  WebIconTemplate(name: 'favicon.png', size: 16,    // so these images will be stretched,
+List<IconTemplate> webIcons = <IconTemplate>[
+  iconGenerator.get(name: 'Icon-192.png', size: 192), // Note: iOS Safari Web Apps seems
+  iconGenerator.get(name: 'Icon-512.png', size: 512), // to require images of specific sizes,
+  iconGenerator.get(name: 'favicon.png', size: 16,    // so these images will be stretched,
       location: constants.webFaviconLocation),      // unless already squares.
 ];
 
@@ -42,12 +27,12 @@ void createIcons(Map<String, dynamic> config) {
   } else {
     print ('Overwriting web favicon and launcher icons...');
     
-    for (WebIconTemplate template in webIcons) {
+    for (IconTemplate template in webIcons) {
       overwriteDefaultIcon(template, image);
     }
   }
 }
 
-void overwriteDefaultIcon(WebIconTemplate template, Image image) {
+void overwriteDefaultIcon(IconTemplate template, Image image) {
   template.updateFile(image);
 }
