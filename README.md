@@ -61,7 +61,7 @@ Add your Flutter Launcher Icons configuration to your `pubspec.yaml` or create a
 An example is shown below. More complex examples [can be found in the example projects](https://github.com/fluttercommunity/flutter_launcher_icons/tree/master/example).
 ```yaml
 dev_dependencies:
-  flutter_launcher_icons: "^0.8.0"
+  flutter_launcher_icons: "^0.8.2"
 
 flutter_icons:
   android: "launcher_icon"
