@@ -15,6 +15,7 @@ example/*/linux/
 example/*/.dart_tool/
 example/*/.pub/
 example/*/.packages
+example/*/.gitignore
 example/*/pubspec.lock
 
 # Remove the following pattern if you wish to check in your lock file

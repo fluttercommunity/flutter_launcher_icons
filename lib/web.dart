@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter_launcher_icons/abstract_platform.dart';
 import 'package:flutter_launcher_icons/icon_template.dart';
+import 'package:flutter_launcher_icons/utils.dart';
 import 'package:image/image.dart';
 import 'package:flutter_launcher_icons/constants.dart' as constants;
 
@@ -31,7 +32,7 @@ class WebIconGenerator extends AbstractPlatform
       //manually backup requested icons.
       print (constants.errorWebCustomLocationNotSupported);
     } else {
-      print ('Overwriting web favicon and launcher icons...');
+      printStatus('Overwriting web favicon and launcher icons...');
       
       for (IconTemplate template in webIcons) {
         _overwriteDefaultIcon(template, image);
