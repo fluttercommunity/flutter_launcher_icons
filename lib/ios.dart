@@ -9,9 +9,7 @@ import 'package:flutter_launcher_icons/abstract_platform.dart';
 import 'package:image/image.dart';
 
 final IconTemplateGenerator templateGenerator = IconTemplateGenerator(
-  defaultLocation: iosDefaultIconFolder,
-  defaultSuffix: '.png'
-);
+    defaultLocation: iosDefaultIconFolder, defaultSuffix: '.png');
 
 List<IconTemplate> iosIcons = <IconTemplate>[
   templateGenerator.get(name: '-20x20@1x', size: 20),
@@ -287,4 +285,3 @@ class IOSIconGenerator extends AbstractPlatform {
     return json.encode(contentJson);
   }
 }
-

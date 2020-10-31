@@ -54,7 +54,8 @@ void updateColorsXmlFile(String backgroundConfig, String flavor) {
     updateColorsFile(colorsXml, backgroundConfig);
   } else {
     printStatus('No colors.xml file found in your Android project');
-    printStatus('Creating colors.xml file and adding it to your Android project');
+    printStatus(
+        'Creating colors.xml file and adding it to your Android project');
     createNewColorsFile(backgroundConfig, flavor);
   }
 }
@@ -267,14 +268,11 @@ bool isCorrectMipmapDirectoryForAdaptiveIcon(String path) {
   return path == 'android/app/src/main/res/mipmap-anydpi-v26/';
 }
 
-
-class DefaultAndroidIconGenerator extends AbstractPlatform
-{
+class DefaultAndroidIconGenerator extends AbstractPlatform {
   const DefaultAndroidIconGenerator() : super('android');
 
   @override
-  void createIcons(
-      Map<String, dynamic> config, String flavor) {
+  void createIcons(Map<String, dynamic> config, String flavor) {
     printStatus('Creating default icons Android');
     final String filePath = getAndroidIconPath(config);
     final Image image = decodeImage(File(filePath).readAsBytesSync());
@@ -287,32 +285,31 @@ class DefaultAndroidIconGenerator extends AbstractPlatform
       for (AndroidIconTemplate template in androidIcons) {
         saveNewImages(template, image, iconPath, flavor);
       }
-      overwriteAndroidManifestWithNewLauncherIcon(iconName, androidManifestFile);
+      overwriteAndroidManifestWithNewLauncherIcon(
+          iconName, androidManifestFile);
     } else {
-      printStatus('Overwriting the default Android launcher icon with a new icon');
+      printStatus(
+          'Overwriting the default Android launcher icon with a new icon');
       for (AndroidIconTemplate template in androidIcons) {
         overwriteExistingIcons(
             template, image, constants.androidFileName, flavor);
       }
-      overwriteAndroidManifestWithNewLauncherIcon(constants.androidDefaultIconName, androidManifestFile);
+      overwriteAndroidManifestWithNewLauncherIcon(
+          constants.androidDefaultIconName, androidManifestFile);
     }
   }
 }
 
-class AdaptiveAndroidIconGenerator extends AbstractPlatform
-{
+class AdaptiveAndroidIconGenerator extends AbstractPlatform {
   const AdaptiveAndroidIconGenerator() : super('android');
 
   @override
-  void createIcons(
-      Map<String, dynamic> config, String flavor) {
+  void createIcons(Map<String, dynamic> config, String flavor) {
     printStatus('Creating adaptive icons Android');
 
     // Retrieve the necessary Flutter Launcher Icons configuration from the pubspec.yaml file
-    final String backgroundConfig =
-        config['adaptive_icon_background'];
-    final String foregroundImagePath =
-        config['adaptive_icon_foreground'];
+    final String backgroundConfig = config['adaptive_icon_background'];
+    final String foregroundImagePath = config['adaptive_icon_foreground'];
     final Image foregroundImage =
         decodeImage(File(foregroundImagePath).readAsBytesSync());
 
@@ -324,8 +321,7 @@ class AdaptiveAndroidIconGenerator extends AbstractPlatform
 
     // Create adaptive icon background
     if (isAdaptiveIconConfigPngFile(backgroundConfig)) {
-      createAdaptiveBackgrounds(
-          config, backgroundConfig, flavor);
+      createAdaptiveBackgrounds(config, backgroundConfig, flavor);
     } else {
       createAdaptiveIconMipmapXmlFile(config, flavor);
       updateColorsXmlFile(backgroundConfig, flavor);
@@ -334,10 +330,9 @@ class AdaptiveAndroidIconGenerator extends AbstractPlatform
 
   @override
   bool inConfig(final Map<String, dynamic> config) {
-    return 
-      config.containsKey('android') &&
-      config.containsKey('adaptive_icon_background') &&
-      config.containsKey('adaptive_icon_foreground');
+    return config.containsKey('android') &&
+        config.containsKey('adaptive_icon_background') &&
+        config.containsKey('adaptive_icon_foreground');
   }
 
   @override

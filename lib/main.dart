@@ -38,7 +38,7 @@ List<String> getFlavors() {
 Future<void> createIconsFromArguments(List<String> arguments) async {
   final ArgParser parser = ArgParser(allowTrailingOptions: true);
   parser.addFlag(helpFlag, abbr: 'h', help: 'Usage help', negatable: false);
-  
+
   // Make default null to differentiate when it is explicitly set
   parser.addOption(fileOption,
       abbr: 'f', help: 'Config file (default: $defaultConfigFile)');
@@ -54,9 +54,8 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   var flavors = getFlavors();
   var hasFlavors = flavors.isNotEmpty;
 
-
   // Create icons
-  if ( !hasFlavors || argResults[fileOption] != null ) {
+  if (!hasFlavors || argResults[fileOption] != null) {
     // Load the config file
     final Map<String, dynamic> yamlConfig =
         loadConfigFileFromArgResults(argResults, verbose: true);
@@ -73,7 +72,8 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
     try {
       for (String flavor in flavors) {
         print('\nFlavor: $flavor');
-        final Map<String, dynamic> yamlConfig = loadConfigFile(flavorConfigFile(flavor), flavorConfigFile(flavor));
+        final Map<String, dynamic> yamlConfig =
+            loadConfigFile(flavorConfigFile(flavor), flavorConfigFile(flavor));
         await createIconsFromConfig(yamlConfig, flavor);
       }
     } catch (e) {
@@ -85,7 +85,8 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   }
 }
 
-Future<void> createIconsFromConfig(Map<String, dynamic> config, [String flavor]) async {
+Future<void> createIconsFromConfig(Map<String, dynamic> config,
+    [String flavor]) async {
   if (!hasPlatformConfig(config)) {
     throw const InvalidConfigException(errorMissingPlatform);
   }

@@ -5,18 +5,21 @@ import 'package:flutter_launcher_icons/utils.dart';
 import 'package:image/image.dart';
 import 'package:flutter_launcher_icons/constants.dart' as constants;
 
-final IconTemplateGenerator iconGenerator
-     = IconTemplateGenerator(defaultLocation: constants.webIconLocation);
+final IconTemplateGenerator iconGenerator =
+    IconTemplateGenerator(defaultLocation: constants.webIconLocation);
 
 List<IconTemplate> webIcons = <IconTemplate>[
-  iconGenerator.get(name: 'Icon-192.png', size: 192), // Note: iOS Safari Web Apps seems
-  iconGenerator.get(name: 'Icon-512.png', size: 512), // to require images of specific sizes,
-  iconGenerator.get(name: 'favicon.png', size: 16,    // so these images will be stretched,
-      location: constants.webFaviconLocation),      // unless already squares.
+  iconGenerator.get(
+      name: 'Icon-192.png', size: 192), // Note: iOS Safari Web Apps seems
+  iconGenerator.get(
+      name: 'Icon-512.png', size: 512), // to require images of specific sizes,
+  iconGenerator.get(
+      name: 'favicon.png',
+      size: 16, // so these images will be stretched,
+      location: constants.webFaviconLocation), // unless already squares.
 ];
 
-class WebIconGenerator extends AbstractPlatform
-{
+class WebIconGenerator extends AbstractPlatform {
   const WebIconGenerator() : super('web');
 
   @override
@@ -30,10 +33,10 @@ class WebIconGenerator extends AbstractPlatform
     if (webConfig is String) {
       // As there is only one favicon, fail. Request that the user
       //manually backup requested icons.
-      print (constants.errorWebCustomLocationNotSupported);
+      print(constants.errorWebCustomLocationNotSupported);
     } else {
       printStatus('Overwriting web favicon and launcher icons...');
-      
+
       for (IconTemplate template in webIcons) {
         _overwriteDefaultIcon(template, image);
       }
@@ -44,4 +47,3 @@ class WebIconGenerator extends AbstractPlatform
     template.updateFile(image);
   }
 }
-
