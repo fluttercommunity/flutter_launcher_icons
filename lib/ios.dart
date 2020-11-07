@@ -249,7 +249,9 @@ class IOSIconGenerator extends AbstractPlatform {
         onConfigurationSection = false;
       }
       if (onConfigurationSection) {
-        var match = RegExp('.*/\\* (.*)\.xcconfig \\*/;').firstMatch(line);
+        final RegExpMatch match =
+            RegExp('.*/\\* (.*)\.xcconfig \\*/;').firstMatch(line);
+
         if (match != null) {
           currentConfig = match.group(1);
         }

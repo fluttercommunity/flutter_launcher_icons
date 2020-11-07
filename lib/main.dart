@@ -1,9 +1,7 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:args/args.dart';
 import 'package:flutter_launcher_icons/abstract_platform.dart';
-import 'package:flutter_launcher_icons/utils.dart';
 import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';
 import 'package:flutter_launcher_icons/android.dart' as android_launcher_icons;
@@ -22,16 +20,20 @@ const Map<String, AbstractPlatform> platforms = {
 String flavorConfigFile(String flavor) => 'flutter_launcher_icons-$flavor.yaml';
 
 List<String> getFlavors() {
-  List<String> flavors = [];
-  for (var item in Directory('.').listSync()) {
+  final List<String> flavors = [];
+
+  for (FileSystemEntity item in Directory('.').listSync()) {
     if (item is File) {
-      final name = path.basename(item.path);
-      final match = RegExp(flavorConfigFilePattern).firstMatch(name);
+      final String name = path.basename(item.path);
+      final RegExpMatch match =
+          RegExp(flavorConfigFilePattern).firstMatch(name);
+
       if (match != null) {
         flavors.add(match.group(1));
       }
     }
   }
+
   return flavors;
 }
 
@@ -51,8 +53,8 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   }
 
   // Flavors manangement
-  var flavors = getFlavors();
-  var hasFlavors = flavors.isNotEmpty;
+  final List<String> flavors = getFlavors();
+  final bool hasFlavors = flavors.isNotEmpty;
 
   // Create icons
   if (!hasFlavors || argResults[fileOption] != null) {
