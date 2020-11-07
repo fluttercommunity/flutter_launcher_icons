@@ -13,7 +13,7 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
  * Support for web favicons and launcer icons.
 
-#### 0.8.1 (2nd Oct 2020)
+#### Version 0.8.1 (2nd Oct 2020)
 
 - Fixed flavor support on windows (@slightfoot)
 

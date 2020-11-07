@@ -38,7 +38,8 @@ const String errorWebCustomLocationNotSupported =
     '(perhaps by making a copy and renaming it). Custom locations are not '
     'supported.';
 
-String introMessage(String currentVersion) => '''
+const String currentVersion = '0.8.2';
+const String introMessage = '''
   ════════════════════════════════════════════
      FLUTTER LAUNCHER ICONS (v$currentVersion)                               
   ════════════════════════════════════════════
