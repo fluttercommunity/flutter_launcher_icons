@@ -164,7 +164,7 @@ You should see a line similar to the following in its output:
 Web Server (web) • web-server • web-javascript • Flutter Tools
 ```
 
-If you don't, please [enable web support!](https://flutter.dev/docs/get-started/web#set-up).
+If you don't, please [enable web support!](https://flutter.dev/docs/get-started/web#set-up)
 
 #### Launcher icons not present in debug mode
 
