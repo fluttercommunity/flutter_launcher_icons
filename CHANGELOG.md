@@ -2,7 +2,8 @@
 
 ## 0.8.2 (12th Oct 2020)
 
- - Support for web favicons and launcer icons.
+ - Support for web favicons and launcher icons.
+ - Bug fixes and refactoring.
 
 ## 0.8.1 (2nd Oct 2020)
 
