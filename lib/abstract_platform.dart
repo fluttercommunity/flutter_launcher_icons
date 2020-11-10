@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'constants.dart' as constants;
+
 abstract class AbstractPlatform {
   const AbstractPlatform(this.platformConfigKey);
 
@@ -32,7 +35,26 @@ abstract class AbstractPlatform {
     return null; // No issues.
   }
 
-  // TODO(personalizedrefrigerator): Document flavor usage.
+  ///     Logs warnings associated **with a valid [config]**.
+  ///     Returns [false] if the current platform must be skipped but
+  /// icons can still be generated for other platforms.
+  ///     Returns [true] if icons can be generated for the current platform.
+  ///     Logs warnings to [out].
+  ///     When called, `inConfig(config)` and `isConfigValid(config) != null`
+  /// are assumed to hold.
+  bool logWarnings(final Map<String, dynamic> config, {IOSink out}) {
+    final String configDirectoryPath = platformConfigKey;
+
+    if (FileSystemEntity.typeSync(configDirectoryPath) !=
+        FileSystemEntityType.directory) {
+      out.writeln(constants.warningPlatformDirectoryMissing(platformConfigKey));
+
+      return false; // Skip icon creation. The directory doesn't exist!
+    }
+
+    return true; // No fatal warnings.
+  }
+
   /// Create all icons for the current platform based on
   /// the contents of [config] and the [flavor].
   void createIcons(final Map<String, dynamic> config, final String flavor);

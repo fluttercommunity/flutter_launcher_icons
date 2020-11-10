@@ -102,7 +102,8 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config,
   }
 
   for (final AbstractPlatform platform in platforms.values) {
-    if (platform.inConfig(config)) {
+    if (platform.inConfig(config) &&
+        platform.logWarnings(config, out: stderr)) {
       platform.createIcons(config, flavor);
     }
   }

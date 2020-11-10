@@ -9,14 +9,10 @@ final IconTemplateGenerator iconGenerator =
     IconTemplateGenerator(defaultLocation: constants.webIconLocation);
 
 List<IconTemplate> webIcons = <IconTemplate>[
+  iconGenerator.get(name: 'Icon-192.png', size: 192),
+  iconGenerator.get(name: 'Icon-512.png', size: 512),
   iconGenerator.get(
-      name: 'Icon-192.png', size: 192),
-  iconGenerator.get(
-      name: 'Icon-512.png', size: 512),
-  iconGenerator.get(
-      name: 'favicon.png',
-      size: 16,
-      location: constants.webFaviconLocation),
+      name: 'favicon.png', size: 16, location: constants.webFaviconLocation),
 ];
 
 class WebIconGenerator extends AbstractPlatform {
