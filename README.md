@@ -11,7 +11,8 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
 #### Version 0.8.2 (12th Oct 2020)
 
- * Support for web favicons and launcer icons.
+ - Support for web favicons and launcher icons.
+ - Bug fixes and refactoring.
 
 #### Version 0.8.1 (2nd Oct 2020)
 
