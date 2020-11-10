@@ -158,7 +158,7 @@ Make sure that you have enabled web support!
 
 To check whether you have, try running `flutter devices`.
 
-There should be a line similar to the following in the output:
+You should see a line similar to the following in its output:
 
 ```
 Web Server (web) • web-server • web-javascript • Flutter Tools
