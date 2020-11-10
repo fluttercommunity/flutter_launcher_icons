@@ -183,7 +183,7 @@ Favicons should now be present!
 
 To make this work with `flutter_launcher_icons`, say that you have the following flavor-specific configuration files:
 
-**flutter_launcher_icons-development.yaml**
+`flutter_launcher_icons-development.yaml`
 ```yaml
 flutter_icons:
   android: true
@@ -191,7 +191,7 @@ flutter_icons:
   image_path: "assets/launcher_icon/demo-icon-dev.png"
 ```
 
-**flutter_launcher_icons-integration.yaml**
+`flutter_launcher_icons-integration.yaml`
 ```yaml
 flutter_icons:
   android: true
@@ -199,7 +199,7 @@ flutter_icons:
   image_path: "assets/launcher_icon/demo-icon-int.png"
 ```
 
-**flutter_launcher_icons-production.yaml**
+`flutter_launcher_icons-production.yaml`
 ```yaml
 flutter_icons:
   android: true
@@ -209,7 +209,7 @@ flutter_icons:
 
 We can tell `flutter_launcher_icons` to only generate web icons for the `production` flavor:
 
-**flutter_launcher_icons-development.yaml**
+`flutter_launcher_icons-development.yaml`
 ```yaml
 flutter_icons:
   android: true
@@ -218,7 +218,7 @@ flutter_icons:
   image_path: "assets/launcher_icon/demo-icon-dev.png"
 ```
 
-**flutter_launcher_icons-integration.yaml**
+`flutter_launcher_icons-integration.yaml`
 ```yaml
 flutter_icons:
   android: true
@@ -227,7 +227,7 @@ flutter_icons:
   image_path: "assets/launcher_icon/demo-icon-int.png"
 ```
 
-**flutter_launcher_icons-production.yaml**
+`flutter_launcher_icons-production.yaml`
 ```yaml
 flutter_icons:
   android: true
@@ -244,6 +244,8 @@ We make this change here, rather than in `pubspec.yaml` because
 `pubspec.yaml` when flavor config files are present!
 
 For a working example, please see [`example/flavors`](example/flavors)!
+
+--------------------
 
 ## :eyes: Example
 
