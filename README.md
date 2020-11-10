@@ -9,7 +9,7 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
 ## :sparkles: What's New
 
-#### Version 0.8.2 (12th Oct 2020)
+#### Version 0.9.0 (10th Nov 2020)
 
  - Support for web favicons and launcher icons.
  - Bug fixes and refactoring.

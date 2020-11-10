@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.8.2 (12th Oct 2020)
+## 0.9.0 (10th Nov 2020)
 
  - Support for web favicons and launcher icons.
  - Bug fixes and refactoring.

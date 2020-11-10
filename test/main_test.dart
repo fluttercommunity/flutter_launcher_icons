@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:test/test.dart';
+import 'package:yaml/yaml.dart' as yaml;
 import 'package:path/path.dart' as pathlib;
 import 'package:flutter_launcher_icons/ios.dart' as ios;
 import 'package:flutter_launcher_icons/android.dart' as android;
@@ -294,5 +295,13 @@ flutter_icons:
 
       expect(readmeVersion, equals(constants.currentVersion));
     }
+  });
+
+  test('pubspec.yaml version code matches the built-in version code.', () async {
+    final File pubspec = File('pubspec.yaml');
+    final String pubspecContent = await pubspec.readAsString();
+    final yaml.YamlMap yamlContent = yaml.loadYaml(pubspecContent);
+
+    expect(yamlContent['version'], equals(constants.currentVersion));
   });
 }
