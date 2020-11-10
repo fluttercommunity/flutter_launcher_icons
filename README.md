@@ -179,7 +179,7 @@ Favicons should now be present!
 
 #### `flutter run --flavor` doesn't work with web!
 
-`flutter run --flavor` is currently an [`android` and `iOS` specific feature!](https://github.com/flutter/flutter/issues/59388).
+`flutter run --flavor` is currently an [`android` and `iOS` specific feature!](https://github.com/flutter/flutter/issues/59388)
 
 To make this work with `flutter_launcher_icons`, say that you have the following flavor-specific configuration files:
 
