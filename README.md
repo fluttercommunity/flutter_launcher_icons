@@ -152,6 +152,20 @@ For best results try and use a foreground image which has padding much like [the
 
 [Related issue](https://github.com/fluttercommunity/flutter_launcher_icons/issues/96)
 
+#### Can't run web example project!
+
+Make sure that you have enabled web support!
+
+To check whether you have, try running `flutter devices`.
+
+There should be a line similar to the following in the output:
+
+```
+Web Server (web) • web-server • web-javascript • Flutter Tools
+```
+
+If you don't, please [enable web support!](https://flutter.dev/docs/get-started/web#set-up).
+
 #### Launcher icons not present in debug mode
 
 `favicon.png` may not be served with `index.html` when `flutter run -d web-server` is used. Try this!
