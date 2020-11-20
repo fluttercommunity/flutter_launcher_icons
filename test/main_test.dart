@@ -251,6 +251,7 @@ flutter_icons:
 
   test('Version code regexp works.', () {
     expect(versionCodeExp.firstMatch('#### 0.0.1 (3rd Oct 2020)'), isNotNull);
+    expect(versionCodeExp.firstMatch('#### 0.0.1 (A Placeholder Date)'), isNotNull);
     expect(versionCodeExp.firstMatch('Not a version code.'), isNull);
     expect(versionCodeExp.firstMatch('## Not a version code'), isNull);
     expect(versionCodeExp.firstMatch('## 4.4 is not a .0 version'), isNull);

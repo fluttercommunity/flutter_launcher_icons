@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.9.0 (10th Nov 2020)
+## 0.9.0 (**RELEASE DATE HERE**)
 
  - Support for web favicons and launcher icons (thanks to @personalizedrefrigerator).
  - Bug fixes and refactoring (thanks to @personalizedrefrigerator).
