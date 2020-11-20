@@ -13,9 +13,3 @@ dependencies:
 
 flutter:
   uses-material-design: true
-
-# Some platforms don't support `flutter run --flavor <something>`.
-#  These icons are generated with the others in flutter_launcher_icons-production.yaml
-# because we want them to use the default icon!
-#  We're using flavors, so a `flutter_icons` section would be ignored
-# here!

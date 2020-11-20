@@ -1,0 +1,21 @@
+name: example_with_flavors
+description: A new Flutter project.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_launcher_icons:
+    path: ../..
+
+flutter:
+  uses-material-design: true
+
+# Some platforms don't support `flutter run --flavor <something>`.
+#  These icons are generated with the others in flutter_launcher_icons-production.yaml
+# because we want them to use the default icon!
+#  We're using flavors, so a `flutter_icons` section would be ignored
+# here!
