@@ -110,18 +110,17 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config,
 }
 
 /// Call [loadConfigFile] with arguments inferred from [argResults].
-/// 
-/// If an error occurs and the (optional) [verbose] is true, log 
+///
+/// If an error occurs and the (optional) [verbose] is true, log
 /// a description to stderr.
-/// 
+///
 /// Treat the current working directory as [cwd] (if given), else,
 /// use './' as the current working directory.
-/// 
+///
 /// Note: [cwd] was added to allow tests that require different
 ///  working directories to run at the same time, without conflicting.
 Map<String, dynamic> loadConfigFileFromArgResults(ArgResults argResults,
     {bool verbose, String cwd}) {
-
   verbose ??= false;
   cwd ??= './';
 

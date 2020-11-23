@@ -1,3 +1,5 @@
+import 'utils.dart';
+
 String androidResFolder(String flavor) =>
     "android/app/src/${flavor ?? 'main'}/res/";
 String androidColorsFile(String flavor) =>
@@ -39,12 +41,12 @@ const String errorWebCustomLocationNotSupported =
     'supported.';
 
 String warningPlatformDirectoryMissing(String platformName) =>
-    '✗ Warning! Not generating icons for $platformName.'
-    ' Platform $platformName is in config, but there is no'
-    ' matching directory. If you want to generate icons for'
-    ' $platformName, make sure you have support for $platformName'
-    ' enabled and have run `flutter create .`'
-    ' in the root directory of your project.';
+    generateWarning(' Not generating icons for $platformName.'
+        ' Platform $platformName is in config, but there is no'
+        ' matching directory. If you want to generate icons for'
+        ' $platformName, make sure you have support for $platformName'
+        ' enabled and have run `flutter create .`'
+        ' in the root directory of your project.');
 
 const String currentVersion = '0.9.0';
 const String introMessage = '''
