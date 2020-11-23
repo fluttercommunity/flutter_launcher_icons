@@ -27,5 +27,5 @@ String generateError(Exception e, String error) {
 }
 
 String generateWarning(String warning) {
-  return '\n⚠ WARNING: $warning';
+  return '\n⚠ WARNING: $warning\n';
 }
