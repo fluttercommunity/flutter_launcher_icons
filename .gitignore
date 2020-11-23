@@ -13,6 +13,7 @@ example/*/android/
 example/*/ios/
 example/*/linux/
 example/*/.dart_tool/
+example/*/lib/
 example/*/.pub/
 example/*/.packages
 example/*/.gitignore
