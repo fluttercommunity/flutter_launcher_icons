@@ -1,5 +1,0 @@
-flutter_icons:
-  android: true
-  ios: true
-  web: true # Use the production icon when building for web!
-  image_path: "assets/launcher_icon/demo-icon.png"
