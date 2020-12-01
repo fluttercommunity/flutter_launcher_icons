@@ -31,7 +31,7 @@ class WebIconGenerator extends AbstractPlatform {
       //manually backup requested icons.
       print(constants.errorWebCustomLocationNotSupported);
     } else {
-      printStatus('Overwriting web favicon and launcher icons...');
+      printStatus('Overwriting web favicon');
 
       for (IconTemplate template in webIcons) {
         _overwriteDefaultIcon(template, image);
