@@ -25,3 +25,7 @@ void printStatus(String message) {
 String generateError(Exception e, String error) {
   return '\n✗ ERROR: ${(e).runtimeType.toString()} \n$error';
 }
+
+String generateWarning(String warning) {
+  return '\n⚠ WARNING: $warning\n';
+}
