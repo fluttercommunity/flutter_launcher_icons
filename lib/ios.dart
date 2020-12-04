@@ -6,10 +6,11 @@ import 'package:flutter_launcher_icons/constants.dart';
 
 /// File to handle the creation of icons for iOS platform
 class IosIconTemplate {
-  IosIconTemplate({this.size, this.name});
+  IosIconTemplate({this.size, this.name, this.noAlpha});
 
   final String name;
   final int size;
+  final bool noAlpha;
 }
 
 List<IosIconTemplate> iosIcons = <IosIconTemplate>[
@@ -27,7 +28,7 @@ List<IosIconTemplate> iosIcons = <IosIconTemplate>[
   IosIconTemplate(name: '-76x76@1x', size: 76),
   IosIconTemplate(name: '-76x76@2x', size: 152),
   IosIconTemplate(name: '-83.5x83.5@2x', size: 167),
-  IosIconTemplate(name: '-1024x1024@1x', size: 1024),
+  IosIconTemplate(name: '-1024x1024@1x', size: 1024, noAlpha: true),
 ];
 
 void createIcons(Map<String, dynamic> config, String flavor) {
@@ -73,6 +74,7 @@ void createIcons(Map<String, dynamic> config, String flavor) {
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
 void overwriteDefaultIcons(IosIconTemplate template, Image image) {
   final Image newFile = createResizedImage(template, image);
+
   File(iosDefaultIconFolder + iosDefaultIconName + template.name + '.png')
     ..writeAsBytesSync(encodePng(newFile));
 }
@@ -82,7 +84,9 @@ void overwriteDefaultIcons(IosIconTemplate template, Image image) {
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
 void saveNewIcons(IosIconTemplate template, Image image, String newIconName) {
   final String newIconFolder = iosAssetFolder + newIconName + '.appiconset/';
+
   final Image newFile = createResizedImage(template, image);
+
   File(newIconFolder + newIconName + template.name + '.png')
       .create(recursive: true)
       .then((File file) {
@@ -91,6 +95,9 @@ void saveNewIcons(IosIconTemplate template, Image image, String newIconName) {
 }
 
 Image createResizedImage(IosIconTemplate template, Image image) {
+  image.channels = template.noAlpha != null && template.noAlpha
+      ? Channels.rgb
+      : image.channels;
   if (image.width >= template.size) {
     return copyResize(image,
         width: template.size,
