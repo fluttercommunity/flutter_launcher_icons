@@ -9,12 +9,12 @@ authors:
 - Mark O'Sullivan <mos182@hotmail.co.uk>
 
 dependencies:
-  image: "^2.1.1"
-  args: "^1.5.0"
-  yaml: "^2.1.15"
+  image: ^2.1.1
+  args: ^1.5.0
+  yaml: ^2.1.15
 
 environment:
   sdk: '>=2.2.0 <3.0.0'
 
 dev_dependencies:
-  test: '^1.6.3'
+  test: ^1.6.3
