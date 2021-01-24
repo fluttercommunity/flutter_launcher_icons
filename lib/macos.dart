@@ -21,32 +21,41 @@ List<MacosIconTemplate> macosIcons = <MacosIconTemplate>[
   MacosIconTemplate(name: '_1024', size: 1024),
 ];
 
-void createIcons(Map<String, dynamic> config) {
+void createIcons(Map<String, dynamic> config, String flavor) {
   final String filePath = config['image_path_macos'] ?? config['image_path'];
   final Image image = decodeImage(File(filePath).readAsBytesSync());
   String iconName;
   final dynamic macosConfig = config['macos'];
   // If the MacOS configuration is a string then the user has specified a new icon to be created
   // and for the old icon file to be kept
-  if (macosConfig is String) {
+  if (flavor != null) {
+    final String catalogName = 'AppIcon-$flavor';
+    printStatus('Building macOs launcher icon for $flavor');
+    for (MacosIconTemplate template in macosIcons) {
+      saveNewIcons(template, image, catalogName);
+    }
+    iconName = iosDefaultIconName;
+    changeMacosLauncherIcon(catalogName, flavor);
+    modifyContentsFile(catalogName);
+  } else if (macosConfig is String) {
     final String newIconName = macosConfig;
-    print('Adding new macOS launcher icon');
+    printStatus('Adding new macOS launcher icon');
     for (MacosIconTemplate template in macosIcons) {
       saveNewIcons(template, image, newIconName);
     }
     iconName = newIconName;
-    changeMacosLauncherIcon(iconName);
+    changeMacosLauncherIcon(iconName, flavor);
     modifyContentsFile(iconName);
   }
   // Otherwise the user wants the new icon to use the default icons name and
   // update config file to use it
   else {
-    print('Overwriting default macOS launcher icon with new icon');
+    printStatus('Overwriting default macOS launcher icon with new icon');
     for (MacosIconTemplate template in macosIcons) {
       overwriteDefaultIcons(template, image);
     }
     iconName = macosDefaultIconName;
-    changeMacosLauncherIcon('AppIcon');
+    changeMacosLauncherIcon('AppIcon', flavor);
   }
 }
 
@@ -72,17 +81,35 @@ void saveNewIcons(MacosIconTemplate template, Image image, String newIconName) {
   });
 }
 
-Future<void> changeMacosLauncherIcon(String iconName) async {
+Future<void> changeMacosLauncherIcon(String iconName, String flavor) async {
   final File macOSConfigFile = File(macosConfigFile);
   final List<String> lines = await macOSConfigFile.readAsLines();
+
+  bool onConfigurationSection = false;
+  String currentConfig;
+
   for (int x = 0; x < lines.length; x++) {
     String line = lines[x];
-    if (line.contains('ASSETCATALOG')) {
-      line = line.replaceAll(RegExp(r'=.*;'), '= $iconName;');
-      lines[x] = line;
-      lines[lines.length - 1] = '}\n';
+    if (line.contains('/* Begin XCBuildConfiguration section */')) {
+      onConfigurationSection = true;
+    }
+    if (line.contains('/* End XCBuildConfiguration section */')) {
+      onConfigurationSection = false;
+    }
+    if (onConfigurationSection) {
+      var match = RegExp('.*/\\* (.*)\.xcconfig \\*/;').firstMatch(line);
+      if (match != null) {
+        currentConfig = match.group(1);
+      }
+
+      if (currentConfig != null &&
+          (flavor == null || currentConfig.contains('-$flavor')) &&
+          line.contains('ASSETCATALOG')) {
+        lines[x] = line.replaceAll(RegExp('\=(.*);'), '= $iconName;');
+      }
     }
   }
+
   final String entireFile = lines.join('\n');
   await macOSConfigFile.writeAsString(entireFile);
 }

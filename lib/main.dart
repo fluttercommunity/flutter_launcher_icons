@@ -107,7 +107,7 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config, [String flavor])
 
   }
   if (isNeedingNewMacOsIcon(config)) {
-    macos_launcher_icons.createIcons(config);
+    macos_launcher_icons.createIcons(config, flavor);
   }
 }
 
