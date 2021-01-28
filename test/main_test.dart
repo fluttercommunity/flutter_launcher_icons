@@ -25,7 +25,7 @@ void main() {
   });
 
   test('pubspec.yaml file exists', () async {
-    const String path = 'test/config/test_pubspec.yaml';
+    const String path = 'config/test_pubspec.yaml';
     final Map<String, dynamic> config = main_dart.loadConfigFile(path, null);
     expect(config.length, isNotNull);
   });
@@ -36,7 +36,7 @@ void main() {
     final String testDir =
         join('.dart_tool', 'flutter_launcher_icons', 'test', 'config_file');
 
-    String currentDirectory;
+    late String currentDirectory;
     Future<void> setCurrentDirectory(String path) async {
       path = join(testDir, path);
       await Directory(path).create(recursive: true);
@@ -57,8 +57,9 @@ flutter_icons:
   ios: false
 ''');
       final ArgResults argResults = parser.parse(<String>[]);
-      final Map<String, dynamic> config = main_dart.loadConfigFileFromArgResults(argResults);
-      expect(config['android'], true);
+      final Map<String, dynamic>? config = main_dart.loadConfigFileFromArgResults(argResults);
+      expect(config, isNotNull);
+      expect(config!['android'], true);
     });
     test('default_use_pubspec', () async {
       await setCurrentDirectory('pubspec_only');
@@ -68,8 +69,9 @@ flutter_icons:
   ios: false
 ''');
       ArgResults argResults = parser.parse(<String>[]);
-      final Map<String, dynamic> config = main_dart.loadConfigFileFromArgResults(argResults);
-      expect(config['ios'], false);
+      final Map<String, dynamic>? config = main_dart.loadConfigFileFromArgResults(argResults);
+      expect(config, isNotNull);
+      expect(config!['ios'], false);
 
       // fails if forcing default file
       argResults = parser.parse(<String>['-f', defaultConfigFile]);
@@ -85,8 +87,9 @@ flutter_icons:
 ''');
       // if no argument set, should fail
       ArgResults argResults = parser.parse(<String>['-f', 'custom.yaml']);
-      final Map<String, dynamic> config = main_dart.loadConfigFileFromArgResults(argResults);
-      expect(config['ios'], true);
+      final Map<String, dynamic>? config = main_dart.loadConfigFileFromArgResults(argResults);
+      expect(config, isNotNull);
+      expect(config!['ios'], true);
 
       // should fail if no argument
       argResults = parser.parse(<String>[]);
