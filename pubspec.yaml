@@ -5,10 +5,10 @@ maintainer: Mark O'Sullivan (@MarkOSullivan94)
 homepage: https://github.com/fluttercommunity/flutter_launcher_icons
 
 dependencies:
-  image: ^2.1.1
   args: ^1.5.0
-  yaml: ^2.1.15
+  image: ^2.1.1
   path: ^1.7.0
+  yaml: ^2.1.15
 
 environment:
   sdk: '>=2.3.0 <3.0.0'

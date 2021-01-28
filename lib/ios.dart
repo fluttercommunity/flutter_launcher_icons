@@ -112,7 +112,7 @@ Future<void> changeIosLauncherIcon(String iconName, String flavor) async {
   String currentConfig;
 
   for (int x = 0; x < lines.length; x++) {
-    String line = lines[x];
+    final String line = lines[x];
     if (line.contains('/* Begin XCBuildConfiguration section */')) {
       onConfigurationSection = true;
     }
@@ -120,7 +120,7 @@ Future<void> changeIosLauncherIcon(String iconName, String flavor) async {
       onConfigurationSection = false;
     }
     if (onConfigurationSection) {
-      var match = RegExp('.*/\\* (.*)\.xcconfig \\*/;').firstMatch(line);
+      final match = RegExp('.*/\\* (.*)\.xcconfig \\*/;').firstMatch(line);
       if (match != null) {
         currentConfig = match.group(1);
       }
