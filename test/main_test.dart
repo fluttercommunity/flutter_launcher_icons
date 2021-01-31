@@ -25,7 +25,7 @@ void main() {
   });
 
   test('pubspec.yaml file exists', () async {
-    const String path = 'config/test_pubspec.yaml';
+    const String path = 'test/config/test_pubspec.yaml';
     final Map<String, dynamic> config = main_dart.loadConfigFile(path, null);
     expect(config.length, isNotNull);
   });
