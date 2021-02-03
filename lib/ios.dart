@@ -133,6 +133,9 @@ Future<void> changeIosLauncherIcon(String iconName, String flavor) async {
     }
   }
 
+  // To append a newline at the end of the file.
+  lines.add('');
+
   final String entireFile = lines.join('\n');
   await iOSConfigFile.writeAsString(entireFile);
 }
