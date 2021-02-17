@@ -9,6 +9,16 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
 ## :sparkles: What's New
 
+#### 0.8.1 (2nd Oct 2020)
+
+- Fixed flavor support on windows (@slightfoot)
+
+#### Version 0.8.0 (12th Sept 2020)
+
+- Added flavours support (thanks to @sestegra & @jorgecoca)
+- Removed unassigned iOS icons (thanks to @melvinsalas)
+- Fixing formatting (thanks to @mreichelt)
+
 #### Version 0.7.5 (24th Apr 2020)
 
 - Fixed issue where new lines were added to Android manifest (thanks to @mreichelt)
@@ -38,9 +48,6 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
  * Added support for drawables to be used for adaptive icon backgrounds
  * Added support for Flutter Launcher Icons to be able to run with it's own config file (no longer necessary to add to pubspec.yaml)
 
-#### Version 0.6.1 (26th August 2018)
- * Upgraded dependencies so that it should now work with Dart 2.1.0
-
 Want to see older changes? Be sure to check out the [Changelog](https://github.com/fluttercommunity/flutter_launcher_icons/blob/master/CHANGELOG.md).
 
 ## :book: Guide
@@ -48,10 +55,10 @@ Want to see older changes? Be sure to check out the [Changelog](https://github.c
 #### 1. Setup the config file
 
 Add your Flutter Launcher Icons configuration to your `pubspec.yaml` or create a new config file called `flutter_launcher_icons.yaml`.
-An example is shown below. A more complex example [can be found in the example project](https://github.com/fluttercommunity/flutter_launcher_icons/blob/master/example/pubspec.yaml).
+An example is shown below. More complex examples [can be found in the example projects](https://github.com/fluttercommunity/flutter_launcher_icons/tree/master/example).
 ```yaml
 dev_dependencies:
-  flutter_launcher_icons: "^0.7.5"
+  flutter_launcher_icons: "^0.8.0"
 
 flutter_icons:
   android: "launcher_icon"
@@ -108,6 +115,13 @@ be used to fill out the background of the adaptive icon.
 
 - `adaptive_icon_foreground`: The image asset which will be used for the icon foreground of the adaptive icon
 
+## Flavor support
+
+Create a Flutter Launcher Icons configuration file for your flavor. The config file is called `flutter_launcher_icons-<flavor>.yaml` by replacing `<flavor>` by the name of your desired flavor.
+
+The configuration file format is the same.
+
+An example project with flavor support enabled [has been added to the examples](https://github.com/fluttercommunity/flutter_launcher_icons/tree/master/example/flavors).
 
 ## :question: Troubleshooting
 
@@ -131,10 +145,9 @@ For best results try and use a foreground image which has padding much like [the
 
 [Related issue](https://github.com/fluttercommunity/flutter_launcher_icons/issues/96)
 
-
 ## :eyes: Example
 
-[![Video Example](https://img.youtube.com/vi/RjNAxwcP3Tc/0.jpg)](https://www.youtube.com/watch?v=RjNAxwcP3Tc)
+[![Video Example](https://i.imgur.com/R28hqdz.png)](https://www.youtube.com/watch?v=RjNAxwcP3Tc)
 
 Note: This is showing a very old version (v0.0.5)
 

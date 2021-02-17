@@ -13,7 +13,7 @@ void main() {
     expect(android.isCorrectMipmapDirectoryForAdaptiveIcon(path2), false);
     expect(
         android.isCorrectMipmapDirectoryForAdaptiveIcon(
-            androidAdaptiveXmlFolder),
+            androidAdaptiveXmlFolder(null)),
         true);
   });
 

@@ -1,11 +1,11 @@
-const String androidResFolder = 'android/app/src/main/res/';
-const String androidColorsFile = 'android/app/src/main/res/values/colors.xml';
+String androidResFolder(String flavor) => "android/app/src/${flavor ?? 'main'}/res/";
+String androidColorsFile(String flavor) => "android/app/src/${flavor ?? 'main'}/res/values/colors.xml";
 const String androidManifestFile = 'android/app/src/main/AndroidManifest.xml';
 const String androidGradleFile = 'android/app/build.gradle';
 const String androidFileName = 'ic_launcher.png';
 const String androidAdaptiveForegroundFileName = 'ic_launcher_foreground.png';
 const String androidAdaptiveBackgroundFileName = 'ic_launcher_background.png';
-const String androidAdaptiveXmlFolder = '${androidResFolder}mipmap-anydpi-v26/';
+String androidAdaptiveXmlFolder(String flavor) => androidResFolder(flavor) + 'mipmap-anydpi-v26/';
 const String androidDefaultIconName = 'ic_launcher';
 
 const String iosDefaultIconFolder =
@@ -24,3 +24,9 @@ const String errorMissingRegularAndroid =
 const String errorIncorrectIconName =
     'The icon name must contain only lowercase a-z, 0-9, or underscore: '
     'E.g. "ic_my_new_icon"';
+
+String introMessage(String currentVersion) => '''
+  ════════════════════════════════════════════
+     FLUTTER LAUNCHER ICONS (v$currentVersion)                               
+  ════════════════════════════════════════════
+  ''';
