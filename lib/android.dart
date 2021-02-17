@@ -65,7 +65,7 @@ bool isAndroidIconNameCorrectFormat(String iconName) {
 
 /// Rescales image by creating a different sized canvas and copying image centered onto the new canvas
 Image rescaleImage(Image image, double scaleFactor, {int fillColor = 0}) {
-  print('Rescaling icon by $scaleFactor');
+  printStatus('Rescaling icon by $scaleFactor');
   final int height = image.height;
   final int width = image.width;
   final int scaledHeight = (height * 1 / scaleFactor).floor();
