@@ -69,18 +69,21 @@ bool isAndroidIconNameCorrectFormat(String iconName) {
 /// Rescales image by creating a different sized canvas and copying image centered onto the new canvas
 Image rescaleImage(Image image, double scaleFactor, {int fillColor = 0}) {
   printStatus('Rescaling icon by $scaleFactor');
-  final int height = image.height;
-  final int width = image.width;
-  final int scaledDimension = (max(width, height) * 1 / scaleFactor).floor();
-  if (height != width) {
+  final int scaledDimension =
+      (max(image.width, image.height) * 1 / scaleFactor).floor();
+  if (image.width != image.height) {
     printStatus(
-        'Foreground image is not square!  Scaled canvas will be made square to meet Adaptive Icon Specifications');
-  } 
+        'Foreground image is not square!  Scaled canvas will be made square '
+        'to meet Adaptive Icon Specifications');
+  }
   final Image scaledImage = Image(scaledDimension, scaledDimension);
   scaledImage.fill(fillColor);
-  copyInto(scaledImage, image,
-      dstX: ((scaledDimension - width) / 2).floor(),
-      dstY: ((scaledDimension - height) / 2).floor(),);
+  copyInto(
+    scaledImage,
+    image,
+    dstX: ((scaledDimension - image.width) / 2).floor(),
+    dstY: ((scaledDimension - image.height) / 2).floor(),
+  );
   return scaledImage;
 }
 
@@ -101,11 +104,13 @@ void createAdaptiveIcons(
       flutterLauncherIconsConfig['adaptive_icon_foreground_scale_fill_color'];
 
   final bool rescale = foregroundScaleFactor != null &&
-      foregroundScaleFactor > 0 && foregroundImage != null;
+      foregroundScaleFactor > 0 &&
+      foregroundImage != null;
 
   Image rescaledImage;
 
-  // Scales the foreground image prior to converting to icon.  This is intended for scaling down to match adaptive icon spec
+  // Scales the foreground image prior to converting to icon.
+  // This is intended for scaling down to match adaptive icon spec
   if (rescale) {
     int _getColorFromHex(String hexColor) {
       //Converts hex string to int
