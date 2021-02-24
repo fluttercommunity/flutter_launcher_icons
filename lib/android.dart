@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:flutter_launcher_icons/xml_templates.dart' as xml_template;
 import 'package:image/image.dart';
@@ -44,12 +45,14 @@ void createDefaultIcons(
     }
     overwriteAndroidManifestWithNewLauncherIcon(iconName, androidManifestFile);
   } else {
-    printStatus('Overwriting the default Android launcher icon with a new icon');
+    printStatus(
+        'Overwriting the default Android launcher icon with a new icon');
     for (AndroidIconTemplate template in androidIcons) {
       overwriteExistingIcons(
           template, image, constants.androidFileName, flavor);
     }
-    overwriteAndroidManifestWithNewLauncherIcon(constants.androidDefaultIconName, androidManifestFile);
+    overwriteAndroidManifestWithNewLauncherIcon(
+        constants.androidDefaultIconName, androidManifestFile);
   }
 }
 
@@ -68,21 +71,22 @@ Image rescaleImage(Image image, double scaleFactor, {int fillColor = 0}) {
   printStatus('Rescaling icon by $scaleFactor');
   final int height = image.height;
   final int width = image.width;
-  final int scaledHeight = (height * 1 / scaleFactor).floor();
-  final int scaledWidth = (width * 1 / scaleFactor).floor();
-  final Image scaledImage = Image(scaledHeight, scaledWidth);
+  final int scaledDimension = (max(width, height) * 1 / scaleFactor).floor();
+  if (height != width) {
+    printStatus(
+        'Foreground image is not square!  Scaled canvas will be made square to meet Adaptive Icon Specifications');
+  } 
+  final Image scaledImage = Image(scaledDimension, scaledDimension);
   scaledImage.fill(fillColor);
   copyInto(scaledImage, image,
-      dstX: ((scaledHeight - height) / 2).floor(),
-      dstY: ((scaledWidth - width) / 2).floor());
+      dstX: ((scaledDimension - width) / 2).floor(),
+      dstY: ((scaledDimension - height) / 2).floor(),);
   return scaledImage;
 }
-
 
 void createAdaptiveIcons(
     Map<String, dynamic> flutterLauncherIconsConfig, String flavor) {
   printStatus('Creating adaptive icons Android');
-
 
   // Retrieve the necessary Flutter Launcher Icons configuration from the yaml file
   final String backgroundConfig =
@@ -96,25 +100,16 @@ void createAdaptiveIcons(
   final String foregroundScaleFillColor =
       flutterLauncherIconsConfig['adaptive_icon_foreground_scale_fill_color'];
 
-  final bool rescale =
-      foregroundScaleFactor != null && foregroundScaleFactor > 0;
+  final bool rescale = foregroundScaleFactor != null &&
+      foregroundScaleFactor > 0 && foregroundImage != null;
 
   Image rescaledImage;
 
-  // Scales the foreground image prior to converting to icon.  This is mainly for scaling down to match adaptive icon spec
-  if (rescale &&
-      foregroundImage != null &&
-      foregroundScaleFactor != null &&
-      foregroundScaleFactor > 0) {
+  // Scales the foreground image prior to converting to icon.  This is intended for scaling down to match adaptive icon spec
+  if (rescale) {
     int _getColorFromHex(String hexColor) {
       //Converts hex string to int
       hexColor = hexColor.toUpperCase().replaceAll('#', '');
-      /* Defaulting to transparent background
-
-      if (hexColor.length == 6) {
-        hexColor = 'FF' + hexColor;
-      }
-      */
       return int.parse(hexColor, radix: 16);
     }
 
@@ -128,10 +123,10 @@ void createAdaptiveIcons(
   // Create adaptive icon foreground images
   for (AndroidIconTemplate androidIcon in adaptiveForegroundIcons) {
     overwriteExistingIcons(
-      androidIcon,
-      rescale ? rescaledImage : foregroundImage,
-      constants.androidAdaptiveForegroundFileName, flavor
-    );
+        androidIcon,
+        rescale ? rescaledImage : foregroundImage,
+        constants.androidAdaptiveForegroundFileName,
+        flavor);
   }
 
   // Create adaptive icon background
@@ -158,7 +153,8 @@ void updateColorsXmlFile(String backgroundConfig, String flavor) {
     updateColorsFile(colorsXml, backgroundConfig);
   } else {
     printStatus('No colors.xml file found in your Android project');
-    printStatus('Creating colors.xml file and adding it to your Android project');
+    printStatus(
+        'Creating colors.xml file and adding it to your Android project');
     createNewColorsFile(backgroundConfig, flavor);
   }
 }
