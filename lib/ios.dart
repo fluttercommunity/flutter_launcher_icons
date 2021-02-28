@@ -32,7 +32,12 @@ List<IosIconTemplate> iosIcons = <IosIconTemplate>[
 
 void createIcons(Map<String, dynamic> config, String? flavor) {
   final String filePath = config['image_path_ios'] ?? config['image_path'];
-  final Image image = decodeImageFile(filePath);
+  final Image? image = decodeImageFile(filePath);
+  // decodeImageFile shows error message if null
+  // so can return here if image is null
+  if (image == null) {
+    return;
+  }
   String iconName;
   final dynamic iosConfig = config['ios'];
   if (flavor != null) {

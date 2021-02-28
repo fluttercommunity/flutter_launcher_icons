@@ -31,7 +31,7 @@ String generateError(Exception e, String? error) {
   return '\n✗ ERROR: ${(e).runtimeType.toString()}$errorOutput';
 }
 
-Image decodeImageFile(String filePath) {
+Image? decodeImageFile(String filePath) {
   final image = decodeImage(File(filePath).readAsBytesSync());
   if (image == null) {
     throw NoDecoderForImageFormatException(filePath);
