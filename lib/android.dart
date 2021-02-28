@@ -32,7 +32,10 @@ void createDefaultIcons(
     Map<String, dynamic> flutterLauncherIconsConfig, String? flavor) {
   printStatus('Creating default icons Android');
   final String filePath = getAndroidIconPath(flutterLauncherIconsConfig);
-  final Image image = decodeImageFile(filePath);
+  final Image? image = decodeImageFile(filePath);
+  if (image == null) {
+    return;
+  }
   final File androidManifestFile = File(constants.androidManifestFile);
   if (isCustomAndroidFile(flutterLauncherIconsConfig)) {
     printStatus('Adding a new Android launcher icon');
@@ -74,7 +77,10 @@ void createAdaptiveIcons(
       flutterLauncherIconsConfig['adaptive_icon_background'];
   final String foregroundImagePath =
       flutterLauncherIconsConfig['adaptive_icon_foreground'];
-  final Image foregroundImage = decodeImageFile(foregroundImagePath);
+  final Image? foregroundImage = decodeImageFile(foregroundImagePath);
+  if (foregroundImage == null) {
+    return;
+  }
 
   // Create adaptive icon foreground images
   for (AndroidIconTemplate androidIcon in adaptiveForegroundIcons) {
@@ -139,7 +145,10 @@ void createAdaptiveIconMipmapXmlFile(
 void createAdaptiveBackgrounds(Map<String, dynamic> yamlConfig,
     String adaptiveIconBackgroundImagePath, String? flavor) {
   final String filePath = adaptiveIconBackgroundImagePath;
-  final Image image = decodeImageFile(filePath);
+  final Image? image = decodeImageFile(filePath);
+  if (image == null) {
+    return;
+  }
 
   // creates a png image (ic_adaptive_background.png) for the adaptive icon background in each of the locations
   // it is required
