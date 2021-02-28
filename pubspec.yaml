@@ -15,6 +15,3 @@ environment:
 
 dev_dependencies:
   test: ^1.16.0-nullsafety.16
-
-dependency_overrides:
-  args: ^2.0.0-nullsafety.0 
