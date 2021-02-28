@@ -6,7 +6,7 @@ import 'package:flutter_launcher_icons/constants.dart';
 
 /// File to handle the creation of icons for iOS platform
 class IosIconTemplate {
-  IosIconTemplate({this.size, this.name});
+  IosIconTemplate({required this.size, required this.name});
 
   final String name;
   final int size;
@@ -30,9 +30,14 @@ List<IosIconTemplate> iosIcons = <IosIconTemplate>[
   IosIconTemplate(name: '-1024x1024@1x', size: 1024),
 ];
 
-void createIcons(Map<String, dynamic> config, String flavor) {
+void createIcons(Map<String, dynamic> config, String? flavor) {
   final String filePath = config['image_path_ios'] ?? config['image_path'];
-  final Image image = decodeImage(File(filePath).readAsBytesSync());
+  // decodeImageFile shows error message if null
+  // so can return here if image is null
+  final Image? image = decodeImage(File(filePath).readAsBytesSync());
+  if (image == null) {
+    return;
+  }
   if (config['remove_alpha_ios'] is bool && config['remove_alpha_ios']) {
     image.channels = Channels.rgb;
   }
@@ -110,15 +115,15 @@ Image createResizedImage(IosIconTemplate template, Image image) {
   }
 }
 
-Future<void> changeIosLauncherIcon(String iconName, String flavor) async {
+Future<void> changeIosLauncherIcon(String iconName, String? flavor) async {
   final File iOSConfigFile = File(iosConfigFile);
   final List<String> lines = await iOSConfigFile.readAsLines();
 
   bool onConfigurationSection = false;
-  String currentConfig;
+  String? currentConfig;
 
   for (int x = 0; x < lines.length; x++) {
-    String line = lines[x];
+    final String line = lines[x];
     if (line.contains('/* Begin XCBuildConfiguration section */')) {
       onConfigurationSection = true;
     }
@@ -126,7 +131,7 @@ Future<void> changeIosLauncherIcon(String iconName, String flavor) async {
       onConfigurationSection = false;
     }
     if (onConfigurationSection) {
-      var match = RegExp('.*/\\* (.*)\.xcconfig \\*/;').firstMatch(line);
+      final match = RegExp('.*/\\* (.*)\.xcconfig \\*/;').firstMatch(line);
       if (match != null) {
         currentConfig = match.group(1);
       }
@@ -163,7 +168,12 @@ String generateContentsFileAsString(String newIconName) {
 }
 
 class ContentsImageObject {
-  ContentsImageObject({this.size, this.idiom, this.filename, this.scale});
+  ContentsImageObject({
+    required this.size,
+    required this.idiom,
+    required this.filename,
+    required this.scale,
+  });
 
   final String size;
   final String idiom;
@@ -181,7 +191,7 @@ class ContentsImageObject {
 }
 
 class ContentsInfoObject {
-  ContentsInfoObject({this.version, this.author});
+  ContentsInfoObject({required this.version, required this.author});
 
   final int version;
   final String author;

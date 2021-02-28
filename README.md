@@ -9,7 +9,12 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
 ## :sparkles: What's New
 
-#### 0.8.1 (2nd Oct 2020)
+#### Version 0.9.0 (28th Feb 2021)
+
+- Null-safety support added (thanks to @SteveAlexander)
+- Added option to remove alpha channel for iOS icons (thanks to @SimonIT)
+
+#### Version 0.8.1 (2nd Oct 2020)
 
 - Fixed flavor support on windows (@slightfoot)
 
@@ -18,35 +23,6 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 - Added flavours support (thanks to @sestegra & @jorgecoca)
 - Removed unassigned iOS icons (thanks to @melvinsalas)
 - Fixing formatting (thanks to @mreichelt)
-
-#### Version 0.7.5 (24th Apr 2020)
-
-- Fixed issue where new lines were added to Android manifest (thanks to @mreichelt)
-- Improvements to code quality and general tidying up (thanks to @connectety)
-- Fixed Android example project not running (needed to be migrated to AndroidX)
-
-#### Version 0.7.4 (28th Oct 2019)
-
-- Worked on suggestions from [pub.dev](https://pub.dev/packages/flutter_launcher_icons#-analysis-tab-)
-
-#### Version 0.7.3 (3rd Sept 2019)
- * Lot of refactoring and improving code quality (thanks to @connectety)
- * Added correct App Store icon settings (thanks to @richgoldmd)
-
-#### Version 0.7.2 (25th May 2019)
- * Reverted back using old interpolation method
-
-#### Version 0.7.1 (24th May 2019)
- * Fixed issue with image dependency not working on latest version of Flutter (thanks to @sboutet06)
- * Fixed iOS icon sizes which were incorrect (thanks to @sestegra)
- * Removed dart_config git dependency and replaced with yaml dependency
-
-#### Version 0.7.0 (22nd November 2018)
- * Added check to ensure the Android file name is valid
- * Fixed issue where there was a git diff when there was no change
- * Fixed issue where iOS icon would be generated when it shouldn't be
- * Added support for drawables to be used for adaptive icon backgrounds
- * Added support for Flutter Launcher Icons to be able to run with it's own config file (no longer necessary to add to pubspec.yaml)
 
 Want to see older changes? Be sure to check out the [Changelog](https://github.com/fluttercommunity/flutter_launcher_icons/blob/master/CHANGELOG.md).
 

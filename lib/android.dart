@@ -6,7 +6,7 @@ import 'package:flutter_launcher_icons/custom_exceptions.dart';
 import 'package:flutter_launcher_icons/constants.dart' as constants;
 
 class AndroidIconTemplate {
-  AndroidIconTemplate({this.size, this.directoryName});
+  AndroidIconTemplate({required this.size, required this.directoryName});
 
   final String directoryName;
   final int size;
@@ -29,10 +29,13 @@ List<AndroidIconTemplate> androidIcons = <AndroidIconTemplate>[
 ];
 
 void createDefaultIcons(
-    Map<String, dynamic> flutterLauncherIconsConfig, String flavor) {
+    Map<String, dynamic> flutterLauncherIconsConfig, String? flavor) {
   printStatus('Creating default icons Android');
   final String filePath = getAndroidIconPath(flutterLauncherIconsConfig);
-  final Image image = decodeImage(File(filePath).readAsBytesSync());
+  final Image? image = decodeImageFile(filePath);
+  if (image == null) {
+    return;
+  }
   final File androidManifestFile = File(constants.androidManifestFile);
   if (isCustomAndroidFile(flutterLauncherIconsConfig)) {
     printStatus('Adding a new Android launcher icon');
@@ -44,12 +47,14 @@ void createDefaultIcons(
     }
     overwriteAndroidManifestWithNewLauncherIcon(iconName, androidManifestFile);
   } else {
-    printStatus('Overwriting the default Android launcher icon with a new icon');
+    printStatus(
+        'Overwriting the default Android launcher icon with a new icon');
     for (AndroidIconTemplate template in androidIcons) {
       overwriteExistingIcons(
           template, image, constants.androidFileName, flavor);
     }
-    overwriteAndroidManifestWithNewLauncherIcon(constants.androidDefaultIconName, androidManifestFile);
+    overwriteAndroidManifestWithNewLauncherIcon(
+        constants.androidDefaultIconName, androidManifestFile);
   }
 }
 
@@ -64,7 +69,7 @@ bool isAndroidIconNameCorrectFormat(String iconName) {
 }
 
 void createAdaptiveIcons(
-    Map<String, dynamic> flutterLauncherIconsConfig, String flavor) {
+    Map<String, dynamic> flutterLauncherIconsConfig, String? flavor) {
   printStatus('Creating adaptive icons Android');
 
   // Retrieve the necessary Flutter Launcher Icons configuration from the pubspec.yaml file
@@ -72,8 +77,10 @@ void createAdaptiveIcons(
       flutterLauncherIconsConfig['adaptive_icon_background'];
   final String foregroundImagePath =
       flutterLauncherIconsConfig['adaptive_icon_foreground'];
-  final Image foregroundImage =
-      decodeImage(File(foregroundImagePath).readAsBytesSync());
+  final Image? foregroundImage = decodeImageFile(foregroundImagePath);
+  if (foregroundImage == null) {
+    return;
+  }
 
   // Create adaptive icon foreground images
   for (AndroidIconTemplate androidIcon in adaptiveForegroundIcons) {
@@ -98,14 +105,15 @@ void createAdaptiveIcons(
 ///
 /// If not, the colors.xml file is created and a color item for the adaptive icon
 /// background is included in the new colors.xml file.
-void updateColorsXmlFile(String backgroundConfig, String flavor) {
+void updateColorsXmlFile(String backgroundConfig, String? flavor) {
   final File colorsXml = File(constants.androidColorsFile(flavor));
   if (colorsXml.existsSync()) {
     printStatus('Updating colors.xml with color for adaptive icon background');
     updateColorsFile(colorsXml, backgroundConfig);
   } else {
     printStatus('No colors.xml file found in your Android project');
-    printStatus('Creating colors.xml file and adding it to your Android project');
+    printStatus(
+        'Creating colors.xml file and adding it to your Android project');
     createNewColorsFile(backgroundConfig, flavor);
   }
 }
@@ -113,7 +121,7 @@ void updateColorsXmlFile(String backgroundConfig, String flavor) {
 /// Creates the xml file required for the adaptive launcher icon
 /// FILE LOCATED HERE: res/mipmap-anydpi/{icon-name-from-yaml-config}.xml
 void createAdaptiveIconMipmapXmlFile(
-    Map<String, dynamic> flutterLauncherIconsConfig, String flavor) {
+    Map<String, dynamic> flutterLauncherIconsConfig, String? flavor) {
   if (isCustomAndroidFile(flutterLauncherIconsConfig)) {
     File(constants.androidAdaptiveXmlFolder(flavor) +
             getNewIconName(flutterLauncherIconsConfig) +
@@ -135,9 +143,12 @@ void createAdaptiveIconMipmapXmlFile(
 
 /// creates adaptive background using png image
 void createAdaptiveBackgrounds(Map<String, dynamic> yamlConfig,
-    String adaptiveIconBackgroundImagePath, String flavor) {
+    String adaptiveIconBackgroundImagePath, String? flavor) {
   final String filePath = adaptiveIconBackgroundImagePath;
-  final Image image = decodeImage(File(filePath).readAsBytesSync());
+  final Image? image = decodeImageFile(filePath);
+  if (image == null) {
+    return;
+  }
 
   // creates a png image (ic_adaptive_background.png) for the adaptive icon background in each of the locations
   // it is required
@@ -168,7 +179,7 @@ void createAdaptiveBackgrounds(Map<String, dynamic> yamlConfig,
 }
 
 /// Creates a colors.xml file if it was missing from android/app/src/main/res/values/colors.xml
-void createNewColorsFile(String backgroundColor, String flavor) {
+void createNewColorsFile(String backgroundColor, String? flavor) {
   File(constants.androidColorsFile(flavor))
       .create(recursive: true)
       .then((File colorsFile) {
@@ -221,7 +232,11 @@ String getNewIconName(Map<String, dynamic> config) {
 /// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
 void overwriteExistingIcons(
-    AndroidIconTemplate template, Image image, String filename, String flavor) {
+  AndroidIconTemplate template,
+  Image image,
+  String filename,
+  String? flavor,
+) {
   final Image newFile = createResizedImage(template.size, image);
   File(constants.androidResFolder(flavor) +
           template.directoryName +
@@ -237,7 +252,7 @@ void overwriteExistingIcons(
 /// Note: Do not change interpolation unless you end up with better results
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
 void saveNewImages(AndroidIconTemplate template, Image image,
-    String iconFilePath, String flavor) {
+    String iconFilePath, String? flavor) {
   final Image newFile = createResizedImage(template.size, image);
   File(constants.androidResFolder(flavor) +
           template.directoryName +
