@@ -8,7 +8,11 @@ import 'utils.dart';
 
 /// File to handle the creation of icons for macos platform
 class MacosIconTemplate {
-  MacosIconTemplate({this.size, this.name});
+  MacosIconTemplate({
+    required this.size,
+    required this.name,
+  });
+
   final String name;
   final int size;
 }
@@ -23,9 +27,12 @@ List<MacosIconTemplate> macosIcons = <MacosIconTemplate>[
   MacosIconTemplate(name: '_1024', size: 1024),
 ];
 
-void createIcons(Map<String, dynamic> config, String flavor) {
+void createIcons(Map<String, dynamic> config, String? flavor) {
   final String filePath = config['image_path_macos'] ?? config['image_path'];
-  final Image image = decodeImage(File(filePath).readAsBytesSync());
+  final Image? image = decodeImage(File(filePath).readAsBytesSync());
+  if (image == null) {
+    return;
+  }
   String iconName;
   final dynamic macosConfig = config['macos'];
   // If the MacOS configuration is a string then the user has specified a new icon to be created
@@ -83,12 +90,12 @@ void saveNewIcons(MacosIconTemplate template, Image image, String newIconName) {
   });
 }
 
-Future<void> changeMacosLauncherIcon(String iconName, String flavor) async {
+Future<void> changeMacosLauncherIcon(String iconName, String? flavor) async {
   final File macOSConfigFile = File(macosConfigFile);
   final List<String> lines = await macOSConfigFile.readAsLines();
 
   bool onConfigurationSection = false;
-  String currentConfig;
+  String? currentConfig;
 
   for (int x = 0; x < lines.length; x++) {
     String line = lines[x];
@@ -99,7 +106,7 @@ Future<void> changeMacosLauncherIcon(String iconName, String flavor) async {
       onConfigurationSection = false;
     }
     if (onConfigurationSection) {
-      var match = RegExp('.*/\\* (.*)\.xcconfig \\*/;').firstMatch(line);
+      final match = RegExp('.*/\\* (.*)\.xcconfig \\*/;').firstMatch(line);
       if (match != null) {
         currentConfig = match.group(1);
       }
@@ -136,7 +143,13 @@ String generateContentsFileAsString(String newIconName) {
 }
 
 class ContentsImageObject {
-  ContentsImageObject({this.size, this.idiom, this.filename, this.scale});
+  ContentsImageObject({
+    required this.size,
+    required this.idiom,
+    required this.filename,
+    required this.scale,
+  });
+
   final String size;
   final String idiom;
   final String filename;
@@ -153,7 +166,11 @@ class ContentsImageObject {
 }
 
 class ContentsInfoObject {
-  ContentsInfoObject({this.version, this.author});
+  ContentsInfoObject({
+    required this.version,
+    required this.author
+  });
+
   final int version;
   final String author;
 
