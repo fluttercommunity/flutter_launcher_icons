@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter_launcher_icons/utils.dart';
+
 import 'package:image/image.dart';
-import 'package:flutter_launcher_icons/constants.dart';
+
+import 'constants.dart';
+import 'utils.dart';
 
 /// File to handle the creation of icons for macos platform
 class MacosIconTemplate {
@@ -34,7 +36,7 @@ void createIcons(Map<String, dynamic> config, String flavor) {
     for (MacosIconTemplate template in macosIcons) {
       saveNewIcons(template, image, catalogName);
     }
-    iconName = iosDefaultIconName;
+    iconName = macosDefaultIconName;
     changeMacosLauncherIcon(catalogName, flavor);
     modifyContentsFile(catalogName);
   } else if (macosConfig is String) {

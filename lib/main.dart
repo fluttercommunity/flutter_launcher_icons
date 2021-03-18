@@ -1,15 +1,14 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:args/args.dart';
-import 'package:flutter_launcher_icons/utils.dart';
 import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';
-import 'package:flutter_launcher_icons/android.dart' as android_launcher_icons;
-import 'package:flutter_launcher_icons/ios.dart' as ios_launcher_icons;
-import 'package:flutter_launcher_icons/macos.dart' as macos_launcher_icons;
-import 'package:flutter_launcher_icons/constants.dart';
-import 'package:flutter_launcher_icons/custom_exceptions.dart';
+
+import 'android.dart' as android_launcher_icons;
+import 'constants.dart';
+import 'custom_exceptions.dart';
+import 'ios.dart' as ios_launcher_icons;
+import 'macos.dart' as macos_launcher_icons;
 
 const String fileOption = 'file';
 const String helpFlag = 'help';
@@ -176,11 +175,13 @@ Map<String, dynamic> loadConfigFile(String path, String fileOptionResult) {
 bool isImagePathInConfig(Map<String, dynamic> flutterIconsConfig) {
   return flutterIconsConfig.containsKey('image_path') ||
       (flutterIconsConfig.containsKey('image_path_android') &&
-          flutterIconsConfig.containsKey('image_path_ios'));
+          flutterIconsConfig.containsKey('image_path_ios')) ||
+      (flutterIconsConfig.containsKey('image_path_macos'));
 }
 
 bool hasPlatformConfig(Map<String, dynamic> flutterIconsConfig) {
   return hasAndroidConfig(flutterIconsConfig) ||
+      hasMacOsConfig(flutterIconsConfig) ||
       hasIOSConfig(flutterIconsConfig);
 }
 
