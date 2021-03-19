@@ -18,7 +18,9 @@ const String macosDefaultIconFolder =
     'macos/Runner/Assets.xcassets/AppIcon.appiconset/';
 const String macosAssetFolder = 'macos/Runner/Assets.xcassets/';
 const String macosConfigFile = 'macos/Runner.xcodeproj/project.pbxproj';
-const String macosDefaultIconName = 'app_icon';
+
+const String windowsAssetFolder = 'windows/Runner/resources/';
+const String windowsDefaultIconName = 'app_icon';
 
 const String errorMissingImagePath =
     'Missing "image_path" or "image_path_android" + "image_path_ios" within configuration';

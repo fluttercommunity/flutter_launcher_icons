@@ -43,7 +43,7 @@ void createIcons(Map<String, dynamic> config, String? flavor) {
     for (MacosIconTemplate template in macosIcons) {
       saveNewIcons(template, image, catalogName);
     }
-    iconName = macosDefaultIconName;
+    iconName = windowsDefaultIconName;
     changeMacosLauncherIcon(catalogName, flavor);
     modifyContentsFile(catalogName);
   } else if (macosConfig is String) {
@@ -63,7 +63,7 @@ void createIcons(Map<String, dynamic> config, String? flavor) {
     for (MacosIconTemplate template in macosIcons) {
       overwriteDefaultIcons(template, image);
     }
-    iconName = macosDefaultIconName;
+    iconName = windowsDefaultIconName;
     changeMacosLauncherIcon('AppIcon', flavor);
   }
 }
@@ -73,7 +73,7 @@ void createIcons(Map<String, dynamic> config, String? flavor) {
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
 void overwriteDefaultIcons(MacosIconTemplate template, Image image) {
   final Image newFile = createResizedImage(template.size, image);
-  File(macosDefaultIconFolder + macosDefaultIconName + template.name + '.png')
+  File(macosDefaultIconFolder + windowsDefaultIconName + template.name + '.png')
     ..writeAsBytesSync(encodePng(newFile));
 }
 
@@ -98,7 +98,7 @@ Future<void> changeMacosLauncherIcon(String iconName, String? flavor) async {
   String? currentConfig;
 
   for (int x = 0; x < lines.length; x++) {
-    String line = lines[x];
+    final String line = lines[x];
     if (line.contains('/* Begin XCBuildConfiguration section */')) {
       onConfigurationSection = true;
     }

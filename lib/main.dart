@@ -9,6 +9,7 @@ import 'constants.dart';
 import 'custom_exceptions.dart';
 import 'ios.dart' as ios_launcher_icons;
 import 'macos.dart' as macos_launcher_icons;
+import 'windows.dart' as windows_launcher_icons;
 
 const String fileOption = 'file';
 const String helpFlag = 'help';
@@ -113,6 +114,9 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config,
   if (isNeedingNewMacOsIcon(config)) {
     macos_launcher_icons.createIcons(config, flavor);
   }
+  if (isNeedingNewWindowsIcon(config)) {
+    windows_launcher_icons.createIcons(config, flavor);
+  }
 }
 
 Map<String, dynamic>? loadConfigFileFromArgResults(ArgResults argResults,
@@ -186,7 +190,8 @@ bool isImagePathInConfig(Map<String, dynamic> flutterIconsConfig) {
 bool hasPlatformConfig(Map<String, dynamic> flutterIconsConfig) {
   return hasAndroidConfig(flutterIconsConfig) ||
       hasMacOsConfig(flutterIconsConfig) ||
-      hasIOSConfig(flutterIconsConfig);
+      hasIOSConfig(flutterIconsConfig) ||
+      hasWindowsConfig(flutterIconsConfig);
 }
 
 bool hasAndroidConfig(Map<String, dynamic> flutterLauncherIcons) {
@@ -212,6 +217,10 @@ bool hasMacOsConfig(Map<String, dynamic> flutterLauncherIconsConfig) {
   return flutterLauncherIconsConfig.containsKey('macos');
 }
 
+bool hasWindowsConfig(Map<String, dynamic> flutterLauncherIconsConfig) {
+  return flutterLauncherIconsConfig.containsKey('windows');
+}
+
 bool isNeedingNewIOSIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
   return hasIOSConfig(flutterLauncherIconsConfig) &&
       flutterLauncherIconsConfig['ios'] != false;
@@ -220,4 +229,9 @@ bool isNeedingNewIOSIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
 bool isNeedingNewMacOsIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
   return hasMacOsConfig(flutterLauncherIconsConfig) &&
       flutterLauncherIconsConfig['macos'] != false;
+}
+
+bool isNeedingNewWindowsIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
+  return hasWindowsConfig(flutterLauncherIconsConfig) &&
+      flutterLauncherIconsConfig['windows'] != false;
 }
