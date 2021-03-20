@@ -20,6 +20,7 @@ const String macosAssetFolder = 'macos/Runner/Assets.xcassets/';
 const String macosConfigFile = 'macos/Runner.xcodeproj/project.pbxproj';
 
 const String windowsAssetFolder = 'windows/Runner/resources/';
+const String windowsRunnerFolder = 'windows/Runner/';
 const String windowsDefaultIconName = 'app_icon';
 
 const String errorMissingImagePath =
