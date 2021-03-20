@@ -2,4 +2,5 @@ flutter_icons:
   android: true
   ios: true
   macos: false
+  windows: false
   image_path: "assets/launcher_icon/demo-icon-dev.png"
