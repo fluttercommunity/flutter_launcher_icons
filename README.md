@@ -39,6 +39,8 @@ dev_dependencies:
 flutter_icons:
   android: "launcher_icon"
   ios: true
+  windows: true
+  macos: false
   image_path: "assets/icon/icon.png"
 ```
 If you name your configuration file something other than `flutter_launcher_icons.yaml` or `pubspec.yaml` you will need to specify
@@ -71,7 +73,7 @@ with the icon located in the image path specified above and given the name "laun
 
 Shown below is the full list of attributes which you can specify within your Flutter Launcher Icons configuration.
 
-- `android`/`ios`
+- `android`/`ios`/`macos`/`windows`
   - `true`: Override the default existing Flutter launcher icon for the platform specified
   - `false`: Ignore making launcher icons for this platform
   - `icon/path/here.png`: This will generate a new launcher icons for the platform with the name you specify, without removing the old default existing Flutter launcher icon.
@@ -81,6 +83,10 @@ Shown below is the full list of attributes which you can specify within your Flu
 - `image_path_android`: The location of the icon image file specific for Android platform (optional - if not defined then the image_path is used)
 
 - `image_path_ios`: The location of the icon image file specific for iOS platform (optional - if not defined then the image_path is used)
+
+- `image_path_macos`: The location of the icon image file specific for macOS platform (optional - if not defined then the image_path is used)
+
+- `image_path_windows`: The location of the icon image file specific for windows platform (optional - if not defined then the image_path is used)
 
 _Note: iOS icons should [fill the entire image](https://stackoverflow.com/questions/26014461/black-border-on-my-ios-icon) and not contain transparent borders._
 
