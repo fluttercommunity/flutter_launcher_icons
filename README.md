@@ -117,7 +117,7 @@ Use #AARRGGBB for colors instead of ##AABBGGRR, to be compatible with Flutter im
 
 #### Image foreground is too big / too small
 
-For best results try and use a foreground image which has padding much like [the one in the example](https://github.com/fluttercommunity/flutter_launcher_icons/blob/master/example/assets/images/icon-foreground-432x432.png).
+For best results try and use a foreground image which has padding much like [the one in the example](https://github.com/fluttercommunity/flutter_launcher_icons/blob/master/example/default/assets/images/icon-foreground-432x432.png).
 
 [Related issue](https://github.com/fluttercommunity/flutter_launcher_icons/issues/96)
 
