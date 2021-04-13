@@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -37,31 +37,12 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.flutter.icons.example_with_flavors"
-        minSdkVersion 23
-        targetSdkVersion 28
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId "com.example.flavors_renameme"
+        minSdkVersion 16
+        targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    flavorDimensions "default"
-    productFlavors { 
-        production {
-            dimension "default"
-            applicationIdSuffix ""
-            manifestPlaceholders = [appName: "example_with_flavors"]
-        }
-        development {
-            dimension "default"
-            applicationIdSuffix ".dev"
-            manifestPlaceholders = [appName: "[DEV] example_with_flavors"]
-        }
-        integration {
-            dimension "default"
-            applicationIdSuffix ".int"
-            manifestPlaceholders = [appName: "[INT] example_with_flavors"]
-        }
     }
 
     buildTypes {
@@ -79,7 +60,4 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }

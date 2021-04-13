@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.1 (**RELEASE DATE HERE**)
+
+ - Support for web favicons and launcher icons (thanks to @personalizedrefrigerator).
+ - Bug fixes and refactoring (thanks to @personalizedrefrigerator).
+ 
 ## 0.9.0 (28th Feb 2021)
 
 - Null-safety support added (thanks to @SteveAlexander)
