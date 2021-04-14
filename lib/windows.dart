@@ -125,7 +125,7 @@ class WindowsIconGenerator extends AbstractPlatform {
 
       newAppIconsSectionH.add('#define $idi  $idiNumber');
       newAppIconsSectionRC.add(
-          '$idi              ICON                    \"$windowsAssetFolder//$iconName${iconType.name}\"');
+          '$idi              ICON                    \"$windowsAssetFolder/$iconName${iconType.name}\"');
 
       idiNumber += 1;
     });
