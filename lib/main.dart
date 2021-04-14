@@ -173,7 +173,6 @@ Map<String, dynamic>? loadConfigFileFromArgResults(ArgResults argResults,
 Map<String, dynamic> loadConfigFile(String path, String? fileOptionResult) {
   final File file = File(path);
   final String yamlString = file.readAsStringSync();
-  // ignore: always_specify_types
   final Map yamlMap = loadYaml(yamlString);
 
   if (!(yamlMap['flutter_icons'] is Map)) {
@@ -183,7 +182,7 @@ Map<String, dynamic> loadConfigFile(String path, String? fileOptionResult) {
     exit(1);
   }
 
-  // yamlMap has the type YamlMap, which has several unwanted sideeffects
+  // yamlMap has the type YamlMap, which has several unwanted side effects
   final Map<String, dynamic> config = <String, dynamic>{};
   for (MapEntry<dynamic, dynamic> entry in yamlMap['flutter_icons'].entries) {
     config[entry.key] = entry.value;

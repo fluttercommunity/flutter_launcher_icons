@@ -5,27 +5,31 @@ import 'package:image/image.dart';
 
 import 'abstract_platform.dart';
 import 'constants.dart';
+import 'contents_image_object.dart';
+import 'icon_template.dart';
 import 'utils.dart';
 
 /// File to handle the creation of icons for macos platform
-class MacosIconTemplate {
-  MacosIconTemplate({
-    required this.size,
-    required this.name,
-  });
 
-  final String name;
-  final int size;
-}
+final IconTemplateGenerator templateGenerator = IconTemplateGenerator(
+    defaultLocation: macosDefaultIconFolder, defaultSuffix: '.png');
 
-List<MacosIconTemplate> macosIcons = <MacosIconTemplate>[
-  MacosIconTemplate(name: '_16', size: 16),
-  MacosIconTemplate(name: '_32', size: 32),
-  MacosIconTemplate(name: '_64', size: 64),
-  MacosIconTemplate(name: '_128', size: 128),
-  MacosIconTemplate(name: '_256', size: 256),
-  MacosIconTemplate(name: '_512', size: 512),
-  MacosIconTemplate(name: '_1024', size: 1024),
+List<IconTemplate> macosIcons = <IconTemplate>[
+  templateGenerator.get(name: '_16', size: 16),
+  templateGenerator.get(name: '_32', size: 32),
+  templateGenerator.get(name: '_64', size: 64),
+  templateGenerator.get(name: '_128', size: 128),
+  templateGenerator.get(name: '_256', size: 256),
+  templateGenerator.get(name: '_512', size: 512),
+  templateGenerator.get(name: '_1024', size: 1024),
+  templateGenerator.get(name: '-40x40@2x', size: 80),
+  templateGenerator.get(name: '-40x40@3x', size: 120),
+  templateGenerator.get(name: '-60x60@2x', size: 120),
+  templateGenerator.get(name: '-60x60@3x', size: 180),
+  templateGenerator.get(name: '-76x76@1x', size: 76),
+  templateGenerator.get(name: '-76x76@2x', size: 152),
+  templateGenerator.get(name: '-83.5x83.5@2x', size: 167),
+  templateGenerator.get(name: '-1024x1024@1x', size: 1024),
 ];
 
 class MacOSIconGenerator extends AbstractPlatform {
@@ -45,7 +49,7 @@ class MacOSIconGenerator extends AbstractPlatform {
     if (flavor != null) {
       final String catalogName = 'AppIcon-$flavor';
       printStatus('Building macOs launcher icon for $flavor');
-      for (MacosIconTemplate template in macosIcons) {
+      for (IconTemplate template in macosIcons) {
         _saveNewIcons(template, image, catalogName);
       }
       iconName = windowsDefaultIconName;
@@ -54,7 +58,7 @@ class MacOSIconGenerator extends AbstractPlatform {
     } else if (macosConfig is String) {
       final String newIconName = macosConfig;
       printStatus('Adding new macOS launcher icon');
-      for (MacosIconTemplate template in macosIcons) {
+      for (IconTemplate template in macosIcons) {
         _saveNewIcons(template, image, newIconName);
       }
       iconName = newIconName;
@@ -65,7 +69,7 @@ class MacOSIconGenerator extends AbstractPlatform {
     // update config file to use it
     else {
       printStatus('Overwriting default macOS launcher icon with new icon');
-      for (MacosIconTemplate template in macosIcons) {
+      for (IconTemplate template in macosIcons) {
         _overwriteDefaultIcons(template, image);
       }
       iconName = windowsDefaultIconName;
@@ -76,7 +80,7 @@ class MacOSIconGenerator extends AbstractPlatform {
   /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
   /// interpolation)
   /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-  void _overwriteDefaultIcons(MacosIconTemplate template, Image image) {
+  void _overwriteDefaultIcons(IconTemplate template, Image image) {
     final Image newFile = createResizedImage(template.size, image);
     File(macosDefaultIconFolder + windowsDefaultIconName + template.name +
         '.png')
@@ -86,7 +90,7 @@ class MacOSIconGenerator extends AbstractPlatform {
   /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
   /// interpolation)
   /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-  void _saveNewIcons(MacosIconTemplate template, Image image,
+  void _saveNewIcons(IconTemplate template, Image image,
       String newIconName) {
     final String newIconFolder = macosAssetFolder + newIconName +
         '.appiconset/';
@@ -148,47 +152,6 @@ class MacOSIconGenerator extends AbstractPlatform {
       'info': ContentsInfoObject(version: 1, author: 'xcode').toJson()
     };
     return json.encode(contentJson);
-  }
-}
-
-class ContentsImageObject {
-  ContentsImageObject({
-    required this.size,
-    required this.idiom,
-    required this.filename,
-    required this.scale,
-  });
-
-  final String size;
-  final String idiom;
-  final String filename;
-  final String scale;
-
-  Map<String, String> toJson() {
-    return <String, String>{
-      'size': size,
-      'idiom': idiom,
-      'filename': filename,
-      'scale': scale
-    };
-  }
-}
-
-
-class ContentsInfoObject {
-  ContentsInfoObject({
-    required this.version,
-    required this.author
-  });
-
-  final int version;
-  final String author;
-
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'version': version,
-      'author': author,
-    };
   }
 }
 

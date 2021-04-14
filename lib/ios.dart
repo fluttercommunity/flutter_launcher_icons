@@ -5,6 +5,7 @@ import 'package:image/image.dart';
 
 import 'abstract_platform.dart';
 import 'constants.dart';
+import 'contents_image_object.dart';
 import 'icon_template.dart';
 import 'utils.dart';
 
@@ -28,47 +29,6 @@ List<IconTemplate> iosIcons = <IconTemplate>[
   templateGenerator.get(name: '-83.5x83.5@2x', size: 167),
   templateGenerator.get(name: '-1024x1024@1x', size: 1024),
 ];
-
-class ContentsImageObject {
-  ContentsImageObject({
-    required this.size,
-    required this.idiom,
-    required this.filename,
-    required this.scale,
-  });
-
-  final String size;
-  final String idiom;
-  final String filename;
-  final String scale;
-
-  Map<String, String> toJson() {
-    return <String, String>{
-      'size': size,
-      'idiom': idiom,
-      'filename': filename,
-      'scale': scale
-    };
-  }
-}
-
-
-class ContentsInfoObject {
-  ContentsInfoObject({
-    required this.version,
-    required this.author
-  });
-
-  final int version;
-  final String author;
-
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'version': version,
-      'author': author,
-    };
-  }
-}
 
 List<Map<String, String>> createImageList(String fileNamePrefix) {
   final List<Map<String, String>> imageList = <Map<String, String>>[

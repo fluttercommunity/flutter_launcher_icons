@@ -3,11 +3,16 @@ import 'package:image/image.dart';
 import 'utils.dart';
 
 class IconTemplate {
-  IconTemplate({required this.size, required this.name, required this.location});
+  IconTemplate({required this.size, required this.baseName, required this.suffix, required this.location});
 
-  final String name;
+  final String baseName;
+  final String suffix;
   final int size;
   final String location;
+
+  String get name {
+    return baseName + suffix;
+  }
 
   Image createFrom(Image image) {
     return createResizedImage(size, image);
@@ -38,6 +43,6 @@ class IconTemplateGenerator {
     location = location ?? defaultLocation;
     suffix = suffix ?? defaultSuffix;
 
-    return IconTemplate(size: size, name: name + suffix, location: location);
+    return IconTemplate(size: size, baseName: name, suffix: suffix, location: location);
   }
 }
