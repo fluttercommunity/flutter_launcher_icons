@@ -6,7 +6,7 @@ homepage: https://github.com/fluttercommunity/flutter_launcher_icons
 
 dependencies:
   image: ^3.0.2
-  args: ^2.1.0
+  args: ^1.6.0
   yaml: ^3.1.0
   path: ^1.7.0
 
@@ -14,4 +14,4 @@ environment:
   sdk: '>=2.3.0 <3.0.0'
 
 dev_dependencies:
-  test: ^1.17.1
+  test: ^1.16.5
