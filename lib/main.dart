@@ -179,12 +179,14 @@ Map<String, dynamic> loadConfigFile(String path, String? fileOptionResult) {
 bool isImagePathInConfig(Map<String, dynamic> flutterIconsConfig) {
   return flutterIconsConfig.containsKey('image_path') ||
       (flutterIconsConfig.containsKey('image_path_android') &&
-          flutterIconsConfig.containsKey('image_path_ios') && flutterIconsConfig.containsKey('image_path_macos') );
+          flutterIconsConfig.containsKey('image_path_ios') &&
+          flutterIconsConfig.containsKey('image_path_macos'));
 }
 
 bool hasPlatformConfig(Map<String, dynamic> flutterIconsConfig) {
   return hasAndroidConfig(flutterIconsConfig) ||
-      hasIOSConfig(flutterIconsConfig);
+      hasIOSConfig(flutterIconsConfig) ||
+      hasMACOSConfig(flutterIconsConfig);
 }
 
 bool hasAndroidConfig(Map<String, dynamic> flutterLauncherIcons) {
@@ -206,12 +208,16 @@ bool hasIOSConfig(Map<String, dynamic> flutterLauncherIconsConfig) {
   return flutterLauncherIconsConfig.containsKey('ios');
 }
 
+bool hasMACOSConfig(Map<String, dynamic> flutterLauncherIconsConfig) {
+  return flutterLauncherIconsConfig.containsKey('macos');
+}
+
 bool isNeedingNewIOSIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
   return hasIOSConfig(flutterLauncherIconsConfig) &&
       flutterLauncherIconsConfig['ios'] != false;
 }
 
 bool isNeedingNewMACOSIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
-  return hasIOSConfig(flutterLauncherIconsConfig) &&
+  return hasMACOSConfig(flutterLauncherIconsConfig) &&
       flutterLauncherIconsConfig['macos'] != false;
 }
