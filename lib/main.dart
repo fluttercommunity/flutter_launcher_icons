@@ -6,6 +6,7 @@ import 'package:yaml/yaml.dart';
 import 'package:flutter_launcher_icons/android.dart' as android_launcher_icons;
 import 'package:flutter_launcher_icons/ios.dart' as ios_launcher_icons;
 import 'package:flutter_launcher_icons/macos.dart' as macos_launcher_icons;
+import 'package:flutter_launcher_icons/windows.dart' as windows_launcher_icons;
 import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
 
@@ -113,6 +114,10 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config,
   if (isNeedingNewMACOSIcon(config)) {
     macos_launcher_icons.createIcons(config, flavor);
   }
+
+  if (isNeedingNewWINDOWSIcon(config)) {
+    windows_launcher_icons.createIcons(config, flavor);
+  }
 }
 
 Map<String, dynamic>? loadConfigFileFromArgResults(ArgResults argResults,
@@ -212,6 +217,10 @@ bool hasMACOSConfig(Map<String, dynamic> flutterLauncherIconsConfig) {
   return flutterLauncherIconsConfig.containsKey('macos');
 }
 
+bool hasWINDOWSConfig(Map<String, dynamic> flutterLauncherIconsConfig) {
+  return flutterLauncherIconsConfig.containsKey('windows');
+}
+
 bool isNeedingNewIOSIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
   return hasIOSConfig(flutterLauncherIconsConfig) &&
       flutterLauncherIconsConfig['ios'] != false;
@@ -220,4 +229,9 @@ bool isNeedingNewIOSIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
 bool isNeedingNewMACOSIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
   return hasMACOSConfig(flutterLauncherIconsConfig) &&
       flutterLauncherIconsConfig['macos'] != false;
+}
+
+bool isNeedingNewWINDOWSIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
+  return hasWINDOWSConfig(flutterLauncherIconsConfig) &&
+      flutterLauncherIconsConfig['windows'] != false;
 }
