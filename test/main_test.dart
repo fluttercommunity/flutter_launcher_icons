@@ -127,8 +127,12 @@ flutter_icons:
     final Map<String, dynamic> flutterIconsConfigBoth = <String, dynamic>{
       'image_path_android': 'assets/images/icon-710x599.png',
       'image_path_ios': 'assets/images/icon-710x599.png',
+      'image_path_macos': 'assets/images/icon-710x599.png',
+      'image_path_windows': 'assets/images/icon-710x599.png',
       'android': true,
-      'ios': true
+      'ios': true,
+      'macos': true,
+      'windows': true
     };
     expect(main_dart.isImagePathInConfig(flutterIconsConfigBoth), true);
   });

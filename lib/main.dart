@@ -185,7 +185,8 @@ bool isImagePathInConfig(Map<String, dynamic> flutterIconsConfig) {
   return flutterIconsConfig.containsKey('image_path') ||
       (flutterIconsConfig.containsKey('image_path_android') &&
           flutterIconsConfig.containsKey('image_path_ios') &&
-          flutterIconsConfig.containsKey('image_path_macos'));
+          flutterIconsConfig.containsKey('image_path_macos') &&
+          flutterIconsConfig.containsKey('image_path_windows'));
 }
 
 bool hasPlatformConfig(Map<String, dynamic> flutterIconsConfig) {
