@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.0+1 (3rd Jun 2021)
+
+- macos and window support
+
 ## 0.9.0 (28th Feb 2021)
 
 - Null-safety support added (thanks to @SteveAlexander)
