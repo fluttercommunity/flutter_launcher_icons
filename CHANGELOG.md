@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.1 (30th Jun 2021)
+
+- Upgrade args dependency to ^2.1.1
+
 ## 0.9.0 (28th Feb 2021)
 
 - Null-safety support added (thanks to @SteveAlexander)
