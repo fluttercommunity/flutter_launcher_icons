@@ -23,6 +23,7 @@ const String macosDefaultIconFolder =
     'macos/Runner/Assets.xcassets/AppIcon.appiconset/';
 const String macosAssetFolder = 'macos/Runner/Assets.xcassets/';
 const String macosConfigFile = 'macos/Runner.xcodeproj/project.pbxproj';
+const String macosDefaultIconName = 'Icon-App';
 
 const String windowsAssetFolder = 'resources/';
 const String windowsDefaultIconFolder = 'windows/runner/resources/';

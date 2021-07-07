@@ -77,29 +77,14 @@ class MacOSIconGenerator extends AbstractPlatform {
     }
   }
 
-  /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
-  /// interpolation)
-  /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
+
   void _overwriteDefaultIcons(IconTemplate template, Image image) {
-    final Image newFile = createResizedImage(template.size, image);
-    File(macosDefaultIconFolder + windowsDefaultIconName + template.name +
-        '.png')
-      ..writeAsBytesSync(encodePng(newFile));
+    template.updateFile(image, prefix: macosDefaultIconName);
   }
 
-  /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
-  /// interpolation)
-  /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-  void _saveNewIcons(IconTemplate template, Image image,
-      String newIconName) {
-    final String newIconFolder = macosAssetFolder + newIconName +
-        '.appiconset/';
-    final Image newFile = createResizedImage(template.size, image);
-    File(newIconFolder + newIconName + template.name + '.png')
-        .create(recursive: true)
-        .then((File file) {
-      file.writeAsBytesSync(encodePng(newFile));
-    });
+  void _saveNewIcons(IconTemplate template, Image image, String newIconName) {
+    final String newIconFolder = macosAssetFolder + newIconName + '.appiconset/';
+    template.updateFile(image, location: newIconFolder, prefix: newIconName);
   }
 
   Future<void> _changeMacosLauncherIcon(String iconName, String? flavor) async {
