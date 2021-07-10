@@ -9,6 +9,10 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
 ## :sparkles: What's New
 
+#### Version 0.9.1 (10 Jul 2021)
+
+- Updated args package
+
 #### Version 0.9.0 (28th Feb 2021)
 
 - Null-safety support added (thanks to @SteveAlexander)
@@ -34,7 +38,9 @@ Add your Flutter Launcher Icons configuration to your `pubspec.yaml` or create a
 An example is shown below. More complex examples [can be found in the example projects](https://github.com/fluttercommunity/flutter_launcher_icons/tree/master/example).
 ```yaml
 dev_dependencies:
-  flutter_launcher_icons: "^0.9.0"
+  flutter_launcher_icons:
+    git: 
+      url: https://github.com/chrystoffer/flutter_launcher_icons.git
 
 flutter_icons:
   android: "launcher_icon"
