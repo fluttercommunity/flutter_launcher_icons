@@ -126,6 +126,19 @@ For best results try and use a foreground image which has padding much like [the
 
 [Related issue](https://github.com/fluttercommunity/flutter_launcher_icons/issues/96)
 
+#### Dependency incompatible
+
+You may receive a message similar to the following
+
+```
+Because flutter_launcher_icons >=0.9.0 depends on args 2.0.0 and flutter_native_splash 1.2.0 depends on args ^2.1.1, flutter_launcher_icons >=0.9.0 is incompatible with flutter_native_splash 1.2.0.
+And because no versions of flutter_native_splash match >1.2.0 <2.0.0, flutter_launcher_icons >=0.9.0 is incompatible with flutter_native_splash ^1.2.0.
+So, because enstack depends on both flutter_native_splash ^1.2.0 and flutter_launcher_icons ^0.9.0, version solving failed.
+pub get failed (1; So, because enstack depends on both flutter_native_splash ^1.2.0 and flutter_launcher_icons ^0.9.0, version solving failed.)
+```
+
+For a quick fix, you can temporarily override all references to a dependency: [See here for an example](https://github.com/fluttercommunity/flutter_launcher_icons/issues/262#issuecomment-879872076).
+
 ## :eyes: Example
 
 [![Video Example](https://i.imgur.com/R28hqdz.png)](https://www.youtube.com/watch?v=RjNAxwcP3Tc)
