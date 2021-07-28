@@ -58,11 +58,11 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   if (!hasFlavors) {
     try {
       createIconsFromConfig(yamlConfig);
+      print('\n✓ Successfully generated launcher icons');
     } catch (e) {
+      stderr.writeln('\n✕ Could not generate launcher icons');
       stderr.writeln(e);
       exit(2);
-    } finally {
-      print('\n✓ Successfully generated launcher icons');
     }
   } else {
     try {
@@ -72,11 +72,11 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
             loadConfigFile(flavorConfigFile(flavor), flavorConfigFile(flavor));
         await createIconsFromConfig(yamlConfig, flavor);
       }
+      print('\n✓ Successfully generated launcher icons for flavors');
     } catch (e) {
+      stderr.writeln('\n✕ Could not generate launcher icons for flavors');
       stderr.writeln(e);
       exit(2);
-    } finally {
-      print('\n✓ Successfully generated launcher icons for flavors');
     }
   }
 }
