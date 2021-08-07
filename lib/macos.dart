@@ -21,16 +21,74 @@ List<IconTemplate> macosIcons = <IconTemplate>[
   templateGenerator.get(name: '_128', size: 128),
   templateGenerator.get(name: '_256', size: 256),
   templateGenerator.get(name: '_512', size: 512),
-  templateGenerator.get(name: '_1024', size: 1024),
-  templateGenerator.get(name: '-40x40@2x', size: 80),
-  templateGenerator.get(name: '-40x40@3x', size: 120),
-  templateGenerator.get(name: '-60x60@2x', size: 120),
-  templateGenerator.get(name: '-60x60@3x', size: 180),
-  templateGenerator.get(name: '-76x76@1x', size: 76),
-  templateGenerator.get(name: '-76x76@2x', size: 152),
-  templateGenerator.get(name: '-83.5x83.5@2x', size: 167),
-  templateGenerator.get(name: '-1024x1024@1x', size: 1024),
 ];
+
+List<Map<String, String>> _createImageList(String fileNamePrefix) {
+  final List<Map<String, String>> imageList = <Map<String, String>>[
+    ContentsImageObject(
+        size: '16x16',
+        idiom: 'mac',
+        filename: '${fileNamePrefix}_16.png',
+        scale: '1x')
+        .toJson(),
+    ContentsImageObject(
+        size: '16x16',
+        idiom: 'mac',
+        filename: '${fileNamePrefix}_32.png',
+        scale: '2x')
+        .toJson(),
+    ContentsImageObject(
+        size: '32x32',
+        idiom: 'mac',
+        filename: '${fileNamePrefix}_32.png',
+        scale: '1x')
+        .toJson(),
+    ContentsImageObject(
+        size: '32x32',
+        idiom: 'mac',
+        filename: '${fileNamePrefix}_64.png',
+        scale: '2x')
+        .toJson(),
+    ContentsImageObject(
+        size: '128x128',
+        idiom: 'mac',
+        filename: '${fileNamePrefix}_128.png',
+        scale: '1x')
+        .toJson(),
+    ContentsImageObject(
+        size: '128x128',
+        idiom: 'mac',
+        filename: '${fileNamePrefix}_256.png',
+        scale: '2x')
+        .toJson(),
+    ContentsImageObject(
+        size: '256x256',
+        idiom: 'mac',
+        filename: '${fileNamePrefix}_256.png',
+        scale: '1x')
+        .toJson(),
+    ContentsImageObject(
+        size: '256x256',
+        idiom: 'mac',
+        filename: '${fileNamePrefix}_512.png',
+        scale: '2x')
+        .toJson(),
+    ContentsImageObject(
+        size: '512x512',
+        idiom: 'mac',
+        filename: '${fileNamePrefix}_512.png',
+        scale: '1x')
+        .toJson(),
+    ContentsImageObject(
+        size: '512x512',
+        idiom: 'mac',
+        filename: '${fileNamePrefix}_1024.png',
+        scale: '2x')
+        .toJson(),
+  ];
+  return imageList;
+}
+
 
 class MacOSIconGenerator extends AbstractPlatform {
   const MacOSIconGenerator() : super('macos');
@@ -76,7 +134,6 @@ class MacOSIconGenerator extends AbstractPlatform {
       _changeMacosLauncherIcon('AppIcon', flavor);
     }
   }
-
 
   void _overwriteDefaultIcons(IconTemplate template, Image image) {
     template.updateFile(image, prefix: macosDefaultIconName);
@@ -124,9 +181,10 @@ class MacOSIconGenerator extends AbstractPlatform {
   void _modifyContentsFile(String newIconName) {
     final String newIconFolder =
         macosAssetFolder + newIconName + '.appiconset/Contents.json';
+
     File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
       final String contentsFileContent =
-      _generateContentsFileAsString(newIconName);
+        _generateContentsFileAsString(newIconName);
       contentsJsonFile.writeAsString(contentsFileContent);
     });
   }
@@ -140,68 +198,3 @@ class MacOSIconGenerator extends AbstractPlatform {
   }
 }
 
-List<Map<String, String>> _createImageList(String fileNamePrefix) {
-  final List<Map<String, String>> imageList = <Map<String, String>>[
-    ContentsImageObject(
-            size: '16x16',
-            idiom: 'mac',
-            filename: '${fileNamePrefix}_16.png',
-            scale: '1x')
-        .toJson(),
-    ContentsImageObject(
-            size: '16x16',
-            idiom: 'mac',
-            filename: '${fileNamePrefix}_32.png',
-            scale: '2x')
-        .toJson(),
-    ContentsImageObject(
-            size: '32x32',
-            idiom: 'mac',
-            filename: '${fileNamePrefix}_32.png',
-            scale: '1x')
-        .toJson(),
-    ContentsImageObject(
-          size: '32x32',
-          idiom: 'mac',
-          filename: '${fileNamePrefix}_64.png',
-          scale: '2x')
-        .toJson(),
-    ContentsImageObject(
-          size: '128x128',
-          idiom: 'mac',
-          filename: '${fileNamePrefix}_128.png',
-          scale: '1x')
-        .toJson(),
-    ContentsImageObject(
-        size: '128x128',
-        idiom: 'mac',
-        filename: '${fileNamePrefix}_256.png',
-        scale: '2x')
-        .toJson(),
-    ContentsImageObject(
-        size: '256x256',
-        idiom: 'mac',
-        filename: '${fileNamePrefix}_256.png',
-        scale: '1x')
-        .toJson(),
-    ContentsImageObject(
-        size: '256x256',
-        idiom: 'mac',
-        filename: '${fileNamePrefix}_512.png',
-        scale: '2x')
-        .toJson(),
-    ContentsImageObject(
-        size: '512x512',
-        idiom: 'mac',
-        filename: '${fileNamePrefix}_512.png',
-        scale: '1x')
-        .toJson(),
-    ContentsImageObject(
-        size: '512x512',
-        idiom: 'mac',
-        filename: '${fileNamePrefix}_1024.png',
-        scale: '2x')
-        .toJson(),
-  ];
-  return imageList;
-}
