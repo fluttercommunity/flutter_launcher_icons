@@ -9,6 +9,10 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 
 ## :sparkles: What's New
 
+#### Version 0.9.2 (22nd August 2021)
+
+- Fixed issue where success message printed even when exception occured (thanks to @happy-san)
+
 #### Version 0.9.1 (25th July 2021)
 
 - Upgraded `args` dependency to ^2.1.1 (thanks to @PiN73 and @comlaterra)
@@ -39,7 +43,7 @@ Add your Flutter Launcher Icons configuration to your `pubspec.yaml` or create a
 An example is shown below. More complex examples [can be found in the example projects](https://github.com/fluttercommunity/flutter_launcher_icons/tree/master/example).
 ```yaml
 dev_dependencies:
-  flutter_launcher_icons: "^0.9.1"
+  flutter_launcher_icons: "^0.9.2"
 
 flutter_icons:
   android: "launcher_icon"

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.2 (22nd August 2021)
+
+- Fixed issue where success message printed even when exception occured (thanks to @happy-san)
+
+
 ## 0.9.1 (25th July 2021)
 
 - Upgrade args dependency to ^2.1.1 (thanks to @PiN73 and @comlaterra)
