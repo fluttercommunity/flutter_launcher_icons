@@ -21,6 +21,7 @@ List<IconTemplate> macosIcons = <IconTemplate>[
   templateGenerator.get(name: '_128', size: 128),
   templateGenerator.get(name: '_256', size: 256),
   templateGenerator.get(name: '_512', size: 512),
+  templateGenerator.get(name: '_1024', size: 1024),
 ];
 
 List<Map<String, String>> _createImageList(String fileNamePrefix) {
