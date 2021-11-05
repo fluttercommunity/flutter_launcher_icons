@@ -57,7 +57,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   // Create icons
   if (!hasFlavors) {
     try {
-      createIconsFromConfig(yamlConfig);
+      await createIconsFromConfig(yamlConfig);
       print('\n✓ Successfully generated launcher icons');
     } catch (e) {
       stderr.writeln('\n✕ Could not generate launcher icons');
@@ -100,13 +100,13 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config,
   }
 
   if (isNeedingNewAndroidIcon(config)) {
-    android_launcher_icons.createDefaultIcons(config, flavor);
+    await android_launcher_icons.createDefaultIcons(config, flavor);
   }
   if (hasAndroidAdaptiveConfig(config)) {
-    android_launcher_icons.createAdaptiveIcons(config, flavor);
+    await android_launcher_icons.createAdaptiveIcons(config, flavor);
   }
   if (isNeedingNewIOSIcon(config)) {
-    ios_launcher_icons.createIcons(config, flavor);
+    await ios_launcher_icons.createIcons(config, flavor);
   }
 }
 

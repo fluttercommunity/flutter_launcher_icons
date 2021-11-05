@@ -30,7 +30,7 @@ List<IosIconTemplate> iosIcons = <IosIconTemplate>[
   IosIconTemplate(name: '-1024x1024@1x', size: 1024),
 ];
 
-void createIcons(Map<String, dynamic> config, String? flavor) {
+Future<void> createIcons(Map<String, dynamic> config, String? flavor) async {
   final String filePath = config['image_path_ios'] ?? config['image_path'];
   // decodeImageFile shows error message if null
   // so can return here if image is null
@@ -50,10 +50,10 @@ void createIcons(Map<String, dynamic> config, String? flavor) {
     final String catalogName = 'AppIcon-$flavor';
     printStatus('Building iOS launcher icon for $flavor');
     for (IosIconTemplate template in iosIcons) {
-      saveNewIcons(template, image, catalogName);
+      await saveNewIcons(template, image, catalogName);
     }
     iconName = iosDefaultIconName;
-    changeIosLauncherIcon(catalogName, flavor);
+    await changeIosLauncherIcon(catalogName, flavor);
     modifyContentsFile(catalogName);
   } else if (iosConfig is String) {
     // If the IOS configuration is a string then the user has specified a new icon to be created
@@ -61,10 +61,10 @@ void createIcons(Map<String, dynamic> config, String? flavor) {
     final String newIconName = iosConfig;
     printStatus('Adding new iOS launcher icon');
     for (IosIconTemplate template in iosIcons) {
-      saveNewIcons(template, image, newIconName);
+      await saveNewIcons(template, image, newIconName);
     }
     iconName = newIconName;
-    changeIosLauncherIcon(iconName, flavor);
+    await changeIosLauncherIcon(iconName, flavor);
     modifyContentsFile(iconName);
   }
   // Otherwise the user wants the new icon to use the default icons name and
@@ -75,7 +75,7 @@ void createIcons(Map<String, dynamic> config, String? flavor) {
       overwriteDefaultIcons(template, image);
     }
     iconName = iosDefaultIconName;
-    changeIosLauncherIcon('AppIcon', flavor);
+    await changeIosLauncherIcon('AppIcon', flavor);
   }
 }
 
@@ -91,10 +91,11 @@ void overwriteDefaultIcons(IosIconTemplate template, Image image) {
 /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
 /// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-void saveNewIcons(IosIconTemplate template, Image image, String newIconName) {
+Future<void> saveNewIcons(
+    IosIconTemplate template, Image image, String newIconName) async {
   final String newIconFolder = iosAssetFolder + newIconName + '.appiconset/';
   final Image newFile = createResizedImage(template, image);
-  File(newIconFolder + newIconName + template.name + '.png')
+  await File(newIconFolder + newIconName + template.name + '.png')
       .create(recursive: true)
       .then((File file) {
     file.writeAsBytesSync(encodePng(newFile));

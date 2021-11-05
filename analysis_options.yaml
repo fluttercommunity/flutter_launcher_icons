@@ -159,6 +159,7 @@ linter:
     - type_init_formals
     # - unawaited_futures # too many false positives
     # - unnecessary_await_in_return # not yet tested
+    - unawaited_futures
     - unnecessary_brace_in_string_interps
     - unnecessary_const
     - unnecessary_getters_setters
