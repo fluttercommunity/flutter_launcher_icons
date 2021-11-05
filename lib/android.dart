@@ -28,8 +28,8 @@ List<AndroidIconTemplate> androidIcons = <AndroidIconTemplate>[
   AndroidIconTemplate(directoryName: 'mipmap-xxxhdpi', size: 192),
 ];
 
-void createDefaultIcons(
-    Map<String, dynamic> flutterLauncherIconsConfig, String? flavor) {
+Future<void> createDefaultIcons(
+    Map<String, dynamic> flutterLauncherIconsConfig, String? flavor) async {
   printStatus('Creating default icons Android');
   final String filePath = getAndroidIconPath(flutterLauncherIconsConfig);
   final Image? image = decodeImageFile(filePath);
@@ -43,17 +43,18 @@ void createDefaultIcons(
     isAndroidIconNameCorrectFormat(iconName);
     final String iconPath = '$iconName.png';
     for (AndroidIconTemplate template in androidIcons) {
-      saveNewImages(template, image, iconPath, flavor);
+      await saveNewImages(template, image, iconPath, flavor);
     }
-    overwriteAndroidManifestWithNewLauncherIcon(iconName, androidManifestFile);
+    await overwriteAndroidManifestWithNewLauncherIcon(
+        iconName, androidManifestFile);
   } else {
     printStatus(
         'Overwriting the default Android launcher icon with a new icon');
     for (AndroidIconTemplate template in androidIcons) {
-      overwriteExistingIcons(
+      await overwriteExistingIcons(
           template, image, constants.androidFileName, flavor);
     }
-    overwriteAndroidManifestWithNewLauncherIcon(
+    await overwriteAndroidManifestWithNewLauncherIcon(
         constants.androidDefaultIconName, androidManifestFile);
   }
 }
@@ -68,8 +69,8 @@ bool isAndroidIconNameCorrectFormat(String iconName) {
   return true;
 }
 
-void createAdaptiveIcons(
-    Map<String, dynamic> flutterLauncherIconsConfig, String? flavor) {
+Future<void> createAdaptiveIcons(
+    Map<String, dynamic> flutterLauncherIconsConfig, String? flavor) async {
   printStatus('Creating adaptive icons Android');
 
   // Retrieve the necessary Flutter Launcher Icons configuration from the pubspec.yaml file
@@ -84,16 +85,16 @@ void createAdaptiveIcons(
 
   // Create adaptive icon foreground images
   for (AndroidIconTemplate androidIcon in adaptiveForegroundIcons) {
-    overwriteExistingIcons(androidIcon, foregroundImage,
+    await overwriteExistingIcons(androidIcon, foregroundImage,
         constants.androidAdaptiveForegroundFileName, flavor);
   }
 
   // Create adaptive icon background
   if (isAdaptiveIconConfigPngFile(backgroundConfig)) {
-    createAdaptiveBackgrounds(
+    await createAdaptiveBackgrounds(
         flutterLauncherIconsConfig, backgroundConfig, flavor);
   } else {
-    createAdaptiveIconMipmapXmlFile(flutterLauncherIconsConfig, flavor);
+   await createAdaptiveIconMipmapXmlFile(flutterLauncherIconsConfig, flavor);
     updateColorsXmlFile(backgroundConfig, flavor);
   }
 }
@@ -120,10 +121,10 @@ void updateColorsXmlFile(String backgroundConfig, String? flavor) {
 
 /// Creates the xml file required for the adaptive launcher icon
 /// FILE LOCATED HERE: res/mipmap-anydpi/{icon-name-from-yaml-config}.xml
-void createAdaptiveIconMipmapXmlFile(
-    Map<String, dynamic> flutterLauncherIconsConfig, String? flavor) {
+Future<void> createAdaptiveIconMipmapXmlFile(
+    Map<String, dynamic> flutterLauncherIconsConfig, String? flavor) async {
   if (isCustomAndroidFile(flutterLauncherIconsConfig)) {
-    File(constants.androidAdaptiveXmlFolder(flavor) +
+    await File(constants.androidAdaptiveXmlFolder(flavor) +
             getNewIconName(flutterLauncherIconsConfig) +
             '.xml')
         .create(recursive: true)
@@ -131,7 +132,7 @@ void createAdaptiveIconMipmapXmlFile(
       adaptiveIcon.writeAsString(xml_template.icLauncherXml);
     });
   } else {
-    File(constants.androidAdaptiveXmlFolder(flavor) +
+    await File(constants.androidAdaptiveXmlFolder(flavor) +
             constants.androidDefaultIconName +
             '.xml')
         .create(recursive: true)
@@ -142,8 +143,8 @@ void createAdaptiveIconMipmapXmlFile(
 }
 
 /// creates adaptive background using png image
-void createAdaptiveBackgrounds(Map<String, dynamic> yamlConfig,
-    String adaptiveIconBackgroundImagePath, String? flavor) {
+Future<void> createAdaptiveBackgrounds(Map<String, dynamic> yamlConfig,
+    String adaptiveIconBackgroundImagePath, String? flavor) async {
   final String filePath = adaptiveIconBackgroundImagePath;
   final Image? image = decodeImageFile(filePath);
   if (image == null) {
@@ -153,14 +154,14 @@ void createAdaptiveBackgrounds(Map<String, dynamic> yamlConfig,
   // creates a png image (ic_adaptive_background.png) for the adaptive icon background in each of the locations
   // it is required
   for (AndroidIconTemplate androidIcon in adaptiveForegroundIcons) {
-    saveNewImages(androidIcon, image,
+    await saveNewImages(androidIcon, image,
         constants.androidAdaptiveBackgroundFileName, flavor);
   }
 
   // Creates the xml file required for the adaptive launcher icon
   // FILE LOCATED HERE:  res/mipmap-anydpi/{icon-name-from-yaml-config}.xml
   if (isCustomAndroidFile(yamlConfig)) {
-    File(constants.androidAdaptiveXmlFolder(flavor) +
+    await File(constants.androidAdaptiveXmlFolder(flavor) +
             getNewIconName(yamlConfig) +
             '.xml')
         .create(recursive: true)
@@ -168,7 +169,7 @@ void createAdaptiveBackgrounds(Map<String, dynamic> yamlConfig,
       adaptiveIcon.writeAsString(xml_template.icLauncherDrawableBackgroundXml);
     });
   } else {
-    File(constants.androidAdaptiveXmlFolder(flavor) +
+    await File(constants.androidAdaptiveXmlFolder(flavor) +
             constants.androidDefaultIconName +
             '.xml')
         .create(recursive: true)
@@ -179,8 +180,8 @@ void createAdaptiveBackgrounds(Map<String, dynamic> yamlConfig,
 }
 
 /// Creates a colors.xml file if it was missing from android/app/src/main/res/values/colors.xml
-void createNewColorsFile(String backgroundColor, String? flavor) {
-  File(constants.androidColorsFile(flavor))
+Future<void> createNewColorsFile(String backgroundColor, String? flavor) async {
+  await File(constants.androidColorsFile(flavor))
       .create(recursive: true)
       .then((File colorsFile) {
     colorsFile.writeAsString(xml_template.colorsXml).then((File file) {
@@ -231,14 +232,14 @@ String getNewIconName(Map<String, dynamic> config) {
 /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
 /// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-void overwriteExistingIcons(
+Future<void> overwriteExistingIcons(
   AndroidIconTemplate template,
   Image image,
   String filename,
   String? flavor,
-) {
+) async {
   final Image newFile = createResizedImage(template.size, image);
-  File(constants.androidResFolder(flavor) +
+  await File(constants.androidResFolder(flavor) +
           template.directoryName +
           '/' +
           filename)
@@ -251,10 +252,10 @@ void overwriteExistingIcons(
 /// Saves new launcher icons to the project, keeping the old launcher icons.
 /// Note: Do not change interpolation unless you end up with better results
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-void saveNewImages(AndroidIconTemplate template, Image image,
-    String iconFilePath, String? flavor) {
+Future<void> saveNewImages(AndroidIconTemplate template, Image image,
+    String iconFilePath, String? flavor) async {
   final Image newFile = createResizedImage(template.size, image);
-  File(constants.androidResFolder(flavor) +
+  await File(constants.androidResFolder(flavor) +
           template.directoryName +
           '/' +
           iconFilePath)
