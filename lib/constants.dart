@@ -2,8 +2,6 @@ String androidResFolder(String? flavor) =>
     "android/app/src/${flavor ?? 'main'}/res/";
 String androidColorsFile(String? flavor) =>
     "android/app/src/${flavor ?? 'main'}/res/values/colors.xml";
-const String flutterSdkGradleFile =
-    'packages/flutter_tools/gradle/flutter.gradle';
 const String localPropertiesFile = 'android/local.properties';
 const String androidManifestFile = 'android/app/src/main/AndroidManifest.xml';
 const String androidGradleFile = 'android/app/build.gradle';
