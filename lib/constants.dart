@@ -25,6 +25,9 @@ const String errorMissingPlatform =
 const String errorMissingRegularAndroid =
     'Adaptive icon config found but no regular Android config. '
     'Below API 26 the regular Android config is required';
+const String errorMissingMinSdk =
+    'Cannot not find minSdk from android/app/build.gradle or android/local.properties'
+    'Specify minSdk in either android/app/build.gradle or android/local.properties';
 const String errorIncorrectIconName =
     'The icon name must contain only lowercase a-z, 0-9, or underscore: '
     'E.g. "ic_my_new_icon"';
