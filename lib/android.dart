@@ -336,10 +336,10 @@ int? getMinSdkAndroidGradle() {
   }
 }
 
-/// Retrieves the minSdk value from the `local.properties` file else returns zero
+/// Retrieves the minSdk value from the `local.properties` file else returns null
 int? getMinSdkLocalProperties() {
   try {
-    final File localPropertiesFile = File(constants.localPropertiesFile);
+    final File localPropertiesFile = File(constants.androidLocalPropertiesFile);
     final List<String> lines = localPropertiesFile.readAsLinesSync();
     for (String line in lines) {
       if (line.contains('flutter.minSdkVersion')) {
