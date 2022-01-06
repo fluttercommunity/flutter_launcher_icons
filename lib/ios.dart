@@ -157,7 +157,7 @@ Future<void> changeIosLauncherIcon(String iconName, String? flavor) async {
     }
   }
 
-  final String entireFile = lines.join('\n');
+  final String entireFile = '${lines.join('\n')}\n';
   await iOSConfigFile.writeAsString(entireFile);
 }
 
