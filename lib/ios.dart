@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:image/image.dart';
-import 'package:flutter_launcher_icons/constants.dart';
 
 /// File to handle the creation of icons for iOS platform
 class IosIconTemplate {

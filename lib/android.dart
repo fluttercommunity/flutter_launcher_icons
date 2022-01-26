@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'dart:math';
+
+import 'package:flutter_launcher_icons/constants.dart' as constants;
+import 'package:flutter_launcher_icons/custom_exceptions.dart';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:flutter_launcher_icons/xml_templates.dart' as xml_template;
 import 'package:image/image.dart';
-import 'package:flutter_launcher_icons/custom_exceptions.dart';
-import 'package:flutter_launcher_icons/constants.dart' as constants;
 
 class AndroidIconTemplate {
   AndroidIconTemplate({required this.size, required this.directoryName});
@@ -110,10 +111,10 @@ void createAdaptiveIcons(
       foregroundScaleFactor > 0 &&
       foregroundImage != null;
 
-  Image rescaledImage;
-
   // Scales the foreground image prior to converting to icon.  This is mainly for scaling down to match adaptive icon spec
-  if (rescale && foregroundImage != null) {
+  if (rescale) {
+    Image rescaledImage;
+
     int _getColorFromHex(String hexColor) {
       //Converts hex string to int
       hexColor = hexColor.toUpperCase().replaceAll('#', '');
