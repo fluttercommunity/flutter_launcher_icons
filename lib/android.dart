@@ -304,6 +304,11 @@ int minSdk() {
   final List<String> lines = androidGradleFile.readAsLinesSync();
   for (String line in lines) {
     if (line.contains('minSdkVersion')) {
+      int endPos = line.indexOf('//');
+      bool isContainsComment = endPos >= 0;
+      if (isContainsComment) {
+        line = line.substring(0, endPos);
+      }
       // remove anything from the line that is not a digit
       final String minSdk = line.replaceAll(RegExp(r'[^\d]'), '');
       return int.parse(minSdk);
