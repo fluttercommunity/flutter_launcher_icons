@@ -143,6 +143,18 @@ pub get failed (1; So, because enstack depends on both flutter_native_splash ^1.
 
 For a quick fix, you can temporarily override all references to a dependency: [See here for an example](https://github.com/fluttercommunity/flutter_launcher_icons/issues/262#issuecomment-879872076).
 
+#### FormatException: Invalid number (at character 1)
+Goto: `android/app/build.gradle`
+```gradle
+minSdkVersion flutter.minSdkVersion
+targetSdkVersion flutter.targetSdkVersion
+```
+Replace above with the below
+```gradle
+minSdkVersion 26
+targetSdkVersion 30
+```
+
 ## :eyes: Example
 
 [![Video Example](https://i.imgur.com/R28hqdz.png)](https://www.youtube.com/watch?v=RjNAxwcP3Tc)
