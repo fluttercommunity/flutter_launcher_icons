@@ -1,5 +1,7 @@
+const String flutterSdkGradleFile = '/packages/flutter_tools/gradle/flutter.gradle';
 String androidResFolder(String? flavor) => "android/app/src/${flavor ?? 'main'}/res/";
 String androidColorsFile(String? flavor) => "android/app/src/${flavor ?? 'main'}/res/values/colors.xml";
+const String androidLocalProperties = 'android/local.properties';
 const String androidManifestFile = 'android/app/src/main/AndroidManifest.xml';
 const String androidGradleFile = 'android/app/build.gradle';
 const String androidFileName = 'ic_launcher.png';

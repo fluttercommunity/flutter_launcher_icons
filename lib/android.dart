@@ -298,12 +298,28 @@ List<String> transformAndroidManifestWithNewLauncherIcon(
   }).toList();
 }
 
+// File reader
+List<String> readFileLinesSync(String file) => File(file).readAsLinesSync();
+
+// Retrieves the flutter sdk path
+String flutterSdk() {
+  final List<String> lines = readFileLinesSync(constants.androidLocalProperties); // ReadFile
+  for (String line in lines) {
+    const key = 'flutter.sdk='; // Target key
+    if (line.contains(key)) {
+      // Remove the key and return the flutter sdk path
+      return line.replaceAll(key, '');
+    }
+  }
+  return '';
+}
+
 /// Retrieves the minSdk value from the Android build.gradle file
 int minSdk() {
-  final File androidGradleFile = File(constants.androidGradleFile);
-  final List<String> lines = androidGradleFile.readAsLinesSync();
+  final List<String> lines = readFileLinesSync(flutterSdk() + constants.flutterSdkGradleFile); // ReadFile
   for (String line in lines) {
-    if (line.contains('minSdkVersion')) {
+    const key = 'minSdkVersion =';
+    if (line.contains(key)) {
       // remove anything from the line that is not a digit
       final String minSdk = line.replaceAll(RegExp(r'[^\d]'), '');
       return int.parse(minSdk);
