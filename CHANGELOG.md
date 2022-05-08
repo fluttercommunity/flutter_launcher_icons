@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.9.1 (**RELEASE DATE HERE**)
+
+ - Support for web favicons and launcher icons (thanks to @personalizedrefrigerator).
+ - Bug fixes and refactoring (thanks to @personalizedrefrigerator).
+ 
+## 0.9.0 (28th Feb 2021)
+
+- Null-safety support added (thanks to @SteveAlexander)
+- Added option to remove alpha channel for iOS icons (thanks to @SimonIT)
+
 ## 0.8.1 (2nd Oct 2020)
 
 - Fixed flavor support on windows (@slightfoot)

@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:image/image.dart';
+
+import 'custom_exceptions.dart';
 
 Image createResizedImage(int iconSize, Image image) {
   if (image.width >= iconSize) {
@@ -22,6 +26,10 @@ void printStatus(String message) {
   print('• $message');
 }
 
-String generateError(Exception e, String error) {
+String generateError(Exception e, String? error) {
   return '\n✗ ERROR: ${(e).runtimeType.toString()} \n$error';
+}
+
+String generateWarning(String warning) {
+  return '\n⚠ WARNING: $warning\n';
 }
