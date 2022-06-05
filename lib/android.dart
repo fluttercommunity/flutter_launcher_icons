@@ -298,15 +298,29 @@ List<String> transformAndroidManifestWithNewLauncherIcon(
   }).toList();
 }
 
-/// Retrieves the minSdk value from the Android build.gradle file
+/// Retrieves the minSdk value from the Android build.gradle file or local.properties file
 int minSdk() {
-  final File androidGradleFile = File(constants.androidGradleFile);
-  final List<String> lines = androidGradleFile.readAsLinesSync();
+  final androidGradleFile = File(constants.androidGradleFile);
+  final androidLocalPropertiesFile = File(constants.androidLocalPropertiesFile);
+
+  // look in build.gradle first
+  final minSdkValue = getMinSdkFromFile(androidGradleFile);
+
+  // look in local.properties. Didn't find minSdk, assume the worst
+  return minSdkValue != 0
+      ? minSdkValue
+      : getMinSdkFromFile(androidLocalPropertiesFile);
+}
+
+/// Retrieves the minSdk value from [File]
+int getMinSdkFromFile(File file) {
+  final List<String> lines = file.readAsLinesSync();
   for (String line in lines) {
     if (line.contains('minSdkVersion')) {
       // remove anything from the line that is not a digit
       final String minSdk = line.replaceAll(RegExp(r'[^\d]'), '');
-      return int.parse(minSdk);
+      // when minSdkVersion value not found
+      return int.tryParse(minSdk) ?? 0;
     }
   }
   return 0; // Didn't find minSdk, assume the worst
