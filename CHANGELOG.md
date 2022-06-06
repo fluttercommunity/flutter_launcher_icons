@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.3 (6th June 2022)
+
+- Fixes to make sure it works for Flutter v2.8 (thanks to @RatakondalaArun)
+- Fixed issue with incorrect version being shown
+
 ## 0.9.2 (22nd August 2021)
 
 - Fixed issue where success message printed even when exception occured (thanks to @happy-san)
