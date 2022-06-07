@@ -317,6 +317,10 @@ int getMinSdkFromFile(File file) {
   final List<String> lines = file.readAsLinesSync();
   for (String line in lines) {
     if (line.contains('minSdkVersion')) {
+      if (line.contains('//') && line.indexOf('//') < line.indexOf('minSdkVersion')) {
+        // This line is commented
+        continue;
+      }
       // remove anything from the line that is not a digit
       final String minSdk = line.replaceAll(RegExp(r'[^\d]'), '');
       // when minSdkVersion value not found
