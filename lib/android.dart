@@ -299,17 +299,30 @@ List<String> transformAndroidManifestWithNewLauncherIcon(
 }
 
 /// Retrieves the minSdk value from the Android build.gradle file or local.properties file
-int minSdk() {
+int minSdk(Map<String, dynamic> config) {
   final androidGradleFile = File(constants.androidGradleFile);
   final androidLocalPropertiesFile = File(constants.androidLocalPropertiesFile);
 
   // look in build.gradle first
-  final minSdkValue = getMinSdkFromFile(androidGradleFile);
+  var minSdkValue = getMinSdkFromFile(androidGradleFile);
 
-  // look in local.properties. Didn't find minSdk, assume the worst
-  return minSdkValue != 0
-      ? minSdkValue
-      : getMinSdkFromFile(androidLocalPropertiesFile);
+  if (minSdkValue != 0) {
+    return minSdkValue;
+  }
+
+  // then look in local.properties.
+  minSdkValue = getMinSdkFromFile(androidLocalPropertiesFile);
+
+  if (minSdkValue != 0) {
+    return minSdkValue;
+  }
+
+  // finally look in the pubspec.yaml or flutter_launcher_icons.yaml
+  minSdkValue = (config.containsKey('min_sdk') && config['min_sdk'] is int)
+      ? config['min_sdk']
+      : 0;
+
+  return minSdkValue;
 }
 
 /// Retrieves the minSdk value from [File]

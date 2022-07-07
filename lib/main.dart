@@ -91,7 +91,7 @@ Future<void> createIconsFromConfig(Map<String, dynamic> config,
   }
 
   if (isNeedingNewAndroidIcon(config) || hasAndroidAdaptiveConfig(config)) {
-    final int minSdk = android_launcher_icons.minSdk();
+    final int minSdk = android_launcher_icons.minSdk(config);
     if (minSdk == 0) {
       throw const InvalidConfigException(errorMissingMinSdk);
     }
