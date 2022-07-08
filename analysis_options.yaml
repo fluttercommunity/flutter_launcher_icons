@@ -128,7 +128,7 @@ linter:
     # - public_member_api_docs # enabled on a case-by-case basis; see e.g. packages/analysis_options.yaml
     - recursive_getters
     - slash_for_doc_comments
-    - sort_constructors_first
+    # - sort_constructors_first: vscode's command "dart:sort members" does not follow this
     - sort_pub_dependencies
     - sort_unnamed_constructors_first
     # - super_goes_last # no longer needed w/ Dart 2
