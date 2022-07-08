@@ -1,0 +1,78 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'flutter_launcher_icons_config.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+FlutterLauncherIconsConfig _$FlutterLauncherIconsConfigFromJson(Map json) =>
+    $checkedCreate(
+      'FlutterLauncherIconsConfig',
+      json,
+      ($checkedConvert) {
+        final val = FlutterLauncherIconsConfig(
+          imagePath: $checkedConvert('image_path', (v) => v as String?),
+          android: $checkedConvert('android', (v) => v ?? false),
+          ios: $checkedConvert('ios', (v) => v ?? false),
+          imagePathAndroid:
+              $checkedConvert('image_path_android', (v) => v as String?),
+          imagePathIOS: $checkedConvert('image_path_ios', (v) => v as String?),
+          adaptiveIconForeground:
+              $checkedConvert('adaptive_icon_foreground', (v) => v as String?),
+          adaptiveIconBackground:
+              $checkedConvert('adaptive_icon_background', (v) => v as String?),
+          webConfig: $checkedConvert(
+              'web', (v) => v == null ? null : WebConfig.fromJson(v as Map)),
+        );
+        return val;
+      },
+      fieldKeyMap: const {
+        'imagePath': 'image_path',
+        'imagePathAndroid': 'image_path_android',
+        'imagePathIOS': 'image_path_ios',
+        'adaptiveIconForeground': 'adaptive_icon_foreground',
+        'adaptiveIconBackground': 'adaptive_icon_background',
+        'webConfig': 'web'
+      },
+    );
+
+Map<String, dynamic> _$FlutterLauncherIconsConfigToJson(
+        FlutterLauncherIconsConfig instance) =>
+    <String, dynamic>{
+      'image_path': instance.imagePath,
+      'android': instance.android,
+      'ios': instance.ios,
+      'image_path_android': instance.imagePathAndroid,
+      'image_path_ios': instance.imagePathIOS,
+      'adaptive_icon_foreground': instance.adaptiveIconForeground,
+      'adaptive_icon_background': instance.adaptiveIconBackground,
+      'web': instance.webConfig,
+    };
+
+WebConfig _$WebConfigFromJson(Map json) => $checkedCreate(
+      'WebConfig',
+      json,
+      ($checkedConvert) {
+        final val = WebConfig(
+          generate: $checkedConvert('generate', (v) => v as bool? ?? false),
+          imagePath: $checkedConvert('image_path', (v) => v as String?),
+          backgroundColor:
+              $checkedConvert('background_color', (v) => v as String?),
+          themeColor: $checkedConvert('theme_color', (v) => v as String?),
+        );
+        return val;
+      },
+      fieldKeyMap: const {
+        'imagePath': 'image_path',
+        'backgroundColor': 'background_color',
+        'themeColor': 'theme_color'
+      },
+    );
+
+Map<String, dynamic> _$WebConfigToJson(WebConfig instance) => <String, dynamic>{
+      'generate': instance.generate,
+      'image_path': instance.imagePath,
+      'background_color': instance.backgroundColor,
+      'theme_color': instance.themeColor,
+    };

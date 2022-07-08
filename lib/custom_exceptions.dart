@@ -39,3 +39,13 @@ class NoDecoderForImageFormatException implements Exception {
     return generateError(this, message);
   }
 }
+
+class FileNotFoundException implements Exception {
+  const FileNotFoundException(this.fileName);
+
+  final String fileName;
+  @override
+  String toString() {
+    return generateError(this, '$fileName file not found');
+  }
+}
