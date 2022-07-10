@@ -1,0 +1,22 @@
+# Deploy new version to pub.dev after a new GitHub release has been published
+name: pub.dev auto deployment
+
+on:
+  release:
+    types: [published]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Run a one-line script
+        uses: k-paxian/dart-package-publisher@v1.2
+        with:
+          accessToken: ${{ secrets.PUB_ACCESS_TOKEN }}
+          refreshToken: ${{ secrets.PUB_REFRESH_TOKEN}}
