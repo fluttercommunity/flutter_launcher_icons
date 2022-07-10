@@ -16,6 +16,7 @@ import 'package:flutter_launcher_icons/custom_exceptions.dart';
 const String fileOption = 'file';
 const String helpFlag = 'help';
 const String verboseFlag = 'verbose';
+const String prefixOption = 'prefix';
 const String defaultConfigFile = 'flutter_launcher_icons.yaml';
 const String flavorConfigFilePattern = r'^flutter_launcher_icons-(.*).yaml$';
 
@@ -38,10 +39,18 @@ List<String> getFlavors() {
 
 Future<void> createIconsFromArguments(List<String> arguments) async {
   final ArgParser parser = ArgParser(allowTrailingOptions: true);
-  parser.addFlag(helpFlag, abbr: 'h', help: 'Usage help', negatable: false);
-  // Make default null to differentiate when it is explicitly set
-  parser.addOption(fileOption, abbr: 'f', help: 'Path to config file', defaultsTo: defaultConfigFile);
-  parser.addFlag(verboseFlag, abbr: 'v', help: 'Verbose output', defaultsTo: false);
+  parser
+    ..addFlag(helpFlag, abbr: 'h', help: 'Usage help', negatable: false)
+    // Make default null to differentiate when it is explicitly set
+    ..addOption(fileOption, abbr: 'f', help: 'Path to config file', defaultsTo: defaultConfigFile)
+    ..addFlag(verboseFlag, abbr: 'v', help: 'Verbose output', defaultsTo: false)
+    ..addOption(
+      prefixOption,
+      abbr: 'p',
+      help: 'Generates config in the given path. Only Supports web platform',
+      defaultsTo: '.',
+    );
+
   final ArgResults argResults = parser.parse(arguments);
   // creating logger based on -v flag
   final logger = FLILogger(argResults[verboseFlag]);
@@ -60,11 +69,13 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
 
   // Load the config file
   final Map<String, dynamic>? yamlConfig = loadConfigFileFromArgResults(argResults, verbose: true);
+  final String prefixPath = argResults[prefixOption];
 
   // Load configs from given file(defaults to ./flutter_launcher_icons.yaml) or from ./pubspec.yaml
 
-  final flutterLauncherIconsConfigs = FlutterLauncherIconsConfig.loadConfigFromPath(argResults[fileOption]) ??
-      FlutterLauncherIconsConfig.loadConfigFromPubSpec();
+  final flutterLauncherIconsConfigs =
+      FlutterLauncherIconsConfig.loadConfigFromPath(argResults[fileOption], prefixPath) ??
+          FlutterLauncherIconsConfig.loadConfigFromPubSpec(prefixPath);
   if (yamlConfig == null || flutterLauncherIconsConfigs == null) {
     throw NoConfigFoundException(
       'No configuration found in $defaultConfigFile or in ${constants.pubspecFilePath}. '
@@ -75,7 +86,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   // Create icons
   if (!hasFlavors) {
     try {
-      await createIconsFromConfig(yamlConfig, flutterLauncherIconsConfigs, logger);
+      await createIconsFromConfig(yamlConfig, flutterLauncherIconsConfigs, logger, prefixPath);
       print('\n✓ Successfully generated launcher icons');
     } catch (e) {
       stderr.writeln('\n✕ Could not generate launcher icons');
@@ -87,7 +98,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
       for (String flavor in flavors) {
         print('\nFlavor: $flavor');
         final Map<String, dynamic> yamlConfig = loadConfigFile(flavorConfigFile(flavor), flavorConfigFile(flavor));
-        await createIconsFromConfig(yamlConfig, flutterLauncherIconsConfigs, logger, flavor);
+        await createIconsFromConfig(yamlConfig, flutterLauncherIconsConfigs, logger, prefixPath, flavor);
       }
       print('\n✓ Successfully generated launcher icons for flavors');
     } catch (e) {
@@ -101,7 +112,8 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
 Future<void> createIconsFromConfig(
   Map<String, dynamic> config,
   FlutterLauncherIconsConfig flutterConfigs,
-  FLILogger logger, [
+  FLILogger logger,
+  String prefixPath, [
   String? flavor,
 ]) async {
   if (!isImagePathInConfig(config)) {
@@ -135,6 +147,7 @@ Future<void> createIconsFromConfig(
   generateIconsFor(
     config: flutterConfigs,
     logger: logger,
+    prefixPath: prefixPath,
     flavor: flavor,
     platforms: (context) => [
       WebIconGenerator(context),

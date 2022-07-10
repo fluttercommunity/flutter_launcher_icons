@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:checked_yaml/checked_yaml.dart' as yaml;
 import 'package:json_annotation/json_annotation.dart';
+import 'package:path/path.dart' as path;
 
 import 'constants.dart' as constants;
 import 'custom_exceptions.dart';
@@ -58,8 +59,8 @@ class FlutterLauncherIconsConfig {
   factory FlutterLauncherIconsConfig.fromJson(Map json) => _$FlutterLauncherIconsConfigFromJson(json);
 
   /// Loads flutter launcher icons configs from given [filePath]
-  static FlutterLauncherIconsConfig? loadConfigFromPath(String filePath) {
-    final configFile = File(filePath);
+  static FlutterLauncherIconsConfig? loadConfigFromPath(String filePath, String prefixPath) {
+    final configFile = File(path.join(prefixPath, filePath));
     if (!configFile.existsSync()) {
       return null;
     }
@@ -77,9 +78,9 @@ class FlutterLauncherIconsConfig {
   }
 
   /// Loads flutter launcher icons config from `pubspec.yaml` file
-  static FlutterLauncherIconsConfig? loadConfigFromPubSpec() {
+  static FlutterLauncherIconsConfig? loadConfigFromPubSpec(String prefix) {
     try {
-      final pubspecFile = File(constants.pubspecFilePath);
+      final pubspecFile = File(path.join(prefix, constants.pubspecFilePath));
       if (!pubspecFile.existsSync()) {
         return null;
       }
@@ -100,8 +101,8 @@ class FlutterLauncherIconsConfig {
     }
   }
 
-  static FlutterLauncherIconsConfig? loadConfigFromFlavor(String flavor) {
-    return FlutterLauncherIconsConfig.loadConfigFromPath(utils.flavorConfigFile(flavor));
+  static FlutterLauncherIconsConfig? loadConfigFromFlavor(String flavor, String prefixPath) {
+    return FlutterLauncherIconsConfig.loadConfigFromPath(utils.flavorConfigFile(flavor), prefixPath);
   }
 
   Map<String, dynamic> toJson() => _$FlutterLauncherIconsConfigToJson(this);

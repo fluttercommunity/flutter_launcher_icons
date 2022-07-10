@@ -25,8 +25,14 @@ class IconGeneratorContext {
   final FlutterLauncherIconsConfig config;
   final FLILogger logger;
   final String? flavor;
+  final String prefixPath;
 
-  IconGeneratorContext({required this.config, this.flavor, required this.logger});
+  IconGeneratorContext({
+    required this.config,
+    this.flavor,
+    required this.prefixPath,
+    required this.logger,
+  });
 
   /// Shortcut for `config.webConfig`
   WebConfig? get webConfig => config.webConfig;
@@ -36,11 +42,17 @@ class IconGeneratorContext {
 void generateIconsFor({
   required FlutterLauncherIconsConfig config,
   required String? flavor,
+  required String prefixPath,
   required FLILogger logger,
   required List<IconGenerator> Function(IconGeneratorContext context) platforms,
 }) {
   try {
-    final platformList = platforms(IconGeneratorContext(config: config, logger: logger, flavor: flavor));
+    final platformList = platforms(IconGeneratorContext(
+      config: config,
+      logger: logger,
+      prefixPath: prefixPath,
+      flavor: flavor,
+    ));
     if (platformList.isEmpty) {
       // ? maybe we can print help
       logger.info('No platform provided');
