@@ -66,9 +66,15 @@ class FlutterLauncherIconsConfig {
     }
     final configContent = configFile.readAsStringSync();
     try {
-      return yaml.checkedYamlDecode<FlutterLauncherIconsConfig>(
+      return yaml.checkedYamlDecode<FlutterLauncherIconsConfig?>(
         configContent,
-        (json) => FlutterLauncherIconsConfig.fromJson(json!['flutter_icons']),
+        (json) {
+          // todo: add support for new scheme https://github.com/fluttercommunity/flutter_launcher_icons/issues/373
+          return json == null || json['flutter_icons'] == null
+              ? null
+              : FlutterLauncherIconsConfig.fromJson(json['flutter_icons']);
+        },
+        allowNull: true,
       );
     } on yaml.ParsedYamlException catch (e) {
       throw InvalidConfigException(e.formattedMessage);
@@ -88,11 +94,12 @@ class FlutterLauncherIconsConfig {
       return yaml.checkedYamlDecode<FlutterLauncherIconsConfig?>(
         pubspecContent,
         (json) {
-          if (json!['flutter_icons'] == null) {
-            return null;
-          }
-          return FlutterLauncherIconsConfig.fromJson(json['flutter_icons']);
+          // todo: add support for new scheme https://github.com/fluttercommunity/flutter_launcher_icons/issues/373
+          return json == null || json['flutter_icons'] == null
+              ? null
+              : FlutterLauncherIconsConfig.fromJson(json['flutter_icons']);
         },
+        allowNull: true,
       );
     } on yaml.ParsedYamlException catch (e) {
       throw InvalidConfigException(e.formattedMessage);
