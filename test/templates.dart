@@ -18,6 +18,17 @@ flutter_icons:
 
 const flavorFLIConfigTemplate = fliConfigTemplate;
 
+const fliWebConfig = r'''
+flutter_icons:
+  web:
+    generate: true
+    image_path: "app_icon.png" # filepath
+    background_color: "#0175C2" # hex_color
+    theme_color: "#0175C2" # hex_color
+    apple_mobile_web_app_title: "demo"
+    apple_mobile_web_app_status_bar_style: "hex_color"
+''';
+
 const invlaidfliConfigTemplate = r'''
 # flutter_icons
 android: true
