@@ -70,8 +70,11 @@ void generateIconsFor({
         }
         platform.createIcons();
         progress.finish(message: 'done', showTiming: true);
-      } catch (e) {
+      } catch (e, st) {
         progress.cancel();
+        logger
+          ..error(e.toString())
+          ..verbose(st);
         continue;
       }
     }
