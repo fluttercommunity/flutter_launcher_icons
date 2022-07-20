@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
 import 'package:flutter_launcher_icons/logger.dart';
 
-///A base class to generate icons
+/// A base class to generate icons
 abstract class IconGenerator {
   final IconGeneratorContext context;
   final String platformName;
