@@ -21,6 +21,7 @@ flutter_icons:
   ios: true # can specify file name here e.g. "My-Launcher-Icon"
   adaptive_icon_background: "assets/images/christmas-background.png" # only available for Android 8.0 devices and above
   adaptive_icon_foreground: "assets/images/icon-foreground-432x432.png" # only available for Android 8.0 devices and above
+  adaptive_icon_foreground_scale_factor: 1.0 # Test adaptive icon scaling
 
 dev_dependencies:
   flutter_test:
