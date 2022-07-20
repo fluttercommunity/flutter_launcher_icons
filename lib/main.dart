@@ -2,16 +2,16 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:flutter_launcher_icons/abs/icon_generator.dart';
+import 'package:flutter_launcher_icons/android.dart' as android_launcher_icons;
+import 'package:flutter_launcher_icons/constants.dart' as constants;
+import 'package:flutter_launcher_icons/constants.dart';
+import 'package:flutter_launcher_icons/custom_exceptions.dart';
 import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
+import 'package:flutter_launcher_icons/ios.dart' as ios_launcher_icons;
 import 'package:flutter_launcher_icons/logger.dart';
 import 'package:flutter_launcher_icons/web/web_icon_generator.dart';
 import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';
-import 'package:flutter_launcher_icons/android.dart' as android_launcher_icons;
-import 'package:flutter_launcher_icons/ios.dart' as ios_launcher_icons;
-import 'package:flutter_launcher_icons/constants.dart';
-import 'package:flutter_launcher_icons/constants.dart' as constants;
-import 'package:flutter_launcher_icons/custom_exceptions.dart';
 
 const String fileOption = 'file';
 const String helpFlag = 'help';
@@ -248,10 +248,12 @@ bool isNeedingNewIOSIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
   return hasIOSConfig(flutterLauncherIconsConfig) && flutterLauncherIconsConfig['ios'] != false;
 }
 
+/// Checks if the [flutterLauncherIconsConfig] contains web configs
 bool hasWebConfig(Map<String, dynamic> flutterLauncherIconsConfig) {
   return flutterLauncherIconsConfig.containsKey('web');
 }
 
+/// Checks if we should generate icons for web platform
 bool isNeddingNewWebIcons(Map<String, dynamic> flutterLauncherIconsConfig) {
   return hasWebConfig(flutterLauncherIconsConfig) && flutterLauncherIconsConfig['web'] != false;
 }
