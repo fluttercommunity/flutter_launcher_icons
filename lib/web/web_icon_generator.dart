@@ -71,7 +71,7 @@ class WebIconGenerator extends IconGenerator {
   }
 
   @override
-  bool validateRequirments() {
+  bool validateRequirements() {
     // check if web config exists
     context.logger.verbose('Checking webconfig...');
     final webConfig = context.webConfig;

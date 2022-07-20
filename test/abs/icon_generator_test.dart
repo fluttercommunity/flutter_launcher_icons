@@ -29,7 +29,7 @@ void main() {
       ));
     });
     test('should execute createIcons() when validateRequiremnts() returns true', () {
-      when(mockGenerator.validateRequirments()).thenReturn(true);
+      when(mockGenerator.validateRequirements()).thenReturn(true);
       generateIconsFor(
         config: mockFLIConfig,
         flavor: null,
@@ -37,12 +37,12 @@ void main() {
         logger: logger,
         platforms: (context) => [mockGenerator],
       );
-      verify(mockGenerator.validateRequirments()).called(equals(1));
+      verify(mockGenerator.validateRequirements()).called(equals(1));
       verify(mockGenerator.createIcons()).called(equals(1));
     });
 
     test('should not execute createIcons() when validateRequiremnts() returns false', () {
-      when(mockGenerator.validateRequirments()).thenReturn(false);
+      when(mockGenerator.validateRequirements()).thenReturn(false);
       generateIconsFor(
         config: mockFLIConfig,
         flavor: null,
@@ -50,12 +50,12 @@ void main() {
         logger: logger,
         platforms: (context) => [mockGenerator],
       );
-      verify(mockGenerator.validateRequirments()).called(equals(1));
+      verify(mockGenerator.validateRequirements()).called(equals(1));
       verifyNever(mockGenerator.createIcons());
     });
 
     test('should skip platform if any exception occured', () {
-      when(mockGenerator.validateRequirments()).thenReturn(true);
+      when(mockGenerator.validateRequirements()).thenReturn(true);
       when(mockGenerator.createIcons()).thenThrow(Exception('should-skip-platform'));
       generateIconsFor(
         config: mockFLIConfig,
@@ -64,7 +64,7 @@ void main() {
         logger: logger,
         platforms: (context) => [mockGenerator],
       );
-      verify(mockGenerator.validateRequirments()).called(equals(1));
+      verify(mockGenerator.validateRequirements()).called(equals(1));
       verify(mockGenerator.createIcons()).called(equals(1));
       expect(() => mockGenerator.createIcons(), throwsException);
     });

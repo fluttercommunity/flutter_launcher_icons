@@ -16,7 +16,7 @@ abstract class IconGenerator {
   /// Should return `true` if this platform
   /// has all the requirments to create icons.
   /// This runs before to [createIcons]
-  bool validateRequirments();
+  bool validateRequirements();
 }
 
 /// Provides easy access to user arguments and configuration
@@ -63,7 +63,7 @@ void generateIconsFor({
       logger.verbose('Validating platform requirments for ${platform.platformName}');
       // in case a platform throws an exception it should not effect other platforms
       try {
-        if (!platform.validateRequirments()) {
+        if (!platform.validateRequirements()) {
           logger.error('Requirments failed for platform ${platform.platformName}. Skipped');
           progress.cancel();
           continue;
