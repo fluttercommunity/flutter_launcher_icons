@@ -19,6 +19,7 @@ analyzer:
     - "lib/i18n/stock_messages_*.dart"
     - "lib/src/http/**"
     - "example/**"
+    - "**/*.g.dart"
 
 linter:
   rules:
@@ -158,3 +159,4 @@ linter:
     - valid_regexps
     # - void_checks # not yet tested
     - public_member_api_docs
+    - require_trailing_commas

@@ -22,11 +22,13 @@ void main() {
       logger = FLILogger(false);
       mockGenerator = MockIconGenerator();
       when(mockGenerator.platformName).thenReturn('Mock');
-      when(mockGenerator.context).thenReturn(IconGeneratorContext(
-        config: mockFLIConfig,
-        prefixPath: prefixPath,
-        logger: logger,
-      ));
+      when(mockGenerator.context).thenReturn(
+        IconGeneratorContext(
+          config: mockFLIConfig,
+          prefixPath: prefixPath,
+          logger: logger,
+        ),
+      );
     });
     test('should execute createIcons() when validateRequiremnts() returns true', () {
       when(mockGenerator.validateRequirements()).thenReturn(true);
