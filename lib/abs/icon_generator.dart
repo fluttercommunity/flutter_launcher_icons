@@ -39,18 +39,18 @@ class IconGeneratorContext {
   /// A logger
   final FLILogger logger;
 
-  /// Value of `--flavor` flag
-  final String? flavor;
-
   /// Value of `--prefix` flag
   final String prefixPath;
+
+  /// Value of `--flavor` flag
+  final String? flavor;
 
   /// Creates an instance of [IconGeneratorContext]
   IconGeneratorContext({
     required this.config,
-    this.flavor,
-    required this.prefixPath,
     required this.logger,
+    required this.prefixPath,
+    this.flavor,
   });
 
   /// Shortcut for `config.webConfig`
