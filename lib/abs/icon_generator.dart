@@ -5,9 +5,21 @@ import 'package:flutter_launcher_icons/logger.dart';
 
 /// A base class to generate icons
 abstract class IconGenerator {
+  /// Contains config
   final IconGeneratorContext context;
+
+  /// Name of the platform this [IconGenerator] is created for.
   final String platformName;
 
+  /// Creates a instance of [IconGenerator].
+  ///
+  /// A [context] is created and provided by [generateIconsFor],
+  /// [platformName] takes the name of the platform that this [IconGenerator]
+  /// is implemented for
+  ///
+  /// Also Refer
+  /// - [WebIconGenerator] generate icons for web
+  /// - [generateIconFor] generates icons for given platform
   IconGenerator(this.context, this.platformName);
 
   /// Creates icons for this platform.
@@ -23,10 +35,17 @@ abstract class IconGenerator {
 class IconGeneratorContext {
   /// Contains configuration from configuration file
   final FlutterLauncherIconsConfig config;
+
+  /// A logger
   final FLILogger logger;
+
+  /// Value of `--flavor` flag
   final String? flavor;
+
+  /// Value of `--prefix` flag
   final String prefixPath;
 
+  /// Creates an instance of [IconGeneratorContext]
   IconGeneratorContext({
     required this.config,
     this.flavor,

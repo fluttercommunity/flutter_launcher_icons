@@ -40,10 +40,14 @@ class NoDecoderForImageFormatException implements Exception {
   }
 }
 
+/// A exception to throw when given [fileName] is not found
 class FileNotFoundException implements Exception {
+  /// Creates a instance of [FileNotFoundException].
   const FileNotFoundException(this.fileName);
 
+  /// Name of the file
   final String fileName;
+
   @override
   String toString() {
     return generateError(this, '$fileName file not found');

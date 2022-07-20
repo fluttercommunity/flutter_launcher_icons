@@ -23,9 +23,10 @@ class FLILogger {
   /// Logs error messages
   void error(Object? message) => _logger.stderr('⚠️' + message.toString());
 
-  /// prings to console if [isVerbose] is true
+  /// Prints to console if [isVerbose] is true
   void verbose(Object? message) => _logger.trace(message.toString());
 
+  /// Prints to console
   void info(Object? message) => _logger.stdout(message.toString());
 
   /// Shows progress in console

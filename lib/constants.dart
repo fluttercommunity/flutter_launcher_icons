@@ -1,7 +1,11 @@
 import 'package:path/path.dart' as path;
 
+/// Relative path to android resource folder
 String androidResFolder(String? flavor) => "android/app/src/${flavor ?? 'main'}/res/";
+
+/// Relative path to android colors.xml file
 String androidColorsFile(String? flavor) => "android/app/src/${flavor ?? 'main'}/res/values/colors.xml";
+
 const String androidManifestFile = 'android/app/src/main/AndroidManifest.xml';
 const String androidGradleFile = 'android/app/build.gradle';
 const String androidLocalPropertiesFile = 'android/local.properties';
@@ -17,13 +21,25 @@ const String iosConfigFile = 'ios/Runner.xcodeproj/project.pbxproj';
 const String iosDefaultIconName = 'Icon-App';
 
 // web
+/// favicon.ico size
 const int kFaviconSize = 16;
+
+/// Relative web direcotry path
 String webDirPath = path.join('web');
+
+/// Relative web icons directory path
 String webIconsDirPath = path.join(webDirPath, 'icons');
+
+/// Relative web manifest.json file path
 String webManifestFilePath = path.join(webDirPath, 'manifest.json');
 // todo: support for other images formats
+/// Relative favicon.png path
 String webFaviconFilePath = path.join(webDirPath, 'favicon.png');
+
+/// Relative index.html file path
 String webIndexFilePath = path.join(webDirPath, 'index.html');
+
+/// Relative pubspec.yaml path
 String pubspecFilePath = path.join('pubspec.yaml');
 
 const String errorMissingImagePath =

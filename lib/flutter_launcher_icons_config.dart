@@ -10,6 +10,7 @@ import 'utils.dart' as utils;
 
 part 'flutter_launcher_icons_config.g.dart';
 
+/// A Config parsed from flutter_launcher_config.yaml
 @JsonSerializable(
   anyMap: true,
   checked: true,
@@ -45,6 +46,7 @@ class FlutterLauncherIconsConfig {
   @JsonKey(name: 'web')
   final WebConfig? webConfig;
 
+  /// Creates an instance of [FlutterLauncherIconsConfig]
   const FlutterLauncherIconsConfig({
     this.imagePath,
     this.android = false,
@@ -56,6 +58,7 @@ class FlutterLauncherIconsConfig {
     this.webConfig,
   });
 
+  /// Creates [FlutterLauncherIconsConfig] icons from [json]
   factory FlutterLauncherIconsConfig.fromJson(Map json) => _$FlutterLauncherIconsConfigFromJson(json);
 
   /// Loads flutter launcher icons configs from given [filePath]
@@ -108,21 +111,25 @@ class FlutterLauncherIconsConfig {
     }
   }
 
+  /// Creates [FlutterLauncherIconsConfig] for given [flavor] and [prefixPath]
   static FlutterLauncherIconsConfig? loadConfigFromFlavor(String flavor, String prefixPath) {
     return FlutterLauncherIconsConfig.loadConfigFromPath(utils.flavorConfigFile(flavor), prefixPath);
   }
 
+  /// Converts config to [Map]
   Map<String, dynamic> toJson() => _$FlutterLauncherIconsConfigToJson(this);
 
   @override
   String toString() => 'FlutterLauncherIconsConfig: ${toJson()}';
 }
 
+/// Parse `web` config from `flutter_launcher_icons.yaml`
 @JsonSerializable(
   anyMap: true,
   checked: true,
 )
 class WebConfig {
+  /// Specifies weather to generate icons for web
   final bool generate;
 
   /// Image path for web
@@ -137,6 +144,7 @@ class WebConfig {
   @JsonKey(name: 'theme_color')
   final String? themeColor;
 
+  /// Creates an instance of [WebConfig]
   const WebConfig({
     this.generate = false,
     this.imagePath,
@@ -144,8 +152,10 @@ class WebConfig {
     this.themeColor,
   });
 
+  /// Creates [WebConfig] from [json]
   factory WebConfig.fromJson(Map json) => _$WebConfigFromJson(json);
 
+  /// Creates [Map] from [WebConfig]
   Map<String, dynamic> toJson() => _$WebConfigToJson(this);
 
   @override

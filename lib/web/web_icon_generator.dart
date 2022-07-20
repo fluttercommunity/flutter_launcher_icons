@@ -9,6 +9,8 @@ import '../custom_exceptions.dart';
 import '../utils.dart' as utils;
 import 'web_template.dart';
 
+// This is not yet implemented
+// ignore: public_member_api_docs
 final metaTagsTemplate = (
   String appleMobileWebAppTitle,
   String appleMobileWebAppStatusBarStyle, {
@@ -39,6 +41,9 @@ class WebIconGenerator extends IconGenerator {
     WebIconTemplate(size: 512, maskable: true),
   ];
 
+  /// Creates an instance of [WebIconGenerator].
+  ///
+  ///
   WebIconGenerator(IconGeneratorContext context) : super(context, 'Web');
 
   @override

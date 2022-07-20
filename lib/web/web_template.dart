@@ -1,11 +1,18 @@
+/// A Icon Template for Web
 class WebIconTemplate {
+  /// Size of the web icon
+  final int size;
+
+  /// Support for maskable icon
+  ///
+  /// Refer to https://web.dev/maskable-icon/
+  final bool maskable;
+
+  /// Creates an instance of [WebIconTemplate].
   const WebIconTemplate({
     required this.size,
     this.maskable = false,
   });
-
-  final int size;
-  final bool maskable;
 
   /// Icon file name
   String get iconFile => 'Icon${maskable ? '-maskable' : ''}-$size.png';
