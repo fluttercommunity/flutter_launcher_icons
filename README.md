@@ -21,6 +21,11 @@ flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/icon/icon.png"
+  web:
+    generate: true
+    image_path: "path/to/image.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
 ```
 
 If you name your configuration file something other than `flutter_launcher_icons.yaml` or `pubspec.yaml` you will need to specify
@@ -62,7 +67,13 @@ Shown below is the full list of attributes which you can specify within your Flu
 
 - `image_path_ios`: The location of the icon image file specific for iOS platform (optional - if not defined then the image_path is used)
 
-_Note: iOS icons should [fill the entire image](https://stackoverflow.com/questions/26014461/black-border-on-my-ios-icon) and not contain transparent borders._
+- `web`: Add web related configs
+  - `generate`: Specifies weather to generate icons for this platform or not
+  - `image_path`: Path to web icon.png
+  - `background_color`: Updates *background_color* in `web/manifest.json`
+  - `theme_color`: Updates *theme_color* in `web/manifest.json`
+
+*Note: iOS icons should [fill the entire image](https://stackoverflow.com/questions/26014461/black-border-on-my-ios-icon) and not contain transparent borders.*
 
 The next two attributes are only used when generating Android launcher icon
 
