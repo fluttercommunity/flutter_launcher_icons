@@ -3,7 +3,8 @@
 // Do not manually edit this file.
 
 import 'package:flutter_launcher_icons/abs/icon_generator.dart' as _i2;
-import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart' as _i3;
+import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart'
+    as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -16,19 +17,22 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 
-class _FakeIconGeneratorContext_0 extends _i1.Fake implements _i2.IconGeneratorContext {}
+class _FakeIconGeneratorContext_0 extends _i1.Fake
+    implements _i2.IconGeneratorContext {}
 
 /// A class which mocks [FlutterLauncherIconsConfig].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFlutterLauncherIconsConfig extends _i1.Mock implements _i3.FlutterLauncherIconsConfig {
+class MockFlutterLauncherIconsConfig extends _i1.Mock
+    implements _i3.FlutterLauncherIconsConfig {
   MockFlutterLauncherIconsConfig() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
   Map<String, dynamic> toJson() =>
-      (super.noSuchMethod(Invocation.method(#toJson, []), returnValue: <String, dynamic>{}) as Map<String, dynamic>);
+      (super.noSuchMethod(Invocation.method(#toJson, []),
+          returnValue: <String, dynamic>{}) as Map<String, dynamic>);
 }
 
 /// A class which mocks [IconGenerator].
@@ -40,14 +44,18 @@ class MockIconGenerator extends _i1.Mock implements _i2.IconGenerator {
   }
 
   @override
-  _i2.IconGeneratorContext get context =>
-      (super.noSuchMethod(Invocation.getter(#context), returnValue: _FakeIconGeneratorContext_0())
-          as _i2.IconGeneratorContext);
+  _i2.IconGeneratorContext get context => (super.noSuchMethod(
+      Invocation.getter(#context),
+      returnValue: _FakeIconGeneratorContext_0()) as _i2.IconGeneratorContext);
   @override
-  String get platformName => (super.noSuchMethod(Invocation.getter(#platformName), returnValue: '') as String);
+  String get platformName =>
+      (super.noSuchMethod(Invocation.getter(#platformName), returnValue: '')
+          as String);
   @override
-  void createIcons() => super.noSuchMethod(Invocation.method(#createIcons, []), returnValueForMissingStub: null);
+  void createIcons() => super.noSuchMethod(Invocation.method(#createIcons, []),
+      returnValueForMissingStub: null);
   @override
   bool validateRequirements() =>
-      (super.noSuchMethod(Invocation.method(#validateRequirments, []), returnValue: false) as bool);
+      (super.noSuchMethod(Invocation.method(#validateRequirements, []),
+          returnValue: false) as bool);
 }

@@ -14,6 +14,10 @@ flutter_icons:
     theme_color: "#0175C2" # hex_color
     apple_mobile_web_app_title: "demo"
     apple_mobile_web_app_status_bar_style: "hex_color"
+  windows:
+    generate: true
+    image_path: "app_icon.png"
+    icon_size: 48
 ''';
 
 const flavorFLIConfigTemplate = fliConfigTemplate;
@@ -27,6 +31,31 @@ flutter_icons:
     theme_color: "#0175C2" # hex_color
     apple_mobile_web_app_title: "demo"
     apple_mobile_web_app_status_bar_style: "hex_color"
+''';
+
+const fliWindowsConfig = r'''
+flutter_icons:
+  windows:
+    generate: true
+    image_path: "app_icon.png"
+    icon_size: 48
+''';
+
+const fliWindowsConfigWithInvalidIconSize = r'''
+flutter_icons:
+  windows:
+    generate: true
+    image_path: "app_icon.png"
+    icon_size: 258
+''';
+
+const fliWindowsConfigWithNullImagePath = r'''
+flutter_icons:
+  image_path: null
+  windows:
+    generate: true
+    image_path: null
+    icon_size: 258
 ''';
 
 const invlaidfliConfigTemplate = r'''
@@ -101,6 +130,10 @@ flutter_icons:
     theme_color: "#0175C2" # hex_color
     apple_mobile_web_app_title: "demo"
     apple_mobile_web_app_status_bar_style: "hex_color"
+  windows:
+    generate: true
+    image_path: "app_icon.png"
+    icon_size: 48
 ''';
 
 const invalidPubspecTemplate = r'''
@@ -157,6 +190,10 @@ flutter_icons:
     theme_color: "#0175C2" # hex_color
     apple_mobile_web_app_title: "demo"
     apple_mobile_web_app_status_bar_style: "hex_color"
+  windows:
+    generate: true
+    image_path: "app_icon.png"
+    icon_size: 48
 ''';
 
 const webManifestTemplate = r'''
