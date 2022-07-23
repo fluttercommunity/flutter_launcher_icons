@@ -10,6 +10,7 @@ import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
 import 'package:flutter_launcher_icons/ios.dart' as ios_launcher_icons;
 import 'package:flutter_launcher_icons/logger.dart';
 import 'package:flutter_launcher_icons/web/web_icon_generator.dart';
+import 'package:flutter_launcher_icons/windows/windows_icon_generator.dart';
 import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';
 
@@ -151,6 +152,7 @@ Future<void> createIconsFromConfig(
     flavor: flavor,
     platforms: (context) => [
       WebIconGenerator(context),
+      WindowsIconGenerator(context),
       // todo: add other platforms
     ],
   );

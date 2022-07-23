@@ -55,6 +55,9 @@ class IconGeneratorContext {
 
   /// Shortcut for `config.webConfig`
   WebConfig? get webConfig => config.webConfig;
+
+  /// Shortcut for `config.windowsConfig`
+  WindowsConfig? get windowsConfig => config.windowsConfig;
 }
 
 /// Generates Icon for given platforms

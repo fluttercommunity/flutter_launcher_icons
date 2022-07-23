@@ -24,6 +24,8 @@ FlutterLauncherIconsConfig _$FlutterLauncherIconsConfigFromJson(Map json) =>
               $checkedConvert('adaptive_icon_background', (v) => v as String?),
           webConfig: $checkedConvert(
               'web', (v) => v == null ? null : WebConfig.fromJson(v as Map)),
+          windowsConfig: $checkedConvert('windows',
+              (v) => v == null ? null : WindowsConfig.fromJson(v as Map)),
         );
         return val;
       },
@@ -33,7 +35,8 @@ FlutterLauncherIconsConfig _$FlutterLauncherIconsConfigFromJson(Map json) =>
         'imagePathIOS': 'image_path_ios',
         'adaptiveIconForeground': 'adaptive_icon_foreground',
         'adaptiveIconBackground': 'adaptive_icon_background',
-        'webConfig': 'web'
+        'webConfig': 'web',
+        'windowsConfig': 'windows'
       },
     );
 
@@ -48,6 +51,7 @@ Map<String, dynamic> _$FlutterLauncherIconsConfigToJson(
       'adaptive_icon_foreground': instance.adaptiveIconForeground,
       'adaptive_icon_background': instance.adaptiveIconBackground,
       'web': instance.webConfig,
+      'windows': instance.windowsConfig,
     };
 
 WebConfig _$WebConfigFromJson(Map json) => $checkedCreate(
@@ -75,4 +79,25 @@ Map<String, dynamic> _$WebConfigToJson(WebConfig instance) => <String, dynamic>{
       'image_path': instance.imagePath,
       'background_color': instance.backgroundColor,
       'theme_color': instance.themeColor,
+    };
+
+WindowsConfig _$WindowsConfigFromJson(Map json) => $checkedCreate(
+      'WindowsConfig',
+      json,
+      ($checkedConvert) {
+        final val = WindowsConfig(
+          generate: $checkedConvert('generate', (v) => v as bool? ?? false),
+          imagePath: $checkedConvert('image_path', (v) => v as String?),
+          iconSize: $checkedConvert('icon_size', (v) => v as int?),
+        );
+        return val;
+      },
+      fieldKeyMap: const {'imagePath': 'image_path', 'iconSize': 'icon_size'},
+    );
+
+Map<String, dynamic> _$WindowsConfigToJson(WindowsConfig instance) =>
+    <String, dynamic>{
+      'generate': instance.generate,
+      'image_path': instance.imagePath,
+      'icon_size': instance.iconSize,
     };
