@@ -46,6 +46,10 @@ class FlutterLauncherIconsConfig {
   @JsonKey(name: 'web')
   final WebConfig? webConfig;
 
+  /// Windows platform config
+  @JsonKey(name: 'windows')
+  final WindowsConfig? windowsConfig;
+
   /// Creates an instance of [FlutterLauncherIconsConfig]
   const FlutterLauncherIconsConfig({
     this.imagePath,
@@ -56,6 +60,7 @@ class FlutterLauncherIconsConfig {
     this.adaptiveIconForeground,
     this.adaptiveIconBackground,
     this.webConfig,
+    this.windowsConfig,
   });
 
   /// Creates [FlutterLauncherIconsConfig] icons from [json]
@@ -160,4 +165,38 @@ class WebConfig {
 
   @override
   String toString() => 'WebConfig: ${toJson()}';
+}
+
+/// A Configs for Windows
+@JsonSerializable(
+  anyMap: true,
+  checked: true,
+)
+class WindowsConfig {
+  /// Specifies weather to generate icons for web
+  final bool generate;
+
+  /// Image path for web
+  @JsonKey(name: 'image_path')
+  final String? imagePath;
+
+  /// Size of the icon to generate
+  @JsonKey(name: 'icon_size')
+  final int? iconSize;
+
+  /// Creates a instance of [WindowsConfig]
+  const WindowsConfig({
+    this.generate = false,
+    this.imagePath,
+    this.iconSize,
+  });
+
+  /// Creates [WindowsConfig] from [json]
+  factory WindowsConfig.fromJson(Map json) => _$WindowsConfigFromJson(json);
+
+  /// Creates [Map] from [WindowsConfig]
+  Map toJson() => _$WindowsConfigToJson(this);
+
+  @override
+  String toString() => 'WindowsConfig: ${toJson()}';
 }

@@ -42,6 +42,20 @@ String webIndexFilePath = path.join(webDirPath, 'index.html');
 /// Relative pubspec.yaml path
 String pubspecFilePath = path.join('pubspec.yaml');
 
+// Windows
+/// Relative path to windows directory
+String windowsDirPath = path.join('windows');
+
+/// Relative path to windows resources directory
+String windowsResourcesDirPath = path.join(windowsDirPath, 'runner', 'resources');
+
+/// Relative path to windows icon file path
+String windowsIconFilePath = path.join(windowsResourcesDirPath, 'app_icon.ico');
+
+/// Default windows icon size for flutter
+///
+const int kWindowsIconSize = 48;
+
 const String errorMissingImagePath =
     'Missing "image_path" or "image_path_android" + "image_path_ios" within configuration';
 const String errorMissingPlatform = 'No platform specified within config to generate icons for.';
