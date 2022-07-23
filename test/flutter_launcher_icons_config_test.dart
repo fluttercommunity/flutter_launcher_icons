@@ -46,6 +46,19 @@ void main() {
             'theme_color': '#0175C2',
           }),
         );
+        // windows
+        expect(configs.windowsConfig, isNotNull);
+        expect(configs.windowsConfig!.generate, isNotNull);
+        expect(configs.windowsConfig!.iconSize, isNotNull);
+        expect(configs.windowsConfig!.imagePath, isNotNull);
+        expect(
+          configs.windowsConfig!.toJson(),
+          equals(<String, dynamic>{
+            'generate': true,
+            'image_path': 'app_icon.png',
+            'icon_size': 48,
+          }),
+        );
       });
 
       test('should return null when invalid filePath is given', () {
@@ -96,6 +109,19 @@ void main() {
             'theme_color': '#0175C2',
           }),
         );
+        // windows
+        expect(configs.windowsConfig, isNotNull);
+        expect(configs.windowsConfig!.generate, isNotNull);
+        expect(configs.windowsConfig!.iconSize, isNotNull);
+        expect(configs.windowsConfig!.imagePath, isNotNull);
+        expect(
+          configs.windowsConfig!.toJson(),
+          equals(<String, dynamic>{
+            'generate': true,
+            'image_path': 'app_icon.png',
+            'icon_size': 48,
+          }),
+        );
       });
 
       group('should throw', () {
@@ -144,6 +170,19 @@ void main() {
             'image_path': 'app_icon.png',
             'background_color': '#0175C2',
             'theme_color': '#0175C2',
+          }),
+        );
+        // windows
+        expect(configs.windowsConfig, isNotNull);
+        expect(configs.windowsConfig!.generate, isNotNull);
+        expect(configs.windowsConfig!.iconSize, isNotNull);
+        expect(configs.windowsConfig!.imagePath, isNotNull);
+        expect(
+          configs.windowsConfig!.toJson(),
+          equals(<String, dynamic>{
+            'generate': true,
+            'image_path': 'app_icon.png',
+            'icon_size': 48,
           }),
         );
       });
