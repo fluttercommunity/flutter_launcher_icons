@@ -56,7 +56,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   // creating logger based on -v flag
   final logger = FLILogger(argResults[verboseFlag]);
 
-  logger.verbose('Recieved args ${argResults.arguments}');
+  logger.verbose('Received args ${argResults.arguments}');
 
   if (argResults[helpFlag]) {
     stdout.writeln('Generates icons for iOS and Android');
@@ -64,7 +64,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
     exit(0);
   }
 
-  // Flavors manangement
+  // Flavors management
   final flavors = getFlavors();
   final hasFlavors = flavors.isNotEmpty;
 
