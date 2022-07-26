@@ -1,10 +1,9 @@
+import 'package:flutter_launcher_icons/abs/icon_generator.dart';
+import 'package:flutter_launcher_icons/constants.dart' as constants;
+import 'package:flutter_launcher_icons/custom_exceptions.dart';
+import 'package:flutter_launcher_icons/utils.dart' as utils;
 import 'package:image/image.dart';
 import 'package:path/path.dart' as path;
-
-import '../abs/icon_generator.dart';
-import '../constants.dart' as constants;
-import '../custom_exceptions.dart';
-import '../utils.dart' as utils;
 
 /// A Implementation of [IconGenerator] for Windows
 class WindowsIconGenerator extends IconGenerator {
