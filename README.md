@@ -26,6 +26,10 @@ flutter_icons:
     image_path: "path/to/image.png"
     background_color: "#hexcode"
     theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "path/to/image.png"
+    icon_size: 48 # min:48, max:256, default: 48
 ```
 
 If you name your configuration file something other than `flutter_launcher_icons.yaml` or `pubspec.yaml` you will need to specify
@@ -72,6 +76,11 @@ Shown below is the full list of attributes which you can specify within your Flu
   - `image_path`: Path to web icon.png
   - `background_color`: Updates *background_color* in `web/manifest.json`
   - `theme_color`: Updates *theme_color* in `web/manifest.json`
+
+- `windows`: Add Windows related configs
+  - `generate`: Specifies weather to generate icons for Windows platform or not
+  - `image_path`: Path to web icon.png
+  - `icon_size`: Windows app icon size. Icon size should be within this constrains *48<=icon_size<=256, defaults to 48*
 
 *Note: iOS icons should [fill the entire image](https://stackoverflow.com/questions/26014461/black-border-on-my-ios-icon) and not contain transparent borders.*
 
