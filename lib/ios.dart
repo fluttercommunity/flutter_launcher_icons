@@ -22,8 +22,14 @@ List<IosIconTemplate> iosIcons = <IosIconTemplate>[
   IosIconTemplate(name: '-40x40@1x', size: 40),
   IosIconTemplate(name: '-40x40@2x', size: 80),
   IosIconTemplate(name: '-40x40@3x', size: 120),
+  IosIconTemplate(name: '-50x50@1x', size: 50),
+  IosIconTemplate(name: '-50x50@2x', size: 100),
+  IosIconTemplate(name: '-57x57@1x', size: 57),
+  IosIconTemplate(name: '-57x57@2x', size: 114),
   IosIconTemplate(name: '-60x60@2x', size: 120),
   IosIconTemplate(name: '-60x60@3x', size: 180),
+  IosIconTemplate(name: '-72x72@1x', size: 72),
+  IosIconTemplate(name: '-72x72@2x', size: 144),
   IosIconTemplate(name: '-76x76@1x', size: 76),
   IosIconTemplate(name: '-76x76@2x', size: 152),
   IosIconTemplate(name: '-83.5x83.5@2x', size: 167),
@@ -249,6 +255,30 @@ List<Map<String, String>> createImageList(String fileNamePrefix) {
             scale: '3x')
         .toJson(),
     ContentsImageObject(
+            size: '50x50',
+            idiom: 'iphone',
+            filename: '$fileNamePrefix-50x50@1x.png',
+            scale: '1x')
+        .toJson(),
+    ContentsImageObject(
+            size: '50x50',
+            idiom: 'iphone',
+            filename: '$fileNamePrefix-50x50@2x.png',
+            scale: '2x')
+        .toJson(),
+    ContentsImageObject(
+            size: '57x57',
+            idiom: 'iphone',
+            filename: '$fileNamePrefix-57x57@1x.png',
+            scale: '1x')
+        .toJson(),
+    ContentsImageObject(
+            size: '57x57',
+            idiom: 'iphone',
+            filename: '$fileNamePrefix-57x57@3x.png',
+            scale: '2x')
+        .toJson(),
+    ContentsImageObject(
             size: '60x60',
             idiom: 'iphone',
             filename: '$fileNamePrefix-60x60@2x.png',
@@ -294,6 +324,18 @@ List<Map<String, String>> createImageList(String fileNamePrefix) {
             size: '40x40',
             idiom: 'ipad',
             filename: '$fileNamePrefix-40x40@2x.png',
+            scale: '2x')
+        .toJson(),
+    ContentsImageObject(
+            size: '72x72',
+            idiom: 'ipad',
+            filename: '$fileNamePrefix-72x72@1x.png',
+            scale: '1x')
+        .toJson(),
+    ContentsImageObject(
+            size: '72x72',
+            idiom: 'ipad',
+            filename: '$fileNamePrefix-72x72@2x.png',
             scale: '2x')
         .toJson(),
     ContentsImageObject(
