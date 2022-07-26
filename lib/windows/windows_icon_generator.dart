@@ -67,7 +67,8 @@ class WindowsIconGenerator extends IconGenerator {
   }
 
   void _generateIcon(Image image) {
-    final favIcon = utils.createResizedImage(context.windowsConfig!.iconSize ?? constants.kWindowsIconSize, image);
+    final favIcon =
+        utils.createResizedImage(context.windowsConfig!.iconSize ?? constants.windowsDefaultIconSize, image);
     final favIconFile = utils.createFileIfNotExist(path.join(context.prefixPath, constants.windowsIconFilePath));
     favIconFile.writeAsBytesSync(encodeIco(favIcon));
   }
