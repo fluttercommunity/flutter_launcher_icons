@@ -56,7 +56,7 @@ void main() {
       verifyNever(mockGenerator.createIcons());
     });
 
-    test('should skip platform if any exception occured', () {
+    test('should skip platform if any exception occurred', () {
       when(mockGenerator.validateRequirements()).thenReturn(true);
       when(mockGenerator.createIcons()).thenThrow(Exception('should-skip-platform'));
       generateIconsFor(
