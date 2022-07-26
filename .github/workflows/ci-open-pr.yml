@@ -20,6 +20,6 @@ jobs:
       - name: get dependencies
         run: dart pub get
       - name: run tests
-        run: dart test
+        run: dart test test/all_tests.dart
       - name: run analyzer
         run: dart analyze
