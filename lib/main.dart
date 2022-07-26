@@ -9,6 +9,7 @@ import 'package:flutter_launcher_icons/custom_exceptions.dart';
 import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
 import 'package:flutter_launcher_icons/ios.dart' as ios_launcher_icons;
 import 'package:flutter_launcher_icons/logger.dart';
+import 'package:flutter_launcher_icons/pubspec_parser.dart';
 import 'package:flutter_launcher_icons/web/web_icon_generator.dart';
 import 'package:flutter_launcher_icons/windows/windows_icon_generator.dart';
 import 'package:path/path.dart' as path;
@@ -197,10 +198,7 @@ Map<String, dynamic>? loadConfigFileFromArgResults(ArgResults argResults, {bool 
 }
 
 Map<String, dynamic> loadConfigFile(String path, String? fileOptionResult) {
-  final File file = File(path);
-  final String yamlString = file.readAsStringSync();
-  // ignore: always_specify_types
-  final Map yamlMap = loadYaml(yamlString);
+  final yamlMap = PubspecParser.toMap(path);
 
   if (!(yamlMap['flutter_icons'] is Map)) {
     stderr.writeln(NoConfigFoundException('Check that your config file '
