@@ -54,7 +54,7 @@ String windowsIconFilePath = path.join(windowsResourcesDirPath, 'app_icon.ico');
 
 /// Default windows icon size for flutter
 ///
-const int kWindowsIconSize = 48;
+const int windowsDefaultIconSize = 48;
 
 const String errorMissingImagePath =
     'Missing "image_path" or "image_path_android" + "image_path_ios" within configuration';
