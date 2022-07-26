@@ -1,0 +1,25 @@
+# Runs all the unit tests and the analyzer for any PR opened to merge into master branch.
+#
+# This helps ensure we avoid breaking existing functionality and stick to the rules
+# defined in the analysis_options.yaml file
+name: run tests & analyzer for new pr
+
+on:
+  pull_request:
+    branches: [ master ]
+
+  # allows for this workflow to be run manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@v1.3
+      - name: get dependencies
+        run: dart pub get
+      - name: run tests
+        run: dart test
+      - name: run analyzer
+        run: dart analyze
