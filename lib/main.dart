@@ -200,7 +200,7 @@ Map<String, dynamic>? loadConfigFileFromArgResults(ArgResults argResults, {bool 
 Map<String, dynamic> loadConfigFile(String path, String? fileOptionResult) {
   final yamlMap = PubspecParser.toMap(path);
 
-  if (!(yamlMap['flutter_icons'] is Map)) {
+  if (yamlMap['flutter_icons'] is! Map) {
     stderr.writeln(NoConfigFoundException('Check that your config file '
         '`${fileOptionResult ?? defaultConfigFile}`'
         ' has a `flutter_icons` section'));
