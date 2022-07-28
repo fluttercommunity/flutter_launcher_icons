@@ -7,7 +7,7 @@ void main() {
   /// build runner has not been run to up the version which is displayed
   /// when flutter_launcher_icons is run
   test('package version is correct', () {
-    final yamlMap = PubspecParser.toMap('pubspec.yaml');
+    final yamlMap = PubspecParser.fromPathToMap('pubspec.yaml');
     final yamlVersion = yamlMap['version'] as String;
     expect(
       yamlVersion,
