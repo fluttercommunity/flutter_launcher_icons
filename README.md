@@ -71,6 +71,8 @@ Shown below is the full list of attributes which you can specify within your Flu
 
 - `image_path_ios`: The location of the icon image file specific for iOS platform (optional - if not defined then the image_path is used)
 
+- `min_sdk_android`: Specify android min sdk value
+
 - `web`: Add web related configs
   - `generate`: Specifies weather to generate icons for this platform or not
   - `image_path`: Path to web icon.png
