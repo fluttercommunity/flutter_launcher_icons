@@ -73,6 +73,8 @@ Shown below is the full list of attributes which you can specify within your Flu
 
 - `min_sdk_android`: Specify android min sdk value
 
+- `remove_alpha_ios`: Removes alpha channel for IOS icons
+
 - `web`: Add web related configs
   - `generate`: Specifies weather to generate icons for this platform or not
   - `image_path`: Path to web icon.png
