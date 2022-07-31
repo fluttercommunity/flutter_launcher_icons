@@ -4,6 +4,7 @@ import 'package:flutter_launcher_icons/xml_templates.dart' as xml_template;
 import 'package:image/image.dart';
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
 import 'package:flutter_launcher_icons/constants.dart' as constants;
+import 'package:path/path.dart' as path;
 
 class AndroidIconTemplate {
   AndroidIconTemplate({required this.size, required this.directoryName});
@@ -298,22 +299,24 @@ List<String> transformAndroidManifestWithNewLauncherIcon(
   }).toList();
 }
 
-/// Retrieves the minSdk value from the Android build.gradle file or local.properties file
-int minSdk() {
+/// Retrieves the minSdk value from the
+/// - flutter.gradle: `'$FLUTTER_ROOT/packages/flutter_tools/gradle/flutter.gradle'`
+/// - build.gradle: `'android/app/build.gradle'`
+/// - local.properties: `'android/local.properties'`
+///
+/// If found none returns 0
+int? minSdk() {
   final androidGradleFile = File(constants.androidGradleFile);
   final androidLocalPropertiesFile = File(constants.androidLocalPropertiesFile);
 
-  // look in build.gradle first
-  final minSdkValue = getMinSdkFromFile(androidGradleFile);
-
-  // look in local.properties. Didn't find minSdk, assume the worst
-  return minSdkValue != 0
-      ? minSdkValue
-      : getMinSdkFromFile(androidLocalPropertiesFile);
+  // looks for minSdk value in build.gradle, flutter.gradle & local.properties.
+  return getMinSdkFlutterGradle(androidLocalPropertiesFile) ??
+      getMinSdkFromFile(androidGradleFile) ??
+      getMinSdkFromFile(androidLocalPropertiesFile);
 }
 
 /// Retrieves the minSdk value from [File]
-int getMinSdkFromFile(File file) {
+int? getMinSdkFromFile(File file) {
   final List<String> lines = file.readAsLinesSync();
   for (String line in lines) {
     if (line.contains('minSdkVersion')) {
@@ -324,10 +327,53 @@ int getMinSdkFromFile(File file) {
       // remove anything from the line that is not a digit
       final String minSdk = line.replaceAll(RegExp(r'[^\d]'), '');
       // when minSdkVersion value not found
-      return int.tryParse(minSdk) ?? 0;
+      return int.tryParse(minSdk);
     }
   }
-  return 0; // Didn't find minSdk, assume the worst
+  return null; // Didn't find minSdk, assume the worst
+}
+
+/// A helper function to [getMinSdkFlutterGradle]
+/// which retrives value of `flutter.sdk` from `local.properties` file
+String? getFlutterSdkPathFromLocalProperties(File file) {
+  final List<String> lines = file.readAsLinesSync();
+  for (String line in lines) {
+    if (!line.contains('flutter.sdk=')) {
+      continue;
+    }
+    if (line.contains('#') && line.indexOf('#') < line.indexOf('flutter.sdk=')) {
+      continue;
+    }
+    final flutterSdkPath = line.split('=').last.trim();
+    if (flutterSdkPath.isEmpty) {
+      return null;
+    }
+    return flutterSdkPath;
+  }
+  return null;
+}
+
+/// Retrives value of `minSdkVersion` from `flutter.gradle`
+int? getMinSdkFlutterGradle(File localPropertiesFile) {
+  final flutterRoot = getFlutterSdkPathFromLocalProperties(localPropertiesFile);
+  if (flutterRoot == null) {
+    return null;
+  }
+
+  final flutterGradleFile = File(path.join(flutterRoot, constants.androidFlutterGardlePath));
+
+  final List<String> lines = flutterGradleFile.readAsLinesSync();
+  for (String line in lines) {
+    if (!line.contains('static int minSdkVersion =')) {
+      continue;
+    }
+    if (line.contains('//') && line.indexOf('//') < line.indexOf('static int minSdkVersion =')) {
+      continue;
+    }
+    final minSdk = line.split('=').last.trim();
+    return int.tryParse(minSdk);
+  }
+  return null;
 }
 
 /// Method for the retrieval of the Android icon path
