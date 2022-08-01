@@ -272,7 +272,7 @@ List<String> _transformAndroidManifestWithNewLauncherIcon(List<String> oldManife
 /// - local.properties: `'android/local.properties'`
 ///
 /// If found none returns 0
-int? minSdk() {
+int minSdk() {
   final androidGradleFile = File(constants.androidGradleFile);
   final androidLocalPropertiesFile = File(constants.androidLocalPropertiesFile);
 
@@ -281,7 +281,8 @@ int? minSdk() {
   // first check build.gradle, then local.properties, then flutter.gradle
   return _getMinSdkFromFile(androidGradleFile) ??
       _getMinSdkFromFile(androidLocalPropertiesFile) ??
-      _getMinSdkFlutterGradle(androidLocalPropertiesFile);
+      _getMinSdkFlutterGradle(androidLocalPropertiesFile) ??
+      constants.androidDefaultAndroidMinSDK;
 }
 
 /// Retrieves the minSdk value from [File]
