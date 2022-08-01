@@ -43,7 +43,7 @@ void createDefaultIcons(Map<String, dynamic> flutterLauncherIconsConfig, String?
     isAndroidIconNameCorrectFormat(iconName);
     final String iconPath = '$iconName.png';
     for (AndroidIconTemplate template in androidIcons) {
-      saveNewImages(template, image, iconPath, flavor);
+      _saveNewImages(template, image, iconPath, flavor);
     }
     overwriteAndroidManifestWithNewLauncherIcon(iconName, androidManifestFile);
   } else {
@@ -82,7 +82,7 @@ void createAdaptiveIcons(Map<String, dynamic> flutterLauncherIconsConfig, String
 
   // Create adaptive icon background
   if (isAdaptiveIconConfigPngFile(backgroundConfig)) {
-    createAdaptiveBackgrounds(flutterLauncherIconsConfig, backgroundConfig, flavor);
+    _createAdaptiveBackgrounds(flutterLauncherIconsConfig, backgroundConfig, flavor);
   } else {
     createAdaptiveIconMipmapXmlFile(flutterLauncherIconsConfig, flavor);
     updateColorsXmlFile(backgroundConfig, flavor);
@@ -127,8 +127,11 @@ void createAdaptiveIconMipmapXmlFile(Map<String, dynamic> flutterLauncherIconsCo
 }
 
 /// creates adaptive background using png image
-void createAdaptiveBackgrounds(
-    Map<String, dynamic> yamlConfig, String adaptiveIconBackgroundImagePath, String? flavor) {
+void _createAdaptiveBackgrounds(
+  Map<String, dynamic> yamlConfig,
+  String adaptiveIconBackgroundImagePath,
+  String? flavor,
+) {
   final String filePath = adaptiveIconBackgroundImagePath;
   final Image? image = decodeImageFile(filePath);
   if (image == null) {
@@ -138,7 +141,7 @@ void createAdaptiveBackgrounds(
   // creates a png image (ic_adaptive_background.png) for the adaptive icon background in each of the locations
   // it is required
   for (AndroidIconTemplate androidIcon in adaptiveForegroundIcons) {
-    saveNewImages(androidIcon, image, constants.androidAdaptiveBackgroundFileName, flavor);
+    _saveNewImages(androidIcon, image, constants.androidAdaptiveBackgroundFileName, flavor);
   }
 
   // Creates the xml file required for the adaptive launcher icon
@@ -225,7 +228,7 @@ void overwriteExistingIcons(
 /// Saves new launcher icons to the project, keeping the old launcher icons.
 /// Note: Do not change interpolation unless you end up with better results
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-void saveNewImages(AndroidIconTemplate template, Image image, String iconFilePath, String? flavor) {
+void _saveNewImages(AndroidIconTemplate template, Image image, String iconFilePath, String? flavor) {
   final Image newFile = createResizedImage(template.size, image);
   File(constants.androidResFolder(flavor) + template.directoryName + '/' + iconFilePath)
       .create(recursive: true)
@@ -241,12 +244,12 @@ void saveNewImages(AndroidIconTemplate template, Image image, String iconFilePat
 Future<void> overwriteAndroidManifestWithNewLauncherIcon(String iconName, File androidManifestFile) async {
   // we do not use `file.readAsLinesSync()` here because that always gets rid of the last empty newline
   final List<String> oldManifestLines = (await androidManifestFile.readAsString()).split('\n');
-  final List<String> transformedLines = transformAndroidManifestWithNewLauncherIcon(oldManifestLines, iconName);
+  final List<String> transformedLines = _transformAndroidManifestWithNewLauncherIcon(oldManifestLines, iconName);
   await androidManifestFile.writeAsString(transformedLines.join('\n'));
 }
 
 /// Updates only the line containing android:icon with the specified iconName
-List<String> transformAndroidManifestWithNewLauncherIcon(List<String> oldManifestLines, String iconName) {
+List<String> _transformAndroidManifestWithNewLauncherIcon(List<String> oldManifestLines, String iconName) {
   return oldManifestLines.map((String line) {
     if (line.contains('android:icon')) {
       // Using RegExp replace the value of android:icon to point to the new icon
@@ -274,13 +277,15 @@ int? minSdk() {
   final androidLocalPropertiesFile = File(constants.androidLocalPropertiesFile);
 
   // looks for minSdk value in build.gradle, flutter.gradle & local.properties.
-  return getMinSdkFlutterGradle(androidLocalPropertiesFile) ??
-      getMinSdkFromFile(androidGradleFile) ??
-      getMinSdkFromFile(androidLocalPropertiesFile);
+  // this should always be order
+  // first check build.gradle, then local.properties, then flutter.gradle
+  return _getMinSdkFromFile(androidGradleFile) ??
+      _getMinSdkFromFile(androidLocalPropertiesFile) ??
+      _getMinSdkFlutterGradle(androidLocalPropertiesFile);
 }
 
 /// Retrieves the minSdk value from [File]
-int? getMinSdkFromFile(File file) {
+int? _getMinSdkFromFile(File file) {
   final List<String> lines = file.readAsLinesSync();
   for (String line in lines) {
     if (line.contains('minSdkVersion')) {
@@ -297,9 +302,9 @@ int? getMinSdkFromFile(File file) {
   return null; // Didn't find minSdk, assume the worst
 }
 
-/// A helper function to [getMinSdkFlutterGradle]
+/// A helper function to [_getMinSdkFlutterGradle]
 /// which retrives value of `flutter.sdk` from `local.properties` file
-String? getFlutterSdkPathFromLocalProperties(File file) {
+String? _getFlutterSdkPathFromLocalProperties(File file) {
   final List<String> lines = file.readAsLinesSync();
   for (String line in lines) {
     if (!line.contains('flutter.sdk=')) {
@@ -318,8 +323,8 @@ String? getFlutterSdkPathFromLocalProperties(File file) {
 }
 
 /// Retrives value of `minSdkVersion` from `flutter.gradle`
-int? getMinSdkFlutterGradle(File localPropertiesFile) {
-  final flutterRoot = getFlutterSdkPathFromLocalProperties(localPropertiesFile);
+int? _getMinSdkFlutterGradle(File localPropertiesFile) {
+  final flutterRoot = _getFlutterSdkPathFromLocalProperties(localPropertiesFile);
   if (flutterRoot == null) {
     return null;
   }
