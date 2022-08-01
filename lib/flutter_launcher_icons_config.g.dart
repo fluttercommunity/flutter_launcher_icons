@@ -22,6 +22,10 @@ FlutterLauncherIconsConfig _$FlutterLauncherIconsConfigFromJson(Map json) =>
               $checkedConvert('adaptive_icon_foreground', (v) => v as String?),
           adaptiveIconBackground:
               $checkedConvert('adaptive_icon_background', (v) => v as String?),
+          minSdkAndroid:
+              $checkedConvert('min_sdk_android', (v) => v as int? ?? 21),
+          removeAlphaIOS:
+              $checkedConvert('remove_alpha_ios', (v) => v as bool? ?? true),
           webConfig: $checkedConvert(
               'web', (v) => v == null ? null : WebConfig.fromJson(v as Map)),
           windowsConfig: $checkedConvert('windows',
@@ -35,6 +39,8 @@ FlutterLauncherIconsConfig _$FlutterLauncherIconsConfigFromJson(Map json) =>
         'imagePathIOS': 'image_path_ios',
         'adaptiveIconForeground': 'adaptive_icon_foreground',
         'adaptiveIconBackground': 'adaptive_icon_background',
+        'minSdkAndroid': 'min_sdk_android',
+        'removeAlphaIOS': 'remove_alpha_ios',
         'webConfig': 'web',
         'windowsConfig': 'windows'
       },
@@ -50,6 +56,8 @@ Map<String, dynamic> _$FlutterLauncherIconsConfigToJson(
       'image_path_ios': instance.imagePathIOS,
       'adaptive_icon_foreground': instance.adaptiveIconForeground,
       'adaptive_icon_background': instance.adaptiveIconBackground,
+      'min_sdk_android': instance.minSdkAndroid,
+      'remove_alpha_ios': instance.removeAlphaIOS,
       'web': instance.webConfig,
       'windows': instance.windowsConfig,
     };

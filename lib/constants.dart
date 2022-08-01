@@ -13,6 +13,9 @@ const String androidLocalPropertiesFile = 'android/local.properties';
 /// Relative path to flutter.gradle from flutter sdk path
 const String androidFlutterGardlePath = 'packages/flutter_tools/gradle/flutter.gradle';
 
+/// Default min_sdk value for android
+/// https://github.com/flutter/flutter/blob/master/packages/flutter_tools/gradle/flutter.gradle#L35-L37
+const int androidDefaultAndroidMinSDK = 21;
 const String androidFileName = 'ic_launcher.png';
 const String androidAdaptiveForegroundFileName = 'ic_launcher_foreground.png';
 const String androidAdaptiveBackgroundFileName = 'ic_launcher_background.png';

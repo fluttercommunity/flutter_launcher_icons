@@ -7,6 +7,8 @@ flutter_icons:
   image_path_ios: "assets/images/icon-1024x1024.png"
   adaptive_icon_background: "assets/images/christmas-background.png"
   adaptive_icon_foreground: "assets/images/icon-foreground-432x432.png"
+  min_sdk_android: 21
+  remove_alpha_ios: false
   web:
     generate: true
     image_path: "app_icon.png" # filepath
@@ -123,6 +125,8 @@ flutter_icons:
   image_path_ios: "assets/images/icon-1024x1024.png"
   adaptive_icon_background: "assets/images/christmas-background.png"
   adaptive_icon_foreground: "assets/images/icon-foreground-432x432.png"
+  min_sdk_android: 21
+  remove_alpha_ios: false
   web:
     generate: true
     image_path: "app_icon.png" # filepath

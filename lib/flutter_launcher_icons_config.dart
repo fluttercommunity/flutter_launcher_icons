@@ -42,6 +42,14 @@ class FlutterLauncherIconsConfig {
   @JsonKey(name: 'adaptive_icon_background')
   final String? adaptiveIconBackground;
 
+  /// Android min_sdk_android
+  @JsonKey(name: 'min_sdk_android', defaultValue: constants.androidDefaultAndroidMinSDK)
+  final int minSdkAndroid;
+
+  /// IOS remove_alpha_ios
+  @JsonKey(name: 'remove_alpha_ios', defaultValue: true)
+  final bool removeAlphaIOS;
+
   /// Web platform config
   @JsonKey(name: 'web')
   final WebConfig? webConfig;
@@ -59,6 +67,8 @@ class FlutterLauncherIconsConfig {
     this.imagePathIOS,
     this.adaptiveIconForeground,
     this.adaptiveIconBackground,
+    this.minSdkAndroid = constants.androidDefaultAndroidMinSDK,
+    this.removeAlphaIOS = true,
     this.webConfig,
     this.windowsConfig,
   });
