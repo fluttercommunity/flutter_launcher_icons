@@ -30,6 +30,14 @@ class MockFlutterLauncherIconsConfig extends _i1.Mock
   }
 
   @override
+  int get minSdkAndroid =>
+      (super.noSuchMethod(Invocation.getter(#minSdkAndroid), returnValue: 0)
+          as int);
+  @override
+  bool get removeAlphaIOS => (super
+          .noSuchMethod(Invocation.getter(#removeAlphaIOS), returnValue: false)
+      as bool);
+  @override
   Map<String, dynamic> toJson() =>
       (super.noSuchMethod(Invocation.method(#toJson, []),
           returnValue: <String, dynamic>{}) as Map<String, dynamic>);

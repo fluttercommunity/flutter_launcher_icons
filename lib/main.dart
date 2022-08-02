@@ -13,7 +13,6 @@ import 'package:flutter_launcher_icons/pubspec_parser.dart';
 import 'package:flutter_launcher_icons/web/web_icon_generator.dart';
 import 'package:flutter_launcher_icons/windows/windows_icon_generator.dart';
 import 'package:path/path.dart' as path;
-import 'package:yaml/yaml.dart';
 
 const String fileOption = 'file';
 const String helpFlag = 'help';
@@ -126,7 +125,7 @@ Future<void> createIconsFromConfig(
   }
 
   if (isNeedingNewAndroidIcon(config) || hasAndroidAdaptiveConfig(config)) {
-    final int minSdk = android_launcher_icons.minSdk();
+    final int minSdk = config['min_sdk_android'] ?? android_launcher_icons.minSdk();
     if (minSdk == 0) {
       throw const InvalidConfigException(errorMissingMinSdk);
     }

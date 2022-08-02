@@ -21,6 +21,7 @@ flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/icon/icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
   web:
     generate: true
     image_path: "path/to/image.png"
@@ -70,6 +71,10 @@ Shown below is the full list of attributes which you can specify within your Flu
 - `image_path_android`: The location of the icon image file specific for Android platform (optional - if not defined then the image_path is used)
 
 - `image_path_ios`: The location of the icon image file specific for iOS platform (optional - if not defined then the image_path is used)
+
+- `min_sdk_android`: Specify android min sdk value
+
+- `remove_alpha_ios`: Removes alpha channel for IOS icons
 
 - `web`: Add web related configs
   - `generate`: Specifies weather to generate icons for this platform or not

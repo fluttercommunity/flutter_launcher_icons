@@ -28,9 +28,11 @@ void main() {
         expect(configs.imagePathAndroid, isNotNull);
         expect(configs.adaptiveIconBackground, isNotNull);
         expect(configs.adaptiveIconForeground, isNotNull);
+        expect(configs.minSdkAndroid, equals(21));
         // ios configs
         expect(configs.ios, isTrue);
         expect(configs.imagePathIOS, isNotNull);
+        expect(configs.removeAlphaIOS, isFalse);
         // web configs
         expect(configs.webConfig, isNotNull);
         expect(configs.webConfig!.generate, isTrue);
@@ -91,9 +93,11 @@ void main() {
         expect(configs.imagePathAndroid, isNotNull);
         expect(configs.adaptiveIconBackground, isNotNull);
         expect(configs.adaptiveIconForeground, isNotNull);
+        expect(configs.minSdkAndroid, equals(21));
         // ios configs
         expect(configs.ios, isTrue);
         expect(configs.imagePathIOS, isNotNull);
+        expect(configs.removeAlphaIOS, isFalse);
         // web configs
         expect(configs.webConfig, isNotNull);
         expect(configs.webConfig!.generate, isTrue);
