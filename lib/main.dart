@@ -181,11 +181,9 @@ Map<String, dynamic>? loadConfigFileFromArgResults(ArgResults argResults, {bool 
     return loadConfigFile(defaultConfigFile, fileOptionResult);
   } catch (e) {
     // Try pubspec.yaml for compatibility
-    if (configFile == null) {
-      try {
-        return loadConfigFile('pubspec.yaml', fileOptionResult);
-      } catch (_) {}
-    }
+    try {
+      return loadConfigFile('pubspec.yaml', fileOptionResult);
+    } catch (_) {}
 
     // if nothing got returned, print error
     if (verbose) {
