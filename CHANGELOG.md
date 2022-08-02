@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.10.0 (2nd August 2022)
+
+- Support for Web Icons [#374](https://github.com/fluttercommunity/flutter_launcher_icons/pull/374)
+- Support for Windows Icons [#382](https://github.com/fluttercommunity/flutter_launcher_icons/pull/382)
+- Added missing IOS icon sizes [#298](https://github.com/fluttercommunity/flutter_launcher_icons/pull/298)
+- Added `min_sdk_android` option [#392](https://github.com/fluttercommunity/flutter_launcher_icons/pull/392)
+- Added documentation for `remove_alpha_ios` [#392](https://github.com/fluttercommunity/flutter_launcher_icons/pull/392)
+
 ## 0.9.3 (6th June 2022)
 
 - Fixes to make sure it works for Flutter v2.8 (thanks to @RatakondalaArun)
@@ -8,7 +16,6 @@
 ## 0.9.2 (22nd August 2021)
 
 - Fixed issue where success message printed even when exception occured (thanks to @happy-san)
-
 
 ## 0.9.1 (25th July 2021)
 
