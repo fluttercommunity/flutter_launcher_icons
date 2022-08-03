@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:flutter_launcher_icons/constants.dart';
+import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:flutter_launcher_icons/xml_templates.dart' as xml_template;
 import 'package:image/image.dart';
@@ -29,17 +31,21 @@ List<AndroidIconTemplate> androidIcons = <AndroidIconTemplate>[
   AndroidIconTemplate(directoryName: 'mipmap-xxxhdpi', size: 192),
 ];
 
-void createDefaultIcons(Map<String, dynamic> flutterLauncherIconsConfig, String? flavor) {
+void createDefaultIcons(FlutterLauncherIconsConfig flutterLauncherIconsConfig, String? flavor) {
   printStatus('Creating default icons Android');
-  final String filePath = getAndroidIconPath(flutterLauncherIconsConfig);
+  // todo: support prefixPath
+  final String? filePath = flutterLauncherIconsConfig.getImagePathAndroid();
+  if (filePath == null) {
+    throw const InvalidConfigException(errorMissingImagePath);
+  }
   final Image? image = decodeImageFile(filePath);
   if (image == null) {
     return;
   }
   final File androidManifestFile = File(constants.androidManifestFile);
-  if (isCustomAndroidFile(flutterLauncherIconsConfig)) {
+  if (flutterLauncherIconsConfig.isCustomAndroidFile) {
     printStatus('Adding a new Android launcher icon');
-    final String iconName = getNewIconName(flutterLauncherIconsConfig);
+    final String iconName = flutterLauncherIconsConfig.android;
     isAndroidIconNameCorrectFormat(iconName);
     final String iconPath = '$iconName.png';
     for (AndroidIconTemplate template in androidIcons) {
@@ -64,12 +70,15 @@ bool isAndroidIconNameCorrectFormat(String iconName) {
   return true;
 }
 
-void createAdaptiveIcons(Map<String, dynamic> flutterLauncherIconsConfig, String? flavor) {
+void createAdaptiveIcons(FlutterLauncherIconsConfig flutterLauncherIconsConfig, String? flavor) {
   printStatus('Creating adaptive icons Android');
 
   // Retrieve the necessary Flutter Launcher Icons configuration from the pubspec.yaml file
-  final String backgroundConfig = flutterLauncherIconsConfig['adaptive_icon_background'];
-  final String foregroundImagePath = flutterLauncherIconsConfig['adaptive_icon_foreground'];
+  final String? backgroundConfig = flutterLauncherIconsConfig.adaptiveIconBackground;
+  final String? foregroundImagePath = flutterLauncherIconsConfig.adaptiveIconForeground;
+  if (backgroundConfig == null || foregroundImagePath == null) {
+    throw const InvalidConfigException(errorMissingImagePath);
+  }
   final Image? foregroundImage = decodeImageFile(foregroundImagePath);
   if (foregroundImage == null) {
     return;
@@ -110,9 +119,9 @@ void updateColorsXmlFile(String backgroundConfig, String? flavor) {
 
 /// Creates the xml file required for the adaptive launcher icon
 /// FILE LOCATED HERE: res/mipmap-anydpi/{icon-name-from-yaml-config}.xml
-void createAdaptiveIconMipmapXmlFile(Map<String, dynamic> flutterLauncherIconsConfig, String? flavor) {
-  if (isCustomAndroidFile(flutterLauncherIconsConfig)) {
-    File(constants.androidAdaptiveXmlFolder(flavor) + getNewIconName(flutterLauncherIconsConfig) + '.xml')
+void createAdaptiveIconMipmapXmlFile(FlutterLauncherIconsConfig flutterLauncherIconsConfig, String? flavor) {
+  if (flutterLauncherIconsConfig.isCustomAndroidFile) {
+    File(constants.androidAdaptiveXmlFolder(flavor) + flutterLauncherIconsConfig.android + '.xml')
         .create(recursive: true)
         .then((File adaptiveIcon) {
       adaptiveIcon.writeAsString(xml_template.icLauncherXml);
@@ -128,7 +137,7 @@ void createAdaptiveIconMipmapXmlFile(Map<String, dynamic> flutterLauncherIconsCo
 
 /// creates adaptive background using png image
 void _createAdaptiveBackgrounds(
-  Map<String, dynamic> yamlConfig,
+  FlutterLauncherIconsConfig flutterLauncherIconsConfig,
   String adaptiveIconBackgroundImagePath,
   String? flavor,
 ) {
@@ -146,8 +155,8 @@ void _createAdaptiveBackgrounds(
 
   // Creates the xml file required for the adaptive launcher icon
   // FILE LOCATED HERE:  res/mipmap-anydpi/{icon-name-from-yaml-config}.xml
-  if (isCustomAndroidFile(yamlConfig)) {
-    File(constants.androidAdaptiveXmlFolder(flavor) + getNewIconName(yamlConfig) + '.xml')
+  if (flutterLauncherIconsConfig.isCustomAndroidFile) {
+    File(constants.androidAdaptiveXmlFolder(flavor) + flutterLauncherIconsConfig.android + '.xml')
         .create(recursive: true)
         .then((File adaptiveIcon) {
       adaptiveIcon.writeAsString(xml_template.icLauncherDrawableBackgroundXml);
@@ -192,19 +201,6 @@ void updateColorsFile(File colorsFile, String backgroundColor) {
   }
 
   colorsFile.writeAsStringSync(lines.join('\n'));
-}
-
-/// Check to see if specified Android config is a string or bool
-/// String - Generate new launcher icon with the string specified
-/// bool - override the default flutter project icon
-bool isCustomAndroidFile(Map<String, dynamic> config) {
-  final dynamic androidConfig = config['android'];
-  return androidConfig is String;
-}
-
-/// return the new launcher icon file name
-String getNewIconName(Map<String, dynamic> config) {
-  return config['android'];
 }
 
 /// Overrides the existing launcher icons in the project
@@ -271,7 +267,7 @@ List<String> _transformAndroidManifestWithNewLauncherIcon(List<String> oldManife
 /// - build.gradle: `'android/app/build.gradle'`
 /// - local.properties: `'android/local.properties'`
 ///
-/// If found none returns 0
+/// If found none returns [constants.androidDefaultAndroidMinSDK]
 int minSdk() {
   final androidGradleFile = File(constants.androidGradleFile);
   final androidLocalPropertiesFile = File(constants.androidLocalPropertiesFile);
@@ -344,13 +340,6 @@ int? _getMinSdkFlutterGradle(File localPropertiesFile) {
     return int.tryParse(minSdk);
   }
   return null;
-}
-
-/// Method for the retrieval of the Android icon path
-/// If image_path_android is found, this will be prioritised over the image_path
-/// value.
-String getAndroidIconPath(Map<String, dynamic> config) {
-  return config['image_path_android'] ?? config['image_path'];
 }
 
 /// Returns true if the adaptive icon configuration is a PNG image
