@@ -35,7 +35,7 @@ void main() {
     expect(
       FlutterLauncherIconsConfig.fromJson(flutterIconsConfig)
           .isCustomAndroidFile,
-      false,
+      isFalse,
     );
 
     final Map<String, dynamic> flutterIconsNewIconConfig = <String, dynamic>{
@@ -46,7 +46,7 @@ void main() {
     expect(
       FlutterLauncherIconsConfig.fromJson(flutterIconsNewIconConfig)
           .isCustomAndroidFile,
-      true,
+      isTrue,
     );
   });
 
@@ -60,7 +60,7 @@ void main() {
     expect(
       FlutterLauncherIconsConfig.fromJson(flutterIconsNewIconConfig)
           .getImagePathAndroid(),
-      'assets/images/icon-android.png',
+      equals('assets/images/icon-android.png'),
     );
   });
 
