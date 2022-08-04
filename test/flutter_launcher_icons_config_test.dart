@@ -75,7 +75,31 @@ void main() {
         );
       });
     });
-
+    group('#loadConfigFromTestPubSpec', () {
+      test('should return valid configs', () {
+        const String path = 'test/config/test_pubspec.yaml';
+        final configs = FlutterLauncherIconsConfig.loadConfigFromPath(path, '.');
+        expect(configs, isNotNull);
+        const String imagePath = 'assets/images/icon-710x599.png';
+        expect(configs!.imagePath, equals(imagePath));
+        // android configs
+        expect(configs.android, isTrue);
+        expect(configs.imagePathAndroid, isNull);
+        expect(configs.getImagePathAndroid(), equals(imagePath));
+        expect(configs.adaptiveIconBackground, isNull);
+        expect(configs.adaptiveIconForeground, isNull);
+        expect(configs.minSdkAndroid, equals(21));
+        // ios configs
+        expect(configs.ios, isTrue);
+        expect(configs.imagePathIOS, isNull);
+        expect(configs.getImagePathIOS(), equals(imagePath));
+        expect(configs.removeAlphaIOS, isFalse);
+        // web configs
+        expect(configs.webConfig, isNull);
+        // windows
+        expect(configs.windowsConfig, isNull);
+      });
+    });
     group('#loadConfigFromPubSpec', () {
       setUpAll(() async {
         await d.dir('fli_test', [

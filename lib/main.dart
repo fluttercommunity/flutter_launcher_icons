@@ -9,7 +9,6 @@ import 'package:flutter_launcher_icons/custom_exceptions.dart';
 import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
 import 'package:flutter_launcher_icons/ios.dart' as ios_launcher_icons;
 import 'package:flutter_launcher_icons/logger.dart';
-import 'package:flutter_launcher_icons/pubspec_parser.dart';
 import 'package:flutter_launcher_icons/web/web_icon_generator.dart';
 import 'package:flutter_launcher_icons/windows/windows_icon_generator.dart';
 import 'package:path/path.dart' as path;
@@ -20,9 +19,6 @@ const String verboseFlag = 'verbose';
 const String prefixOption = 'prefix';
 const String defaultConfigFile = 'flutter_launcher_icons.yaml';
 const String flavorConfigFilePattern = r'^flutter_launcher_icons-(.*).yaml$';
-
-/// todo: remove this as it is moved to utils.dart
-String flavorConfigFile(String flavor) => 'flutter_launcher_icons-$flavor.yaml';
 
 List<String> getFlavors() {
   final List<String> flavors = [];
@@ -68,26 +64,21 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   final flavors = getFlavors();
   final hasFlavors = flavors.isNotEmpty;
 
-  // Load the config file
-  final Map<String, dynamic>? yamlConfig = loadConfigFileFromArgResults(argResults, verbose: true);
   final String prefixPath = argResults[prefixOption];
-
-  // Load configs from given file(defaults to ./flutter_launcher_icons.yaml) or from ./pubspec.yaml
-
-  final flutterLauncherIconsConfigs =
-      FlutterLauncherIconsConfig.loadConfigFromPath(argResults[fileOption], prefixPath) ??
-          FlutterLauncherIconsConfig.loadConfigFromPubSpec(prefixPath);
-  if (yamlConfig == null || flutterLauncherIconsConfigs == null) {
-    throw NoConfigFoundException(
-      'No configuration found in $defaultConfigFile or in ${constants.pubspecFilePath}. '
-      'In case file exists in different directory use --file option',
-    );
-  }
 
   // Create icons
   if (!hasFlavors) {
+    // Load configs from given file(defaults to ./flutter_launcher_icons.yaml) or from ./pubspec.yaml
+
+    final flutterLauncherIconsConfigs = loadConfigFileFromArgResults(argResults);
+    if (flutterLauncherIconsConfigs == null) {
+      throw NoConfigFoundException(
+        'No configuration found in $defaultConfigFile or in ${constants.pubspecFilePath}. '
+            'In case file exists in different directory use --file option',
+      );
+    }
     try {
-      await createIconsFromConfig(yamlConfig, flutterLauncherIconsConfigs, logger, prefixPath);
+      await createIconsFromConfig(flutterLauncherIconsConfigs, logger, prefixPath);
       print('\n✓ Successfully generated launcher icons');
     } catch (e) {
       stderr.writeln('\n✕ Could not generate launcher icons');
@@ -98,8 +89,13 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
     try {
       for (String flavor in flavors) {
         print('\nFlavor: $flavor');
-        final Map<String, dynamic> yamlConfig = loadConfigFile(flavorConfigFile(flavor), flavorConfigFile(flavor));
-        await createIconsFromConfig(yamlConfig, flutterLauncherIconsConfigs, logger, prefixPath, flavor);
+        final flutterLauncherIconsConfigs = FlutterLauncherIconsConfig.loadConfigFromFlavor(flavor, prefixPath);
+        if (flutterLauncherIconsConfigs == null) {
+          throw NoConfigFoundException(
+            'No configuration found for $flavor flavor.',
+          );
+        }
+        await createIconsFromConfig(flutterLauncherIconsConfigs, logger, prefixPath, flavor);
       }
       print('\n✓ Successfully generated launcher icons for flavors');
     } catch (e) {
@@ -111,37 +107,23 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
 }
 
 Future<void> createIconsFromConfig(
-  Map<String, dynamic> config,
   FlutterLauncherIconsConfig flutterConfigs,
   FLILogger logger,
   String prefixPath, [
   String? flavor,
 ]) async {
-  if (!isImagePathInConfig(config)) {
-    throw const InvalidConfigException(errorMissingImagePath);
-  }
-  if (!hasPlatformConfig(config)) {
+  if (!flutterConfigs.hasPlatformConfig) {
     throw const InvalidConfigException(errorMissingPlatform);
   }
 
-  if (isNeedingNewAndroidIcon(config) || hasAndroidAdaptiveConfig(config)) {
-    final int minSdk = config['min_sdk_android'] ?? android_launcher_icons.minSdk();
-    if (minSdk == 0) {
-      throw const InvalidConfigException(errorMissingMinSdk);
-    }
-    if (minSdk < 26 && hasAndroidAdaptiveConfig(config) && !hasAndroidConfig(config)) {
-      throw const InvalidConfigException(errorMissingRegularAndroid);
-    }
+  if (flutterConfigs.isNeedingNewAndroidIcon) {
+    android_launcher_icons.createDefaultIcons(flutterConfigs, flavor);
   }
-
-  if (isNeedingNewAndroidIcon(config)) {
-    android_launcher_icons.createDefaultIcons(config, flavor);
+  if (flutterConfigs.hasAndroidAdaptiveConfig) {
+    android_launcher_icons.createAdaptiveIcons(flutterConfigs, flavor);
   }
-  if (hasAndroidAdaptiveConfig(config)) {
-    android_launcher_icons.createAdaptiveIcons(config, flavor);
-  }
-  if (isNeedingNewIOSIcon(config)) {
-    ios_launcher_icons.createIcons(config, flavor);
+  if (flutterConfigs.isNeedingNewIOSIcon) {
+    ios_launcher_icons.createIcons(flutterConfigs, flavor);
   }
 
   // Generates Icons for given platform
@@ -158,101 +140,10 @@ Future<void> createIconsFromConfig(
   );
 }
 
-Map<String, dynamic>? loadConfigFileFromArgResults(ArgResults argResults, {bool verbose = false}) {
-  final String? configFile = argResults[fileOption];
-  final String? fileOptionResult = argResults[fileOption];
-
-  // if icon is given, try to load icon
-  if (configFile != null && configFile != defaultConfigFile) {
-    try {
-      return loadConfigFile(configFile, fileOptionResult);
-    } catch (e) {
-      if (verbose) {
-        stderr.writeln(e);
-      }
-
-      return null;
-    }
-  }
-
-  // If none set try flutter_launcher_icons.yaml first then pubspec.yaml
-  // for compatibility
-  try {
-    return loadConfigFile(defaultConfigFile, fileOptionResult);
-  } catch (e) {
-    // Try pubspec.yaml for compatibility
-    if (configFile == null) {
-      try {
-        return loadConfigFile('pubspec.yaml', fileOptionResult);
-      } catch (_) {}
-    }
-
-    // if nothing got returned, print error
-    if (verbose) {
-      stderr.writeln(e);
-    }
-  }
-
-  return null;
-}
-
-Map<String, dynamic> loadConfigFile(String path, String? fileOptionResult) {
-  final yamlMap = PubspecParser.fromPathToMap(path);
-
-  if (yamlMap['flutter_icons'] is! Map) {
-    stderr.writeln(NoConfigFoundException('Check that your config file '
-        '`${fileOptionResult ?? defaultConfigFile}`'
-        ' has a `flutter_icons` section'));
-    exit(1);
-  }
-
-  // yamlMap has the type YamlMap, which has several unwanted sideeffects
-  final Map<String, dynamic> config = <String, dynamic>{};
-  for (MapEntry<dynamic, dynamic> entry in yamlMap['flutter_icons'].entries) {
-    config[entry.key] = entry.value;
-  }
-
-  return config;
-}
-
-bool isImagePathInConfig(Map<String, dynamic> flutterIconsConfig) {
-  return flutterIconsConfig.containsKey('image_path') ||
-      (flutterIconsConfig.containsKey('image_path_android') && flutterIconsConfig.containsKey('image_path_ios')) ||
-      flutterIconsConfig.containsKey('web');
-}
-
-bool hasPlatformConfig(Map<String, dynamic> flutterIconsConfig) {
-  return hasAndroidConfig(flutterIconsConfig) || hasIOSConfig(flutterIconsConfig) || hasWebConfig(flutterIconsConfig);
-}
-
-bool hasAndroidConfig(Map<String, dynamic> flutterLauncherIcons) {
-  return flutterLauncherIcons.containsKey('android');
-}
-
-bool isNeedingNewAndroidIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
-  return hasAndroidConfig(flutterLauncherIconsConfig) && flutterLauncherIconsConfig['android'] != false;
-}
-
-bool hasAndroidAdaptiveConfig(Map<String, dynamic> flutterLauncherIconsConfig) {
-  return isNeedingNewAndroidIcon(flutterLauncherIconsConfig) &&
-      flutterLauncherIconsConfig.containsKey('adaptive_icon_background') &&
-      flutterLauncherIconsConfig.containsKey('adaptive_icon_foreground');
-}
-
-bool hasIOSConfig(Map<String, dynamic> flutterLauncherIconsConfig) {
-  return flutterLauncherIconsConfig.containsKey('ios');
-}
-
-bool isNeedingNewIOSIcon(Map<String, dynamic> flutterLauncherIconsConfig) {
-  return hasIOSConfig(flutterLauncherIconsConfig) && flutterLauncherIconsConfig['ios'] != false;
-}
-
-/// Checks if the [flutterLauncherIconsConfig] contains web configs
-bool hasWebConfig(Map<String, dynamic> flutterLauncherIconsConfig) {
-  return flutterLauncherIconsConfig.containsKey('web');
-}
-
-/// Checks if we should generate icons for web platform
-bool isNeddingNewWebIcons(Map<String, dynamic> flutterLauncherIconsConfig) {
-  return hasWebConfig(flutterLauncherIconsConfig) && flutterLauncherIconsConfig['web'] != false;
+FlutterLauncherIconsConfig? loadConfigFileFromArgResults(ArgResults argResults) {
+  final String prefixPath = argResults[prefixOption];
+  final flutterLauncherIconsConfigs =
+      FlutterLauncherIconsConfig.loadConfigFromPath(argResults[fileOption], prefixPath) ??
+          FlutterLauncherIconsConfig.loadConfigFromPubSpec(prefixPath);
+  return flutterLauncherIconsConfigs;
 }

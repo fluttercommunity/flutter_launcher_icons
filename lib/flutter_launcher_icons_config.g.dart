@@ -25,7 +25,7 @@ FlutterLauncherIconsConfig _$FlutterLauncherIconsConfigFromJson(Map json) =>
           minSdkAndroid:
               $checkedConvert('min_sdk_android', (v) => v as int? ?? 21),
           removeAlphaIOS:
-              $checkedConvert('remove_alpha_ios', (v) => v as bool? ?? true),
+              $checkedConvert('remove_alpha_ios', (v) => v as bool? ?? false),
           webConfig: $checkedConvert(
               'web', (v) => v == null ? null : WebConfig.fromJson(v as Map)),
           windowsConfig: $checkedConvert('windows',

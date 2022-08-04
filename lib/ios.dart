@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_launcher_icons/custom_exceptions.dart';
+import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:image/image.dart';
 import 'package:flutter_launcher_icons/constants.dart';
@@ -36,22 +38,26 @@ List<IosIconTemplate> iosIcons = <IosIconTemplate>[
   IosIconTemplate(name: '-1024x1024@1x', size: 1024),
 ];
 
-void createIcons(Map<String, dynamic> config, String? flavor) {
-  final String filePath = config['image_path_ios'] ?? config['image_path'];
+void createIcons(FlutterLauncherIconsConfig config, String? flavor) {
+  // todo: support prefixPath
+  final String? filePath = config.getImagePathIOS();
+  if (filePath == null) {
+    throw const InvalidConfigException(errorMissingImagePath);
+  }
   // decodeImageFile shows error message if null
   // so can return here if image is null
   final Image? image = decodeImage(File(filePath).readAsBytesSync());
   if (image == null) {
     return;
   }
-  if (config['remove_alpha_ios'] is bool && config['remove_alpha_ios']) {
+  if (config.removeAlphaIOS) {
     image.channels = Channels.rgb;
   }
   if (image.channels == Channels.rgba) {
     print('\nWARNING: Icons with alpha channel are not allowed in the Apple App Store.\nSet "remove_alpha_ios: true" to remove it.\n');
   }
   String iconName;
-  final dynamic iosConfig = config['ios'];
+  final dynamic iosConfig = config.ios;
   if (flavor != null) {
     final String catalogName = 'AppIcon-$flavor';
     printStatus('Building iOS launcher icon for $flavor');
