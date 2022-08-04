@@ -1,6 +1,6 @@
 name: flutter_launcher_icons
 description: A package which simplifies the task of updating your Flutter app's launcher icon.
-version: 0.9.3
+version: 0.10.0
 maintainer: Mark O'Sullivan (@MarkOSullivan94)
 homepage: https://github.com/fluttercommunity/flutter_launcher_icons
 
@@ -14,11 +14,11 @@ dependencies:
   yaml: ^3.1.0
 
 environment:
-  sdk: '>=2.12.0-0 <3.0.0'
+  sdk: '>=2.12.0 <3.0.0'
 
 dev_dependencies:
   # Needed by build_version
-  build_runner: 2.1.11
+  build_runner: ^2.2.0
   # allows us to get version number from pubspec yaml which we can pass to Sentry
   # https://pub.dev/packages/build_version
   build_version: ^2.1.1
