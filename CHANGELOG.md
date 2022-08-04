@@ -7,6 +7,7 @@
 - Added missing IOS icon sizes [#298](https://github.com/fluttercommunity/flutter_launcher_icons/pull/298)
 - Added `min_sdk_android` option [#392](https://github.com/fluttercommunity/flutter_launcher_icons/pull/392)
 - Added documentation for `remove_alpha_ios` [#392](https://github.com/fluttercommunity/flutter_launcher_icons/pull/392)
+- Fixed issue with loading config from `pubspec.yaml` [#398](https://github.com/fluttercommunity/flutter_launcher_icons/pull/398) (thanks to [@p-mazhnik](https://github.com/p-mazhnik))
 
 ## 0.9.3 (6th June 2022)
 
