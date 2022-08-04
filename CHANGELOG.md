@@ -53,11 +53,9 @@
 - Lot of refactoring and improving code quality (thanks to @connectety)
 - Added correct App Store icon settings (thanks to @richgoldmd)
 
-
 ## 0.7.2 (25th May 2019)
 
 - Reverted back using old interpolation method
-
 
 ## 0.7.1 (24th May 2019)
 
@@ -68,11 +66,11 @@
 
 ## 0.7.0 (22nd November 2018)
 
- - Now ensuring that the Android file name is valid - An error will be thrown if it doesn't meet the criteria
- - Fixed issue where there was a git diff when there was no change
- - Fixed issue where iOS icon would be generated when it shouldn't be
- - Added support for drawables to be used for adaptive icon backgrounds
- - Added support for Flutter Launcher Icons to be able to run with it's own config file (no longer necessary to add to pubspec.yaml)
+- Now ensuring that the Android file name is valid - An error will be thrown if it doesn't meet the criteria
+- Fixed issue where there was a git diff when there was no change
+- Fixed issue where iOS icon would be generated when it shouldn't be
+- Added support for drawables to be used for adaptive icon backgrounds
+- Added support for Flutter Launcher Icons to be able to run with it's own config file (no longer necessary to add to pubspec.yaml)
 
 ## 0.6.1 (26th August 2018)
 
@@ -95,26 +93,21 @@
 
 - [Android] Support for adaptive icons added (Suggestion #23)
 
-
 ## 0.4.0 (9th June 2018)
 
 - Now possible to generate icons for each platform with different image paths (one for iOS icon and a separate one for Android)
-
 
 ## 0.3.3 (28th May 2018)
 
 - Upgraded dart image package dependency to 2.0.0 (issue #26)
 
-
 ## 0.3.2 (2nd May 2018)
 
 - Bug fixing
 
-
 ## 0.3.1 (1st May 2018)
 
 - Bug fixing
-
 
 ## 0.3.0 (1st May 2018)
 
@@ -128,7 +121,6 @@
 - Added extra iOS icon size (1024x1024)
 - Fixed iOS default icon name (Thanks to PR #15 - Thank you!)
 - Fixed issue #10 where creation of the icons was failing due to the target folder not existing
-
 
 ## 0.2.0 (18th January 2018)
 
