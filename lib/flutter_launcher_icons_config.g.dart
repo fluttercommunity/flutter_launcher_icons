@@ -22,14 +22,16 @@ FlutterLauncherIconsConfig _$FlutterLauncherIconsConfigFromJson(Map json) =>
               $checkedConvert('adaptive_icon_foreground', (v) => v as String?),
           adaptiveIconBackground:
               $checkedConvert('adaptive_icon_background', (v) => v as String?),
-          minSdkAndroid:
-              $checkedConvert('min_sdk_android', (v) => v as int? ?? 21),
+          minSdkAndroid: $checkedConvert('min_sdk_android',
+              (v) => v as int? ?? constants.androidDefaultAndroidMinSDK),
           removeAlphaIOS:
               $checkedConvert('remove_alpha_ios', (v) => v as bool? ?? false),
           webConfig: $checkedConvert(
               'web', (v) => v == null ? null : WebConfig.fromJson(v as Map)),
           windowsConfig: $checkedConvert('windows',
               (v) => v == null ? null : WindowsConfig.fromJson(v as Map)),
+          macOSConfig: $checkedConvert('macos',
+              (v) => v == null ? null : MacOSConfig.fromJson(v as Map)),
         );
         return val;
       },
@@ -42,7 +44,8 @@ FlutterLauncherIconsConfig _$FlutterLauncherIconsConfigFromJson(Map json) =>
         'minSdkAndroid': 'min_sdk_android',
         'removeAlphaIOS': 'remove_alpha_ios',
         'webConfig': 'web',
-        'windowsConfig': 'windows'
+        'windowsConfig': 'windows',
+        'macOSConfig': 'macos'
       },
     );
 
@@ -60,6 +63,26 @@ Map<String, dynamic> _$FlutterLauncherIconsConfigToJson(
       'remove_alpha_ios': instance.removeAlphaIOS,
       'web': instance.webConfig,
       'windows': instance.windowsConfig,
+      'macos': instance.macOSConfig,
+    };
+
+MacOSConfig _$MacOSConfigFromJson(Map json) => $checkedCreate(
+      'MacOSConfig',
+      json,
+      ($checkedConvert) {
+        final val = MacOSConfig(
+          generate: $checkedConvert('generate', (v) => v as bool? ?? false),
+          imagePath: $checkedConvert('image_path', (v) => v as String?),
+        );
+        return val;
+      },
+      fieldKeyMap: const {'imagePath': 'image_path'},
+    );
+
+Map<String, dynamic> _$MacOSConfigToJson(MacOSConfig instance) =>
+    <String, dynamic>{
+      'generate': instance.generate,
+      'image_path': instance.imagePath,
     };
 
 WebConfig _$WebConfigFromJson(Map json) => $checkedCreate(

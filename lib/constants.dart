@@ -63,6 +63,17 @@ String windowsIconFilePath = path.join(windowsResourcesDirPath, 'app_icon.ico');
 ///
 const int windowsDefaultIconSize = 48;
 
+// MacOS
+
+/// Relative path to macos folder
+final macOSDirPath = path.join('macos');
+
+/// Relative path to macos icons folder
+final macOSIconsDirPath = path.join(macOSDirPath, 'Runner', 'Assets.xcassets', 'AppIcon.appiconset');
+
+/// Relative path to macos contents.json
+final macOSContentsFilePath = path.join(macOSIconsDirPath, 'Contents.json');
+
 const String errorMissingImagePath =
     'Missing "image_path" or "image_path_android" + "image_path_ios" within configuration';
 const String errorMissingPlatform = 'No platform specified within config to generate icons for.';
