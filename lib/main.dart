@@ -9,6 +9,7 @@ import 'package:flutter_launcher_icons/custom_exceptions.dart';
 import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
 import 'package:flutter_launcher_icons/ios.dart' as ios_launcher_icons;
 import 'package:flutter_launcher_icons/logger.dart';
+import 'package:flutter_launcher_icons/macos/macos_icon_generator.dart';
 import 'package:flutter_launcher_icons/web/web_icon_generator.dart';
 import 'package:flutter_launcher_icons/windows/windows_icon_generator.dart';
 import 'package:path/path.dart' as path;
@@ -74,7 +75,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
     if (flutterLauncherIconsConfigs == null) {
       throw NoConfigFoundException(
         'No configuration found in $defaultConfigFile or in ${constants.pubspecFilePath}. '
-            'In case file exists in different directory use --file option',
+        'In case file exists in different directory use --file option',
       );
     }
     try {
@@ -135,6 +136,7 @@ Future<void> createIconsFromConfig(
     platforms: (context) => [
       WebIconGenerator(context),
       WindowsIconGenerator(context),
+      MacOSIconGenerator(context),
       // todo: add other platforms
     ],
   );

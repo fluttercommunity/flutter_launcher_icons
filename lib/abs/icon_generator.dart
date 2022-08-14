@@ -58,6 +58,9 @@ class IconGeneratorContext {
 
   /// Shortcut for `config.windowsConfig`
   WindowsConfig? get windowsConfig => config.windowsConfig;
+
+  /// Shortcut for `config.macOSConfig`
+  MacOSConfig? get macOSConfig => config.macOSConfig;
 }
 
 /// Generates Icon for given platforms

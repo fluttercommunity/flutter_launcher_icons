@@ -43,7 +43,7 @@ class FlutterLauncherIconsConfig {
   final String? adaptiveIconBackground;
 
   /// Android min_sdk_android
-  @JsonKey(name: 'min_sdk_android', defaultValue: constants.androidDefaultAndroidMinSDK)
+  @JsonKey(name: 'min_sdk_android')
   final int minSdkAndroid;
 
   /// IOS remove_alpha_ios
@@ -58,6 +58,10 @@ class FlutterLauncherIconsConfig {
   @JsonKey(name: 'windows')
   final WindowsConfig? windowsConfig;
 
+  /// MacOS platform config
+  @JsonKey(name: 'macos')
+  final MacOSConfig? macOSConfig;
+
   /// Creates an instance of [FlutterLauncherIconsConfig]
   const FlutterLauncherIconsConfig({
     this.imagePath,
@@ -71,10 +75,47 @@ class FlutterLauncherIconsConfig {
     this.removeAlphaIOS = false,
     this.webConfig,
     this.windowsConfig,
+    this.macOSConfig,
   });
 
   /// Creates [FlutterLauncherIconsConfig] icons from [json]
   factory FlutterLauncherIconsConfig.fromJson(Map json) => _$FlutterLauncherIconsConfigFromJson(json);
+
+  bool get hasAndroidAdaptiveConfig =>
+      isNeedingNewAndroidIcon && adaptiveIconForeground != null && adaptiveIconBackground != null;
+
+  /// Checks if contains any platform config
+  bool get hasPlatformConfig {
+    return ios != false || android != false || webConfig != null || windowsConfig != null || macOSConfig != null;
+  }
+
+  /// Check to see if specified Android config is a string or bool
+  /// String - Generate new launcher icon with the string specified
+  /// bool - override the default flutter project icon
+  bool get isCustomAndroidFile => android is String;
+
+  bool get isNeedingNewAndroidIcon => android != false;
+
+  bool get isNeedingNewIOSIcon => ios != false;
+
+  /// Method for the retrieval of the Android icon path
+  /// If image_path_android is found, this will be prioritised over the image_path
+  /// value.
+  String? getImagePathAndroid() => imagePathAndroid ?? imagePath;
+  // todo: refactor after Android & iOS configs will be refactored to the new schema
+  // https://github.com/fluttercommunity/flutter_launcher_icons/issues/394
+  String? getImagePathIOS() => imagePathIOS ?? imagePath;
+
+  /// Converts config to [Map]
+  Map<String, dynamic> toJson() => _$FlutterLauncherIconsConfigToJson(this);
+
+  @override
+  String toString() => 'FlutterLauncherIconsConfig: ${toJson()}';
+
+  /// Creates [FlutterLauncherIconsConfig] for given [flavor] and [prefixPath]
+  static FlutterLauncherIconsConfig? loadConfigFromFlavor(String flavor, String prefixPath) {
+    return FlutterLauncherIconsConfig.loadConfigFromPath(utils.flavorConfigFile(flavor), prefixPath);
+  }
 
   /// Loads flutter launcher icons configs from given [filePath]
   static FlutterLauncherIconsConfig? loadConfigFromPath(String filePath, String prefixPath) {
@@ -125,45 +166,36 @@ class FlutterLauncherIconsConfig {
       rethrow;
     }
   }
+}
 
-  /// Creates [FlutterLauncherIconsConfig] for given [flavor] and [prefixPath]
-  static FlutterLauncherIconsConfig? loadConfigFromFlavor(String flavor, String prefixPath) {
-    return FlutterLauncherIconsConfig.loadConfigFromPath(utils.flavorConfigFile(flavor), prefixPath);
-  }
+/// A Configs for Windows
+@JsonSerializable(
+  anyMap: true,
+  checked: true,
+)
+class MacOSConfig {
+  /// Specifies weather to generate icons for macos
+  @JsonKey()
+  final bool generate;
 
-  /// Converts config to [Map]
-  Map<String, dynamic> toJson() => _$FlutterLauncherIconsConfigToJson(this);
+  /// Image path for macos
+  @JsonKey(name: 'image_path')
+  final String? imagePath;
+
+  /// Creates a instance of [MacOSConfig]
+  const MacOSConfig({
+    this.generate = false,
+    this.imagePath,
+  });
+
+  /// Creates [WebConfig] from [json]
+  factory MacOSConfig.fromJson(Map json) => _$MacOSConfigFromJson(json);
+
+  /// Creates [Map] from [WebConfig]
+  Map<String, dynamic> toJson() => _$MacOSConfigToJson(this);
 
   @override
-  String toString() => 'FlutterLauncherIconsConfig: ${toJson()}';
-
-  bool get isNeedingNewIOSIcon => ios != false;
-  bool get isNeedingNewAndroidIcon => android != false;
-  bool get hasAndroidAdaptiveConfig =>
-      isNeedingNewAndroidIcon &&
-      adaptiveIconForeground != null &&
-      adaptiveIconBackground != null;
-
-  // todo: refactor after Android & iOS configs will be refactored to the new schema
-  // https://github.com/fluttercommunity/flutter_launcher_icons/issues/394
-  String? getImagePathIOS() => imagePathIOS ?? imagePath;
-
-  /// Method for the retrieval of the Android icon path
-  /// If image_path_android is found, this will be prioritised over the image_path
-  /// value.
-  String? getImagePathAndroid() => imagePathAndroid ?? imagePath;
-
-  /// Check to see if specified Android config is a string or bool
-  /// String - Generate new launcher icon with the string specified
-  /// bool - override the default flutter project icon
-  bool get isCustomAndroidFile => android is String;
-
-  /// Checks if contains any platform config
-  bool get hasPlatformConfig =>
-      ios != false ||
-      android != false ||
-      webConfig != null ||
-      windowsConfig != null;
+  String toString() => '$runtimeType: ${toJson()}';
 }
 
 /// Parse `web` config from `flutter_launcher_icons.yaml`
