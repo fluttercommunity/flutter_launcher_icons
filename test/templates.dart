@@ -20,6 +20,9 @@ flutter_icons:
     generate: true
     image_path: "app_icon.png"
     icon_size: 48
+  macos:
+    generate: true
+    image_path: "app_icon.png"
 ''';
 
 const flavorFLIConfigTemplate = fliConfigTemplate;
@@ -138,6 +141,9 @@ flutter_icons:
     generate: true
     image_path: "app_icon.png"
     icon_size: 48
+  macos:
+    generate: true
+    image_path: "app_icon.png"
 ''';
 
 const invalidPubspecTemplate = r'''
@@ -299,3 +305,74 @@ const webIndexTemplate = r'''
 </html>
 
 ''';
+
+// macos
+const macOSContentsJsonFile = r'''
+{
+    "info": {
+        "version": 1,
+        "author": "xcode"
+    },
+    "images": [
+        {
+            "size": "16x16",
+            "idiom": "mac",
+            "filename": "app_icon_16.png",
+            "scale": "1x"
+        },
+        {
+            "size": "16x16",
+            "idiom": "mac",
+            "filename": "app_icon_32.png",
+            "scale": "2x"
+        },
+        {
+            "size": "32x32",
+            "idiom": "mac",
+            "filename": "app_icon_32.png",
+            "scale": "1x"
+        },
+        {
+            "size": "32x32",
+            "idiom": "mac",
+            "filename": "app_icon_64.png",
+            "scale": "2x"
+        },
+        {
+            "size": "128x128",
+            "idiom": "mac",
+            "filename": "app_icon_128.png",
+            "scale": "1x"
+        },
+        {
+            "size": "128x128",
+            "idiom": "mac",
+            "filename": "app_icon_256.png",
+            "scale": "2x"
+        },
+        {
+            "size": "256x256",
+            "idiom": "mac",
+            "filename": "app_icon_256.png",
+            "scale": "1x"
+        },
+        {
+            "size": "256x256",
+            "idiom": "mac",
+            "filename": "app_icon_512.png",
+            "scale": "2x"
+        },
+        {
+            "size": "512x512",
+            "idiom": "mac",
+            "filename": "app_icon_512.png",
+            "scale": "1x"
+        },
+        {
+            "size": "512x512",
+            "idiom": "mac",
+            "filename": "app_icon_1024.png",
+            "scale": "2x"
+        }
+    ]
+}''';
