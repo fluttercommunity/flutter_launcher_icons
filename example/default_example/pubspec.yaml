@@ -25,13 +25,16 @@ flutter_icons:
   remove_alpha_ios: true
   web:
     generate: true
-    image_path: "path/to/image.png"
+    image_path: "assets/images/icon-1024x1024.png"
     background_color: "#hexcode"
     theme_color: "#hexcode"
   windows:
     generate: true
-    image_path: "path/to/image.png"
+    image_path: "assets/images/icon-1024x1024.png"
     icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/images/icon-1024x1024.png"
 
 dev_dependencies:
   flutter_test:
