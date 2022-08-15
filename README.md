@@ -31,6 +31,9 @@ flutter_icons:
     generate: true
     image_path: "path/to/image.png"
     icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "path/to/image.png"
 ```
 
 If you name your configuration file something other than `flutter_launcher_icons.yaml` or `pubspec.yaml` you will need to specify
@@ -86,6 +89,10 @@ Shown below is the full list of attributes which you can specify within your Flu
   - `generate`: Specifies weather to generate icons for Windows platform or not
   - `image_path`: Path to web icon.png
   - `icon_size`: Windows app icon size. Icon size should be within this constrains *48<=icon_size<=256, defaults to 48*
+  
+- `macos`: Add MacOS related configs
+  - `generate`: Specifies weather to generate icons for MacOS platform or not
+  - `image_path`: Path to macos icon.png file
 
 *Note: iOS icons should [fill the entire image](https://stackoverflow.com/questions/26014461/black-border-on-my-ios-icon) and not contain transparent borders.*
 
