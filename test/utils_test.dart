@@ -117,11 +117,11 @@ void main() {
   });
 
   group('#prettifyJsonEncode', () {
-    test('should return prettiffed json string 2 indents', () {
+    test('should return prettiffed json string 4 indents', () {
       const expectedValue = r'''
 {
-  "key1": "value1",
-  "key2": "value2"
+    "key1": "value1",
+    "key2": "value2"
 }''';
       final result = utils.prettifyJsonEncode({
         'key1': 'value1',
