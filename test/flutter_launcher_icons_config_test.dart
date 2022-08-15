@@ -61,6 +61,17 @@ void main() {
             'icon_size': 48,
           }),
         );
+        // macos
+        expect(configs.macOSConfig, isNotNull);
+        expect(configs.macOSConfig!.generate, isNotNull);
+        expect(configs.macOSConfig!.imagePath, isNotNull);
+        expect(
+          configs.macOSConfig!.toJson(),
+          equals(<String, dynamic>{
+            'generate': true,
+            'image_path': 'app_icon.png',
+          }),
+        );
       });
 
       test('should return null when invalid filePath is given', () {
@@ -98,6 +109,8 @@ void main() {
         expect(configs.webConfig, isNull);
         // windows
         expect(configs.windowsConfig, isNull);
+        // macos
+        expect(configs.macOSConfig, isNull);
       });
     });
     group('#loadConfigFromPubSpec', () {
@@ -148,6 +161,17 @@ void main() {
             'generate': true,
             'image_path': 'app_icon.png',
             'icon_size': 48,
+          }),
+        );
+        // macos
+        expect(configs.macOSConfig, isNotNull);
+        expect(configs.macOSConfig!.generate, isNotNull);
+        expect(configs.macOSConfig!.imagePath, isNotNull);
+        expect(
+          configs.macOSConfig!.toJson(),
+          equals(<String, dynamic>{
+            'generate': true,
+            'image_path': 'app_icon.png',
           }),
         );
       });
@@ -211,6 +235,17 @@ void main() {
             'generate': true,
             'image_path': 'app_icon.png',
             'icon_size': 48,
+          }),
+        );
+        // macos
+        expect(configs.macOSConfig, isNotNull);
+        expect(configs.macOSConfig!.generate, isNotNull);
+        expect(configs.macOSConfig!.imagePath, isNotNull);
+        expect(
+          configs.macOSConfig!.toJson(),
+          equals(<String, dynamic>{
+            'generate': true,
+            'image_path': 'app_icon.png',
           }),
         );
       });
