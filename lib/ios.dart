@@ -54,7 +54,8 @@ void createIcons(FlutterLauncherIconsConfig config, String? flavor) {
     image.channels = Channels.rgb;
   }
   if (image.channels == Channels.rgba) {
-    print('\nWARNING: Icons with alpha channel are not allowed in the Apple App Store.\nSet "remove_alpha_ios: true" to remove it.\n');
+    print(
+        '\nWARNING: Icons with alpha channel are not allowed in the Apple App Store.\nSet "remove_alpha_ios: true" to remove it.\n');
   }
   String iconName;
   final dynamic iosConfig = config.ios;
@@ -262,13 +263,13 @@ List<Map<String, String>> createImageList(String fileNamePrefix) {
         .toJson(),
     ContentsImageObject(
             size: '50x50',
-            idiom: 'iphone',
+            idiom: 'ipad',
             filename: '$fileNamePrefix-50x50@1x.png',
             scale: '1x')
         .toJson(),
     ContentsImageObject(
             size: '50x50',
-            idiom: 'iphone',
+            idiom: 'ipad',
             filename: '$fileNamePrefix-50x50@2x.png',
             scale: '2x')
         .toJson(),
@@ -281,7 +282,7 @@ List<Map<String, String>> createImageList(String fileNamePrefix) {
     ContentsImageObject(
             size: '57x57',
             idiom: 'iphone',
-            filename: '$fileNamePrefix-57x57@3x.png',
+            filename: '$fileNamePrefix-57x57@2x.png',
             scale: '2x')
         .toJson(),
     ContentsImageObject(
