@@ -4,7 +4,7 @@ version: 0.10.0
 maintainer: Mark O'Sullivan (@MarkOSullivan94)
 homepage: https://github.com/fluttercommunity/flutter_launcher_icons
 repository: https://github.com/fluttercommunity/flutter_launcher_icons/
-issue_tracker: https://github.com/fluttercommunity/flutter_launcher_icons/issues/new?assignees=&labels=&template=bug_report.md&title=%5BBUG%5D+
+issue_tracker: https://github.com/fluttercommunity/flutter_launcher_icons/issues
 
 dependencies:
   args: ^2.2.0
