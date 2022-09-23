@@ -15,7 +15,7 @@ An example is shown below. More complex examples [can be found in the example pr
 
 ```yaml
 dev_dependencies:
-  flutter_launcher_icons: "^0.10.0"
+  flutter_launcher_icons: "^0.10.1"
 
 flutter_icons:
   android: "launcher_icon"
