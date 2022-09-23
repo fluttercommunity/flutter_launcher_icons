@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.10.1
+
+- Support for Macos Icons [#407](https://github.com/fluttercommunity/flutter_launcher_icons/pull/407)
+- Cli-improvement [#400](https://github.com/fluttercommunity/flutter_launcher_icons/pull/400)
+- Add `repository` and `issue_tracker` [#411](https://github.com/fluttercommunity/flutter_launcher_icons/pull/411) (thanks to [patelpathik](https://github.com/patelpathik))
+- Fix indent in web/manifest.json [#407](https://github.com/fluttercommunity/flutter_launcher_icons/pull/407)
+- Fix the icons 50 and 57 in `contents.json` [#412](https://github.com/fluttercommunity/flutter_launcher_icons/pull/412) (thanks to [adnanjpg](https://github.com/adnanjpg))
+- Fix typos 
+
 ## 0.10.0 (2nd August 2022)
 
 - Support for Web Icons [#374](https://github.com/fluttercommunity/flutter_launcher_icons/pull/374)
