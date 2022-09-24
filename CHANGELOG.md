@@ -8,6 +8,7 @@
 - Fix indent in web/manifest.json [#407](https://github.com/fluttercommunity/flutter_launcher_icons/pull/407)
 - Fix the icons 50 and 57 in `contents.json` [#412](https://github.com/fluttercommunity/flutter_launcher_icons/pull/412) (thanks to [@adnanjpg](https://github.com/adnanjpg))
 - Fix typos [#405](https://github.com/fluttercommunity/flutter_launcher_icons/pull/405) (thanks to [@edwardmp](https://github.com/edwardmp))
+- Added newline to EOF [#325](https://github.com/fluttercommunity/flutter_launcher_icons/pull/325) (thanks to [@sandersaelmans](https://github.com/sandersaelmans))
 
 ## 0.10.0 (2nd August 2022)
 
