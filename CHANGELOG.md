@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.10.1
+## 0.11.0 (27th September 2022)
 
 - Support for Macos Icons [#407](https://github.com/fluttercommunity/flutter_launcher_icons/pull/407)
 - Cli-improvement [#400](https://github.com/fluttercommunity/flutter_launcher_icons/pull/400)
