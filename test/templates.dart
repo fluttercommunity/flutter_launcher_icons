@@ -63,7 +63,7 @@ flutter_icons:
     icon_size: 258
 ''';
 
-const invlaidfliConfigTemplate = r'''
+const invalidfliConfigTemplate = r'''
 # flutter_icons
 android: true
 ios: true
