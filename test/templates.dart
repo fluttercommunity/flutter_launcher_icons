@@ -46,23 +46,6 @@ flutter_icons:
     icon_size: 48
 ''';
 
-const fliWindowsConfigWithInvalidIconSize = r'''
-flutter_icons:
-  windows:
-    generate: true
-    image_path: "app_icon.png"
-    icon_size: 258
-''';
-
-const fliWindowsConfigWithNullImagePath = r'''
-flutter_icons:
-  image_path: null
-  windows:
-    generate: true
-    image_path: null
-    icon_size: 258
-''';
-
 const invalidfliConfigTemplate = r'''
 # flutter_icons
 android: true
