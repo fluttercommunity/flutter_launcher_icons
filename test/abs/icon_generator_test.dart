@@ -30,7 +30,8 @@ void main() {
         ),
       );
     });
-    test('should execute createIcons() when validateRequiremnts() returns true', () {
+    test('should execute createIcons() when validateRequiremnts() returns true',
+        () {
       when(mockGenerator.validateRequirements()).thenReturn(true);
       generateIconsFor(
         config: mockFLIConfig,
@@ -43,7 +44,9 @@ void main() {
       verify(mockGenerator.createIcons()).called(equals(1));
     });
 
-    test('should not execute createIcons() when validateRequiremnts() returns false', () {
+    test(
+        'should not execute createIcons() when validateRequiremnts() returns false',
+        () {
       when(mockGenerator.validateRequirements()).thenReturn(false);
       generateIconsFor(
         config: mockFLIConfig,
@@ -58,7 +61,8 @@ void main() {
 
     test('should skip platform if any exception occurred', () {
       when(mockGenerator.validateRequirements()).thenReturn(true);
-      when(mockGenerator.createIcons()).thenThrow(Exception('should-skip-platform'));
+      when(mockGenerator.createIcons())
+          .thenThrow(Exception('should-skip-platform'));
       generateIconsFor(
         config: mockFLIConfig,
         flavor: null,

@@ -17,7 +17,8 @@ class FLILogger {
   /// it logs all the [verbose] logs to console
   FLILogger(this.isVerbose) {
     final ansi = Ansi(Ansi.terminalSupportsAnsi);
-    _logger = isVerbose ? Logger.verbose(ansi: ansi) : Logger.standard(ansi: ansi);
+    _logger =
+        isVerbose ? Logger.verbose(ansi: ansi) : Logger.standard(ansi: ansi);
   }
 
   /// Logs error messages

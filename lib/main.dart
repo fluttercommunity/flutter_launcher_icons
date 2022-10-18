@@ -40,7 +40,12 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   parser
     ..addFlag(helpFlag, abbr: 'h', help: 'Usage help', negatable: false)
     // Make default null to differentiate when it is explicitly set
-    ..addOption(fileOption, abbr: 'f', help: 'Path to config file', defaultsTo: defaultConfigFile)
+    ..addOption(
+      fileOption,
+      abbr: 'f',
+      help: 'Path to config file',
+      defaultsTo: defaultConfigFile,
+    )
     ..addFlag(verboseFlag, abbr: 'v', help: 'Verbose output', defaultsTo: false)
     ..addOption(
       prefixOption,
@@ -71,7 +76,8 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   if (!hasFlavors) {
     // Load configs from given file(defaults to ./flutter_launcher_icons.yaml) or from ./pubspec.yaml
 
-    final flutterLauncherIconsConfigs = loadConfigFileFromArgResults(argResults);
+    final flutterLauncherIconsConfigs =
+        loadConfigFileFromArgResults(argResults);
     if (flutterLauncherIconsConfigs == null) {
       throw NoConfigFoundException(
         'No configuration found in $defaultConfigFile or in ${constants.pubspecFilePath}. '
@@ -79,7 +85,11 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
       );
     }
     try {
-      await createIconsFromConfig(flutterLauncherIconsConfigs, logger, prefixPath);
+      await createIconsFromConfig(
+        flutterLauncherIconsConfigs,
+        logger,
+        prefixPath,
+      );
       print('\n✓ Successfully generated launcher icons');
     } catch (e) {
       stderr.writeln('\n✕ Could not generate launcher icons');
@@ -90,13 +100,19 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
     try {
       for (String flavor in flavors) {
         print('\nFlavor: $flavor');
-        final flutterLauncherIconsConfigs = FlutterLauncherIconsConfig.loadConfigFromFlavor(flavor, prefixPath);
+        final flutterLauncherIconsConfigs =
+            FlutterLauncherIconsConfig.loadConfigFromFlavor(flavor, prefixPath);
         if (flutterLauncherIconsConfigs == null) {
           throw NoConfigFoundException(
             'No configuration found for $flavor flavor.',
           );
         }
-        await createIconsFromConfig(flutterLauncherIconsConfigs, logger, prefixPath, flavor);
+        await createIconsFromConfig(
+          flutterLauncherIconsConfigs,
+          logger,
+          prefixPath,
+          flavor,
+        );
       }
       print('\n✓ Successfully generated launcher icons for flavors');
     } catch (e) {
@@ -142,10 +158,15 @@ Future<void> createIconsFromConfig(
   );
 }
 
-FlutterLauncherIconsConfig? loadConfigFileFromArgResults(ArgResults argResults) {
+FlutterLauncherIconsConfig? loadConfigFileFromArgResults(
+  ArgResults argResults,
+) {
   final String prefixPath = argResults[prefixOption];
   final flutterLauncherIconsConfigs =
-      FlutterLauncherIconsConfig.loadConfigFromPath(argResults[fileOption], prefixPath) ??
+      FlutterLauncherIconsConfig.loadConfigFromPath(
+            argResults[fileOption],
+            prefixPath,
+          ) ??
           FlutterLauncherIconsConfig.loadConfigFromPubSpec(prefixPath);
   return flutterLauncherIconsConfigs;
 }

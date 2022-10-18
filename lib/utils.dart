@@ -62,14 +62,16 @@ Directory createDirIfNotExist(String dirPath) {
 }
 
 /// Returns a prettified json string
-String prettifyJsonEncode(Object? map) => JsonEncoder.withIndent(' ' * 4).convert(map);
+String prettifyJsonEncode(Object? map) =>
+    JsonEncoder.withIndent(' ' * 4).convert(map);
 
 /// Check if give [File] or [Directory] exists at the give [paths],
 /// if not returns the failed [FileSystemEntity] path
 String? areFSEntiesExist(List<String> paths) {
   for (final path in paths) {
     final fsType = FileSystemEntity.typeSync(path);
-    if (![FileSystemEntityType.directory, FileSystemEntityType.file].contains(fsType)) {
+    if (![FileSystemEntityType.directory, FileSystemEntityType.file]
+        .contains(fsType)) {
       return path;
     }
   }
