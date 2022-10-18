@@ -16,11 +16,14 @@ void main() {
       setUpAll(() async {
         await d.dir('fli_test', [
           d.file('flutter_launcher_icons.yaml', templates.fliConfigTemplate),
-          d.file('invalid_fli_config.yaml', templates.invlaidfliConfigTemplate),
+          d.file('invalid_fli_config.yaml', templates.invalidfliConfigTemplate),
         ]).create();
       });
       test('should return valid configs', () {
-        final configs = FlutterLauncherIconsConfig.loadConfigFromPath('flutter_launcher_icons.yaml', prefixPath);
+        final configs = FlutterLauncherIconsConfig.loadConfigFromPath(
+          'flutter_launcher_icons.yaml',
+          prefixPath,
+        );
         expect(configs, isNotNull);
         // android configs
         expect(configs!.android, isTrue);
@@ -75,13 +78,19 @@ void main() {
       });
 
       test('should return null when invalid filePath is given', () {
-        final configs = FlutterLauncherIconsConfig.loadConfigFromPath('file_that_dont_exist.yaml', prefixPath);
+        final configs = FlutterLauncherIconsConfig.loadConfigFromPath(
+          'file_that_dont_exist.yaml',
+          prefixPath,
+        );
         expect(configs, isNull);
       });
 
       test('should throw InvalidConfigException when config is invalid', () {
         expect(
-          () => FlutterLauncherIconsConfig.loadConfigFromPath('invalid_fli_config.yaml', prefixPath),
+          () => FlutterLauncherIconsConfig.loadConfigFromPath(
+            'invalid_fli_config.yaml',
+            prefixPath,
+          ),
           throwsA(isA<InvalidConfigException>()),
         );
       });
@@ -89,7 +98,8 @@ void main() {
     group('#loadConfigFromTestPubSpec', () {
       test('should return valid configs', () {
         const String path = 'test/config/test_pubspec.yaml';
-        final configs = FlutterLauncherIconsConfig.loadConfigFromPath(path, '.');
+        final configs =
+            FlutterLauncherIconsConfig.loadConfigFromPath(path, '.');
         expect(configs, isNotNull);
         const String imagePath = 'assets/images/icon-710x599.png';
         expect(configs!.imagePath, equals(imagePath));
@@ -118,11 +128,12 @@ void main() {
         await d.dir('fli_test', [
           d.file('pubspec.yaml', templates.pubspecTemplate),
           d.file('flutter_launcher_icons.yaml', templates.fliConfigTemplate),
-          d.file('invalid_fli_config.yaml', templates.invlaidfliConfigTemplate),
+          d.file('invalid_fli_config.yaml', templates.invalidfliConfigTemplate),
         ]).create();
       });
       test('should return valid configs', () {
-        final configs = FlutterLauncherIconsConfig.loadConfigFromPubSpec(prefixPath);
+        final configs =
+            FlutterLauncherIconsConfig.loadConfigFromPubSpec(prefixPath);
         expect(configs, isNotNull);
         // android configs
         expect(configs!.android, isTrue);
@@ -181,7 +192,10 @@ void main() {
           await d.dir('fli_test', [
             d.file('pubspec.yaml', templates.invalidPubspecTemplate),
             d.file('flutter_launcher_icons.yaml', templates.fliConfigTemplate),
-            d.file('invalid_fli_config.yaml', templates.invlaidfliConfigTemplate),
+            d.file(
+              'invalid_fli_config.yaml',
+              templates.invalidfliConfigTemplate,
+            ),
           ]).create();
         });
         test('InvalidConfigException when config is invalid', () {
@@ -195,11 +209,17 @@ void main() {
     group('#loadConfigFromFlavor', () {
       setUpAll(() async {
         await d.dir('fli_test', [
-          d.file('flutter_launcher_icons-development.yaml', templates.flavorFLIConfigTemplate),
+          d.file(
+            'flutter_launcher_icons-development.yaml',
+            templates.flavorFLIConfigTemplate,
+          ),
         ]).create();
       });
       test('should return valid config', () {
-        final configs = FlutterLauncherIconsConfig.loadConfigFromFlavor('development', prefixPath);
+        final configs = FlutterLauncherIconsConfig.loadConfigFromFlavor(
+          'development',
+          prefixPath,
+        );
         expect(configs, isNotNull);
         expect(configs!.android, isTrue);
         expect(configs.imagePath, isNotNull);
