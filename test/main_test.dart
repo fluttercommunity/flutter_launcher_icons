@@ -28,7 +28,11 @@ void main() {
   group('config file from args', () {
     // Create mini parser with only the wanted option, mocking the real one
     final ArgParser parser = ArgParser()
-      ..addOption(main_dart.fileOption, abbr: 'f', defaultsTo: defaultConfigFile)
+      ..addOption(
+        main_dart.fileOption,
+        abbr: 'f',
+        defaultsTo: defaultConfigFile,
+      )
       ..addOption(
         main_dart.prefixOption,
         abbr: 'p',
@@ -112,15 +116,22 @@ flutter_icons:
       'ios': true
     };
     final config = FlutterLauncherIconsConfig.fromJson(flutterIconsConfig);
-    expect(config.getImagePathAndroid(), equals('assets/images/icon-710x599.png'));
+    expect(
+      config.getImagePathAndroid(),
+      equals('assets/images/icon-710x599.png'),
+    );
     expect(config.getImagePathIOS(), equals('assets/images/icon-710x599.png'));
     final Map<String, dynamic> flutterIconsConfigAndroid = <String, dynamic>{
       'image_path_android': 'assets/images/icon-710x599.png',
       'android': true,
       'ios': true
     };
-    final configAndroid = FlutterLauncherIconsConfig.fromJson(flutterIconsConfigAndroid);
-    expect(configAndroid.getImagePathAndroid(), equals('assets/images/icon-710x599.png'));
+    final configAndroid =
+        FlutterLauncherIconsConfig.fromJson(flutterIconsConfigAndroid);
+    expect(
+      configAndroid.getImagePathAndroid(),
+      equals('assets/images/icon-710x599.png'),
+    );
     expect(configAndroid.getImagePathIOS(), isNull);
     final Map<String, dynamic> flutterIconsConfigBoth = <String, dynamic>{
       'image_path_android': 'assets/images/icon-android.png',
@@ -128,8 +139,12 @@ flutter_icons:
       'android': true,
       'ios': true
     };
-    final configBoth = FlutterLauncherIconsConfig.fromJson(flutterIconsConfigBoth);
-    expect(configBoth.getImagePathAndroid(), equals('assets/images/icon-android.png'));
+    final configBoth =
+        FlutterLauncherIconsConfig.fromJson(flutterIconsConfigBoth);
+    expect(
+      configBoth.getImagePathAndroid(),
+      equals('assets/images/icon-android.png'),
+    );
     expect(configBoth.getImagePathIOS(), equals('assets/images/icon-ios.png'));
   });
 

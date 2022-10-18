@@ -79,14 +79,21 @@ class FlutterLauncherIconsConfig {
   });
 
   /// Creates [FlutterLauncherIconsConfig] icons from [json]
-  factory FlutterLauncherIconsConfig.fromJson(Map json) => _$FlutterLauncherIconsConfigFromJson(json);
+  factory FlutterLauncherIconsConfig.fromJson(Map json) =>
+      _$FlutterLauncherIconsConfigFromJson(json);
 
   bool get hasAndroidAdaptiveConfig =>
-      isNeedingNewAndroidIcon && adaptiveIconForeground != null && adaptiveIconBackground != null;
+      isNeedingNewAndroidIcon &&
+      adaptiveIconForeground != null &&
+      adaptiveIconBackground != null;
 
   /// Checks if contains any platform config
   bool get hasPlatformConfig {
-    return ios != false || android != false || webConfig != null || windowsConfig != null || macOSConfig != null;
+    return ios != false ||
+        android != false ||
+        webConfig != null ||
+        windowsConfig != null ||
+        macOSConfig != null;
   }
 
   /// Check to see if specified Android config is a string or bool
@@ -113,12 +120,21 @@ class FlutterLauncherIconsConfig {
   String toString() => 'FlutterLauncherIconsConfig: ${toJson()}';
 
   /// Creates [FlutterLauncherIconsConfig] for given [flavor] and [prefixPath]
-  static FlutterLauncherIconsConfig? loadConfigFromFlavor(String flavor, String prefixPath) {
-    return FlutterLauncherIconsConfig.loadConfigFromPath(utils.flavorConfigFile(flavor), prefixPath);
+  static FlutterLauncherIconsConfig? loadConfigFromFlavor(
+    String flavor,
+    String prefixPath,
+  ) {
+    return FlutterLauncherIconsConfig.loadConfigFromPath(
+      utils.flavorConfigFile(flavor),
+      prefixPath,
+    );
   }
 
   /// Loads flutter launcher icons configs from given [filePath]
-  static FlutterLauncherIconsConfig? loadConfigFromPath(String filePath, String prefixPath) {
+  static FlutterLauncherIconsConfig? loadConfigFromPath(
+    String filePath,
+    String prefixPath,
+  ) {
     final configFile = File(path.join(prefixPath, filePath));
     if (!configFile.existsSync()) {
       return null;

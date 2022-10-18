@@ -34,7 +34,8 @@ class MacOSIconGenerator extends IconGenerator {
       context.config.macOSConfig!.imagePath ?? context.config.imagePath,
     );
 
-    context.logger.verbose('Decoding and loading image file at $imgFilePath...');
+    context.logger
+        .verbose('Decoding and loading image file at $imgFilePath...');
     final imgFile = utils.decodeImageFile(imgFilePath);
     if (imgFile == null) {
       context.logger.error('Image File not found at give path $imgFilePath...');
@@ -54,7 +55,9 @@ class MacOSIconGenerator extends IconGenerator {
 
     if (macOSConfig == null || !macOSConfig.generate) {
       context.logger
-        ..verbose('$platformName config is missing or "flutter_icons.macos.generate" is false. Skipped...')
+        ..verbose(
+          '$platformName config is missing or "flutter_icons.macos.generate" is false. Skipped...',
+        )
         ..verbose(macOSConfig);
       return false;
     }
@@ -81,7 +84,9 @@ class MacOSIconGenerator extends IconGenerator {
 
     final failedEntityPath = utils.areFSEntiesExist(enitiesToCheck);
     if (failedEntityPath != null) {
-      context.logger.error('$failedEntityPath this file or folder is required to generate $platformName icons');
+      context.logger.error(
+        '$failedEntityPath this file or folder is required to generate $platformName icons',
+      );
       return false;
     }
 
@@ -89,22 +94,31 @@ class MacOSIconGenerator extends IconGenerator {
   }
 
   void _generateIcons(Image image) {
-    final iconsDir = utils.createDirIfNotExist(path.join(context.prefixPath, constants.macOSIconsDirPath));
+    final iconsDir = utils.createDirIfNotExist(
+      path.join(context.prefixPath, constants.macOSIconsDirPath),
+    );
 
     for (final template in _iconSizeTemplates) {
       final resizedImg = utils.createResizedImage(template.scaledSize, image);
-      final iconFile = utils.createFileIfNotExist(path.join(context.prefixPath, iconsDir.path, template.iconFile));
+      final iconFile = utils.createFileIfNotExist(
+        path.join(context.prefixPath, iconsDir.path, template.iconFile),
+      );
       iconFile.writeAsBytesSync(encodePng(resizedImg));
     }
   }
 
   void _updateContentsFile() {
-    final contentsFilePath = File(path.join(context.prefixPath, constants.macOSContentsFilePath));
-    final contentsConfig = jsonDecode(contentsFilePath.readAsStringSync()) as Map<String, dynamic>;
+    final contentsFilePath =
+        File(path.join(context.prefixPath, constants.macOSContentsFilePath));
+    final contentsConfig =
+        jsonDecode(contentsFilePath.readAsStringSync()) as Map<String, dynamic>;
     contentsConfig
       ..remove('images')
-      ..['images'] = _iconSizeTemplates.map<Map<String, dynamic>>((e) => e.iconContent).toList();
+      ..['images'] = _iconSizeTemplates
+          .map<Map<String, dynamic>>((e) => e.iconContent)
+          .toList();
 
-    contentsFilePath.writeAsStringSync(utils.prettifyJsonEncode(contentsConfig));
+    contentsFilePath
+        .writeAsStringSync(utils.prettifyJsonEncode(contentsConfig));
   }
 }
