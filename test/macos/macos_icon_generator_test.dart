@@ -11,13 +11,15 @@ import 'package:test/test.dart';
 import 'package:test_descriptor/test_descriptor.dart' as d;
 
 import '../templates.dart' as templates;
-import 'macos_icon_generator_test.mocks.dart';
 
 @GenerateNiceMocks([
   MockSpec<FlutterLauncherIconsConfig>(),
   MockSpec<MacOSConfig>(),
   MockSpec<FLILogger>(),
 ])
+
+import 'macos_icon_generator_test.mocks.dart';
+
 void main() {
   group('MacOSIconGenerator', () {
     late IconGeneratorContext context;
