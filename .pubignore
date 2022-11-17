@@ -1,8 +1,5 @@
 # test directory
 /test/*
 
-# markdown files
-/CHANGELOG.md
-
 # other
 /flutter_launcher_icons.code-workspace
