@@ -4,7 +4,6 @@ import 'package:yaml/yaml.dart';
 
 /// helper class for parsing the contents of pubspec file
 class PubspecParser {
-
   /// ensures unnamed constructor cannot be used as this class should only have
   /// static methods
   PubspecParser._();

@@ -30,7 +30,10 @@ void main() {
         path.join(prefixPath, 'file_that_does_not_exist.txt'),
       ]);
       expect(result, isNotNull);
-      expect(result, equals(path.join(prefixPath, 'file_that_does_not_exist.txt')));
+      expect(
+        result,
+        equals(path.join(prefixPath, 'file_that_does_not_exist.txt')),
+      );
     });
 
     test('should return the dir path that does not exist', () {
@@ -63,7 +66,9 @@ void main() {
         d.dir('fli_test', [d.dir('dir_that_does_not_exist')]).validate(),
         throwsException,
       );
-      final result = utils.createDirIfNotExist(path.join(d.sandbox, 'fli_test', 'dir_that_does_not_exist'));
+      final result = utils.createDirIfNotExist(
+        path.join(d.sandbox, 'fli_test', 'dir_that_does_not_exist'),
+      );
       expect(result.existsSync(), isTrue);
       await expectLater(
         d.dir('fli_test', [d.dir('dir_that_does_not_exist')]).validate(),
@@ -75,7 +80,8 @@ void main() {
         d.dir('fli_test', [d.dir('dir_exists')]).validate(),
         completes,
       );
-      final result = utils.createDirIfNotExist(path.join(d.sandbox, 'fli_test', 'dir_exists'));
+      final result = utils
+          .createDirIfNotExist(path.join(d.sandbox, 'fli_test', 'dir_exists'));
       expect(result.existsSync(), isTrue);
       await expectLater(
         d.dir('fli_test', [d.dir('dir_exists')]).validate(),
@@ -95,7 +101,9 @@ void main() {
         d.dir('fli_test', [d.file('file_that_does_not_exist.txt')]).validate(),
         throwsException,
       );
-      final result = utils.createFileIfNotExist(path.join(d.sandbox, 'fli_test', 'file_that_does_not_exist.txt'));
+      final result = utils.createFileIfNotExist(
+        path.join(d.sandbox, 'fli_test', 'file_that_does_not_exist.txt'),
+      );
       expect(result.existsSync(), isTrue);
       await expectLater(
         d.dir('fli_test', [d.file('file_that_does_not_exist.txt')]).validate(),
@@ -107,7 +115,9 @@ void main() {
         d.dir('fli_test', [d.file('file_exists.txt')]).validate(),
         completes,
       );
-      final result = utils.createFileIfNotExist(path.join(d.sandbox, 'fli_test', 'file_exists.txt'));
+      final result = utils.createFileIfNotExist(
+        path.join(d.sandbox, 'fli_test', 'file_exists.txt'),
+      );
       expect(result.existsSync(), isTrue);
       await expectLater(
         d.dir('fli_test', [d.file('file_exists.txt')]).validate(),

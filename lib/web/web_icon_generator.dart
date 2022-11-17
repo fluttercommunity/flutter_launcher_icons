@@ -48,9 +48,13 @@ class WebIconGenerator extends IconGenerator {
 
   @override
   void createIcons() {
-    final imgFilePath = path.join(context.prefixPath, context.webConfig!.imagePath ?? context.config.imagePath!);
+    final imgFilePath = path.join(
+      context.prefixPath,
+      context.webConfig!.imagePath ?? context.config.imagePath!,
+    );
 
-    context.logger.verbose('Decoding and loading image file at $imgFilePath...');
+    context.logger
+        .verbose('Decoding and loading image file at $imgFilePath...');
     final imgFile = utils.decodeImageFile(imgFilePath);
     if (imgFile == null) {
       context.logger.error('Image File not found at give path $imgFilePath...');
@@ -66,7 +70,9 @@ class WebIconGenerator extends IconGenerator {
     _generateIcons(imgFile);
 
     // update manifest.json in web/mainfest.json
-    context.logger.verbose('Updating ${path.join(context.prefixPath, constants.webManifestFilePath)}...');
+    context.logger.verbose(
+      'Updating ${path.join(context.prefixPath, constants.webManifestFilePath)}...',
+    );
     _updateManifestFile();
 
     // todo: update index.html in web/index.html
@@ -81,11 +87,14 @@ class WebIconGenerator extends IconGenerator {
     context.logger.verbose('Checking webconfig...');
     final webConfig = context.webConfig;
     if (webConfig == null || !webConfig.generate) {
-      context.logger.verbose('Web config is not provided or generate is false. Skipped...');
+      context.logger.verbose(
+        'Web config is not provided or generate is false. Skipped...',
+      );
       return false;
     }
     if (webConfig.imagePath == null && context.config.imagePath == null) {
-      context.logger.verbose('Invalid config. Either provide web.imagePath or imagePath');
+      context.logger
+          .verbose('Invalid config. Either provide web.imagePath or imagePath');
       return false;
     }
 
@@ -99,7 +108,9 @@ class WebIconGenerator extends IconGenerator {
     // web platform related files must exist to continue
     final failedEntityPath = utils.areFSEntiesExist(entitesToCheck);
     if (failedEntityPath != null) {
-      context.logger.error('$failedEntityPath this file or folder is required to generate web icons');
+      context.logger.error(
+        '$failedEntityPath this file or folder is required to generate web icons',
+      );
     }
 
     return true;
@@ -107,16 +118,22 @@ class WebIconGenerator extends IconGenerator {
 
   void _generateFavicon(Image image) {
     final favIcon = utils.createResizedImage(constants.kFaviconSize, image);
-    final favIconFile = utils.createFileIfNotExist(path.join(context.prefixPath, constants.webFaviconFilePath));
+    final favIconFile = utils.createFileIfNotExist(
+      path.join(context.prefixPath, constants.webFaviconFilePath),
+    );
     favIconFile.writeAsBytesSync(encodePng(favIcon));
   }
 
   void _generateIcons(Image image) {
-    final iconsDir = utils.createDirIfNotExist(path.join(context.prefixPath, constants.webIconsDirPath));
+    final iconsDir = utils.createDirIfNotExist(
+      path.join(context.prefixPath, constants.webIconsDirPath),
+    );
     // generate icons
     for (final template in _webIconSizeTemplates) {
       final resizedImg = utils.createResizedImage(template.size, image);
-      final iconFile = utils.createFileIfNotExist(path.join(context.prefixPath, iconsDir.path, template.iconFile));
+      final iconFile = utils.createFileIfNotExist(
+        path.join(context.prefixPath, iconsDir.path, template.iconFile),
+      );
       iconFile.writeAsBytesSync(encodePng(resizedImg));
     }
   }
@@ -130,8 +147,11 @@ class WebIconGenerator extends IconGenerator {
   // }
 
   void _updateManifestFile() {
-    final manifestFile = utils.createFileIfNotExist(path.join(context.prefixPath, constants.webManifestFilePath));
-    final manifestConfig = jsonDecode(manifestFile.readAsStringSync()) as Map<String, dynamic>;
+    final manifestFile = utils.createFileIfNotExist(
+      path.join(context.prefixPath, constants.webManifestFilePath),
+    );
+    final manifestConfig =
+        jsonDecode(manifestFile.readAsStringSync()) as Map<String, dynamic>;
 
     // update background_color
     if (context.webConfig?.backgroundColor != null) {
@@ -146,7 +166,9 @@ class WebIconGenerator extends IconGenerator {
     // replace existing icons to eliminate conflicts
     manifestConfig
       ..remove('icons')
-      ..['icons'] = _webIconSizeTemplates.map<Map<String, dynamic>>((e) => e.iconManifest).toList();
+      ..['icons'] = _webIconSizeTemplates
+          .map<Map<String, dynamic>>((e) => e.iconManifest)
+          .toList();
 
     manifestFile.writeAsStringSync(utils.prettifyJsonEncode(manifestConfig));
   }

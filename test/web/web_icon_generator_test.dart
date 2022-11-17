@@ -32,8 +32,15 @@ void main() {
         d.file('app_icon.png', imageFile.readAsBytesSync()),
       ]).create();
       prefixPath = path.join(d.sandbox, 'fli_test');
-      config = FlutterLauncherIconsConfig.loadConfigFromPath('flutter_launcher_icons.yaml', prefixPath)!;
-      context = IconGeneratorContext(config: config, prefixPath: prefixPath, logger: FLILogger(false));
+      config = FlutterLauncherIconsConfig.loadConfigFromPath(
+        'flutter_launcher_icons.yaml',
+        prefixPath,
+      )!;
+      context = IconGeneratorContext(
+        config: config,
+        prefixPath: prefixPath,
+        logger: FLILogger(false),
+      );
       generator = WebIconGenerator(context);
     });
 

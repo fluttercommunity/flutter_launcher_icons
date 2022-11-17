@@ -19,11 +19,20 @@ void main() {
     test('.iconManifest should return valid manifest config', () {
       expect(
         icTemplate.iconManifest,
-        equals({'src': 'icons/Icon-512.png', 'sizes': '512x512', 'type': 'image/png'}),
+        equals({
+          'src': 'icons/Icon-512.png',
+          'sizes': '512x512',
+          'type': 'image/png'
+        }),
       );
       expect(
         icMaskableTemplate.iconManifest,
-        equals({'src': 'icons/Icon-maskable-512.png', 'sizes': '512x512', 'type': 'image/png', 'purpose': 'maskable'}),
+        equals({
+          'src': 'icons/Icon-maskable-512.png',
+          'sizes': '512x512',
+          'type': 'image/png',
+          'purpose': 'maskable'
+        }),
       );
     });
   });
