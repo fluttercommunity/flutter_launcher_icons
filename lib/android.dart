@@ -106,6 +106,7 @@ void createAdaptiveIcons(
   }
 
   // Create adaptive icon foreground images
+  printStatus('tupa1 changed');
   for (AndroidIconTemplate androidIcon in adaptiveForegroundIcons) {
     overwriteExistingIcons(
       androidIcon,
@@ -188,6 +189,7 @@ void _createAdaptiveBackgrounds(
 
   // creates a png image (ic_adaptive_background.png) for the adaptive icon background in each of the locations
   // it is required
+  printStatus('tupa1 changed');
   for (AndroidIconTemplate androidIcon in adaptiveForegroundIcons) {
     _saveNewImages(
       androidIcon,
