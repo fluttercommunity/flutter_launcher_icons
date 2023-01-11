@@ -4,6 +4,7 @@ import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/constants.dart' as constants;
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
 import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
+import 'package:flutter_launcher_icons/utils.dart' as utils;
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:flutter_launcher_icons/xml_templates.dart' as xml_template;
 import 'package:image/image.dart';
@@ -42,7 +43,7 @@ void createDefaultIcons(
   if (filePath == null) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
-  final Image? image = decodeImageFile(filePath);
+  final Image? image = utils.decodeImageFile(filePath);
   if (image == null) {
     return;
   }
@@ -100,7 +101,7 @@ void createAdaptiveIcons(
   if (backgroundConfig == null || foregroundImagePath == null) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
-  final Image? foregroundImage = decodeImageFile(foregroundImagePath);
+  final Image? foregroundImage = utils.decodeImageFile(foregroundImagePath);
   if (foregroundImage == null) {
     return;
   }
@@ -181,7 +182,7 @@ void _createAdaptiveBackgrounds(
   String? flavor,
 ) {
   final String filePath = adaptiveIconBackgroundImagePath;
-  final Image? image = decodeImageFile(filePath);
+  final Image? image = utils.decodeImageFile(filePath);
   if (image == null) {
     return;
   }

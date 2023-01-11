@@ -7,13 +7,13 @@ repository: https://github.com/fluttercommunity/flutter_launcher_icons/
 issue_tracker: https://github.com/fluttercommunity/flutter_launcher_icons/issues
 
 dependencies:
-  args: ^2.2.0
-  checked_yaml: ^2.0.1
+  args: ^2.3.1
+  checked_yaml: ^2.0.2
   cli_util: ^0.3.5
-  image: ^3.0.2
-  json_annotation: ^4.5.0
-  path: ^1.8.0
-  yaml: ^3.1.0
+  image: ^4.0.8
+  json_annotation: ^4.7.0
+  path: ^1.8.3
+  yaml: ^3.1.1
 
 environment:
   sdk: '>=2.13.0 <3.0.0'

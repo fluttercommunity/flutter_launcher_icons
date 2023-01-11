@@ -52,9 +52,9 @@ void createIcons(FlutterLauncherIconsConfig config, String? flavor) {
     return;
   }
   if (config.removeAlphaIOS) {
-    image.channels = Channels.rgb;
+    image.getBytes(order: ChannelOrder.rgb);
   }
-  if (image.channels == Channels.rgba) {
+  if (image.numChannels == channelOrderLength[ChannelOrder.rgba]) {
     print(
       '\nWARNING: Icons with alpha channel are not allowed in the Apple App Store.\nSet "remove_alpha_ios: true" to remove it.\n',
     );
