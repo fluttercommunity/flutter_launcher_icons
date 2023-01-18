@@ -6,7 +6,7 @@ import 'package:flutter_launcher_icons/custom_exceptions.dart';
 import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:flutter_launcher_icons/xml_templates.dart' as xml_template;
-import 'package:image/image.dart';
+import 'package:image/image.dart' hide decodeImageFile;
 import 'package:path/path.dart' as path;
 
 class AndroidIconTemplate {
