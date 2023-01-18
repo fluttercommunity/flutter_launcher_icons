@@ -52,7 +52,17 @@ void createIcons(FlutterLauncherIconsConfig config, String? flavor) {
     return;
   }
   if (config.removeAlphaIOS) {
+    final backgroundColorHex = config.backgroundColorIOS.startsWith('#') ? config.backgroundColorIOS.substring(1) : config.backgroundColorIOS;
+    if (backgroundColorHex.length != 6) {
+      throw Exception('background_color_ios hex should be 6 characters long');
+    }
+    final backgroundByte = int.parse(backgroundColorHex, radix: 16);
+    final data = image.data;
+    for (var i = 0; i < data.length; i++) {
+      data[i] = alphaBlendColors(backgroundByte, data[i]);
+    }
     image.channels = Channels.rgb;
+    
   }
   if (image.channels == Channels.rgba) {
     print(

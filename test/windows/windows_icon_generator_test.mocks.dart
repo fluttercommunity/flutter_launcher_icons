@@ -60,6 +60,11 @@ class MockFlutterLauncherIconsConfig extends _i1.Mock
         returnValue: false,
       ) as bool);
   @override
+  String get backgroundColorIOS => (super.noSuchMethod(
+        Invocation.getter(#backgroundColorIOS),
+        returnValue: '',
+      ) as String);
+  @override
   bool get hasAndroidAdaptiveConfig => (super.noSuchMethod(
         Invocation.getter(#hasAndroidAdaptiveConfig),
         returnValue: false,

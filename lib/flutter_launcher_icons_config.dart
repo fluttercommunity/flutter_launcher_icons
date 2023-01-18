@@ -50,6 +50,10 @@ class FlutterLauncherIconsConfig {
   @JsonKey(name: 'remove_alpha_ios')
   final bool removeAlphaIOS;
 
+  /// IOS background_color_ios
+  @JsonKey(name: 'background_color_ios')
+  final String backgroundColorIOS;
+
   /// Web platform config
   @JsonKey(name: 'web')
   final WebConfig? webConfig;
@@ -73,6 +77,7 @@ class FlutterLauncherIconsConfig {
     this.adaptiveIconBackground,
     this.minSdkAndroid = constants.androidDefaultAndroidMinSDK,
     this.removeAlphaIOS = false,
+    this.backgroundColorIOS = '#ffffff',
     this.webConfig,
     this.windowsConfig,
     this.macOSConfig,
