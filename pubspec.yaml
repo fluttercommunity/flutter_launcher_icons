@@ -10,7 +10,7 @@ dependencies:
   args: ^2.3.2
   checked_yaml: ^2.0.2
   cli_util: ^0.3.5
-  image: ^4.0.10
+  image: ^4.0.11
   json_annotation: ^4.8.0
   path: ^1.8.3
   yaml: ^3.1.1
