@@ -4,7 +4,7 @@ import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/constants.dart' as constants;
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
 import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
-import 'package:flutter_launcher_icons/utils.dart';
+import 'package:flutter_launcher_icons/utils.dart' hide decodeImageFile;
 import 'package:flutter_launcher_icons/xml_templates.dart' as xml_template;
 import 'package:image/image.dart';
 import 'package:path/path.dart' as path;
@@ -32,17 +32,17 @@ List<AndroidIconTemplate> androidIcons = <AndroidIconTemplate>[
   AndroidIconTemplate(directoryName: 'mipmap-xxxhdpi', size: 192),
 ];
 
-void createDefaultIcons(
+Future<void> createDefaultIcons(
   FlutterLauncherIconsConfig flutterLauncherIconsConfig,
   String? flavor,
-) {
+) async {
   printStatus('Creating default icons Android');
   // todo: support prefixPath
   final String? filePath = flutterLauncherIconsConfig.getImagePathAndroid();
   if (filePath == null) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
-  final Image? image = decodeImageFile(filePath);
+  final Image? image = await decodeImageFile(filePath);
   if (image == null) {
     return;
   }
@@ -86,10 +86,10 @@ bool isAndroidIconNameCorrectFormat(String iconName) {
   return true;
 }
 
-void createAdaptiveIcons(
+Future<void> createAdaptiveIcons(
   FlutterLauncherIconsConfig flutterLauncherIconsConfig,
   String? flavor,
-) {
+) async {
   printStatus('Creating adaptive icons Android');
 
   // Retrieve the necessary Flutter Launcher Icons configuration from the pubspec.yaml file
@@ -100,7 +100,7 @@ void createAdaptiveIcons(
   if (backgroundConfig == null || foregroundImagePath == null) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
-  final Image? foregroundImage = decodeImageFile(foregroundImagePath);
+  final Image? foregroundImage = await decodeImageFile(foregroundImagePath);
   if (foregroundImage == null) {
     return;
   }
@@ -117,7 +117,7 @@ void createAdaptiveIcons(
 
   // Create adaptive icon background
   if (isAdaptiveIconConfigPngFile(backgroundConfig)) {
-    _createAdaptiveBackgrounds(
+    await _createAdaptiveBackgrounds(
       flutterLauncherIconsConfig,
       backgroundConfig,
       flavor,
@@ -175,13 +175,13 @@ void createAdaptiveIconMipmapXmlFile(
 }
 
 /// creates adaptive background using png image
-void _createAdaptiveBackgrounds(
+Future<void> _createAdaptiveBackgrounds(
   FlutterLauncherIconsConfig flutterLauncherIconsConfig,
   String adaptiveIconBackgroundImagePath,
   String? flavor,
-) {
+) async {
   final String filePath = adaptiveIconBackgroundImagePath;
-  final Image? image = decodeImageFile(filePath);
+  final Image? image = await decodeImageFile(filePath);
   if (image == null) {
     return;
   }

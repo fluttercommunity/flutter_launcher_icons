@@ -17,7 +17,6 @@ import '../templates.dart' as templates;
   MockSpec<MacOSConfig>(),
   MockSpec<FLILogger>(),
 ])
-
 import 'macos_icon_generator_test.mocks.dart';
 
 void main() {
@@ -144,7 +143,8 @@ void main() {
 
     test('should generate valid icons & contents.json file', () async {
       expect(generator.validateRequirements(), isTrue);
-      expect(() => generator.createIcons(), isNot(throwsException));
+      final icon = await generator.createIcons();
+      expect(() => icon, isNot(throwsException));
 
       await expectLater(
         d.dir('fli_test', [

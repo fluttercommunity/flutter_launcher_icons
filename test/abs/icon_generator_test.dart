@@ -56,7 +56,7 @@ void main() {
         platforms: (context) => [mockGenerator],
       );
       verify(mockGenerator.validateRequirements()).called(equals(1));
-      verifyNever(mockGenerator.createIcons());
+      verifyNever(mockGenerator.createIcons().then((value) => null));
     });
 
     test('should skip platform if any exception occurred', () {
@@ -72,7 +72,7 @@ void main() {
       );
       verify(mockGenerator.validateRequirements()).called(equals(1));
       verify(mockGenerator.createIcons()).called(equals(1));
-      expect(() => mockGenerator.createIcons(), throwsException);
+      expect(() async => await mockGenerator.createIcons(), throwsException);
     });
   });
 }

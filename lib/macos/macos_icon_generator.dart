@@ -28,7 +28,7 @@ class MacOSIconGenerator extends IconGenerator {
   MacOSIconGenerator(IconGeneratorContext context) : super(context, 'MacOS');
 
   @override
-  void createIcons() {
+  Future<void> createIcons() async {
     final imgFilePath = path.join(
       context.prefixPath,
       context.config.macOSConfig!.imagePath ?? context.config.imagePath,
@@ -36,7 +36,7 @@ class MacOSIconGenerator extends IconGenerator {
 
     context.logger
         .verbose('Decoding and loading image file at $imgFilePath...');
-    final imgFile = utils.decodeImageFile(imgFilePath);
+    final imgFile = await decodeImageFile(imgFilePath);
     if (imgFile == null) {
       context.logger.error('Image File not found at give path $imgFilePath...');
       throw FileNotFoundException(imgFilePath);

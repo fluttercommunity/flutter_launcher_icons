@@ -12,7 +12,7 @@ class WindowsIconGenerator extends IconGenerator {
       : super(context, 'Windows');
 
   @override
-  void createIcons() {
+  Future<void> createIcons() async {
     final imgFilePath = path.join(
       context.prefixPath,
       context.windowsConfig!.imagePath ?? context.config.imagePath,
@@ -20,7 +20,7 @@ class WindowsIconGenerator extends IconGenerator {
 
     context.logger
         .verbose('Decoding and loading image file from $imgFilePath...');
-    final imgFile = utils.decodeImageFile(imgFilePath);
+    final imgFile = await decodeImageFile(imgFilePath);
     // TODO(RatakondalaArun): remove null check
     // #utils.decodeImageFile never returns null instead it throws Exception
     if (imgFile == null) {

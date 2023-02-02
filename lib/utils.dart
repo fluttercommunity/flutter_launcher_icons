@@ -33,16 +33,6 @@ String generateError(Exception e, String? error) {
   return '\n✗ ERROR: ${(e).runtimeType.toString()}$errorOutput';
 }
 
-// TODO(RatakondalaArun): Remove nullable return type
-// this can never return null value since it already throws exception
-Image? decodeImageFile(String filePath) {
-  final image = decodeImage(File(filePath).readAsBytesSync());
-  if (image == null) {
-    throw NoDecoderForImageFormatException(filePath);
-  }
-  return image;
-}
-
 /// Creates [File] in the given [filePath] if not exists
 File createFileIfNotExist(String filePath) {
   final file = File(path.joinAll(path.split(filePath)));

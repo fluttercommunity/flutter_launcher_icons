@@ -134,10 +134,10 @@ Future<void> createIconsFromConfig(
   }
 
   if (flutterConfigs.isNeedingNewAndroidIcon) {
-    android_launcher_icons.createDefaultIcons(flutterConfigs, flavor);
+    await android_launcher_icons.createDefaultIcons(flutterConfigs, flavor);
   }
   if (flutterConfigs.hasAndroidAdaptiveConfig) {
-    android_launcher_icons.createAdaptiveIcons(flutterConfigs, flavor);
+    await android_launcher_icons.createAdaptiveIcons(flutterConfigs, flavor);
   }
   if (flutterConfigs.isNeedingNewIOSIcon) {
     ios_launcher_icons.createIcons(flutterConfigs, flavor);

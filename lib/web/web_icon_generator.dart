@@ -47,7 +47,7 @@ class WebIconGenerator extends IconGenerator {
   WebIconGenerator(IconGeneratorContext context) : super(context, 'Web');
 
   @override
-  void createIcons() {
+  Future<void> createIcons() async {
     final imgFilePath = path.join(
       context.prefixPath,
       context.webConfig!.imagePath ?? context.config.imagePath!,
@@ -55,7 +55,7 @@ class WebIconGenerator extends IconGenerator {
 
     context.logger
         .verbose('Decoding and loading image file at $imgFilePath...');
-    final imgFile = utils.decodeImageFile(imgFilePath);
+    final imgFile = await decodeImageFile(imgFilePath);
     if (imgFile == null) {
       context.logger.error('Image File not found at give path $imgFilePath...');
       throw FileNotFoundException(imgFilePath);

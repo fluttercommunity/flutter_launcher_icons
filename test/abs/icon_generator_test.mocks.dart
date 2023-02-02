@@ -3,6 +3,8 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'dart:async' as _i4;
+
 import 'package:flutter_launcher_icons/abs/icon_generator.dart' as _i2;
 import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart'
     as _i3;
@@ -106,13 +108,14 @@ class MockIconGenerator extends _i1.Mock implements _i2.IconGenerator {
         returnValue: '',
       ) as String);
   @override
-  void createIcons() => super.noSuchMethod(
+  _i4.Future<void> createIcons() => (super.noSuchMethod(
         Invocation.method(
           #createIcons,
           [],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
   @override
   bool validateRequirements() => (super.noSuchMethod(
         Invocation.method(
