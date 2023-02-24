@@ -1,7 +1,11 @@
 # Changelog
 
-## 0.11.0 (27th September 2022)
+## 0.12.0 (24th February 2023)
 
+- Updated image package and other packages [#447](https://github.com/fluttercommunity/flutter_launcher_icons/pull/447)
+
+## 0.11.0 (27th September 2022)
+    
 - Support for Macos Icons [#407](https://github.com/fluttercommunity/flutter_launcher_icons/pull/407)
 - Cli-improvement [#400](https://github.com/fluttercommunity/flutter_launcher_icons/pull/400)
 - Add `repository` and `issue_tracker` [#411](https://github.com/fluttercommunity/flutter_launcher_icons/pull/411) (thanks to [@patelpathik](https://github.com/patelpathik))
