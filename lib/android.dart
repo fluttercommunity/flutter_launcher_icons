@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'dart:io';
 
 import 'package:flutter_launcher_icons/constants.dart';
@@ -37,7 +39,7 @@ void createDefaultIcons(
   String? flavor,
 ) {
   utils.printStatus('Creating default icons Android');
-  // todo: support prefixPath
+  // TODO(p-mazhnik): support prefixPath
   final String? filePath = flutterLauncherIconsConfig.getImagePathAndroid();
   if (filePath == null) {
     throw const InvalidConfigException(errorMissingImagePath);
@@ -139,7 +141,8 @@ void updateColorsXmlFile(String backgroundConfig, String? flavor) {
   final File colorsXml = File(constants.androidColorsFile(flavor));
   if (colorsXml.existsSync()) {
     utils.printStatus(
-        'Updating colors.xml with color for adaptive icon background');
+      'Updating colors.xml with color for adaptive icon background',
+    );
     updateColorsFile(colorsXml, backgroundConfig);
   } else {
     utils.printStatus('No colors.xml file found in your Android project');

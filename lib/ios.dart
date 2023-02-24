@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -9,12 +11,16 @@ import 'package:image/image.dart';
 
 /// File to handle the creation of icons for iOS platform
 class IosIconTemplate {
+  /// constructs an instance of [IosIconTemplate]
   IosIconTemplate({required this.size, required this.name});
 
+  /// suffix of the icon name
   final String name;
+  /// the size of the icon
   final int size;
 }
 
+/// details of the ios icons which need to be generated
 List<IosIconTemplate> iosIcons = <IosIconTemplate>[
   IosIconTemplate(name: '-20x20@1x', size: 20),
   IosIconTemplate(name: '-20x20@2x', size: 40),
@@ -39,8 +45,9 @@ List<IosIconTemplate> iosIcons = <IosIconTemplate>[
   IosIconTemplate(name: '-1024x1024@1x', size: 1024),
 ];
 
+/// create the ios icons
 void createIcons(FlutterLauncherIconsConfig config, String? flavor) {
-  // todo: support prefixPath
+  // TODO(p-mazhnik): support prefixPath
   final String? filePath = config.getImagePathIOS();
   if (filePath == null) {
     throw const InvalidConfigException(errorMissingImagePath);
@@ -116,6 +123,7 @@ void saveNewIcons(IosIconTemplate template, Image image, String newIconName) {
   });
 }
 
+/// create resized icon image
 Image createResizedImage(IosIconTemplate template, Image image) {
   if (image.width >= template.size) {
     return copyResize(
@@ -134,6 +142,7 @@ Image createResizedImage(IosIconTemplate template, Image image) {
   }
 }
 
+/// Change the iOS launcher icon
 Future<void> changeIosLauncherIcon(String iconName, String? flavor) async {
   final File iOSConfigFile = File(iosConfigFile);
   final List<String> lines = await iOSConfigFile.readAsLines();
@@ -185,6 +194,7 @@ String generateContentsFileAsString(String newIconName) {
   };
   return json.encode(contentJson);
 }
+
 
 class ContentsImageObject {
   ContentsImageObject({

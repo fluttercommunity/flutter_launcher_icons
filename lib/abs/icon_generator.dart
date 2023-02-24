@@ -111,7 +111,7 @@ void generateIconsFor({
       }
     }
   } catch (e, st) {
-    // todo: better error handling
+    // TODO(RatakondalaArun): better error handling
     // stacktrace should only print when verbose is turned on
     // else a normal help line
     logger

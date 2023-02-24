@@ -75,7 +75,7 @@ class WebIconGenerator extends IconGenerator {
     );
     _updateManifestFile();
 
-    // todo: update index.html in web/index.html
+    // TODO(RatakondalaArun): update index.html in web/index.html
     // as we are using flutter default config we no need
     // to update index.html for now
     // _updateIndexFile();
@@ -137,14 +137,6 @@ class WebIconGenerator extends IconGenerator {
       iconFile.writeAsBytesSync(encodePng(resizedImg));
     }
   }
-
-  // void _updateIndexFile() {
-  // todo
-  // final indexFile = File(constants.webIndexFilePath);
-  // if (!indexFile.existsSync()) {
-  //   throw FileNotFoundException(constants.webFaviconFilePath);
-  // }
-  // }
 
   void _updateManifestFile() {
     final manifestFile = utils.createFileIfNotExist(
