@@ -54,12 +54,12 @@ void createIcons(FlutterLauncherIconsConfig config, String? flavor) {
   }
   // decodeImageFile shows error message if null
   // so can return here if image is null
-  final Image? image = decodeImage(File(filePath).readAsBytesSync());
+  Image? image = decodeImage(File(filePath).readAsBytesSync());
   if (image == null) {
     return;
   }
-  if (config.removeAlphaIOS) {
-    image.remapChannels(ChannelOrder.rgb);
+  if (config.removeAlphaIOS && image.hasAlpha) {
+    image = image.convert(numChannels: 3);
   }
   if (image.hasAlpha) {
     print(
