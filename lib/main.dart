@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'dart:io';
 
 import 'package:args/args.dart';
@@ -13,6 +15,7 @@ import 'package:flutter_launcher_icons/macos/macos_icon_generator.dart';
 import 'package:flutter_launcher_icons/web/web_icon_generator.dart';
 import 'package:flutter_launcher_icons/windows/windows_icon_generator.dart';
 import 'package:path/path.dart' as path;
+
 
 const String fileOption = 'file';
 const String helpFlag = 'help';
@@ -153,7 +156,7 @@ Future<void> createIconsFromConfig(
       WebIconGenerator(context),
       WindowsIconGenerator(context),
       MacOSIconGenerator(context),
-      // todo: add other platforms
+      // TODO(RatakondalaArun): add other platforms
     ],
   );
 }

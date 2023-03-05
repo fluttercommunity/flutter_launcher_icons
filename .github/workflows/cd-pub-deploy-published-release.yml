@@ -16,7 +16,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: Run a one-line script
-        uses: k-paxian/dart-package-publisher@v1.2
+        uses: k-paxian/dart-package-publisher@v1.5.1
         with:
           accessToken: ${{ secrets.PUB_ACCESS_TOKEN }}
           refreshToken: ${{ secrets.PUB_REFRESH_TOKEN}}

@@ -82,6 +82,7 @@ class FlutterLauncherIconsConfig {
   factory FlutterLauncherIconsConfig.fromJson(Map json) =>
       _$FlutterLauncherIconsConfigFromJson(json);
 
+  /// whether or not there is configuration for adaptive icons for android
   bool get hasAndroidAdaptiveConfig =>
       isNeedingNewAndroidIcon &&
       adaptiveIconForeground != null &&
@@ -101,16 +102,20 @@ class FlutterLauncherIconsConfig {
   /// bool - override the default flutter project icon
   bool get isCustomAndroidFile => android is String;
 
+  /// if we are needing a new Android icon
   bool get isNeedingNewAndroidIcon => android != false;
 
+  /// if we are needing a new iOS icon
   bool get isNeedingNewIOSIcon => ios != false;
 
   /// Method for the retrieval of the Android icon path
   /// If image_path_android is found, this will be prioritised over the image_path
   /// value.
   String? getImagePathAndroid() => imagePathAndroid ?? imagePath;
-  // todo: refactor after Android & iOS configs will be refactored to the new schema
+
+  // TODO(RatakondalaArun): refactor after Android & iOS configs will be refactored to the new schema
   // https://github.com/fluttercommunity/flutter_launcher_icons/issues/394
+  /// get the image path for IOS
   String? getImagePathIOS() => imagePathIOS ?? imagePath;
 
   /// Converts config to [Map]
@@ -144,7 +149,7 @@ class FlutterLauncherIconsConfig {
       return yaml.checkedYamlDecode<FlutterLauncherIconsConfig?>(
         configContent,
         (json) {
-          // todo: add support for new scheme https://github.com/fluttercommunity/flutter_launcher_icons/issues/373
+          // TODO(RatakondalaArun): add support for new scheme https://github.com/fluttercommunity/flutter_launcher_icons/issues/373
           return json == null || json['flutter_icons'] == null
               ? null
               : FlutterLauncherIconsConfig.fromJson(json['flutter_icons']);
@@ -169,7 +174,7 @@ class FlutterLauncherIconsConfig {
       return yaml.checkedYamlDecode<FlutterLauncherIconsConfig?>(
         pubspecContent,
         (json) {
-          // todo: add support for new scheme https://github.com/fluttercommunity/flutter_launcher_icons/issues/373
+          // TODO(RatakondalaArun): add support for new scheme https://github.com/fluttercommunity/flutter_launcher_icons/issues/373
           return json == null || json['flutter_icons'] == null
               ? null
               : FlutterLauncherIconsConfig.fromJson(json['flutter_icons']);
