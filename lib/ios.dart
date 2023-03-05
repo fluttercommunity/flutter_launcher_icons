@@ -55,9 +55,29 @@ void createIcons(FlutterLauncherIconsConfig config, String? flavor) {
   }
   // decodeImageFile shows error message if null
   // so can return here if image is null
-  final Image? image = decodeImage(File(filePath).readAsBytesSync());
+  Image? image = decodeImage(File(filePath).readAsBytesSync());
   if (image == null) {
     return;
+  }
+  final String? backgroundConfig = config.adaptiveIconBackground;
+  if (RegExp(r'^#?[0-9a-fA-F]{6}$').hasMatch(backgroundConfig ?? '')) {
+    final int? bg =
+        int.tryParse(backgroundConfig!.replaceAll('#', ''), radix: 16);
+    if (bg != null) {
+      final Image withBackground = Image(
+        width: image.width,
+        height: image.height,
+      );
+
+      fill(
+        withBackground,
+        color: ColorRgb8((bg >> 16) & 0xFF, (bg >> 8) & 0xFF, bg & 0xFF),
+      );
+
+      image = compositeImage(withBackground, image);
+    } else {
+      print('\nWARNING: Invalid adaptive_icon_background for iOS.');
+    }
   }
   if (config.removeAlphaIOS) {
     image.remapChannels(ChannelOrder.rgb);
