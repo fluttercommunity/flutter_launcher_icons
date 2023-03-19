@@ -52,7 +52,7 @@ After setting up the configuration, all that is left to do is run the package.
 
 ```shell
 flutter pub get
-flutter pub run flutter_launcher_icons
+flutter pub run flutter_launcher_icons:main
 ```
 
 If you encounter any issues [please report them here](https://github.com/fluttercommunity/flutter_launcher_icons/issues).
