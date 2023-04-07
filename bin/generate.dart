@@ -55,14 +55,22 @@ void main(List<String> arguments) {
       );
     }
   } else {
-    file.createSync(recursive: true);
-    _generateConfigFile(file);
+    try {
+      file.createSync(recursive: true);
+      _generateConfigFile(file);
+    } on Exception catch (e) {
+      print('Error creating file: $e');
+    }
   }
 }
 
 void _generateConfigFile(File configFile) {
-  configFile.writeAsStringSync(_configFileTemplate);
-  print('Config file generated successfully');
+  try {
+    configFile.writeAsStringSync(_configFileTemplate);
+    print('Config file generated successfully');
+  } on Exception catch (e) {
+    print('Error generating config file: $e');
+  }
 }
 
 const _configFileTemplate = '''
