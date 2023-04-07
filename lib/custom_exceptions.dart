@@ -4,6 +4,7 @@ import 'package:flutter_launcher_icons/utils.dart';
 class InvalidConfigException implements Exception {
   /// Constructs instance
   const InvalidConfigException([this.message]);
+
   /// Message for the exception
   final String? message;
 
@@ -17,6 +18,7 @@ class InvalidConfigException implements Exception {
 class InvalidAndroidIconNameException implements Exception {
   /// Constructs instance of this exception
   const InvalidAndroidIconNameException([this.message]);
+
   /// Message for the exception
   final String? message;
 
@@ -30,6 +32,7 @@ class InvalidAndroidIconNameException implements Exception {
 class NoConfigFoundException implements Exception {
   /// Constructs instance of this exception
   const NoConfigFoundException([this.message]);
+
   /// Message for the exception
   final String? message;
 
@@ -43,6 +46,7 @@ class NoConfigFoundException implements Exception {
 class NoDecoderForImageFormatException implements Exception {
   /// Constructs instance of this exception
   const NoDecoderForImageFormatException([this.message]);
+
   /// Message for the exception
   final String? message;
 

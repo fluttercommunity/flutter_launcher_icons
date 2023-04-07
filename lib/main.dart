@@ -16,7 +16,6 @@ import 'package:flutter_launcher_icons/web/web_icon_generator.dart';
 import 'package:flutter_launcher_icons/windows/windows_icon_generator.dart';
 import 'package:path/path.dart' as path;
 
-
 const String fileOption = 'file';
 const String helpFlag = 'help';
 const String verboseFlag = 'verbose';
