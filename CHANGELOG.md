@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.0 (7th April 2023)
+
+- Fix remove alpha for iOS [#464](https://github.com/fluttercommunity/flutter_launcher_icons/pull/464)
+- Updating code style [#472](https://github.com/fluttercommunity/flutter_launcher_icons/pull/472)
+- Updated out of bounds dependency [#473](https://github.com/fluttercommunity/flutter_launcher_icons/pull/473)
+
 ## 0.12.0 (24th February 2023)
 
 - Updated image package and other packages [#447](https://github.com/fluttercommunity/flutter_launcher_icons/pull/447)
