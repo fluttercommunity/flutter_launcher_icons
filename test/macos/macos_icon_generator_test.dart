@@ -17,7 +17,6 @@ import '../templates.dart' as templates;
   MockSpec<MacOSConfig>(),
   MockSpec<FLILogger>(),
 ])
-
 import 'macos_icon_generator_test.mocks.dart';
 
 void main() {

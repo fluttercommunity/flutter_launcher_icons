@@ -16,6 +16,7 @@ class IosIconTemplate {
 
   /// suffix of the icon name
   final String name;
+
   /// the size of the icon
   final int size;
 }
@@ -194,7 +195,6 @@ String generateContentsFileAsString(String newIconName) {
   };
   return json.encode(contentJson);
 }
-
 
 class ContentsImageObject {
   ContentsImageObject({
