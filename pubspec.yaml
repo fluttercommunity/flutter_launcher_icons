@@ -9,7 +9,7 @@ issue_tracker: https://github.com/fluttercommunity/flutter_launcher_icons/issues
 dependencies:
   args: ^2.3.2
   checked_yaml: ^2.0.2
-  cli_util: ^0.3.5
+  cli_util: ^0.4.0
   image: ^4.0.15
   json_annotation: ^4.8.0
   path: ^1.8.2
