@@ -5,6 +5,8 @@ import 'package:args/args.dart';
 import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/src/version.dart';
 
+const _defaultConfigFileName = './flutter_launcher_icons.yaml';
+
 /// The function will be called from command line
 /// using the following command:
 /// ```sh
@@ -31,7 +33,7 @@ void main(List<String> arguments) {
     ..addOption(
       'fileName',
       abbr: 'f',
-      defaultsTo: './flutter_launcher_icons.yaml',
+      defaultsTo: _defaultConfigFileName,
     );
 
   final results = parser.parse(arguments);
@@ -67,7 +69,13 @@ void main(List<String> arguments) {
 void _generateConfigFile(File configFile) {
   try {
     configFile.writeAsStringSync(_configFileTemplate);
-    print('Config file generated successfully');
+
+    print('\nConfig file generated successfully 🎉');
+    print(
+      'You can now use this new config file by using the command below:\n\n'
+      'flutter pub run flutter_launcher_icons'
+      '${configFile.path == _defaultConfigFileName ? '' : ' -f ${configFile.path}'}\n',
+    );
   } on Exception catch (e) {
     print('Error generating config file: $e');
   }
