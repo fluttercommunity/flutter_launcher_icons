@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter_launcher_icons/abs/icon_generator.dart';
-import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
+import 'package:flutter_launcher_icons/config/config.dart';
+import 'package:flutter_launcher_icons/config/windows_config.dart';
 import 'package:flutter_launcher_icons/logger.dart';
 import 'package:flutter_launcher_icons/windows/windows_icon_generator.dart';
 import 'package:mockito/annotations.dart';
@@ -13,12 +14,12 @@ import 'package:test_descriptor/test_descriptor.dart' as d;
 import '../templates.dart' as templates;
 import 'windows_icon_generator_test.mocks.dart';
 
-@GenerateMocks([FlutterLauncherIconsConfig, WindowsConfig, FLILogger])
+@GenerateMocks([Config, WindowsConfig, FLILogger])
 void main() {
   group('WindowsIconGenerator', () {
     late IconGeneratorContext context;
     late IconGenerator generator;
-    late FlutterLauncherIconsConfig mockConfig;
+    late Config mockConfig;
     late WindowsConfig mockWindowsConfig;
     late String prefixPath;
     late File testImageFile;
@@ -33,7 +34,7 @@ void main() {
       });
       setUp(() async {
         prefixPath = path.join(d.sandbox, 'fli_test');
-        mockConfig = MockFlutterLauncherIconsConfig();
+        mockConfig = MockConfig();
         mockWindowsConfig = MockWindowsConfig();
         mockLogger = MockFLILogger();
         context = IconGeneratorContext(
@@ -122,7 +123,7 @@ void main() {
   group('WindowsIconGenerator end-to-end', () {
     late IconGeneratorContext context;
     late IconGenerator generator;
-    late FlutterLauncherIconsConfig config;
+    late Config config;
     late String prefixPath;
     final assetPath = path.join(Directory.current.path, 'test', 'assets');
 
@@ -136,7 +137,7 @@ void main() {
         d.file('app_icon.png', imageFile.readAsBytesSync()),
       ]).create();
       prefixPath = path.join(d.sandbox, 'fli_test');
-      config = FlutterLauncherIconsConfig.loadConfigFromPath(
+      config = Config.loadConfigFromPath(
         'flutter_launcher_icons.yaml',
         prefixPath,
       )!;

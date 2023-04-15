@@ -13,7 +13,7 @@ dependencies:
   flutter_launcher_icons:
     path: ../..
 
-flutter_icons:
+flutter_launcher_icons:
   #  image_path: "assets/images/icon-128x128.png"
   image_path_android: "assets/images/icon-710x599-android.png"
   image_path_ios: "assets/images/icon-1024x1024.png"

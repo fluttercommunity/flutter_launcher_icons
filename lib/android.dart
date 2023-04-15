@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/constants.dart' as constants;
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
-import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
+import 'package:flutter_launcher_icons/config/config.dart';
 import 'package:flutter_launcher_icons/utils.dart' as utils;
 import 'package:flutter_launcher_icons/xml_templates.dart' as xml_template;
 import 'package:image/image.dart';
@@ -35,12 +35,12 @@ List<AndroidIconTemplate> androidIcons = <AndroidIconTemplate>[
 ];
 
 void createDefaultIcons(
-  FlutterLauncherIconsConfig flutterLauncherIconsConfig,
+  Config config,
   String? flavor,
 ) {
   utils.printStatus('Creating default icons Android');
   // TODO(p-mazhnik): support prefixPath
-  final String? filePath = flutterLauncherIconsConfig.getImagePathAndroid();
+  final String? filePath = config.getImagePathAndroid();
   if (filePath == null) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
@@ -49,9 +49,9 @@ void createDefaultIcons(
     return;
   }
   final File androidManifestFile = File(constants.androidManifestFile);
-  if (flutterLauncherIconsConfig.isCustomAndroidFile) {
+  if (config.isCustomAndroidFile) {
     utils.printStatus('Adding a new Android launcher icon');
-    final String iconName = flutterLauncherIconsConfig.android;
+    final String iconName = config.android;
     isAndroidIconNameCorrectFormat(iconName);
     final String iconPath = '$iconName.png';
     for (AndroidIconTemplate template in androidIcons) {
@@ -89,16 +89,16 @@ bool isAndroidIconNameCorrectFormat(String iconName) {
 }
 
 void createAdaptiveIcons(
-  FlutterLauncherIconsConfig flutterLauncherIconsConfig,
+  Config config,
   String? flavor,
 ) {
   utils.printStatus('Creating adaptive icons Android');
 
   // Retrieve the necessary Flutter Launcher Icons configuration from the pubspec.yaml file
   final String? backgroundConfig =
-      flutterLauncherIconsConfig.adaptiveIconBackground;
+      config.adaptiveIconBackground;
   final String? foregroundImagePath =
-      flutterLauncherIconsConfig.adaptiveIconForeground;
+      config.adaptiveIconForeground;
   if (backgroundConfig == null || foregroundImagePath == null) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
@@ -120,12 +120,12 @@ void createAdaptiveIcons(
   // Create adaptive icon background
   if (isAdaptiveIconConfigPngFile(backgroundConfig)) {
     _createAdaptiveBackgrounds(
-      flutterLauncherIconsConfig,
+      config,
       backgroundConfig,
       flavor,
     );
   } else {
-    createAdaptiveIconMipmapXmlFile(flutterLauncherIconsConfig, flavor);
+    createAdaptiveIconMipmapXmlFile(config, flavor);
     updateColorsXmlFile(backgroundConfig, flavor);
   }
 }
@@ -156,13 +156,13 @@ void updateColorsXmlFile(String backgroundConfig, String? flavor) {
 /// Creates the xml file required for the adaptive launcher icon
 /// FILE LOCATED HERE: res/mipmap-anydpi/{icon-name-from-yaml-config}.xml
 void createAdaptiveIconMipmapXmlFile(
-  FlutterLauncherIconsConfig flutterLauncherIconsConfig,
+  Config config,
   String? flavor,
 ) {
-  if (flutterLauncherIconsConfig.isCustomAndroidFile) {
+  if (config.isCustomAndroidFile) {
     File(
       constants.androidAdaptiveXmlFolder(flavor) +
-          flutterLauncherIconsConfig.android +
+          config.android +
           '.xml',
     ).create(recursive: true).then((File adaptiveIcon) {
       adaptiveIcon.writeAsString(xml_template.icLauncherXml);
@@ -180,7 +180,7 @@ void createAdaptiveIconMipmapXmlFile(
 
 /// creates adaptive background using png image
 void _createAdaptiveBackgrounds(
-  FlutterLauncherIconsConfig flutterLauncherIconsConfig,
+  Config config,
   String adaptiveIconBackgroundImagePath,
   String? flavor,
 ) {
@@ -203,10 +203,10 @@ void _createAdaptiveBackgrounds(
 
   // Creates the xml file required for the adaptive launcher icon
   // FILE LOCATED HERE:  res/mipmap-anydpi/{icon-name-from-yaml-config}.xml
-  if (flutterLauncherIconsConfig.isCustomAndroidFile) {
+  if (config.isCustomAndroidFile) {
     File(
       constants.androidAdaptiveXmlFolder(flavor) +
-          flutterLauncherIconsConfig.android +
+          config.android +
           '.xml',
     ).create(recursive: true).then((File adaptiveIcon) {
       adaptiveIcon.writeAsString(xml_template.icLauncherDrawableBackgroundXml);
