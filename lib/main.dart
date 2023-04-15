@@ -12,6 +12,7 @@ import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
 import 'package:flutter_launcher_icons/ios.dart' as ios_launcher_icons;
 import 'package:flutter_launcher_icons/logger.dart';
 import 'package:flutter_launcher_icons/macos/macos_icon_generator.dart';
+import 'package:flutter_launcher_icons/macos/macos_icon_template.dart';
 import 'package:flutter_launcher_icons/web/web_icon_generator.dart';
 import 'package:flutter_launcher_icons/windows/windows_icon_generator.dart';
 import 'package:path/path.dart' as path;
@@ -151,12 +152,19 @@ Future<void> createIconsFromConfig(
     logger: logger,
     prefixPath: prefixPath,
     flavor: flavor,
-    platforms: (context) => [
-      WebIconGenerator(context),
-      WindowsIconGenerator(context),
-      MacOSIconGenerator(context),
-      // TODO(RatakondalaArun): add other platforms
-    ],
+    platforms: (context) {
+      final platforms = <IconGenerator>[];
+      if (flutterConfigs.hasWebConfig) {
+        platforms.add(WebIconGenerator(context));
+      }
+      if (flutterConfigs.hasWindowsConfig) {
+        platforms.add(WindowsIconGenerator(context));
+      }
+      if (flutterConfigs.hasMacOSConfig) {
+        platforms.add(MacOSIconGenerator(context));
+      }
+      return platforms;
+    },
   );
 }
 
