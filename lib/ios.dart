@@ -5,7 +5,7 @@ import 'dart:io';
 
 import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
-import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
+import 'package:flutter_launcher_icons/config/config.dart';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:image/image.dart';
 
@@ -47,7 +47,7 @@ List<IosIconTemplate> iosIcons = <IosIconTemplate>[
 ];
 
 /// create the ios icons
-void createIcons(FlutterLauncherIconsConfig config, String? flavor) {
+void createIcons(Config config, String? flavor) {
   // TODO(p-mazhnik): support prefixPath
   final String? filePath = config.getImagePathIOS();
   if (filePath == null) {

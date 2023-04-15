@@ -1,5 +1,5 @@
 import 'package:flutter_launcher_icons/abs/icon_generator.dart';
-import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
+import 'package:flutter_launcher_icons/config/config.dart';
 import 'package:flutter_launcher_icons/logger.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -9,16 +9,16 @@ import 'package:test_descriptor/test_descriptor.dart' as d;
 
 import 'icon_generator_test.mocks.dart';
 
-@GenerateMocks([FlutterLauncherIconsConfig, IconGenerator])
+@GenerateMocks([Config, IconGenerator])
 void main() {
   group('#generateIconsFor', () {
     late String prefixPath;
     late FLILogger logger;
     late IconGenerator mockGenerator;
-    late FlutterLauncherIconsConfig mockFLIConfig;
+    late Config mockFLIConfig;
     setUp(() async {
       prefixPath = path.join(d.sandbox, 'fli_test');
-      mockFLIConfig = MockFlutterLauncherIconsConfig();
+      mockFLIConfig = MockConfig();
       logger = FLILogger(false);
       mockGenerator = MockIconGenerator();
       when(mockGenerator.platformName).thenReturn('Mock');
