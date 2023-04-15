@@ -97,6 +97,13 @@ class FlutterLauncherIconsConfig {
         macOSConfig != null;
   }
 
+  /// Whether or not configuration for generating Web icons exist
+  bool get hasWebConfig => webConfig != null;
+  /// Whether or not configuration for generating Windows icons exist
+  bool get hasWindowsConfig => windowsConfig != null;
+  /// Whether or not configuration for generating MacOS icons exists
+  bool get hasMacOSConfig => macOSConfig != null;
+
   /// Check to see if specified Android config is a string or bool
   /// String - Generate new launcher icon with the string specified
   /// bool - override the default flutter project icon
