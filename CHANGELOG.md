@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.13.1 (15th April 2023)
+
+- Can now use `flutter_launcher_icons` instead of `flutter_icons` [#478](https://github.com/fluttercommunity/flutter_launcher_icons/pull/478)
+
+
 ## 0.13.0 (7th April 2023)
 
 - Fix remove alpha for iOS [#464](https://github.com/fluttercommunity/flutter_launcher_icons/pull/464)

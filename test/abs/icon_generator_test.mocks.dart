@@ -4,8 +4,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:flutter_launcher_icons/abs/icon_generator.dart' as _i2;
-import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart'
-    as _i3;
+import 'package:flutter_launcher_icons/config/config.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -30,12 +29,11 @@ class _FakeIconGeneratorContext_0 extends _i1.SmartFake
         );
 }
 
-/// A class which mocks [FlutterLauncherIconsConfig].
+/// A class which mocks [Config].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFlutterLauncherIconsConfig extends _i1.Mock
-    implements _i3.FlutterLauncherIconsConfig {
-  MockFlutterLauncherIconsConfig() {
+class MockConfig extends _i1.Mock implements _i3.Config {
+  MockConfig() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -57,6 +55,21 @@ class MockFlutterLauncherIconsConfig extends _i1.Mock
   @override
   bool get hasPlatformConfig => (super.noSuchMethod(
         Invocation.getter(#hasPlatformConfig),
+        returnValue: false,
+      ) as bool);
+  @override
+  bool get hasWebConfig => (super.noSuchMethod(
+        Invocation.getter(#hasWebConfig),
+        returnValue: false,
+      ) as bool);
+  @override
+  bool get hasWindowsConfig => (super.noSuchMethod(
+        Invocation.getter(#hasWindowsConfig),
+        returnValue: false,
+      ) as bool);
+  @override
+  bool get hasMacOSConfig => (super.noSuchMethod(
+        Invocation.getter(#hasMacOSConfig),
         returnValue: false,
       ) as bool);
   @override
