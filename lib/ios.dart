@@ -3,9 +3,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_launcher_icons/config/config.dart';
 import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
-import 'package:flutter_launcher_icons/config/config.dart';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:image/image.dart';
 

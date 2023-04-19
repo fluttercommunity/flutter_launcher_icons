@@ -5,14 +5,13 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:flutter_launcher_icons/abs/icon_generator.dart';
 import 'package:flutter_launcher_icons/android.dart' as android_launcher_icons;
+import 'package:flutter_launcher_icons/config/config.dart';
 import 'package:flutter_launcher_icons/constants.dart' as constants;
 import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
-import 'package:flutter_launcher_icons/config/config.dart';
 import 'package:flutter_launcher_icons/ios.dart' as ios_launcher_icons;
 import 'package:flutter_launcher_icons/logger.dart';
 import 'package:flutter_launcher_icons/macos/macos_icon_generator.dart';
-import 'package:flutter_launcher_icons/macos/macos_icon_template.dart';
 import 'package:flutter_launcher_icons/web/web_icon_generator.dart';
 import 'package:flutter_launcher_icons/windows/windows_icon_generator.dart';
 import 'package:path/path.dart' as path;
@@ -172,11 +171,10 @@ Config? loadConfigFileFromArgResults(
   ArgResults argResults,
 ) {
   final String prefixPath = argResults[prefixOption];
-  final flutterLauncherIconsConfigs =
-      Config.loadConfigFromPath(
-            argResults[fileOption],
-            prefixPath,
-          ) ??
-          Config.loadConfigFromPubSpec(prefixPath);
+  final flutterLauncherIconsConfigs = Config.loadConfigFromPath(
+        argResults[fileOption],
+        prefixPath,
+      ) ??
+      Config.loadConfigFromPubSpec(prefixPath);
   return flutterLauncherIconsConfigs;
 }

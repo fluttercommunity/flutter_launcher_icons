@@ -1,5 +1,5 @@
-import 'package:flutter_launcher_icons/custom_exceptions.dart';
 import 'package:flutter_launcher_icons/config/config.dart';
+import 'package:flutter_launcher_icons/custom_exceptions.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import 'package:test_descriptor/test_descriptor.dart' as d;
@@ -7,7 +7,7 @@ import 'package:test_descriptor/test_descriptor.dart' as d;
 import './templates.dart' as templates;
 
 void main() {
-  group('FlutterLauncherIconsConfig', () {
+  group('Config', () {
     late String prefixPath;
     setUpAll(() {
       prefixPath = path.join(d.sandbox, 'fli_test');
@@ -98,8 +98,7 @@ void main() {
     group('#loadConfigFromTestPubSpec', () {
       test('should return valid configs', () {
         const String path = 'test/config/test_pubspec.yaml';
-        final configs =
-            Config.loadConfigFromPath(path, '.');
+        final configs = Config.loadConfigFromPath(path, '.');
         expect(configs, isNotNull);
         const String imagePath = 'assets/images/icon-710x599.png';
         expect(configs!.imagePath, equals(imagePath));
@@ -132,8 +131,7 @@ void main() {
         ]).create();
       });
       test('should return valid configs', () {
-        final configs =
-            Config.loadConfigFromPubSpec(prefixPath);
+        final configs = Config.loadConfigFromPubSpec(prefixPath);
         expect(configs, isNotNull);
         // android configs
         expect(configs!.android, isTrue);

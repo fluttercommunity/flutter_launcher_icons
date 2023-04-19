@@ -54,10 +54,11 @@ void main() {
     tearDown(() {
       Directory.current = currentDirectory;
     });
+
     test('default', () async {
       await setCurrentDirectory('default');
       await File('flutter_launcher_icons.yaml').writeAsString('''
-flutter_icons:
+flutter_launcher_icons:
   android: true
   ios: false
 ''');
@@ -70,7 +71,7 @@ flutter_icons:
     test('default_use_pubspec', () async {
       await setCurrentDirectory('pubspec_only');
       await File('pubspec.yaml').writeAsString('''
-flutter_icons:
+flutter_launcher_icons:
   android: true
   ios: false
 ''');
@@ -88,7 +89,7 @@ flutter_icons:
     test('custom', () async {
       await setCurrentDirectory('custom');
       await File('custom.yaml').writeAsString('''
-flutter_icons:
+flutter_launcher_icons:
   android: true
   ios: true
 ''');
