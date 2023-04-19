@@ -2,10 +2,10 @@
 
 import 'dart:io';
 
+import 'package:flutter_launcher_icons/config/config.dart';
 import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/constants.dart' as constants;
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
-import 'package:flutter_launcher_icons/config/config.dart';
 import 'package:flutter_launcher_icons/utils.dart' as utils;
 import 'package:flutter_launcher_icons/xml_templates.dart' as xml_template;
 import 'package:image/image.dart';
@@ -95,10 +95,8 @@ void createAdaptiveIcons(
   utils.printStatus('Creating adaptive icons Android');
 
   // Retrieve the necessary Flutter Launcher Icons configuration from the pubspec.yaml file
-  final String? backgroundConfig =
-      config.adaptiveIconBackground;
-  final String? foregroundImagePath =
-      config.adaptiveIconForeground;
+  final String? backgroundConfig = config.adaptiveIconBackground;
+  final String? foregroundImagePath = config.adaptiveIconForeground;
   if (backgroundConfig == null || foregroundImagePath == null) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
@@ -161,9 +159,7 @@ void createAdaptiveIconMipmapXmlFile(
 ) {
   if (config.isCustomAndroidFile) {
     File(
-      constants.androidAdaptiveXmlFolder(flavor) +
-          config.android +
-          '.xml',
+      constants.androidAdaptiveXmlFolder(flavor) + config.android + '.xml',
     ).create(recursive: true).then((File adaptiveIcon) {
       adaptiveIcon.writeAsString(xml_template.icLauncherXml);
     });
@@ -205,9 +201,7 @@ void _createAdaptiveBackgrounds(
   // FILE LOCATED HERE:  res/mipmap-anydpi/{icon-name-from-yaml-config}.xml
   if (config.isCustomAndroidFile) {
     File(
-      constants.androidAdaptiveXmlFolder(flavor) +
-          config.android +
-          '.xml',
+      constants.androidAdaptiveXmlFolder(flavor) + config.android + '.xml',
     ).create(recursive: true).then((File adaptiveIcon) {
       adaptiveIcon.writeAsString(xml_template.icLauncherDrawableBackgroundXml);
     });

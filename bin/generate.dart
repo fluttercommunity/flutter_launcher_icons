@@ -83,7 +83,7 @@ void _generateConfigFile(File configFile) {
 
 const _configFileTemplate = '''
 # flutter pub run flutter_launcher_icons
-flutter_icons:
+flutter_launcher_icons:
   image_path: "assets/icon/icon.png"
 
   android: "launcher_icon"
