@@ -34,12 +34,11 @@ class Config {
     this.macOSConfig,
   });
 
-
   /// Creates [Config] for given [flavor] and [prefixPath]
   static Config? loadConfigFromFlavor(
-      String flavor,
-      String prefixPath,
-      ) {
+    String flavor,
+    String prefixPath,
+  ) {
     return _getConfigFromPubspecYaml(
       prefix: prefixPath,
       pathToPubspecYamlFile: utils.flavorConfigFile(flavor),
@@ -74,7 +73,7 @@ class Config {
     try {
       return yaml.checkedYamlDecode<Config?>(
         configContent,
-            (Map<dynamic, dynamic>? json) {
+        (Map<dynamic, dynamic>? json) {
           if (json != null) {
             // if we have flutter_icons configuration ...
             if (json['flutter_icons'] != null) {

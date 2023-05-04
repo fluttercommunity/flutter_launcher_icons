@@ -63,8 +63,7 @@ flutter_launcher_icons:
   ios: false
 ''');
       final ArgResults argResults = parser.parse(<String>[]);
-      final Config? config =
-          main_dart.loadConfigFileFromArgResults(argResults);
+      final Config? config = main_dart.loadConfigFileFromArgResults(argResults);
       expect(config, isNotNull);
       expect(config!.android, isTrue);
     });
@@ -76,8 +75,7 @@ flutter_launcher_icons:
   ios: false
 ''');
       ArgResults argResults = parser.parse(<String>[]);
-      final Config? config =
-          main_dart.loadConfigFileFromArgResults(argResults);
+      final Config? config = main_dart.loadConfigFileFromArgResults(argResults);
       expect(config, isNotNull);
       expect(config!.ios, isFalse);
 
@@ -95,8 +93,7 @@ flutter_launcher_icons:
 ''');
       // if no argument set, should fail
       ArgResults argResults = parser.parse(<String>['-f', 'custom.yaml']);
-      final Config? config =
-          main_dart.loadConfigFileFromArgResults(argResults);
+      final Config? config = main_dart.loadConfigFileFromArgResults(argResults);
       expect(config, isNotNull);
       expect(config!.ios, isTrue);
 
@@ -127,8 +124,7 @@ flutter_launcher_icons:
       'android': true,
       'ios': true
     };
-    final configAndroid =
-        Config.fromJson(flutterIconsConfigAndroid);
+    final configAndroid = Config.fromJson(flutterIconsConfigAndroid);
     expect(
       configAndroid.getImagePathAndroid(),
       equals('assets/images/icon-710x599.png'),
@@ -140,8 +136,7 @@ flutter_launcher_icons:
       'android': true,
       'ios': true
     };
-    final configBoth =
-        Config.fromJson(flutterIconsConfigBoth);
+    final configBoth = Config.fromJson(flutterIconsConfigBoth);
     expect(
       configBoth.getImagePathAndroid(),
       equals('assets/images/icon-android.png'),
