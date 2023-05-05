@@ -1,6 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
+import 'package:flutter_launcher_icons/config/config.dart';
+import 'package:flutter_launcher_icons/config/macos_config.dart';
+import 'package:flutter_launcher_icons/config/web_config.dart';
+import 'package:flutter_launcher_icons/config/windows_config.dart';
 import 'package:flutter_launcher_icons/logger.dart';
 
 /// A base class to generate icons
@@ -34,7 +37,7 @@ abstract class IconGenerator {
 /// Provides easy access to user arguments and configuration
 class IconGeneratorContext {
   /// Contains configuration from configuration file
-  final FlutterLauncherIconsConfig config;
+  final Config config;
 
   /// A logger
   final FLILogger logger;
@@ -65,7 +68,7 @@ class IconGeneratorContext {
 
 /// Generates Icon for given platforms
 void generateIconsFor({
-  required FlutterLauncherIconsConfig config,
+  required Config config,
   required String? flavor,
   required String prefixPath,
   required FLILogger logger,
@@ -111,7 +114,7 @@ void generateIconsFor({
       }
     }
   } catch (e, st) {
-    // todo: better error handling
+    // TODO(RatakondalaArun): better error handling
     // stacktrace should only print when verbose is turned on
     // else a normal help line
     logger

@@ -1,5 +1,5 @@
 const fliConfigTemplate = r'''
-flutter_icons:
+flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/images/icon-128x128.png"
@@ -28,7 +28,7 @@ flutter_icons:
 const flavorFLIConfigTemplate = fliConfigTemplate;
 
 const fliWebConfig = r'''
-flutter_icons:
+flutter_launcher_icons:
   web:
     generate: true
     image_path: "app_icon.png" # filepath
@@ -39,7 +39,7 @@ flutter_icons:
 ''';
 
 const fliWindowsConfig = r'''
-flutter_icons:
+flutter_launcher_icons:
   windows:
     generate: true
     image_path: "app_icon.png"
@@ -47,7 +47,7 @@ flutter_icons:
 ''';
 
 const invalidfliConfigTemplate = r'''
-# flutter_icons
+# flutter_launcher_icons
 android: true
 ios: true
 image_path: "assets/images/icon-128x128.png"
@@ -103,7 +103,7 @@ flutter:
         - asset: fonts/TrajanPro_Bold.ttf
           weight: 700
 
-flutter_icons:
+flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/images/icon-128x128.png"
@@ -167,7 +167,7 @@ flutter:
         - asset: fonts/TrajanPro_Bold.ttf
           weight: 700
 
-flutter_icons:
+flutter_launcher_icons:
   android: true
  invalid_indented_key_key
   ios: true

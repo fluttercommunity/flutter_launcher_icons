@@ -1,7 +1,23 @@
 # Changelog
 
-## 0.11.0 (27th September 2022)
+## 0.13.1 (15th April 2023)
 
+- Can now use `flutter_launcher_icons` instead of `flutter_icons` [#478](https://github.com/fluttercommunity/flutter_launcher_icons/pull/478)
+- Can use command `flutter pub run flutter_launcher_icons:generate` to automatically generate config file [#475](https://github.com/fluttercommunity/flutter_launcher_icons/pull/475)
+
+
+## 0.13.0 (7th April 2023)
+
+- Fix remove alpha for iOS [#464](https://github.com/fluttercommunity/flutter_launcher_icons/pull/464)
+- Updating code style [#472](https://github.com/fluttercommunity/flutter_launcher_icons/pull/472)
+- Updated out of bounds dependency [#473](https://github.com/fluttercommunity/flutter_launcher_icons/pull/473)
+
+## 0.12.0 (24th February 2023)
+
+- Updated image package and other packages [#447](https://github.com/fluttercommunity/flutter_launcher_icons/pull/447)
+
+## 0.11.0 (27th September 2022)
+    
 - Support for Macos Icons [#407](https://github.com/fluttercommunity/flutter_launcher_icons/pull/407)
 - Cli-improvement [#400](https://github.com/fluttercommunity/flutter_launcher_icons/pull/400)
 - Add `repository` and `issue_tracker` [#411](https://github.com/fluttercommunity/flutter_launcher_icons/pull/411) (thanks to [@patelpathik](https://github.com/patelpathik))

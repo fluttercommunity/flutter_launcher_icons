@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter_launcher_icons/android.dart' as android;
+import 'package:flutter_launcher_icons/config/config.dart';
 import 'package:flutter_launcher_icons/constants.dart';
-import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
 import 'package:test/test.dart';
 
 // unit tests for android.dart
@@ -35,8 +35,7 @@ void main() {
       'ios': true
     };
     expect(
-      FlutterLauncherIconsConfig.fromJson(flutterIconsConfig)
-          .isCustomAndroidFile,
+      Config.fromJson(flutterIconsConfig).isCustomAndroidFile,
       isFalse,
     );
 
@@ -46,8 +45,7 @@ void main() {
       'ios': true
     };
     expect(
-      FlutterLauncherIconsConfig.fromJson(flutterIconsNewIconConfig)
-          .isCustomAndroidFile,
+      Config.fromJson(flutterIconsNewIconConfig).isCustomAndroidFile,
       isTrue,
     );
   });
@@ -60,8 +58,7 @@ void main() {
       'ios': true
     };
     expect(
-      FlutterLauncherIconsConfig.fromJson(flutterIconsNewIconConfig)
-          .getImagePathAndroid(),
+      Config.fromJson(flutterIconsNewIconConfig).getImagePathAndroid(),
       equals('assets/images/icon-android.png'),
     );
   });

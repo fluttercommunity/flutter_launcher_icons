@@ -4,7 +4,7 @@ description: A new Flutter project to quickly test flutter_launcher_icons.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.13.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -13,7 +13,7 @@ dependencies:
   flutter_launcher_icons:
     path: ../..
 
-flutter_icons:
+flutter_launcher_icons:
   #  image_path: "assets/images/icon-128x128.png"
   image_path_android: "assets/images/icon-710x599-android.png"
   image_path_ios: "assets/images/icon-1024x1024.png"

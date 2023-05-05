@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:path/path.dart' as path;
 
 /// Relative path to android resource folder
@@ -44,7 +46,7 @@ String webIconsDirPath = path.join(webDirPath, 'icons');
 
 /// Relative web manifest.json file path
 String webManifestFilePath = path.join(webDirPath, 'manifest.json');
-// todo: support for other images formats
+// TODO(RatakondalaArun): support for other images formats
 /// Relative favicon.png path
 String webFaviconFilePath = path.join(webDirPath, 'favicon.png');
 

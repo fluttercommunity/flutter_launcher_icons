@@ -65,11 +65,11 @@ class MacOSIconGenerator extends IconGenerator {
     if (macOSConfig.imagePath == null && context.config.imagePath == null) {
       context.logger
         ..verbose({
-          'flutter_icons.macos.image_path': macOSConfig.imagePath,
-          'flutter_icons.image_path': context.config.imagePath,
+          'flutter_launcher_icons.macos.image_path': macOSConfig.imagePath,
+          'flutter_launcher_icons.image_path': context.config.imagePath,
         })
         ..error(
-          'Missing image_path. Either provide "flutter_icons.macos.image_path" or "flutter_icons.image_path"',
+          'Missing image_path. Either provide "flutter_launcher_icons.macos.image_path" or "flutter_launcher_icons.image_path"',
         );
 
       return false;

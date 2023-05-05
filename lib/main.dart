@@ -1,12 +1,14 @@
+// ignore_for_file: public_member_api_docs
+
 import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:flutter_launcher_icons/abs/icon_generator.dart';
 import 'package:flutter_launcher_icons/android.dart' as android_launcher_icons;
+import 'package:flutter_launcher_icons/config/config.dart';
 import 'package:flutter_launcher_icons/constants.dart' as constants;
 import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
-import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
 import 'package:flutter_launcher_icons/ios.dart' as ios_launcher_icons;
 import 'package:flutter_launcher_icons/logger.dart';
 import 'package:flutter_launcher_icons/macos/macos_icon_generator.dart';
@@ -101,7 +103,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
       for (String flavor in flavors) {
         print('\nFlavor: $flavor');
         final flutterLauncherIconsConfigs =
-            FlutterLauncherIconsConfig.loadConfigFromFlavor(flavor, prefixPath);
+            Config.loadConfigFromFlavor(flavor, prefixPath);
         if (flutterLauncherIconsConfigs == null) {
           throw NoConfigFoundException(
             'No configuration found for $flavor flavor.',
@@ -124,7 +126,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
 }
 
 Future<void> createIconsFromConfig(
-  FlutterLauncherIconsConfig flutterConfigs,
+  Config flutterConfigs,
   FLILogger logger,
   String prefixPath, [
   String? flavor,
@@ -149,24 +151,30 @@ Future<void> createIconsFromConfig(
     logger: logger,
     prefixPath: prefixPath,
     flavor: flavor,
-    platforms: (context) => [
-      WebIconGenerator(context),
-      WindowsIconGenerator(context),
-      MacOSIconGenerator(context),
-      // todo: add other platforms
-    ],
+    platforms: (context) {
+      final platforms = <IconGenerator>[];
+      if (flutterConfigs.hasWebConfig) {
+        platforms.add(WebIconGenerator(context));
+      }
+      if (flutterConfigs.hasWindowsConfig) {
+        platforms.add(WindowsIconGenerator(context));
+      }
+      if (flutterConfigs.hasMacOSConfig) {
+        platforms.add(MacOSIconGenerator(context));
+      }
+      return platforms;
+    },
   );
 }
 
-FlutterLauncherIconsConfig? loadConfigFileFromArgResults(
+Config? loadConfigFileFromArgResults(
   ArgResults argResults,
 ) {
   final String prefixPath = argResults[prefixOption];
-  final flutterLauncherIconsConfigs =
-      FlutterLauncherIconsConfig.loadConfigFromPath(
-            argResults[fileOption],
-            prefixPath,
-          ) ??
-          FlutterLauncherIconsConfig.loadConfigFromPubSpec(prefixPath);
+  final flutterLauncherIconsConfigs = Config.loadConfigFromPath(
+        argResults[fileOption],
+        prefixPath,
+      ) ??
+      Config.loadConfigFromPubSpec(prefixPath);
   return flutterLauncherIconsConfigs;
 }
