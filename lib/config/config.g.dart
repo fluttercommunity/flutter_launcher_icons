@@ -25,6 +25,8 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
               (v) => v as int? ?? constants.androidDefaultAndroidMinSDK),
           removeAlphaIOS:
               $checkedConvert('remove_alpha_ios', (v) => v as bool? ?? false),
+          backgroundColorIOS: $checkedConvert(
+              'background_color_ios', (v) => v as String? ?? '#ffffff'),
           webConfig: $checkedConvert(
               'web', (v) => v == null ? null : WebConfig.fromJson(v as Map)),
           windowsConfig: $checkedConvert('windows',
@@ -42,6 +44,7 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
         'adaptiveIconBackground': 'adaptive_icon_background',
         'minSdkAndroid': 'min_sdk_android',
         'removeAlphaIOS': 'remove_alpha_ios',
+        'backgroundColorIOS': 'background_color_ios',
         'webConfig': 'web',
         'windowsConfig': 'windows',
         'macOSConfig': 'macos'
@@ -58,6 +61,7 @@ Map<String, dynamic> _$ConfigToJson(Config instance) => <String, dynamic>{
       'adaptive_icon_background': instance.adaptiveIconBackground,
       'min_sdk_android': instance.minSdkAndroid,
       'remove_alpha_ios': instance.removeAlphaIOS,
+      'background_color_ios': instance.backgroundColorIOS,
       'web': instance.webConfig,
       'windows': instance.windowsConfig,
       'macos': instance.macOSConfig,
