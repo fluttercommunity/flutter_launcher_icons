@@ -404,7 +404,7 @@ Color _getBackgroundColor(Config config) {
   }
 
   final backgroundByte = int.parse(backgroundColorHex, radix: 16);
-  return = ColorRgba8(
+  return ColorRgba8(
     (backgroundByte >> 16) & 0xff,
     (backgroundByte >> 8) & 0xff,
     (backgroundByte >> 0) & 0xff,
