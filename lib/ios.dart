@@ -60,6 +60,12 @@ void createIcons(Config config, String? flavor) {
     return;
   }
   if (config.removeAlphaIOS && image.hasAlpha) {
+    final backgroundColor = _getBackgroundColor(config);
+    final pixel = image.getPixel(0, 0);
+    do {
+      pixel.set(_alphaBlend(pixel, backgroundColor));
+    } while (pixel.moveNext());
+
     image = image.convert(numChannels: 3);
   }
   if (image.hasAlpha) {
@@ -387,4 +393,38 @@ List<Map<String, String>> createImageList(String fileNamePrefix) {
     ).toJson()
   ];
   return imageList;
+}
+
+ColorUint8 _getBackgroundColor(Config config) {
+  final backgroundColorHex = config.backgroundColorIOS.startsWith('#')
+      ? config.backgroundColorIOS.substring(1)
+      : config.backgroundColorIOS;
+  if (backgroundColorHex.length != 6) {
+    throw Exception('background_color_ios hex should be 6 characters long');
+  }
+
+  final backgroundByte = int.parse(backgroundColorHex, radix: 16);
+  return ColorUint8.rgba(
+    (backgroundByte >> 16) & 0xff,
+    (backgroundByte >> 8) & 0xff,
+    (backgroundByte >> 0) & 0xff,
+    0xff,
+  );
+}
+
+Color _alphaBlend(Color fg, ColorUint8 bg) {
+  if (fg.format != Format.uint8) {
+    fg = fg.convert(format: Format.uint8);
+  }
+  if (fg.a == 0) {
+    return bg;
+  } else {
+    final invAlpha = 0xff - fg.a;
+    return ColorUint8.rgba(
+      (fg.a * fg.r + invAlpha * bg.g) ~/ 0xff,
+      (fg.a * fg.g + invAlpha * bg.a) ~/ 0xff,
+      (fg.a * fg.b + invAlpha * bg.b) ~/ 0xff,
+      0xff,
+    );
+  }
 }

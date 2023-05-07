@@ -57,6 +57,12 @@ class MockConfig extends _i1.Mock implements _i3.Config {
         returnValueForMissingStub: false,
       ) as bool);
   @override
+  String get backgroundColorIOS => (super.noSuchMethod(
+        Invocation.getter(#backgroundColorIOS),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+  @override
   bool get hasAndroidAdaptiveConfig => (super.noSuchMethod(
         Invocation.getter(#hasAndroidAdaptiveConfig),
         returnValue: false,
