@@ -114,6 +114,7 @@ be used to fill out the background of the adaptive icon.
   - `icon/path/here.png`: This will generate a new launcher icons for the platform with the name you specify, without removing the old default existing Flutter launcher icon.
 - `image_path_ios`: The location of the icon image file specific for iOS platform (optional - if not defined then the image_path is used)
 - `remove_alpha_ios`: Removes alpha channel for IOS icons
+- `background_color_ios`: The color (E.g. `"#000000"`) that is used as background when removing alpha. Only used when `remove_alpha_ios` is set to `true` (optional - if not defined then `#ffffff` is used)
 
 ### Web
 
