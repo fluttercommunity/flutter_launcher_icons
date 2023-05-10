@@ -156,7 +156,7 @@ Listed a couple common issues with solutions for them
 Caused by an update to the image dependency which is used by Flutter Launcher Icons.
 
 ```txt
-Use #AARRGGBB for colors instead of ##AABBGGRR, to be compatible with Flutter image class.
+Use #AARRGGBB for colors instead of #AABBGGRR, to be compatible with Flutter image class.
 ```
 
 [Related issue](https://github.com/fluttercommunity/flutter_launcher_icons/issues/98)
