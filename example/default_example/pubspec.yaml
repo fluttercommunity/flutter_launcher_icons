@@ -23,6 +23,7 @@ flutter_launcher_icons:
   adaptive_icon_foreground: "assets/images/icon-foreground-432x432.png" # only available for Android 8.0 devices and above
   min_sdk_android: 21 # android min sdk min:16, default 21
   remove_alpha_ios: true
+  background_color_ios: "#ffffff"
   web:
     generate: true
     image_path: "assets/images/icon-1024x1024.png"
