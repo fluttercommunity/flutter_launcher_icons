@@ -94,7 +94,7 @@ flutter_launcher_icons:
 
   ios: true
   # image_path_ios: "assets/icon/icon.png"
-  remove_alpha_channel_ios: true
+  remove_alpha_ios: true
 
   web:
     generate: true
