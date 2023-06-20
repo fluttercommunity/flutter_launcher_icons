@@ -123,9 +123,81 @@ void createAdaptiveIcons(
       flavor,
     );
   } else {
-    createAdaptiveIconMipmapXmlFile(config, flavor);
     updateColorsXmlFile(backgroundConfig, flavor);
   }
+}
+
+void createAdaptiveMonochromeIcons(
+  Config config,
+  String? flavor,
+) {
+  utils.printStatus('Creating adaptive monochrome icons Android');
+
+  // Retrieve the necessary Flutter Launcher Icons configuration from the pubspec.yaml file
+  final String? monochromeImagePath = config.adaptiveIconMonochrome;
+  if (monochromeImagePath == null) {
+    throw const InvalidConfigException(errorMissingImagePath);
+  }
+  final Image? monochromeImage = utils.decodeImageFile(monochromeImagePath);
+  if (monochromeImage == null) {
+    return;
+  }
+
+  // Create adaptive icon monochrome images
+  for (AndroidIconTemplate androidIcon in adaptiveForegroundIcons) {
+    overwriteExistingIcons(
+      androidIcon,
+      monochromeImage,
+      constants.androidAdaptiveMonochromeFileName,
+      flavor,
+    );
+  }
+}
+
+void createMipmapXmlFile(
+  Config config,
+  String? flavor,
+) {
+  utils.printStatus('Creating mipmap xml file Android');
+
+  String xmlContent = '';
+
+  if (config.hasAndroidAdaptiveConfig) {
+    if (isAdaptiveIconConfigPngFile(config.adaptiveIconBackground!)) {
+      xmlContent +=
+          '  <background android:drawable="@drawable/ic_launcher_background"/>\n';
+    } else {
+      xmlContent +=
+          '  <background android:drawable="@color/ic_launcher_background"/>\n';
+    }
+
+    xmlContent +=
+        '  <foreground android:drawable="@drawable/ic_launcher_foreground"/>\n';
+  }
+
+  if (config.hasAndroidAdaptiveMonochromeConfig) {
+    xmlContent +=
+        '  <monochrome android:drawable="@drawable/ic_launcher_monochrome"/>\n';
+  }
+
+  late File mipmapXmlFile;
+  if (config.isCustomAndroidFile) {
+    mipmapXmlFile = File(
+      constants.androidAdaptiveXmlFolder(flavor) + config.android + '.xml',
+    );
+  } else {
+    mipmapXmlFile = File(
+      constants.androidAdaptiveXmlFolder(flavor) +
+          constants.androidDefaultIconName +
+          '.xml',
+    );
+  }
+
+  mipmapXmlFile.create(recursive: true).then((File adaptiveIconFile) {
+    adaptiveIconFile.writeAsString(
+      xml_template.mipmapXmlFile.replaceAll('{{CONTENT}}', xmlContent),
+    );
+  });
 }
 
 /// Retrieves the colors.xml file for the project.
@@ -151,29 +223,6 @@ void updateColorsXmlFile(String backgroundConfig, String? flavor) {
   }
 }
 
-/// Creates the xml file required for the adaptive launcher icon
-/// FILE LOCATED HERE: res/mipmap-anydpi/{icon-name-from-yaml-config}.xml
-void createAdaptiveIconMipmapXmlFile(
-  Config config,
-  String? flavor,
-) {
-  if (config.isCustomAndroidFile) {
-    File(
-      constants.androidAdaptiveXmlFolder(flavor) + config.android + '.xml',
-    ).create(recursive: true).then((File adaptiveIcon) {
-      adaptiveIcon.writeAsString(xml_template.icLauncherXml);
-    });
-  } else {
-    File(
-      constants.androidAdaptiveXmlFolder(flavor) +
-          constants.androidDefaultIconName +
-          '.xml',
-    ).create(recursive: true).then((File adaptiveIcon) {
-      adaptiveIcon.writeAsString(xml_template.icLauncherXml);
-    });
-  }
-}
-
 /// creates adaptive background using png image
 void _createAdaptiveBackgrounds(
   Config config,
@@ -195,24 +244,6 @@ void _createAdaptiveBackgrounds(
       constants.androidAdaptiveBackgroundFileName,
       flavor,
     );
-  }
-
-  // Creates the xml file required for the adaptive launcher icon
-  // FILE LOCATED HERE:  res/mipmap-anydpi/{icon-name-from-yaml-config}.xml
-  if (config.isCustomAndroidFile) {
-    File(
-      constants.androidAdaptiveXmlFolder(flavor) + config.android + '.xml',
-    ).create(recursive: true).then((File adaptiveIcon) {
-      adaptiveIcon.writeAsString(xml_template.icLauncherDrawableBackgroundXml);
-    });
-  } else {
-    File(
-      constants.androidAdaptiveXmlFolder(flavor) +
-          constants.androidDefaultIconName +
-          '.xml',
-    ).create(recursive: true).then((File adaptiveIcon) {
-      adaptiveIcon.writeAsString(xml_template.icLauncherDrawableBackgroundXml);
-    });
   }
 }
 

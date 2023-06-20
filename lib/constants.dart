@@ -24,6 +24,7 @@ const int androidDefaultAndroidMinSDK = 21;
 const String androidFileName = 'ic_launcher.png';
 const String androidAdaptiveForegroundFileName = 'ic_launcher_foreground.png';
 const String androidAdaptiveBackgroundFileName = 'ic_launcher_background.png';
+const String androidAdaptiveMonochromeFileName = 'ic_launcher_monochrome.png';
 String androidAdaptiveXmlFolder(String? flavor) =>
     androidResFolder(flavor) + 'mipmap-anydpi-v26/';
 const String androidDefaultIconName = 'ic_launcher';
