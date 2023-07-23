@@ -46,8 +46,45 @@ List<IosIconTemplate> iosIcons = <IosIconTemplate>[
   IosIconTemplate(name: '-1024x1024@1x', size: 1024),
 ];
 
+/// details of the ios icons which need to be generated
+/// when using vgv style
+List<IosIconTemplate> iosIconsVgv = <IosIconTemplate>[
+  IosIconTemplate(name: '16', size: 16),
+  IosIconTemplate(name: '20', size: 20),
+  IosIconTemplate(name: '29', size: 29),
+  IosIconTemplate(name: '32', size: 32),
+  IosIconTemplate(name: '40', size: 40),
+  IosIconTemplate(name: '48', size: 48),
+  IosIconTemplate(name: '50', size: 50),
+  IosIconTemplate(name: '55', size: 55),
+  IosIconTemplate(name: '57', size: 57),
+  IosIconTemplate(name: '58', size: 58),
+  IosIconTemplate(name: '60', size: 60),
+  IosIconTemplate(name: '64', size: 64),
+  IosIconTemplate(name: '72', size: 72),
+  IosIconTemplate(name: '76', size: 76),
+  IosIconTemplate(name: '80', size: 80),
+  IosIconTemplate(name: '87', size: 87),
+  IosIconTemplate(name: '88', size: 88),
+  IosIconTemplate(name: '100', size: 100),
+  IosIconTemplate(name: '114', size: 114),
+  IosIconTemplate(name: '120', size: 120),
+  IosIconTemplate(name: '128', size: 128),
+  IosIconTemplate(name: '144', size: 144),
+  IosIconTemplate(name: '152', size: 152),
+  IosIconTemplate(name: '167', size: 167),
+  IosIconTemplate(name: '172', size: 172),
+  IosIconTemplate(name: '180', size: 180),
+  IosIconTemplate(name: '196', size: 196),
+  IosIconTemplate(name: '216', size: 216),
+  IosIconTemplate(name: '256', size: 256),
+  IosIconTemplate(name: '512', size: 512),
+  IosIconTemplate(name: '1024', size: 1024),
+];
+
 /// create the ios icons
 void createIcons(Config config, String? flavor) {
+  final iosIconTemplates = config.vgvStyle ? iosIconsVgv : iosIcons;
   // TODO(p-mazhnik): support prefixPath
   final String? filePath = config.getImagePathIOS();
   if (filePath == null) {
@@ -78,19 +115,31 @@ void createIcons(Config config, String? flavor) {
   if (flavor != null) {
     final String catalogName = 'AppIcon-$flavor';
     printStatus('Building iOS launcher icon for $flavor');
-    for (IosIconTemplate template in iosIcons) {
-      saveNewIcons(template, image, catalogName);
+    for (IosIconTemplate template in iosIconTemplates) {
+      saveNewIcons(
+        template,
+        image,
+        catalogName,
+        isVgvStyle: config.vgvStyle,
+      );
     }
     iconName = iosDefaultIconName;
     changeIosLauncherIcon(catalogName, flavor);
-    modifyContentsFile(catalogName);
+    if (!config.vgvStyle) {
+      modifyContentsFile(catalogName);
+    }
   } else if (iosConfig is String) {
     // If the IOS configuration is a string then the user has specified a new icon to be created
     // and for the old icon file to be kept
     final String newIconName = iosConfig;
     printStatus('Adding new iOS launcher icon');
-    for (IosIconTemplate template in iosIcons) {
-      saveNewIcons(template, image, newIconName);
+    for (IosIconTemplate template in iosIconTemplates) {
+      saveNewIcons(
+        template,
+        image,
+        newIconName,
+        isVgvStyle: config.vgvStyle,
+      );
     }
     iconName = newIconName;
     changeIosLauncherIcon(iconName, flavor);
@@ -100,30 +149,42 @@ void createIcons(Config config, String? flavor) {
   // update config file to use it
   else {
     printStatus('Overwriting default iOS launcher icon with new icon');
-    for (IosIconTemplate template in iosIcons) {
-      overwriteDefaultIcons(template, image);
+    iconName = config.vgvStyle ? '' : iosDefaultIconName;
+    for (IosIconTemplate template in iosIconTemplates) {
+      overwriteDefaultIcons(template, image, iconName);
     }
-    iconName = iosDefaultIconName;
-    changeIosLauncherIcon('AppIcon', flavor);
+    if (!config.vgvStyle) {
+      changeIosLauncherIcon('AppIcon', flavor);
+    }
   }
 }
 
 /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
 /// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-void overwriteDefaultIcons(IosIconTemplate template, Image image) {
+void overwriteDefaultIcons(
+  IosIconTemplate template,
+  Image image,
+  String iconName,
+) {
   final Image newFile = createResizedImage(template, image);
-  File(iosDefaultIconFolder + iosDefaultIconName + template.name + '.png')
+  File(iosDefaultIconFolder + iconName + template.name + '.png')
     ..writeAsBytesSync(encodePng(newFile));
 }
 
 /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
 /// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-void saveNewIcons(IosIconTemplate template, Image image, String newIconName) {
+void saveNewIcons(
+  IosIconTemplate template,
+  Image image,
+  String newIconName, {
+  bool isVgvStyle = false,
+}) {
   final String newIconFolder = iosAssetFolder + newIconName + '.appiconset/';
   final Image newFile = createResizedImage(template, image);
-  File(newIconFolder + newIconName + template.name + '.png')
+  final iconName = isVgvStyle ? '' : newIconName;
+  File(newIconFolder + iconName + template.name + '.png')
       .create(recursive: true)
       .then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
