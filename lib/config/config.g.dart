@@ -33,6 +33,7 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
               (v) => v == null ? null : WindowsConfig.fromJson(v as Map)),
           macOSConfig: $checkedConvert('macos',
               (v) => v == null ? null : MacOSConfig.fromJson(v as Map)),
+          vgvStyle: $checkedConvert('vgv_style', (v) => v as bool? ?? false),
         );
         return val;
       },
@@ -47,7 +48,8 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
         'backgroundColorIOS': 'background_color_ios',
         'webConfig': 'web',
         'windowsConfig': 'windows',
-        'macOSConfig': 'macos'
+        'macOSConfig': 'macos',
+        'vgvStyle': 'vgv_style'
       },
     );
 
@@ -61,6 +63,7 @@ Map<String, dynamic> _$ConfigToJson(Config instance) => <String, dynamic>{
       'adaptive_icon_background': instance.adaptiveIconBackground,
       'min_sdk_android': instance.minSdkAndroid,
       'remove_alpha_ios': instance.removeAlphaIOS,
+      'vgv_style': instance.vgvStyle,
       'background_color_ios': instance.backgroundColorIOS,
       'web': instance.webConfig,
       'windows': instance.windowsConfig,
