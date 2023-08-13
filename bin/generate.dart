@@ -10,7 +10,7 @@ const _defaultConfigFileName = './flutter_launcher_icons.yaml';
 /// The function will be called from command line
 /// using the following command:
 /// ```sh
-/// flutter pub run flutter_launcher_icons:generate
+/// dart run flutter_launcher_icons:generate
 /// ```
 ///
 /// Calling this function will generate a flutter_launcher_icons.yaml file
@@ -73,7 +73,7 @@ void _generateConfigFile(File configFile) {
     print('\nConfig file generated successfully 🎉');
     print(
       'You can now use this new config file by using the command below:\n\n'
-      'flutter pub run flutter_launcher_icons'
+      'dart run flutter_launcher_icons'
       '${configFile.path == _defaultConfigFileName ? '' : ' -f ${configFile.path}'}\n',
     );
   } on Exception catch (e) {
@@ -82,7 +82,7 @@ void _generateConfigFile(File configFile) {
 }
 
 const _configFileTemplate = '''
-# flutter pub run flutter_launcher_icons
+# dart run flutter_launcher_icons
 flutter_launcher_icons:
   image_path: "assets/icon/icon.png"
 
