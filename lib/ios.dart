@@ -22,32 +22,6 @@ class IosIconTemplate {
 }
 
 /// details of the ios icons which need to be generated
-List<IosIconTemplate> iosIcons = <IosIconTemplate>[
-  IosIconTemplate(name: '-20x20@1x', size: 20),
-  IosIconTemplate(name: '-20x20@2x', size: 40),
-  IosIconTemplate(name: '-20x20@3x', size: 60),
-  IosIconTemplate(name: '-29x29@1x', size: 29),
-  IosIconTemplate(name: '-29x29@2x', size: 58),
-  IosIconTemplate(name: '-29x29@3x', size: 87),
-  IosIconTemplate(name: '-40x40@1x', size: 40),
-  IosIconTemplate(name: '-40x40@2x', size: 80),
-  IosIconTemplate(name: '-40x40@3x', size: 120),
-  IosIconTemplate(name: '-50x50@1x', size: 50),
-  IosIconTemplate(name: '-50x50@2x', size: 100),
-  IosIconTemplate(name: '-57x57@1x', size: 57),
-  IosIconTemplate(name: '-57x57@2x', size: 114),
-  IosIconTemplate(name: '-60x60@2x', size: 120),
-  IosIconTemplate(name: '-60x60@3x', size: 180),
-  IosIconTemplate(name: '-72x72@1x', size: 72),
-  IosIconTemplate(name: '-72x72@2x', size: 144),
-  IosIconTemplate(name: '-76x76@1x', size: 76),
-  IosIconTemplate(name: '-76x76@2x', size: 152),
-  IosIconTemplate(name: '-83.5x83.5@2x', size: 167),
-  IosIconTemplate(name: '-1024x1024@1x', size: 1024),
-];
-
-/// details of the ios icons which need to be generated
-/// when using vgv style
 List<IosIconTemplate> iosIconsVgv = <IosIconTemplate>[
   IosIconTemplate(name: '16', size: 16),
   IosIconTemplate(name: '20', size: 20),
@@ -84,7 +58,6 @@ List<IosIconTemplate> iosIconsVgv = <IosIconTemplate>[
 
 /// create the ios icons
 void createIcons(Config config, String? flavor) {
-  final iosIconTemplates = config.vgvStyle ? iosIconsVgv : iosIcons;
   // TODO(p-mazhnik): support prefixPath
   final String? filePath = config.getImagePathIOS();
   if (filePath == null) {
@@ -115,30 +88,26 @@ void createIcons(Config config, String? flavor) {
   if (flavor != null) {
     final String catalogName = 'AppIcon-$flavor';
     printStatus('Building iOS launcher icon for $flavor');
-    for (IosIconTemplate template in iosIconTemplates) {
+    for (IosIconTemplate template in iosIconsVgv) {
       saveNewIcons(
         template,
         image,
         catalogName,
-        isVgvStyle: config.vgvStyle,
       );
     }
     iconName = iosDefaultIconName;
     changeIosLauncherIcon(catalogName, flavor);
-    if (!config.vgvStyle) {
-      modifyContentsFile(catalogName);
-    }
+    modifyContentsFile(catalogName);
   } else if (iosConfig is String) {
     // If the IOS configuration is a string then the user has specified a new icon to be created
     // and for the old icon file to be kept
     final String newIconName = iosConfig;
     printStatus('Adding new iOS launcher icon');
-    for (IosIconTemplate template in iosIconTemplates) {
+    for (IosIconTemplate template in iosIconsVgv) {
       saveNewIcons(
         template,
         image,
         newIconName,
-        isVgvStyle: config.vgvStyle,
       );
     }
     iconName = newIconName;
@@ -149,13 +118,10 @@ void createIcons(Config config, String? flavor) {
   // update config file to use it
   else {
     printStatus('Overwriting default iOS launcher icon with new icon');
-    iconName = config.vgvStyle ? '' : iosDefaultIconName;
-    for (IosIconTemplate template in iosIconTemplates) {
-      overwriteDefaultIcons(template, image, iconName);
+    for (IosIconTemplate template in iosIconsVgv) {
+      overwriteDefaultIcons(template, image, '');
     }
-    if (!config.vgvStyle) {
-      changeIosLauncherIcon('AppIcon', flavor);
-    }
+    changeIosLauncherIcon('AppIcon', flavor);
   }
 }
 
@@ -178,13 +144,11 @@ void overwriteDefaultIcons(
 void saveNewIcons(
   IosIconTemplate template,
   Image image,
-  String newIconName, {
-  bool isVgvStyle = false,
-}) {
+  String newIconName,
+) {
   final String newIconFolder = iosAssetFolder + newIconName + '.appiconset/';
   final Image newFile = createResizedImage(template, image);
-  final iconName = isVgvStyle ? '' : newIconName;
-  File(newIconFolder + iconName + template.name + '.png')
+  File(newIconFolder + template.name + '.png')
       .create(recursive: true)
       .then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
@@ -212,52 +176,52 @@ Image createResizedImage(IosIconTemplate template, Image image) {
 
 /// Change the iOS launcher icon
 Future<void> changeIosLauncherIcon(String iconName, String? flavor) async {
-  final File iOSConfigFile = File(iosConfigFile);
-  final List<String> lines = await iOSConfigFile.readAsLines();
+  // final File iOSConfigFile = File(iosConfigFile);
+  // final List<String> lines = await iOSConfigFile.readAsLines();
 
-  bool onConfigurationSection = false;
-  String? currentConfig;
+  // bool onConfigurationSection = false;
+  // String? currentConfig;
 
-  for (int x = 0; x < lines.length; x++) {
-    final String line = lines[x];
-    if (line.contains('/* Begin XCBuildConfiguration section */')) {
-      onConfigurationSection = true;
-    }
-    if (line.contains('/* End XCBuildConfiguration section */')) {
-      onConfigurationSection = false;
-    }
-    if (onConfigurationSection) {
-      final match = RegExp('.*/\\* (.*)\.xcconfig \\*/;').firstMatch(line);
-      if (match != null) {
-        currentConfig = match.group(1);
-      }
+  // for (int x = 0; x < lines.length; x++) {
+  //   final String line = lines[x];
+  //   if (line.contains('/* Begin XCBuildConfiguration section */')) {
+  //     onConfigurationSection = true;
+  //   }
+  //   if (line.contains('/* End XCBuildConfiguration section */')) {
+  //     onConfigurationSection = false;
+  //   }
+  //   if (onConfigurationSection) {
+  //     final match = RegExp('.*/\\* (.*)\.xcconfig \\*/;').firstMatch(line);
+  //     if (match != null) {
+  //       currentConfig = match.group(1);
+  //     }
 
-      if (currentConfig != null &&
-          (flavor == null || currentConfig.contains('-$flavor')) &&
-          line.contains('ASSETCATALOG')) {
-        lines[x] = line.replaceAll(RegExp('\=(.*);'), '= $iconName;');
-      }
-    }
-  }
+  //     if (currentConfig != null &&
+  //         (flavor == null || currentConfig.contains('-$flavor')) &&
+  //         line.contains('ASSETCATALOG')) {
+  //       lines[x] = line.replaceAll(RegExp('\=(.*);'), '= $iconName;');
+  //     }
+  //   }
+  // }
 
-  final String entireFile = '${lines.join('\n')}\n';
-  await iOSConfigFile.writeAsString(entireFile);
+  // final String entireFile = '${lines.join('\n')}\n';
+  // await iOSConfigFile.writeAsString(entireFile);
 }
 
 /// Create the Contents.json file
 void modifyContentsFile(String newIconName) {
-  final String newIconFolder =
-      iosAssetFolder + newIconName + '.appiconset/Contents.json';
-  File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
-    final String contentsFileContent =
-        generateContentsFileAsString(newIconName);
-    contentsJsonFile.writeAsString(contentsFileContent);
-  });
+  // final String newIconFolder =
+  //     iosAssetFolder + newIconName + '.appiconset/Contents.json';
+  // File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
+  //   final String contentsFileContent =
+  //       generateContentsFileAsString(newIconName);
+  //   contentsJsonFile.writeAsString(contentsFileContent);
+  // });
 }
 
 String generateContentsFileAsString(String newIconName) {
   final Map<String, dynamic> contentJson = <String, dynamic>{
-    'images': createImageList(newIconName),
+    'images': createImageList(),
     'info': ContentsInfoObject(version: 1, author: 'xcode').toJson()
   };
   return json.encode(contentJson);
@@ -300,158 +264,165 @@ class ContentsInfoObject {
   }
 }
 
-List<Map<String, String>> createImageList(String fileNamePrefix) {
+List<Map<String, String>> createImageList() {
   final List<Map<String, String>> imageList = <Map<String, String>>[
-    ContentsImageObject(
-      size: '20x20',
-      idiom: 'iphone',
-      filename: '$fileNamePrefix-20x20@2x.png',
-      scale: '2x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '20x20',
-      idiom: 'iphone',
-      filename: '$fileNamePrefix-20x20@3x.png',
-      scale: '3x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '29x29',
-      idiom: 'iphone',
-      filename: '$fileNamePrefix-29x29@1x.png',
-      scale: '1x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '29x29',
-      idiom: 'iphone',
-      filename: '$fileNamePrefix-29x29@2x.png',
-      scale: '2x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '29x29',
-      idiom: 'iphone',
-      filename: '$fileNamePrefix-29x29@3x.png',
-      scale: '3x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '40x40',
-      idiom: 'iphone',
-      filename: '$fileNamePrefix-40x40@2x.png',
-      scale: '2x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '40x40',
-      idiom: 'iphone',
-      filename: '$fileNamePrefix-40x40@3x.png',
-      scale: '3x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '50x50',
-      idiom: 'ipad',
-      filename: '$fileNamePrefix-50x50@1x.png',
-      scale: '1x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '50x50',
-      idiom: 'ipad',
-      filename: '$fileNamePrefix-50x50@2x.png',
-      scale: '2x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '57x57',
-      idiom: 'iphone',
-      filename: '$fileNamePrefix-57x57@1x.png',
-      scale: '1x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '57x57',
-      idiom: 'iphone',
-      filename: '$fileNamePrefix-57x57@2x.png',
-      scale: '2x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '60x60',
-      idiom: 'iphone',
-      filename: '$fileNamePrefix-60x60@2x.png',
-      scale: '2x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '60x60',
-      idiom: 'iphone',
-      filename: '$fileNamePrefix-60x60@3x.png',
-      scale: '3x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '20x20',
-      idiom: 'ipad',
-      filename: '$fileNamePrefix-20x20@1x.png',
-      scale: '1x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '20x20',
-      idiom: 'ipad',
-      filename: '$fileNamePrefix-20x20@2x.png',
-      scale: '2x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '29x29',
-      idiom: 'ipad',
-      filename: '$fileNamePrefix-29x29@1x.png',
-      scale: '1x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '29x29',
-      idiom: 'ipad',
-      filename: '$fileNamePrefix-29x29@2x.png',
-      scale: '2x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '40x40',
-      idiom: 'ipad',
-      filename: '$fileNamePrefix-40x40@1x.png',
-      scale: '1x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '40x40',
-      idiom: 'ipad',
-      filename: '$fileNamePrefix-40x40@2x.png',
-      scale: '2x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '72x72',
-      idiom: 'ipad',
-      filename: '$fileNamePrefix-72x72@1x.png',
-      scale: '1x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '72x72',
-      idiom: 'ipad',
-      filename: '$fileNamePrefix-72x72@2x.png',
-      scale: '2x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '76x76',
-      idiom: 'ipad',
-      filename: '$fileNamePrefix-76x76@1x.png',
-      scale: '1x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '76x76',
-      idiom: 'ipad',
-      filename: '$fileNamePrefix-76x76@2x.png',
-      scale: '2x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '83.5x83.5',
-      idiom: 'ipad',
-      filename: '$fileNamePrefix-83.5x83.5@2x.png',
-      scale: '2x',
-    ).toJson(),
-    ContentsImageObject(
-      size: '1024x1024',
-      idiom: 'ios-marketing',
-      filename: '$fileNamePrefix-1024x1024@1x.png',
-      scale: '1x',
-    ).toJson()
+    {'filename': '40.png', 'idiom': 'iphone', 'scale': '2x', 'size': '20x20'},
+    {'filename': '60.png', 'idiom': 'iphone', 'scale': '3x', 'size': '20x20'},
+    {'filename': '29.png', 'idiom': 'iphone', 'scale': '1x', 'size': '29x29'},
+    {'filename': '58.png', 'idiom': 'iphone', 'scale': '2x', 'size': '29x29'},
+    {'filename': '87.png', 'idiom': 'iphone', 'scale': '3x', 'size': '29x29'},
+    {'filename': '80.png', 'idiom': 'iphone', 'scale': '2x', 'size': '40x40'},
+    {'filename': '120.png', 'idiom': 'iphone', 'scale': '3x', 'size': '40x40'},
+    {'filename': '57.png', 'idiom': 'iphone', 'scale': '1x', 'size': '57x57'},
+    {'filename': '114.png', 'idiom': 'iphone', 'scale': '2x', 'size': '57x57'},
+    {'filename': '120.png', 'idiom': 'iphone', 'scale': '2x', 'size': '60x60'},
+    {'filename': '180.png', 'idiom': 'iphone', 'scale': '3x', 'size': '60x60'},
+    {'filename': '20.png', 'idiom': 'ipad', 'scale': '1x', 'size': '20x20'},
+    {'filename': '40.png', 'idiom': 'ipad', 'scale': '2x', 'size': '20x20'},
+    {'filename': '29.png', 'idiom': 'ipad', 'scale': '1x', 'size': '29x29'},
+    {'filename': '58.png', 'idiom': 'ipad', 'scale': '2x', 'size': '29x29'},
+    {'filename': '40.png', 'idiom': 'ipad', 'scale': '1x', 'size': '40x40'},
+    {'filename': '80.png', 'idiom': 'ipad', 'scale': '2x', 'size': '40x40'},
+    {'filename': '50.png', 'idiom': 'ipad', 'scale': '1x', 'size': '50x50'},
+    {'filename': '100.png', 'idiom': 'ipad', 'scale': '2x', 'size': '50x50'},
+    {'filename': '72.png', 'idiom': 'ipad', 'scale': '1x', 'size': '72x72'},
+    {'filename': '144.png', 'idiom': 'ipad', 'scale': '2x', 'size': '72x72'},
+    {'filename': '76.png', 'idiom': 'ipad', 'scale': '1x', 'size': '76x76'},
+    {'filename': '152.png', 'idiom': 'ipad', 'scale': '2x', 'size': '76x76'},
+    {
+      'filename': '167.png',
+      'idiom': 'ipad',
+      'scale': '2x',
+      'size': '83.5x83.5'
+    },
+    {
+      'filename': '1024.png',
+      'idiom': 'ios-marketing',
+      'scale': '1x',
+      'size': '1024x1024'
+    },
+    {
+      'filename': '48.png',
+      'idiom': 'watch',
+      'role': 'notificationCenter',
+      'scale': '2x',
+      'size': '24x24',
+      'subtype': '38mm'
+    },
+    {
+      'filename': '55.png',
+      'idiom': 'watch',
+      'role': 'notificationCenter',
+      'scale': '2x',
+      'size': '27.5x27.5',
+      'subtype': '42mm'
+    },
+    {
+      'filename': '58.png',
+      'idiom': 'watch',
+      'role': 'companionSettings',
+      'scale': '2x',
+      'size': '29x29'
+    },
+    {
+      'filename': '87.png',
+      'idiom': 'watch',
+      'role': 'companionSettings',
+      'scale': '3x',
+      'size': '29x29'
+    },
+    {
+      'idiom': 'watch',
+      'role': 'notificationCenter',
+      'scale': '2x',
+      'size': '33x33',
+      'subtype': '45mm'
+    },
+    {
+      'filename': '80.png',
+      'idiom': 'watch',
+      'role': 'appLauncher',
+      'scale': '2x',
+      'size': '40x40',
+      'subtype': '38mm'
+    },
+    {
+      'filename': '88.png',
+      'idiom': 'watch',
+      'role': 'appLauncher',
+      'scale': '2x',
+      'size': '44x44',
+      'subtype': '40mm'
+    },
+    {
+      'idiom': 'watch',
+      'role': 'appLauncher',
+      'scale': '2x',
+      'size': '46x46',
+      'subtype': '41mm'
+    },
+    {
+      'filename': '100.png',
+      'idiom': 'watch',
+      'role': 'appLauncher',
+      'scale': '2x',
+      'size': '50x50',
+      'subtype': '44mm'
+    },
+    {
+      'idiom': 'watch',
+      'role': 'appLauncher',
+      'scale': '2x',
+      'size': '51x51',
+      'subtype': '45mm'
+    },
+    {
+      'filename': '172.png',
+      'idiom': 'watch',
+      'role': 'quickLook',
+      'scale': '2x',
+      'size': '86x86',
+      'subtype': '38mm'
+    },
+    {
+      'filename': '196.png',
+      'idiom': 'watch',
+      'role': 'quickLook',
+      'scale': '2x',
+      'size': '98x98',
+      'subtype': '42mm'
+    },
+    {
+      'filename': '216.png',
+      'idiom': 'watch',
+      'role': 'quickLook',
+      'scale': '2x',
+      'size': '108x108',
+      'subtype': '44mm'
+    },
+    {
+      'idiom': 'watch',
+      'role': 'quickLook',
+      'scale': '2x',
+      'size': '117x117',
+      'subtype': '45mm'
+    },
+    {
+      'filename': '1024.png',
+      'idiom': 'watch-marketing',
+      'scale': '1x',
+      'size': '1024x1024'
+    },
+    {'filename': '16.png', 'idiom': 'mac', 'scale': '1x', 'size': '16x16'},
+    {'filename': '32.png', 'idiom': 'mac', 'scale': '2x', 'size': '16x16'},
+    {'filename': '32.png', 'idiom': 'mac', 'scale': '1x', 'size': '32x32'},
+    {'filename': '64.png', 'idiom': 'mac', 'scale': '2x', 'size': '32x32'},
+    {'filename': '128.png', 'idiom': 'mac', 'scale': '1x', 'size': '128x128'},
+    {'filename': '256.png', 'idiom': 'mac', 'scale': '2x', 'size': '128x128'},
+    {'filename': '256.png', 'idiom': 'mac', 'scale': '1x', 'size': '256x256'},
+    {'filename': '512.png', 'idiom': 'mac', 'scale': '2x', 'size': '256x256'},
+    {'filename': '512.png', 'idiom': 'mac', 'scale': '1x', 'size': '512x512'},
+    {'filename': '1024.png', 'idiom': 'mac', 'scale': '2x', 'size': '512x512'}
   ];
   return imageList;
 }

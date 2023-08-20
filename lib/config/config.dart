@@ -33,7 +33,6 @@ class Config {
     this.webConfig,
     this.windowsConfig,
     this.macOSConfig,
-    this.vgvStyle = false,
   });
 
   /// Creates [Config] for given [flavor] and [prefixPath]
@@ -132,10 +131,6 @@ class Config {
   /// IOS remove_alpha_ios
   @JsonKey(name: 'remove_alpha_ios')
   final bool removeAlphaIOS;
-
-  /// Whether or not to use the vgv style to generate icons
-  @JsonKey(name: 'vgv_style')
-  final bool vgvStyle;
 
   /// IOS background_color_ios
   @JsonKey(name: 'background_color_ios')

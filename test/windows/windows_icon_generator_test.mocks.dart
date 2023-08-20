@@ -59,11 +59,6 @@ class MockConfig extends _i1.Mock implements _i3.Config {
         returnValue: false,
       ) as bool);
   @override
-  bool get vgvStyle => (super.noSuchMethod(
-        Invocation.getter(#vgvStyle),
-        returnValue: false,
-      ) as bool);
-  @override
   String get backgroundColorIOS => (super.noSuchMethod(
         Invocation.getter(#backgroundColorIOS),
         returnValue: '',
