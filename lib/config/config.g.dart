@@ -17,6 +17,8 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
           imagePathAndroid:
               $checkedConvert('image_path_android', (v) => v as String?),
           imagePathIOS: $checkedConvert('image_path_ios', (v) => v as String?),
+          launchImageIOS:
+              $checkedConvert('launch_image_ios', (v) => v as String?),
           adaptiveIconForeground:
               $checkedConvert('adaptive_icon_foreground', (v) => v as String?),
           adaptiveIconBackground:
@@ -40,6 +42,7 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
         'imagePath': 'image_path',
         'imagePathAndroid': 'image_path_android',
         'imagePathIOS': 'image_path_ios',
+        'launchImageIOS': 'launch_image_ios',
         'adaptiveIconForeground': 'adaptive_icon_foreground',
         'adaptiveIconBackground': 'adaptive_icon_background',
         'minSdkAndroid': 'min_sdk_android',
@@ -57,6 +60,7 @@ Map<String, dynamic> _$ConfigToJson(Config instance) => <String, dynamic>{
       'ios': instance.ios,
       'image_path_android': instance.imagePathAndroid,
       'image_path_ios': instance.imagePathIOS,
+      'launch_image_ios': instance.launchImageIOS,
       'adaptive_icon_foreground': instance.adaptiveIconForeground,
       'adaptive_icon_background': instance.adaptiveIconBackground,
       'min_sdk_android': instance.minSdkAndroid,

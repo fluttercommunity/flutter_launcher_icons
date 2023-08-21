@@ -25,6 +25,7 @@ class Config {
     this.ios = false,
     this.imagePathAndroid,
     this.imagePathIOS,
+    this.launchImageIOS,
     this.adaptiveIconForeground,
     this.adaptiveIconBackground,
     this.minSdkAndroid = constants.androidDefaultAndroidMinSDK,
@@ -115,6 +116,10 @@ class Config {
   /// Image path specific to ios
   @JsonKey(name: 'image_path_ios')
   final String? imagePathIOS;
+
+  /// iOS launcher image path
+  @JsonKey(name: 'launch_image_ios')
+  final String? launchImageIOS;
 
   /// android adaptive icon foreground image
   @JsonKey(name: 'adaptive_icon_foreground')

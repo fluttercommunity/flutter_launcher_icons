@@ -22,7 +22,7 @@ class IosIconTemplate {
 }
 
 /// details of the ios icons which need to be generated
-List<IosIconTemplate> iosIconsVgv = <IosIconTemplate>[
+List<IosIconTemplate> iosIconTemplates = <IosIconTemplate>[
   IosIconTemplate(name: '16', size: 16),
   IosIconTemplate(name: '20', size: 20),
   IosIconTemplate(name: '29', size: 29),
@@ -54,6 +54,12 @@ List<IosIconTemplate> iosIconsVgv = <IosIconTemplate>[
   IosIconTemplate(name: '256', size: 256),
   IosIconTemplate(name: '512', size: 512),
   IosIconTemplate(name: '1024', size: 1024),
+];
+
+List<IosIconTemplate> launchImageIconTemplates = <IosIconTemplate>[
+  IosIconTemplate(name: 'LaunchImage@1x', size: 150),
+  IosIconTemplate(name: 'LaunchImage@2x', size: 300),
+  IosIconTemplate(name: 'LaunchImage@3x', size: 600),
 ];
 
 /// create the ios icons
@@ -88,7 +94,7 @@ void createIcons(Config config, String? flavor) {
   if (flavor != null) {
     final String catalogName = 'AppIcon-$flavor';
     printStatus('Building iOS launcher icon for $flavor');
-    for (IosIconTemplate template in iosIconsVgv) {
+    for (IosIconTemplate template in iosIconTemplates) {
       saveNewIcons(
         template,
         image,
@@ -103,7 +109,7 @@ void createIcons(Config config, String? flavor) {
     // and for the old icon file to be kept
     final String newIconName = iosConfig;
     printStatus('Adding new iOS launcher icon');
-    for (IosIconTemplate template in iosIconsVgv) {
+    for (IosIconTemplate template in iosIconTemplates) {
       saveNewIcons(
         template,
         image,
@@ -118,10 +124,22 @@ void createIcons(Config config, String? flavor) {
   // update config file to use it
   else {
     printStatus('Overwriting default iOS launcher icon with new icon');
-    for (IosIconTemplate template in iosIconsVgv) {
+    for (IosIconTemplate template in iosIconTemplates) {
       overwriteDefaultIcons(template, image, '');
     }
     changeIosLauncherIcon('AppIcon', flavor);
+  }
+
+  if (config.launchImageIOS != null) {
+    printStatus('Generating iOS Launcher Icons');
+    final launchImage = decodeImage(
+      File(config.launchImageIOS!).readAsBytesSync(),
+    );
+    if (launchImage != null) {
+      for (final template in launchImageIconTemplates) {
+        saveNewLaunchImage(template, launchImage);
+      }
+    }
   }
 }
 
@@ -147,6 +165,19 @@ void saveNewIcons(
   String newIconName,
 ) {
   final String newIconFolder = iosAssetFolder + newIconName + '.appiconset/';
+  final Image newFile = createResizedImage(template, image);
+  File(newIconFolder + template.name + '.png')
+      .create(recursive: true)
+      .then((File file) {
+    file.writeAsBytesSync(encodePng(newFile));
+  });
+}
+
+void saveNewLaunchImage(
+  IosIconTemplate template,
+  Image image,
+) {
+  const String newIconFolder = iosAssetFolder + 'LaunchImage.imageset/';
   final Image newFile = createResizedImage(template, image);
   File(newIconFolder + template.name + '.png')
       .create(recursive: true)
