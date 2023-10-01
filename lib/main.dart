@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs
+// ignore_for_file: public_member_api_docs, sdk_version_since
 
 import 'dart:io';
 
@@ -58,11 +58,11 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
 
   final ArgResults argResults = parser.parse(arguments);
   // creating logger based on -v flag
-  final logger = FLILogger(argResults[verboseFlag]);
+  final logger = FLILogger(bool.parse(argResults[verboseFlag].toString()));
 
   logger.verbose('Received args ${argResults.arguments}');
 
-  if (argResults[helpFlag]) {
+  if (bool.parse(argResults[verboseFlag].toString())) {
     stdout.writeln('Generates icons for iOS and Android');
     stdout.writeln(parser.usage);
     exit(0);
@@ -72,7 +72,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   final flavors = getFlavors();
   final hasFlavors = flavors.isNotEmpty;
 
-  final String prefixPath = argResults[prefixOption];
+  final String prefixPath = argResults[prefixOption].toString();
 
   // Create icons
   if (!hasFlavors) {
@@ -170,9 +170,9 @@ Future<void> createIconsFromConfig(
 Config? loadConfigFileFromArgResults(
   ArgResults argResults,
 ) {
-  final String prefixPath = argResults[prefixOption];
+  final String prefixPath = argResults[prefixOption].toString();
   final flutterLauncherIconsConfigs = Config.loadConfigFromPath(
-        argResults[fileOption],
+        argResults[fileOption].toString(),
         prefixPath,
       ) ??
       Config.loadConfigFromPubSpec(prefixPath);

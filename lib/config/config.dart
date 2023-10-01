@@ -80,11 +80,13 @@ class Config {
             if (json['flutter_icons'] != null) {
               stderr.writeln('\n⚠ Warning: flutter_icons has been deprecated '
                   'please use flutter_launcher_icons instead in your yaml files');
-              return Config.fromJson(json['flutter_icons']);
+              return Config.fromJson(
+                  json['flutter_icons'] as Map<dynamic, dynamic>,);
             }
             // if we have flutter_launcher_icons configuration ...
             if (json['flutter_launcher_icons'] != null) {
-              return Config.fromJson(json['flutter_launcher_icons']);
+              return Config.fromJson(
+                  json['flutter_launcher_icons'] as Map<dynamic, dynamic>,);
             }
           }
           return null;
@@ -149,7 +151,7 @@ class Config {
   final MacOSConfig? macOSConfig;
 
   /// Creates [Config] icons from [json]
-  factory Config.fromJson(Map json) => _$ConfigFromJson(json);
+  factory Config.fromJson(Map<dynamic, dynamic> json) => _$ConfigFromJson(json);
 
   /// whether or not there is configuration for adaptive icons for android
   bool get hasAndroidAdaptiveConfig =>

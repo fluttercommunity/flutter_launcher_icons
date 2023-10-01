@@ -51,7 +51,7 @@ void createDefaultIcons(
   final File androidManifestFile = File(constants.androidManifestFile);
   if (config.isCustomAndroidFile) {
     utils.printStatus('Adding a new Android launcher icon');
-    final String iconName = config.android;
+    final String iconName = config.android.toString();
     isAndroidIconNameCorrectFormat(iconName);
     final String iconPath = '$iconName.png';
     for (AndroidIconTemplate template in androidIcons) {
@@ -159,7 +159,9 @@ void createAdaptiveIconMipmapXmlFile(
 ) {
   if (config.isCustomAndroidFile) {
     File(
-      constants.androidAdaptiveXmlFolder(flavor) + config.android + '.xml',
+      constants.androidAdaptiveXmlFolder(flavor) +
+          config.android.toString() +
+          '.xml',
     ).create(recursive: true).then((File adaptiveIcon) {
       adaptiveIcon.writeAsString(xml_template.icLauncherXml);
     });
@@ -201,7 +203,9 @@ void _createAdaptiveBackgrounds(
   // FILE LOCATED HERE:  res/mipmap-anydpi/{icon-name-from-yaml-config}.xml
   if (config.isCustomAndroidFile) {
     File(
-      constants.androidAdaptiveXmlFolder(flavor) + config.android + '.xml',
+      constants.androidAdaptiveXmlFolder(flavor) +
+          config.android.toString() +
+          '.xml',
     ).create(recursive: true).then((File adaptiveIcon) {
       adaptiveIcon.writeAsString(xml_template.icLauncherDrawableBackgroundXml);
     });

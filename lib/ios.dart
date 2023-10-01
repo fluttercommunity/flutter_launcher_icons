@@ -197,7 +197,7 @@ void modifyContentsFile(String newIconName) {
 String generateContentsFileAsString(String newIconName) {
   final Map<String, dynamic> contentJson = <String, dynamic>{
     'images': createImageList(newIconName),
-    'info': ContentsInfoObject(version: 1, author: 'xcode').toJson()
+    'info': ContentsInfoObject(version: 1, author: 'xcode').toJson(),
   };
   return json.encode(contentJson);
 }
@@ -220,7 +220,7 @@ class ContentsImageObject {
       'size': size,
       'idiom': idiom,
       'filename': filename,
-      'scale': scale
+      'scale': scale,
     };
   }
 }
@@ -390,7 +390,7 @@ List<Map<String, String>> createImageList(String fileNamePrefix) {
       idiom: 'ios-marketing',
       filename: '$fileNamePrefix-1024x1024@1x.png',
       scale: '1x',
-    ).toJson()
+    ).toJson(),
   ];
   return imageList;
 }
