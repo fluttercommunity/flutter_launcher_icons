@@ -81,12 +81,13 @@ class Config {
               stderr.writeln('\n⚠ Warning: flutter_icons has been deprecated '
                   'please use flutter_launcher_icons instead in your yaml files');
               return Config.fromJson(
-                  json['flutter_icons'] as Map<dynamic, dynamic>,);
+                json['flutter_icons'] as Map<dynamic, dynamic>,
+              );
             }
             // if we have flutter_launcher_icons configuration ...
             if (json['flutter_launcher_icons'] != null) {
               return Config.fromJson(
-                  json['flutter_launcher_icons'] as Map<dynamic, dynamic>,);
+                  json['flutter_launcher_icons'] as Map<dynamic, dynamic>);
             }
           }
           return null;
