@@ -13,7 +13,7 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 Run the following command to create a new config automatically:
 
 ```shell
-flutter pub run flutter_launcher_icons:generate
+dart run flutter_launcher_icons:generate
 ```
 
 This will create a new file called `flutter_launcher_icons.yaml` in your `flutter` project's root directory.
@@ -21,13 +21,13 @@ This will create a new file called `flutter_launcher_icons.yaml` in your `flutte
 If you want to override the default location or name of the config file, use the `-f` flag:
 
 ```shell
-flutter pub run flutter_launcher_icons:generate -f <your config file name here>
+dart run flutter_launcher_icons:generate -f <your config file name here>
 ```
 
 To override an existing config file, use the `-o` flag:
 
 ```shell
-flutter pub run flutter_launcher_icons:generate -o
+dart run flutter_launcher_icons:generate -o
 ```
 
 OR
@@ -64,7 +64,7 @@ After setting up the configuration, all that is left to do is run the package.
 
 ```shell
 flutter pub get
-flutter pub run flutter_launcher_icons
+dart run flutter_launcher_icons
 ```
 
 If you name your configuration file something other than `flutter_launcher_icons.yaml` or `pubspec.yaml` you will need to specify
@@ -72,7 +72,7 @@ the name of the file when running the package.
 
 ```shell
 flutter pub get
-flutter pub run flutter_launcher_icons -f <your config file name here>
+dart run flutter_launcher_icons -f <your config file name here>
 ```
 
 Note: If you are not using the existing `pubspec.yaml` ensure that your config file is located in the same directory as it.
@@ -119,7 +119,7 @@ be used to fill out the background of the adaptive icon.
 ### Web
 
 - `web`: Add web related configs
-  - `generate`: Specifies weather to generate icons for this platform or not
+  - `generate`: Specifies whether to generate icons for this platform or not
   - `image_path`: Path to web icon.png
   - `background_color`: Updates *background_color* in `web/manifest.json`
   - `theme_color`: Updates *theme_color* in `web/manifest.json`
@@ -127,14 +127,14 @@ be used to fill out the background of the adaptive icon.
 ### Windows
 
 - `windows`: Add Windows related configs
-  - `generate`: Specifies weather to generate icons for Windows platform or not
+  - `generate`: Specifies whether to generate icons for Windows platform or not
   - `image_path`: Path to web icon.png
   - `icon_size`: Windows app icon size. Icon size should be within this constrains *48<=icon_size<=256, defaults to 48*
   
 ### MacOS
 
 - `macos`: Add MacOS related configs
-  - `generate`: Specifies weather to generate icons for MacOS platform or not
+  - `generate`: Specifies whether to generate icons for MacOS platform or not
   - `image_path`: Path to macos icon.png file
 
 *Note: iOS icons should [fill the entire image](https://stackoverflow.com/questions/26014461/black-border-on-my-ios-icon) and not contain transparent borders.*
