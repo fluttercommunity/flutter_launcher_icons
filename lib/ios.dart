@@ -47,7 +47,7 @@ List<IosIconTemplate> iosIcons = <IosIconTemplate>[
 ];
 
 /// create the ios icons
-void createIcons(Config config, String? flavor) {
+Future<void> createIcons(Config config, String? flavor) async {
   // TODO(p-mazhnik): support prefixPath
   final String? filePath = config.getImagePathIOS();
   if (filePath == null) {
@@ -75,57 +75,64 @@ void createIcons(Config config, String? flavor) {
   }
   String iconName;
   final dynamic iosConfig = config.ios;
+
+  printStatus('Locating iOS workspace and project directories...');
+  final iosDefaultIconFolder = getIosDefaultIconFolder();
+  final iosAssetFolder = getIosAssetFolder();
+  final iosConfigFile = getIosConfigFile();
+
+  final projectDir = iosConfigFile.split('ios/')[1].split('/')[0];
+  final assetDir = iosAssetFolder.split('ios/')[1].split('/')[0];
+  printStatus('Applying changes to $projectDir and $assetDir');
+
   if (flavor != null) {
     final String catalogName = 'AppIcon-$flavor';
     printStatus('Building iOS launcher icon for $flavor');
     for (IosIconTemplate template in iosIcons) {
-      saveNewIcons(template, image, catalogName);
+      saveNewIcons(template, image, catalogName, iosAssetFolder);
     }
     iconName = iosDefaultIconName;
-    changeIosLauncherIcon(catalogName, flavor);
-    modifyContentsFile(catalogName);
+    changeIosLauncherIcon(catalogName, flavor, iosConfigFile);
+    modifyContentsFile(catalogName, iosAssetFolder);
   } else if (iosConfig is String) {
     // If the IOS configuration is a string then the user has specified a new icon to be created
     // and for the old icon file to be kept
     final String newIconName = iosConfig;
     printStatus('Adding new iOS launcher icon');
     for (IosIconTemplate template in iosIcons) {
-      saveNewIcons(template, image, newIconName);
+      saveNewIcons(template, image, newIconName, iosAssetFolder);
     }
     iconName = newIconName;
-    changeIosLauncherIcon(iconName, flavor);
-    modifyContentsFile(iconName);
+    await changeIosLauncherIcon(iconName, flavor, iosConfigFile);
+    modifyContentsFile(iconName, iosAssetFolder);
   }
   // Otherwise the user wants the new icon to use the default icons name and
   // update config file to use it
   else {
     printStatus('Overwriting default iOS launcher icon with new icon');
     for (IosIconTemplate template in iosIcons) {
-      overwriteDefaultIcons(template, image);
+      overwriteDefaultIcons(template, image, iosDefaultIconFolder);
     }
     iconName = iosDefaultIconName;
-    changeIosLauncherIcon('AppIcon', flavor);
+    await changeIosLauncherIcon('AppIcon', flavor, iosConfigFile);
   }
 }
 
 /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
 /// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-void overwriteDefaultIcons(IosIconTemplate template, Image image) {
+void overwriteDefaultIcons(IosIconTemplate template, Image image, String iosDefaultIconFolder) {
   final Image newFile = createResizedImage(template, image);
-  File(iosDefaultIconFolder + iosDefaultIconName + template.name + '.png')
-    ..writeAsBytesSync(encodePng(newFile));
+  File(iosDefaultIconFolder + iosDefaultIconName + template.name + '.png')..writeAsBytesSync(encodePng(newFile));
 }
 
 /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
 /// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-void saveNewIcons(IosIconTemplate template, Image image, String newIconName) {
+void saveNewIcons(IosIconTemplate template, Image image, String newIconName, String iosAssetFolder) {
   final String newIconFolder = iosAssetFolder + newIconName + '.appiconset/';
   final Image newFile = createResizedImage(template, image);
-  File(newIconFolder + newIconName + template.name + '.png')
-      .create(recursive: true)
-      .then((File file) {
+  File(newIconFolder + newIconName + template.name + '.png').create(recursive: true).then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
   });
 }
@@ -150,7 +157,7 @@ Image createResizedImage(IosIconTemplate template, Image image) {
 }
 
 /// Change the iOS launcher icon
-Future<void> changeIosLauncherIcon(String iconName, String? flavor) async {
+Future<void> changeIosLauncherIcon(String iconName, String? flavor, String iosConfigFile) async {
   final File iOSConfigFile = File(iosConfigFile);
   final List<String> lines = await iOSConfigFile.readAsLines();
 
@@ -184,12 +191,10 @@ Future<void> changeIosLauncherIcon(String iconName, String? flavor) async {
 }
 
 /// Create the Contents.json file
-void modifyContentsFile(String newIconName) {
-  final String newIconFolder =
-      iosAssetFolder + newIconName + '.appiconset/Contents.json';
+void modifyContentsFile(String newIconName, String iosAssetFolder) {
+  final String newIconFolder = iosAssetFolder + newIconName + '.appiconset/Contents.json';
   File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
-    final String contentsFileContent =
-        generateContentsFileAsString(newIconName);
+    final String contentsFileContent = generateContentsFileAsString(newIconName);
     contentsJsonFile.writeAsString(contentsFileContent);
   });
 }
@@ -197,7 +202,7 @@ void modifyContentsFile(String newIconName) {
 String generateContentsFileAsString(String newIconName) {
   final Map<String, dynamic> contentJson = <String, dynamic>{
     'images': createImageList(newIconName),
-    'info': ContentsInfoObject(version: 1, author: 'xcode').toJson()
+    'info': ContentsInfoObject(version: 1, author: 'xcode').toJson(),
   };
   return json.encode(contentJson);
 }
@@ -216,12 +221,7 @@ class ContentsImageObject {
   final String scale;
 
   Map<String, String> toJson() {
-    return <String, String>{
-      'size': size,
-      'idiom': idiom,
-      'filename': filename,
-      'scale': scale
-    };
+    return <String, String>{'size': size, 'idiom': idiom, 'filename': filename, 'scale': scale};
   }
 }
 
@@ -396,9 +396,8 @@ List<Map<String, String>> createImageList(String fileNamePrefix) {
 }
 
 ColorUint8 _getBackgroundColor(Config config) {
-  final backgroundColorHex = config.backgroundColorIOS.startsWith('#')
-      ? config.backgroundColorIOS.substring(1)
-      : config.backgroundColorIOS;
+  final backgroundColorHex =
+      config.backgroundColorIOS.startsWith('#') ? config.backgroundColorIOS.substring(1) : config.backgroundColorIOS;
   if (backgroundColorHex.length != 6) {
     throw Exception('background_color_ios hex should be 6 characters long');
   }
