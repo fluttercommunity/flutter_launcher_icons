@@ -3,7 +3,7 @@
 ## 0.13.1 (15th April 2023)
 
 - Can now use `flutter_launcher_icons` instead of `flutter_icons` [#478](https://github.com/fluttercommunity/flutter_launcher_icons/pull/478)
-- Can use command `flutter pub run flutter_launcher_icons:generate` to automatically generate config file [#475](https://github.com/fluttercommunity/flutter_launcher_icons/pull/475)
+- Can use command `dart run flutter_launcher_icons:generate` to automatically generate config file [#475](https://github.com/fluttercommunity/flutter_launcher_icons/pull/475)
 
 
 ## 0.13.0 (7th April 2023)
