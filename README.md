@@ -119,7 +119,7 @@ be used to fill out the background of the adaptive icon.
 ### Web
 
 - `web`: Add web related configs
-  - `generate`: Specifies weather to generate icons for this platform or not
+  - `generate`: Specifies whether to generate icons for this platform or not
   - `image_path`: Path to web icon.png
   - `background_color`: Updates *background_color* in `web/manifest.json`
   - `theme_color`: Updates *theme_color* in `web/manifest.json`
@@ -127,14 +127,14 @@ be used to fill out the background of the adaptive icon.
 ### Windows
 
 - `windows`: Add Windows related configs
-  - `generate`: Specifies weather to generate icons for Windows platform or not
+  - `generate`: Specifies whether to generate icons for Windows platform or not
   - `image_path`: Path to web icon.png
   - `icon_size`: Windows app icon size. Icon size should be within this constrains *48<=icon_size<=256, defaults to 48*
   
 ### MacOS
 
 - `macos`: Add MacOS related configs
-  - `generate`: Specifies weather to generate icons for MacOS platform or not
+  - `generate`: Specifies whether to generate icons for MacOS platform or not
   - `image_path`: Path to macos icon.png file
 
 *Note: iOS icons should [fill the entire image](https://stackoverflow.com/questions/26014461/black-border-on-my-ios-icon) and not contain transparent borders.*
