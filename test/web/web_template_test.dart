@@ -22,7 +22,7 @@ void main() {
         equals({
           'src': 'icons/Icon-512.png',
           'sizes': '512x512',
-          'type': 'image/png'
+          'type': 'image/png',
         }),
       );
       expect(
@@ -31,7 +31,7 @@ void main() {
           'src': 'icons/Icon-maskable-512.png',
           'sizes': '512x512',
           'type': 'image/png',
-          'purpose': 'maskable'
+          'purpose': 'maskable',
         }),
       );
     });
