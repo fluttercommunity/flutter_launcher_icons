@@ -65,7 +65,7 @@ void main() {
             d.file('manifest.json', anything),
           ]),
           d.file('flutter_launcher_icons.yaml', anything),
-          d.file('pubspec.yaml', templates.pubspecTemplate)
+          d.file('pubspec.yaml', templates.pubspecTemplate),
         ]).validate(),
         completes,
       );
