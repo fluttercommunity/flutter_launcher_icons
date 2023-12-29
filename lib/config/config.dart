@@ -117,15 +117,15 @@ class Config {
   @JsonKey(name: 'image_path_ios')
   final String? imagePathIOS;
 
-  /// android adaptive_icon_foreground image
+  /// Android adaptive_icon_foreground image path
   @JsonKey(name: 'adaptive_icon_foreground')
   final String? adaptiveIconForeground;
 
-  /// android adaptive_icon_background image
+  /// Android adaptive_icon_background image path
   @JsonKey(name: 'adaptive_icon_background')
   final String? adaptiveIconBackground;
 
-  /// android adaptive_icon_background image
+  /// Android adaptive_icon_monochrome image path
   @JsonKey(name: 'adaptive_icon_monochrome')
   final String? adaptiveIconMonochrome;
 
