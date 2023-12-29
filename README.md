@@ -13,7 +13,7 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 Run the following command to create a new config automatically:
 
 ```shell
-flutter pub run flutter_launcher_icons:generate
+dart run flutter_launcher_icons:generate
 ```
 
 This will create a new file called `flutter_launcher_icons.yaml` in your `flutter` project's root directory.
@@ -21,13 +21,13 @@ This will create a new file called `flutter_launcher_icons.yaml` in your `flutte
 If you want to override the default location or name of the config file, use the `-f` flag:
 
 ```shell
-flutter pub run flutter_launcher_icons:generate -f <your config file name here>
+dart run flutter_launcher_icons:generate -f <your config file name here>
 ```
 
 To override an existing config file, use the `-o` flag:
 
 ```shell
-flutter pub run flutter_launcher_icons:generate -o
+dart run flutter_launcher_icons:generate -o
 ```
 
 OR
@@ -63,16 +63,16 @@ flutter_launcher_icons:
 After setting up the configuration, all that is left to do is run the package.
 
 ```shell
-flutter pub get
-flutter pub run flutter_launcher_icons
+dart get
+dart run flutter_launcher_icons
 ```
 
 If you name your configuration file something other than `flutter_launcher_icons.yaml` or `pubspec.yaml` you will need to specify
 the name of the file when running the package.
 
 ```shell
-flutter pub get
-flutter pub run flutter_launcher_icons -f <your config file name here>
+dart get
+dart run flutter_launcher_icons -f <your config file name here>
 ```
 
 Note: If you are not using the existing `pubspec.yaml` ensure that your config file is located in the same directory as it.
@@ -99,14 +99,14 @@ Shown below is the full list of attributes which you can specify within your Flu
 - `image_path`: The location of the icon image file which you want to use as the app launcher icon
 - `image_path_android`: The location of the icon image file specific for Android platform (optional - if not defined then the image_path is used)
 - `min_sdk_android`: Specify android min sdk value
-**The next two attributes are only used when generating Android launcher icon**
+  **The next two attributes are only used when generating Android launcher icon**
 
 - `adaptive_icon_background`: The color (E.g. `"#ffffff"`) or image asset (E.g. `"assets/images/christmas-background.png"`) which will
-be used to fill out the background of the adaptive icon.
+  be used to fill out the background of the adaptive icon.
 - `adaptive_icon_foreground`: The image asset which will be used for the icon foreground of the adaptive icon
-*Note: Adaptive Icons will only be generated when both adaptive_icon_background and adaptive_icon_foreground are specified. (the image_path is not automatically taken as foreground)*
+  _Note: Adaptive Icons will only be generated when both adaptive_icon_background and adaptive_icon_foreground are specified. (the image_path is not automatically taken as foreground)_
 - `adaptive_icon_monochrome`: The image asset which will be used for the icon
-foreground of the Android 13+ themed icon. For more information see [Android Adaptive Icons](https://developer.android.com/develop/ui/views/launch/icon_design_adaptive#user-theming)
+  foreground of the Android 13+ themed icon. For more information see [Android Adaptive Icons](https://developer.android.com/develop/ui/views/launch/icon_design_adaptive#user-theming)
 
 ### IOS
 
@@ -123,23 +123,23 @@ foreground of the Android 13+ themed icon. For more information see [Android Ada
 - `web`: Add web related configs
   - `generate`: Specifies whether to generate icons for this platform or not
   - `image_path`: Path to web icon.png
-  - `background_color`: Updates *background_color* in `web/manifest.json`
-  - `theme_color`: Updates *theme_color* in `web/manifest.json`
+  - `background_color`: Updates _background_color_ in `web/manifest.json`
+  - `theme_color`: Updates _theme_color_ in `web/manifest.json`
 
 ### Windows
 
 - `windows`: Add Windows related configs
   - `generate`: Specifies whether to generate icons for Windows platform or not
   - `image_path`: Path to web icon.png
-  - `icon_size`: Windows app icon size. Icon size should be within this constrains *48<=icon_size<=256, defaults to 48*
-  
+  - `icon_size`: Windows app icon size. Icon size should be within this constrains _48<=icon_size<=256, defaults to 48_
+
 ### MacOS
 
 - `macos`: Add MacOS related configs
   - `generate`: Specifies whether to generate icons for MacOS platform or not
   - `image_path`: Path to macos icon.png file
 
-*Note: iOS icons should [fill the entire image](https://stackoverflow.com/questions/26014461/black-border-on-my-ios-icon) and not contain transparent borders.*
+_Note: iOS icons should [fill the entire image](https://stackoverflow.com/questions/26014461/black-border-on-my-ios-icon) and not contain transparent borders._
 
 ## Flavor support
 

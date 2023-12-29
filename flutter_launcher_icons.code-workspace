@@ -9,16 +9,14 @@
     "[dart]": {
       "editor.formatOnSave": true,
       // "editor.formatOnType": true,
-      "editor.rulers": [
-        120
-      ],
+      "editor.rulers": [120],
       "editor.selectionHighlight": false,
       "editor.suggest.snippetsPreventQuickSuggestions": false,
       "editor.suggestSelection": "first",
       "editor.tabCompletion": "onlySnippets",
-      "editor.wordBasedSuggestions": false,
+      "editor.wordBasedSuggestions": "off",
       "files.insertFinalNewline": true
     },
-    "dart.lineLength": 120,
+    "dart.lineLength": 120
   }
 }

@@ -36,7 +36,7 @@ const String iosConfigFile = 'ios/Runner.xcodeproj/project.pbxproj';
 const String iosDefaultIconName = 'Icon-App';
 
 // web
-/// favicon.ico size
+/// `favicon.ico` size
 const int kFaviconSize = 16;
 
 /// Relative web direcotry path
