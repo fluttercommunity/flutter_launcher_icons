@@ -1,10 +1,9 @@
 ---
 name: Feature request
 about: Suggest an idea to improve Flutter Launcher Icons
-title: ''
+title: ""
 labels: improvement
-assignees: ''
-
+assignees: ""
 ---
 
 ### :speech_balloon: Description
