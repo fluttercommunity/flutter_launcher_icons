@@ -141,6 +141,18 @@ Future<void> createIconsFromConfig(
   if (flutterConfigs.hasAndroidAdaptiveConfig) {
     android_launcher_icons.createAdaptiveIcons(flutterConfigs, flavor);
   }
+  if (flutterConfigs.hasAndroidAdaptiveMonochromeConfig) {
+    android_launcher_icons.createAdaptiveMonochromeIcons(
+      flutterConfigs,
+      flavor,
+    );
+  }
+  if (flutterConfigs.isNeedingNewAndroidIcon) {
+    android_launcher_icons.createMipmapXmlFile(
+      flutterConfigs,
+      flavor,
+    );
+  }
   if (flutterConfigs.isNeedingNewIOSIcon) {
     ios_launcher_icons.createIcons(flutterConfigs, flavor);
   }

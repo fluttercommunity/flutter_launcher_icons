@@ -27,6 +27,7 @@ class Config {
     this.imagePathIOS,
     this.adaptiveIconForeground,
     this.adaptiveIconBackground,
+    this.adaptiveIconMonochrome,
     this.minSdkAndroid = constants.androidDefaultAndroidMinSDK,
     this.removeAlphaIOS = false,
     this.backgroundColorIOS = '#ffffff',
@@ -116,13 +117,17 @@ class Config {
   @JsonKey(name: 'image_path_ios')
   final String? imagePathIOS;
 
-  /// android adaptive icon foreground image
+  /// android adaptive_icon_foreground image
   @JsonKey(name: 'adaptive_icon_foreground')
   final String? adaptiveIconForeground;
 
   /// android adaptive_icon_background image
   @JsonKey(name: 'adaptive_icon_background')
   final String? adaptiveIconBackground;
+
+  /// android adaptive_icon_background image
+  @JsonKey(name: 'adaptive_icon_monochrome')
+  final String? adaptiveIconMonochrome;
 
   /// Android min_sdk_android
   @JsonKey(name: 'min_sdk_android')
@@ -156,6 +161,11 @@ class Config {
       isNeedingNewAndroidIcon &&
       adaptiveIconForeground != null &&
       adaptiveIconBackground != null;
+
+  /// whether or not there is configuration for monochrome icons for android
+  bool get hasAndroidAdaptiveMonochromeConfig {
+    return isNeedingNewAndroidIcon && adaptiveIconMonochrome != null;
+  }
 
   /// Checks if contains any platform config
   bool get hasPlatformConfig {

@@ -105,6 +105,8 @@ Shown below is the full list of attributes which you can specify within your Flu
 be used to fill out the background of the adaptive icon.
 - `adaptive_icon_foreground`: The image asset which will be used for the icon foreground of the adaptive icon
 *Note: Adaptive Icons will only be generated when both adaptive_icon_background and adaptive_icon_foreground are specified. (the image_path is not automatically taken as foreground)*
+- `adaptive_icon_monochrome`: The image asset which will be used for the icon
+foreground of the Android 13+ themed icon. For more information see [Android Adaptive Icons](https://developer.android.com/develop/ui/views/launch/icon_design_adaptive#user-theming)
 
 ### IOS
 
