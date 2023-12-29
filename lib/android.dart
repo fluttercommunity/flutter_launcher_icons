@@ -233,7 +233,7 @@ void updateColorsXmlFile(String backgroundConfig, String? flavor) {
   }
 }
 
-/// creates adaptive background using png image
+/// Creates adaptive background using png image
 void _createAdaptiveBackgrounds(
   Config config,
   String adaptiveIconBackgroundImagePath,

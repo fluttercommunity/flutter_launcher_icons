@@ -176,13 +176,13 @@ class Config {
   /// Creates [Config] icons from [json]
   factory Config.fromJson(Map json) => _$ConfigFromJson(json);
 
-  /// whether or not there is configuration for adaptive icons for android
+  /// Whether or not there is configuration for adaptive icons for android
   bool get hasAndroidAdaptiveConfig =>
       isNeedingNewAndroidIcon &&
       adaptiveIconForeground != null &&
       adaptiveIconBackground != null;
 
-  /// whether or not there is configuration for monochrome icons for android
+  /// Whether or not there is configuration for monochrome icons for android
   bool get hasAndroidAdaptiveMonochromeConfig {
     return isNeedingNewAndroidIcon && adaptiveIconMonochrome != null;
   }
@@ -210,10 +210,10 @@ class Config {
   /// bool - override the default flutter project icon
   bool get isCustomAndroidFile => android is String;
 
-  /// if we are needing a new Android icon
+  /// If we are needing a new Android icon
   bool get isNeedingNewAndroidIcon => android != false;
 
-  /// if we are needing a new iOS icon
+  /// If we are needing a new iOS icon
   bool get isNeedingNewIOSIcon => ios != false;
 
   /// Method for the retrieval of the Android icon path
