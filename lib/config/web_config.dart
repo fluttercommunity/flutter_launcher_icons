@@ -32,7 +32,7 @@ class WebConfig {
   });
 
   /// Creates [WebConfig] from [json]
-  factory WebConfig.fromJson(Map<dynamic, dynamic> json) {
+  factory WebConfig.fromJson(Map<String, dynamic> json) {
     return _$WebConfigFromJson(json);
   }
 
