@@ -19,11 +19,11 @@ class AndroidIconTemplate {
 }
 
 final List<AndroidIconTemplate> adaptiveForegroundIcons = <AndroidIconTemplate>[
-  AndroidIconTemplate(directoryName: 'drawable-mdpi', size: 108),
-  AndroidIconTemplate(directoryName: 'drawable-hdpi', size: 162),
-  AndroidIconTemplate(directoryName: 'drawable-xhdpi', size: 216),
-  AndroidIconTemplate(directoryName: 'drawable-xxhdpi', size: 324),
-  AndroidIconTemplate(directoryName: 'drawable-xxxhdpi', size: 432),
+  AndroidIconTemplate(directoryName: 'drawable-mdpi', size: 24),
+  AndroidIconTemplate(directoryName: 'drawable-hdpi', size: 36),
+  AndroidIconTemplate(directoryName: 'drawable-xhdpi', size: 48),
+  AndroidIconTemplate(directoryName: 'drawable-xxhdpi', size: 72),
+  AndroidIconTemplate(directoryName: 'drawable-xxxhdpi', size: 96),
 ];
 
 List<AndroidIconTemplate> androidIcons = <AndroidIconTemplate>[
@@ -106,6 +106,7 @@ void createAdaptiveIcons(
   }
 
   // Create adaptive icon foreground images
+  printStatus('tupa1 changed');
   for (AndroidIconTemplate androidIcon in adaptiveForegroundIcons) {
     overwriteExistingIcons(
       androidIcon,
@@ -237,6 +238,7 @@ void _createAdaptiveBackgrounds(
 
   // creates a png image (ic_adaptive_background.png) for the adaptive icon background in each of the locations
   // it is required
+  printStatus('tupa1 changed');
   for (AndroidIconTemplate androidIcon in adaptiveForegroundIcons) {
     _saveNewImages(
       androidIcon,
