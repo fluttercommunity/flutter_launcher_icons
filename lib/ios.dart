@@ -276,7 +276,7 @@ class ContentsImageObject {
       'size': size,
       'idiom': idiom,
       'filename': filename,
-      'scale': scale
+      'scale': scale,
     };
   }
 }

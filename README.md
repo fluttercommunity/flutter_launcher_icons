@@ -105,6 +105,8 @@ Shown below is the full list of attributes which you can specify within your Flu
 be used to fill out the background of the adaptive icon.
 - `adaptive_icon_foreground`: The image asset which will be used for the icon foreground of the adaptive icon
 *Note: Adaptive Icons will only be generated when both adaptive_icon_background and adaptive_icon_foreground are specified. (the image_path is not automatically taken as foreground)*
+- `adaptive_icon_monochrome`: The image asset which will be used for the icon
+foreground of the Android 13+ themed icon. For more information see [Android Adaptive Icons](https://developer.android.com/develop/ui/views/launch/icon_design_adaptive#user-theming)
 
 ### IOS
 
@@ -119,7 +121,7 @@ be used to fill out the background of the adaptive icon.
 ### Web
 
 - `web`: Add web related configs
-  - `generate`: Specifies weather to generate icons for this platform or not
+  - `generate`: Specifies whether to generate icons for this platform or not
   - `image_path`: Path to web icon.png
   - `background_color`: Updates *background_color* in `web/manifest.json`
   - `theme_color`: Updates *theme_color* in `web/manifest.json`
@@ -127,14 +129,14 @@ be used to fill out the background of the adaptive icon.
 ### Windows
 
 - `windows`: Add Windows related configs
-  - `generate`: Specifies weather to generate icons for Windows platform or not
+  - `generate`: Specifies whether to generate icons for Windows platform or not
   - `image_path`: Path to web icon.png
   - `icon_size`: Windows app icon size. Icon size should be within this constrains *48<=icon_size<=256, defaults to 48*
   
 ### MacOS
 
 - `macos`: Add MacOS related configs
-  - `generate`: Specifies weather to generate icons for MacOS platform or not
+  - `generate`: Specifies whether to generate icons for MacOS platform or not
   - `image_path`: Path to macos icon.png file
 
 *Note: iOS icons should [fill the entire image](https://stackoverflow.com/questions/26014461/black-border-on-my-ios-icon) and not contain transparent borders.*

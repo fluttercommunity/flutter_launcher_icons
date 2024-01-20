@@ -69,6 +69,12 @@ class MockConfig extends _i1.Mock implements _i3.Config {
         returnValueForMissingStub: false,
       ) as bool);
   @override
+  bool get hasAndroidAdaptiveMonochromeConfig => (super.noSuchMethod(
+        Invocation.getter(#hasAndroidAdaptiveMonochromeConfig),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+  @override
   bool get hasPlatformConfig => (super.noSuchMethod(
         Invocation.getter(#hasPlatformConfig),
         returnValue: false,
