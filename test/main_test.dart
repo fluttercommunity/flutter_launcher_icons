@@ -12,7 +12,7 @@ import 'package:test/test.dart';
 // Unit tests for main.dart
 void main() {
   test('iOS icon list is correct size', () {
-    expect(ios.iosIcons.length, 21);
+    expect(ios.iosIconTemplates.length, 31);
   });
 
   test('Android icon list is correct size', () {
@@ -22,7 +22,7 @@ void main() {
   test(
       'iOS image list used to generate Contents.json for icon directory is correct size',
       () {
-    expect(ios.createImageList('blah').length, 25);
+    expect(ios.createImageList().length, 50);
   });
 
   group('config file from args', () {

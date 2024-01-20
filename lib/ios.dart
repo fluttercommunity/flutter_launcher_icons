@@ -253,7 +253,7 @@ void modifyContentsFile(String newIconName) {
 String generateContentsFileAsString(String newIconName) {
   final Map<String, dynamic> contentJson = <String, dynamic>{
     'images': createImageList(),
-    'info': ContentsInfoObject(version: 1, author: 'xcode').toJson()
+    'info': ContentsInfoObject(version: 1, author: 'xcode').toJson(),
   };
   return json.encode(contentJson);
 }
@@ -324,13 +324,13 @@ List<Map<String, String>> createImageList() {
       'filename': '167.png',
       'idiom': 'ipad',
       'scale': '2x',
-      'size': '83.5x83.5'
+      'size': '83.5x83.5',
     },
     {
       'filename': '1024.png',
       'idiom': 'ios-marketing',
       'scale': '1x',
-      'size': '1024x1024'
+      'size': '1024x1024',
     },
     {
       'filename': '48.png',
@@ -338,7 +338,7 @@ List<Map<String, String>> createImageList() {
       'role': 'notificationCenter',
       'scale': '2x',
       'size': '24x24',
-      'subtype': '38mm'
+      'subtype': '38mm',
     },
     {
       'filename': '55.png',
@@ -346,28 +346,28 @@ List<Map<String, String>> createImageList() {
       'role': 'notificationCenter',
       'scale': '2x',
       'size': '27.5x27.5',
-      'subtype': '42mm'
+      'subtype': '42mm',
     },
     {
       'filename': '58.png',
       'idiom': 'watch',
       'role': 'companionSettings',
       'scale': '2x',
-      'size': '29x29'
+      'size': '29x29',
     },
     {
       'filename': '87.png',
       'idiom': 'watch',
       'role': 'companionSettings',
       'scale': '3x',
-      'size': '29x29'
+      'size': '29x29',
     },
     {
       'idiom': 'watch',
       'role': 'notificationCenter',
       'scale': '2x',
       'size': '33x33',
-      'subtype': '45mm'
+      'subtype': '45mm',
     },
     {
       'filename': '80.png',
@@ -375,7 +375,7 @@ List<Map<String, String>> createImageList() {
       'role': 'appLauncher',
       'scale': '2x',
       'size': '40x40',
-      'subtype': '38mm'
+      'subtype': '38mm',
     },
     {
       'filename': '88.png',
@@ -383,14 +383,14 @@ List<Map<String, String>> createImageList() {
       'role': 'appLauncher',
       'scale': '2x',
       'size': '44x44',
-      'subtype': '40mm'
+      'subtype': '40mm',
     },
     {
       'idiom': 'watch',
       'role': 'appLauncher',
       'scale': '2x',
       'size': '46x46',
-      'subtype': '41mm'
+      'subtype': '41mm',
     },
     {
       'filename': '100.png',
@@ -398,14 +398,14 @@ List<Map<String, String>> createImageList() {
       'role': 'appLauncher',
       'scale': '2x',
       'size': '50x50',
-      'subtype': '44mm'
+      'subtype': '44mm',
     },
     {
       'idiom': 'watch',
       'role': 'appLauncher',
       'scale': '2x',
       'size': '51x51',
-      'subtype': '45mm'
+      'subtype': '45mm',
     },
     {
       'filename': '172.png',
@@ -413,7 +413,7 @@ List<Map<String, String>> createImageList() {
       'role': 'quickLook',
       'scale': '2x',
       'size': '86x86',
-      'subtype': '38mm'
+      'subtype': '38mm',
     },
     {
       'filename': '196.png',
@@ -421,7 +421,7 @@ List<Map<String, String>> createImageList() {
       'role': 'quickLook',
       'scale': '2x',
       'size': '98x98',
-      'subtype': '42mm'
+      'subtype': '42mm',
     },
     {
       'filename': '216.png',
@@ -429,20 +429,20 @@ List<Map<String, String>> createImageList() {
       'role': 'quickLook',
       'scale': '2x',
       'size': '108x108',
-      'subtype': '44mm'
+      'subtype': '44mm',
     },
     {
       'idiom': 'watch',
       'role': 'quickLook',
       'scale': '2x',
       'size': '117x117',
-      'subtype': '45mm'
+      'subtype': '45mm',
     },
     {
       'filename': '1024.png',
       'idiom': 'watch-marketing',
       'scale': '1x',
-      'size': '1024x1024'
+      'size': '1024x1024',
     },
     {'filename': '16.png', 'idiom': 'mac', 'scale': '1x', 'size': '16x16'},
     {'filename': '32.png', 'idiom': 'mac', 'scale': '2x', 'size': '16x16'},
@@ -453,7 +453,7 @@ List<Map<String, String>> createImageList() {
     {'filename': '256.png', 'idiom': 'mac', 'scale': '1x', 'size': '256x256'},
     {'filename': '512.png', 'idiom': 'mac', 'scale': '2x', 'size': '256x256'},
     {'filename': '512.png', 'idiom': 'mac', 'scale': '1x', 'size': '512x512'},
-    {'filename': '1024.png', 'idiom': 'mac', 'scale': '2x', 'size': '512x512'}
+    {'filename': '1024.png', 'idiom': 'mac', 'scale': '2x', 'size': '512x512'},
   ];
   return imageList;
 }
