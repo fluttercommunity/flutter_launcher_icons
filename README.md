@@ -39,7 +39,7 @@ An example is shown below. More complex examples [can be found in the example pr
 dev_dependencies:
   flutter_launcher_icons: "^0.13.1"
 
-flutter_launcher_icons:
+flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/icon/icon.png"
