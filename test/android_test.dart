@@ -71,7 +71,7 @@ void main() {
 
     await withTempFile('AndroidManifest.xml', (File androidManifestFile) async {
       androidManifestFile.writeAsStringSync(inputManifest);
-      await android.overwriteAndroidManifestWithNewLauncherIcon(
+      android.overwriteAndroidManifestWithNewLauncherIcon(
         'ic_other_icon_name',
         androidManifestFile,
       );
@@ -89,7 +89,7 @@ void main() {
 
     await withTempFile('AndroidManifest.xml', (File androidManifestFile) async {
       androidManifestFile.writeAsStringSync(inputManifest);
-      await android.overwriteAndroidManifestWithNewLauncherIcon(
+      android.overwriteAndroidManifestWithNewLauncherIcon(
         'ic_launcher',
         androidManifestFile,
       );
@@ -106,7 +106,7 @@ void main() {
 
     await withTempFile('AndroidManifest.xml', (File androidManifestFile) async {
       androidManifestFile.writeAsStringSync(inputManifest);
-      await android.overwriteAndroidManifestWithNewLauncherIcon(
+      android.overwriteAndroidManifestWithNewLauncherIcon(
         'ic_launcher',
         androidManifestFile,
       );
@@ -124,7 +124,7 @@ void main() {
 
     await withTempFile('AndroidManifest.xml', (File androidManifestFile) async {
       androidManifestFile.writeAsStringSync(inputManifest);
-      await android.overwriteAndroidManifestWithNewLauncherIcon(
+      android.overwriteAndroidManifestWithNewLauncherIcon(
         'ic_launcher',
         androidManifestFile,
       );
@@ -142,7 +142,7 @@ void main() {
 
     await withTempFile('AndroidManifest.xml', (File androidManifestFile) async {
       androidManifestFile.writeAsStringSync(inputManifest);
-      await android.overwriteAndroidManifestWithNewLauncherIcon(
+      android.overwriteAndroidManifestWithNewLauncherIcon(
         'ic_launcher',
         androidManifestFile,
       );

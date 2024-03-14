@@ -193,11 +193,10 @@ void createMipmapXmlFile(
     );
   }
 
-  mipmapXmlFile.create(recursive: true).then((File adaptiveIconFile) {
-    adaptiveIconFile.writeAsString(
-      xml_template.mipmapXmlFile.replaceAll('{{CONTENT}}', xmlContent),
-    );
-  });
+  mipmapXmlFile.createSync(recursive: true);
+  mipmapXmlFile.writeAsStringSync(
+    xml_template.mipmapXmlFile.replaceAll('{{CONTENT}}', xmlContent),
+  );
 }
 
 /// Retrieves the colors.xml file for the project.
@@ -249,13 +248,10 @@ void _createAdaptiveBackgrounds(
 
 /// Creates a colors.xml file if it was missing from android/app/src/main/res/values/colors.xml
 void createNewColorsFile(String backgroundColor, String? flavor) {
-  File(constants.androidColorsFile(flavor))
-      .create(recursive: true)
-      .then((File colorsFile) {
-    colorsFile.writeAsString(xml_template.colorsXml).then((File file) {
-      updateColorsFile(colorsFile, backgroundColor);
-    });
-  });
+  final colorsFile = File(constants.androidColorsFile(flavor));
+  colorsFile.createSync(recursive: true);
+  colorsFile.writeAsStringSync(xml_template.colorsXml);
+  updateColorsFile(colorsFile, backgroundColor);
 }
 
 /// Updates the colors.xml with the new adaptive launcher icon color
@@ -296,14 +292,14 @@ void overwriteExistingIcons(
   String? flavor,
 ) {
   final Image newFile = utils.createResizedImage(template.size, image);
-  File(
+  final file = File(
     constants.androidResFolder(flavor) +
         template.directoryName +
         '/' +
         filename,
-  ).create(recursive: true).then((File file) {
-    file.writeAsBytesSync(encodePng(newFile));
-  });
+  );
+  file.createSync(recursive: true);
+  file.writeAsBytesSync(encodePng(newFile));
 }
 
 /// Saves new launcher icons to the project, keeping the old launcher icons.
@@ -316,30 +312,30 @@ void _saveNewImages(
   String? flavor,
 ) {
   final Image newFile = utils.createResizedImage(template.size, image);
-  File(
+  final file = File(
     constants.androidResFolder(flavor) +
         template.directoryName +
         '/' +
         iconFilePath,
-  ).create(recursive: true).then((File file) {
-    file.writeAsBytesSync(encodePng(newFile));
-  });
+  );
+  file.createSync(recursive: true);
+  file.writeAsBytesSync(encodePng(newFile));
 }
 
 /// Updates the line which specifies the launcher icon within the AndroidManifest.xml
 /// with the new icon name (only if it has changed)
 ///
 /// Note: default iconName = "ic_launcher"
-Future<void> overwriteAndroidManifestWithNewLauncherIcon(
+void overwriteAndroidManifestWithNewLauncherIcon(
   String iconName,
   File androidManifestFile,
-) async {
+) {
   // we do not use `file.readAsLinesSync()` here because that always gets rid of the last empty newline
   final List<String> oldManifestLines =
-      (await androidManifestFile.readAsString()).split('\n');
+      androidManifestFile.readAsStringSync().split('\n');
   final List<String> transformedLines =
       _transformAndroidManifestWithNewLauncherIcon(oldManifestLines, iconName);
-  await androidManifestFile.writeAsString(transformedLines.join('\n'));
+  androidManifestFile.writeAsStringSync(transformedLines.join('\n'));
 }
 
 /// Updates only the line containing android:icon with the specified iconName
