@@ -87,7 +87,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
       );
     }
     try {
-      await createIconsFromConfig(
+      createIconsFromConfig(
         flutterLauncherIconsConfigs,
         logger,
         prefixPath,
@@ -109,7 +109,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
             'No configuration found for $flavor flavor.',
           );
         }
-        await createIconsFromConfig(
+        createIconsFromConfig(
           flutterLauncherIconsConfigs,
           logger,
           prefixPath,
@@ -125,12 +125,12 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   }
 }
 
-Future<void> createIconsFromConfig(
+void createIconsFromConfig(
   Config flutterConfigs,
   FLILogger logger,
   String prefixPath, [
   String? flavor,
-]) async {
+]) {
   if (!flutterConfigs.hasPlatformConfig) {
     throw const InvalidConfigException(errorMissingPlatform);
   }

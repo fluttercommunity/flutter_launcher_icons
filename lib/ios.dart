@@ -123,11 +123,9 @@ void overwriteDefaultIcons(IosIconTemplate template, Image image) {
 void saveNewIcons(IosIconTemplate template, Image image, String newIconName) {
   final String newIconFolder = iosAssetFolder + newIconName + '.appiconset/';
   final Image newFile = createResizedImage(template, image);
-  File(newIconFolder + newIconName + template.name + '.png')
-      .create(recursive: true)
-      .then((File file) {
-    file.writeAsBytesSync(encodePng(newFile));
-  });
+  final file = File(newIconFolder + newIconName + template.name + '.png');
+  file.createSync(recursive: true);
+  file.writeAsBytesSync(encodePng(newFile));
 }
 
 /// create resized icon image
@@ -152,7 +150,7 @@ Image createResizedImage(IosIconTemplate template, Image image) {
 /// Change the iOS launcher icon
 Future<void> changeIosLauncherIcon(String iconName, String? flavor) async {
   final File iOSConfigFile = File(iosConfigFile);
-  final List<String> lines = await iOSConfigFile.readAsLines();
+  final List<String> lines = iOSConfigFile.readAsLinesSync();
 
   bool onConfigurationSection = false;
   String? currentConfig;
@@ -180,18 +178,17 @@ Future<void> changeIosLauncherIcon(String iconName, String? flavor) async {
   }
 
   final String entireFile = '${lines.join('\n')}\n';
-  await iOSConfigFile.writeAsString(entireFile);
+  iOSConfigFile.writeAsStringSync(entireFile);
 }
 
 /// Create the Contents.json file
 void modifyContentsFile(String newIconName) {
   final String newIconFolder =
       iosAssetFolder + newIconName + '.appiconset/Contents.json';
-  File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
-    final String contentsFileContent =
-        generateContentsFileAsString(newIconName);
-    contentsJsonFile.writeAsString(contentsFileContent);
-  });
+  final contentsJsonFile = File(newIconFolder);
+  contentsJsonFile.createSync(recursive: true);
+  final String contentsFileContent = generateContentsFileAsString(newIconName);
+  contentsJsonFile.writeAsStringSync(contentsFileContent);
 }
 
 String generateContentsFileAsString(String newIconName) {
