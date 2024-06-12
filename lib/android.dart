@@ -172,7 +172,7 @@ void createMipmapXmlFile(
     }
 
     xmlContent +=
-        '  <foreground>\n    <inset\n      android:drawable="@drawable/ic_launcher_foreground"\n      android:inset="${config.adaptiveIconForegroundInset}%" />\n  </foreground>';
+        '  <foreground>\n    <inset\n      android:drawable="@drawable/ic_launcher_foreground"\n      android:inset="${config.adaptiveIconForegroundInset}%" />\n  </foreground>\n';
   }
 
   if (config.hasAndroidAdaptiveMonochromeConfig) {
