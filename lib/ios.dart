@@ -23,23 +23,15 @@ class IosIconTemplate {
 
 /// details of the ios icons which need to be generated
 List<IosIconTemplate> iosIcons = <IosIconTemplate>[
-  IosIconTemplate(name: '-20x20@1x', size: 20),
   IosIconTemplate(name: '-20x20@2x', size: 40),
   IosIconTemplate(name: '-20x20@3x', size: 60),
-  IosIconTemplate(name: '-29x29@1x', size: 29),
   IosIconTemplate(name: '-29x29@2x', size: 58),
   IosIconTemplate(name: '-29x29@3x', size: 87),
-  IosIconTemplate(name: '-40x40@1x', size: 40),
   IosIconTemplate(name: '-40x40@2x', size: 80),
   IosIconTemplate(name: '-40x40@3x', size: 120),
-  IosIconTemplate(name: '-50x50@1x', size: 50),
-  IosIconTemplate(name: '-50x50@2x', size: 100),
-  IosIconTemplate(name: '-57x57@1x', size: 57),
   IosIconTemplate(name: '-57x57@2x', size: 114),
   IosIconTemplate(name: '-60x60@2x', size: 120),
   IosIconTemplate(name: '-60x60@3x', size: 180),
-  IosIconTemplate(name: '-72x72@1x', size: 72),
-  IosIconTemplate(name: '-72x72@2x', size: 144),
   IosIconTemplate(name: '-76x76@1x', size: 76),
   IosIconTemplate(name: '-76x76@2x', size: 152),
   IosIconTemplate(name: '-83.5x83.5@2x', size: 167),
