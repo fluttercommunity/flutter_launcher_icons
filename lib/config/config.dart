@@ -25,6 +25,8 @@ class Config {
     this.ios = false,
     this.imagePathAndroid,
     this.imagePathIOS,
+    this.imagePathIOSDarkTransparent,
+    this.imagePathIOSTintedGrayscale,
     this.adaptiveIconForeground,
     this.adaptiveIconBackground,
     this.adaptiveIconMonochrome,
@@ -116,6 +118,14 @@ class Config {
   /// Image path specific to ios
   @JsonKey(name: 'image_path_ios')
   final String? imagePathIOS;
+
+  /// IOS image_path_ios_dark_transparent
+  @JsonKey(name: 'image_path_ios_dark_transparent')
+  final String? imagePathIOSDarkTransparent;
+
+  /// IOS image_path_ios_tinted_grayscale
+  @JsonKey(name: 'image_path_ios_tinted_grayscale')
+  final String? imagePathIOSTintedGrayscale;
 
   /// android adaptive_icon_foreground image
   @JsonKey(name: 'adaptive_icon_foreground')

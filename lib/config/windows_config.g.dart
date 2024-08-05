@@ -13,7 +13,7 @@ WindowsConfig _$WindowsConfigFromJson(Map json) => $checkedCreate(
         final val = WindowsConfig(
           generate: $checkedConvert('generate', (v) => v as bool? ?? false),
           imagePath: $checkedConvert('image_path', (v) => v as String?),
-          iconSize: $checkedConvert('icon_size', (v) => v as int?),
+          iconSize: $checkedConvert('icon_size', (v) => (v as num?)?.toInt()),
         );
         return val;
       },
