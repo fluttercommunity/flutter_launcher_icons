@@ -22,7 +22,7 @@ class IosIconTemplate {
 }
 
 /// details of the ios icons which need to be generated
-List<IosIconTemplate> iosIcons = <IosIconTemplate>[
+List<IosIconTemplate> legacyIosIcons = <IosIconTemplate>[
   IosIconTemplate(name: '-20x20@1x', size: 20),
   IosIconTemplate(name: '-20x20@2x', size: 40),
   IosIconTemplate(name: '-20x20@3x', size: 60),
@@ -41,6 +41,25 @@ List<IosIconTemplate> iosIcons = <IosIconTemplate>[
   IosIconTemplate(name: '-72x72@1x', size: 72),
   IosIconTemplate(name: '-72x72@2x', size: 144),
   IosIconTemplate(name: '-76x76@1x', size: 76),
+  IosIconTemplate(name: '-76x76@2x', size: 152),
+  IosIconTemplate(name: '-83.5x83.5@2x', size: 167),
+  IosIconTemplate(name: '-1024x1024@1x', size: 1024),
+];
+
+List<IosIconTemplate> iosIcons = <IosIconTemplate>[
+  IosIconTemplate(name: '-20x20@2x', size: 40),
+  IosIconTemplate(name: '-20x20@3x', size: 60),
+  IosIconTemplate(name: '-29x29@2x', size: 58),
+  IosIconTemplate(name: '-29x29@3x', size: 87),
+  IosIconTemplate(name: '-38x38@2x', size: 76),
+  IosIconTemplate(name: '-38x38@3x', size: 114),
+  IosIconTemplate(name: '-40x40@2x', size: 80),
+  IosIconTemplate(name: '-40x40@3x', size: 120),
+  IosIconTemplate(name: '-60x60@2x', size: 120),
+  IosIconTemplate(name: '-60x60@3x', size: 180),
+  IosIconTemplate(name: '-64x64@2x', size: 128),
+  IosIconTemplate(name: '-64x64@3x', size: 192),
+  IosIconTemplate(name: '-68x68@2x', size: 136),
   IosIconTemplate(name: '-76x76@2x', size: 152),
   IosIconTemplate(name: '-83.5x83.5@2x', size: 167),
   IosIconTemplate(name: '-1024x1024@1x', size: 1024),
@@ -98,17 +117,18 @@ void createIcons(Config config, String? flavor) {
   String iconName;
   String? darkIconName;
   String? tintedIconName;
+  final List<IosIconTemplate> generateIosIcons = (darkImage == null && tintedImage == null) ? legacyIosIcons : iosIcons;
   final dynamic iosConfig = config.ios;
   if (flavor != null) {
     final String catalogName = 'AppIcon-$flavor';
     printStatus('Building iOS launcher icon for $flavor');
-    for (IosIconTemplate template in iosIcons) {
+    for (IosIconTemplate template in generateIosIcons) {
       saveNewIcons(template, image, catalogName);
     }
     if (darkImage != null) {
       final String darkCatalogName = 'AppIcon-$flavor-Dark';
       printStatus('Building iOS dark launcher icon for $flavor');
-      for (IosIconTemplate template in iosIcons) {
+      for (IosIconTemplate template in generateIosIcons) {
         saveNewIcons(template, darkImage, darkCatalogName);
       }
       darkIconName = darkCatalogName;
@@ -116,7 +136,7 @@ void createIcons(Config config, String? flavor) {
     if (tintedImage != null) {
       final String tintedCatalogName = 'AppIcon-$flavor-Tinted';
       printStatus('Building iOS tinted launcher icon for $flavor');
-      for (IosIconTemplate template in iosIcons) {
+      for (IosIconTemplate template in generateIosIcons) {
         saveNewIcons(template, tintedImage, tintedCatalogName);
       }
       tintedIconName = tintedCatalogName;
@@ -129,20 +149,20 @@ void createIcons(Config config, String? flavor) {
     // and for the old icon file to be kept
     final String newIconName = iosConfig;
     printStatus('Adding new iOS launcher icon');
-    for (IosIconTemplate template in iosIcons) {
+    for (IosIconTemplate template in generateIosIcons) {
       saveNewIcons(template, image, newIconName);
     }
     if (darkImage != null) {
       darkIconName = newIconName + '-Dark';
       printStatus('Adding new iOS dark launcher icon');
-      for (IosIconTemplate template in iosIcons) {
+      for (IosIconTemplate template in generateIosIcons) {
         saveNewIcons(template, darkImage, darkIconName);
       }
     }
     if (tintedImage != null) {
       tintedIconName = newIconName + '-Tinted';
       printStatus('Adding new iOS tinted launcher icon');
-      for (IosIconTemplate template in iosIcons) {
+      for (IosIconTemplate template in generateIosIcons) {
         saveNewIcons(template, tintedImage, tintedIconName);
       }
     }
@@ -154,19 +174,19 @@ void createIcons(Config config, String? flavor) {
   // update config file to use it
   else {
     printStatus('Overwriting default iOS launcher icon with new icon');
-    for (IosIconTemplate template in iosIcons) {
+    for (IosIconTemplate template in generateIosIcons) {
       overwriteDefaultIcons(template, image);
     }
     if (darkImage != null) {
       printStatus('Overwriting default iOS dark launcher icon with new icon');
-      for (IosIconTemplate template in iosIcons) {
+      for (IosIconTemplate template in generateIosIcons) {
         overwriteDefaultIcons(template, darkImage, '-Dark');
       }
       darkIconName = iosDefaultIconName + '-Dark';
     }
     if (tintedImage != null) {
       printStatus('Overwriting default iOS tinted launcher icon with new icon');
-      for (IosIconTemplate template in iosIcons) {
+      for (IosIconTemplate template in generateIosIcons) {
         overwriteDefaultIcons(template, tintedImage, '-Tinted');
       }
       tintedIconName = iosDefaultIconName + '-Tinted';
@@ -277,8 +297,14 @@ void modifyDefaultContentsFile(String newIconName, String? darkIconName, String?
 }
 
 String generateContentsFileAsString(String newIconName, String? darkIconName, String? tintedIconName) {
+  final List<Map<String, dynamic>> imageList;
+  if (darkIconName == null && tintedIconName == null) {
+    imageList = createLegacyImageList(newIconName);
+  } else {
+    imageList = createImageList(newIconName, darkIconName, tintedIconName);
+  }
   final Map<String, dynamic> contentJson = <String, dynamic>{
-    'images': createImageList(newIconName, darkIconName, tintedIconName),
+    'images': imageList,
     'info': ContentsInfoObject(version: 1, author: 'xcode').toJson(),
   };
   return json.encode(contentJson);
@@ -307,6 +333,7 @@ class ContentsImageObject {
     required this.idiom,
     required this.filename,
     required this.scale,
+    this.platform,
     this.appearances,
   });
 
@@ -314,6 +341,7 @@ class ContentsImageObject {
   final String idiom;
   final String filename;
   final String scale;
+  final String? platform;
   final List<ContentsImageAppearanceObject>? appearances;
 
   Map<String, dynamic> toJson() {
@@ -322,6 +350,7 @@ class ContentsImageObject {
       'idiom': idiom,
       'filename': filename,
       'scale': scale,
+      if (platform != null) 'platform': platform,
       if (appearances != null) 'appearances': appearances!.map((e) => e.toJson()).toList(),
     };
   }
@@ -341,7 +370,8 @@ class ContentsInfoObject {
   }
 }
 
-List<Map<String, dynamic>> createImageList(String fileNamePrefix, String? darkFileNamePrefix, String? tintedFileNamePrefix) {
+/// Create the image list for the Contents.json file for Xcode versions below Xcode 14
+List<Map<String, dynamic>> createLegacyImageList(String fileNamePrefix) {
   const List<Map<String, dynamic>> imageConfigurations = [
     {'size': '20x20', 'idiom': 'iphone', 'scales': ['2x', '3x']},
     {'size': '29x29', 'idiom': 'iphone', 'scales': ['1x', '2x', '3x']},
@@ -378,12 +408,54 @@ List<Map<String, dynamic>> createImageList(String fileNamePrefix, String? darkFi
     }
   }
 
+  return imageList;
+}
+
+/// Create the image list for the Contents.json file for Xcode versions Xcode 14 and above
+List<Map<String, dynamic>> createImageList(String fileNamePrefix, String? darkFileNamePrefix, String? tintedFileNamePrefix) {
+  const List<Map<String, dynamic>> imageConfigurations = [
+    {'size': '20x20', 'idiom': 'universal', 'platform': 'ios', 'scales': ['2x', '3x']},
+    {'size': '29x29', 'idiom': 'universal', 'platform': 'ios', 'scales': ['2x', '3x']},
+    {'size': '38x38', 'idiom': 'universal', 'platform': 'ios', 'scales': ['2x', '3x']},
+    {'size': '40x40', 'idiom': 'universal', 'platform': 'ios', 'scales': ['2x', '3x']},
+    {'size': '60x60', 'idiom': 'universal', 'platform': 'ios', 'scales': ['2x', '3x']},
+    {'size': '64x64', 'idiom': 'universal', 'platform': 'ios', 'scales': ['2x', '3x']},
+    {'size': '68x68', 'idiom': 'universal', 'platform': 'ios', 'scales': ['2x']},
+    {'size': '76x76', 'idiom': 'universal', 'platform': 'ios', 'scales': ['2x']},
+    {'size': '83.5x83.5', 'idiom': 'universal', 'platform': 'ios', 'scales': ['2x']},
+    {'size': '1024x1024', 'idiom': 'universal', 'platform': 'ios', 'scales': ['1x']},
+    {'size': '1024x1024', 'idiom': 'ios-marketing', 'scales': ['1x']},
+  ];
+
+  final List<Map<String, dynamic>> imageList = <Map<String, dynamic>>[];
+
+  for (final config in imageConfigurations) {
+    final size = config['size']!;
+    final idiom = config['idiom']!;
+    final platform = config['platform'];
+    final List<String> scales = config['scales'];
+
+    for (final scale in scales) {
+      final filename = '$fileNamePrefix-$size@$scale.png';
+      imageList.add(
+        ContentsImageObject(
+          size: size,
+          idiom: idiom,
+          filename: filename,
+          platform: platform,
+          scale: scale,
+        ).toJson(),
+      );
+    }
+  }
+
   // Prevent ios-marketing icon from being tinted or dark
 
   if (darkFileNamePrefix != null) {
-    for (final config in imageConfigurations.where((e) => const ['iphone', 'ipad'].contains(e['idiom']))) {
+    for (final config in imageConfigurations.where((e) => e['idiom'] == 'universal')) {
       final size = config['size']!;
       final idiom = config['idiom']!;
+      final platform = config['platform'];
       final List<String> scales = config['scales'];
 
       for (final scale in scales) {
@@ -393,6 +465,7 @@ List<Map<String, dynamic>> createImageList(String fileNamePrefix, String? darkFi
             size: size,
             idiom: idiom,
             filename: filename,
+            platform: platform,
             scale: scale,
             appearances: <ContentsImageAppearanceObject>[
               ContentsImageAppearanceObject(appearance: 'luminosity', value: 'dark'),
@@ -404,9 +477,10 @@ List<Map<String, dynamic>> createImageList(String fileNamePrefix, String? darkFi
   }
 
   if (tintedFileNamePrefix != null) {
-    for (final config in imageConfigurations.where((e) => const ['iphone', 'ipad'].contains(e['idiom']))) {
+    for (final config in imageConfigurations.where((e) => e['idiom'] == 'universal')) {
       final size = config['size']!;
       final idiom = config['idiom']!;
+      final platform = config['platform'];
       final List<String> scales = config['scales'];
 
       for (final scale in scales) {
@@ -416,6 +490,7 @@ List<Map<String, dynamic>> createImageList(String fileNamePrefix, String? darkFi
             size: size,
             idiom: idiom,
             filename: filename,
+            platform: platform,
             scale: scale,
             appearances: <ContentsImageAppearanceObject>[
               ContentsImageAppearanceObject(appearance: 'luminosity', value: 'tinted'),
