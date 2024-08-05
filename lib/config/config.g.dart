@@ -34,6 +34,8 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
                   constants.androidDefaultAndroidMinSDK),
           removeAlphaIOS:
               $checkedConvert('remove_alpha_ios', (v) => v as bool? ?? false),
+          desaturateTintedToGrayscaleIOS: $checkedConvert(
+              'desaturate_tinted_to_grayscale_ios', (v) => v as bool? ?? false),
           backgroundColorIOS: $checkedConvert(
               'background_color_ios', (v) => v as String? ?? '#ffffff'),
           webConfig: $checkedConvert(
@@ -56,6 +58,7 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
         'adaptiveIconMonochrome': 'adaptive_icon_monochrome',
         'minSdkAndroid': 'min_sdk_android',
         'removeAlphaIOS': 'remove_alpha_ios',
+        'desaturateTintedToGrayscaleIOS': 'desaturate_tinted_to_grayscale_ios',
         'backgroundColorIOS': 'background_color_ios',
         'webConfig': 'web',
         'windowsConfig': 'windows',
@@ -76,6 +79,8 @@ Map<String, dynamic> _$ConfigToJson(Config instance) => <String, dynamic>{
       'adaptive_icon_monochrome': instance.adaptiveIconMonochrome,
       'min_sdk_android': instance.minSdkAndroid,
       'remove_alpha_ios': instance.removeAlphaIOS,
+      'desaturate_tinted_to_grayscale_ios':
+          instance.desaturateTintedToGrayscaleIOS,
       'background_color_ios': instance.backgroundColorIOS,
       'web': instance.webConfig,
       'windows': instance.windowsConfig,

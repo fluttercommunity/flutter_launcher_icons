@@ -64,6 +64,12 @@ class MockConfig extends _i1.Mock implements _i3.Config {
       ) as bool);
 
   @override
+  bool get desaturateTintedToGrayscaleIOS => (super.noSuchMethod(
+        Invocation.getter(#desaturateTintedToGrayscaleIOS),
+        returnValue: false,
+      ) as bool);
+
+  @override
   String get backgroundColorIOS => (super.noSuchMethod(
         Invocation.getter(#backgroundColorIOS),
         returnValue: _i4.dummyValue<String>(

@@ -32,6 +32,7 @@ class Config {
     this.adaptiveIconMonochrome,
     this.minSdkAndroid = constants.androidDefaultAndroidMinSDK,
     this.removeAlphaIOS = false,
+    this.desaturateTintedToGrayscaleIOS = false,
     this.backgroundColorIOS = '#ffffff',
     this.webConfig,
     this.windowsConfig,
@@ -146,6 +147,10 @@ class Config {
   /// IOS remove_alpha_ios
   @JsonKey(name: 'remove_alpha_ios')
   final bool removeAlphaIOS;
+
+  /// IOS desaturate_tinted_to_grayscale
+  @JsonKey(name: 'desaturate_tinted_to_grayscale_ios')
+  final bool desaturateTintedToGrayscaleIOS;
 
   /// IOS background_color_ios
   @JsonKey(name: 'background_color_ios')

@@ -98,6 +98,21 @@ void createIcons(Config config, String? flavor) {
     if (tintedImage == null) {
       return;
     }
+    if (config.desaturateTintedToGrayscaleIOS) {
+      printStatus('Desaturating iOS tinted image to grayscale');
+      tintedImage = grayscale(tintedImage);
+    } else {
+      // Check if the image is already grayscale
+      final pixel = tintedImage.getPixel(0, 0);
+      do {
+        if (pixel.r != pixel.g || pixel.g != pixel.b) {
+          print(
+            '\nWARNING: Tinted iOS image is not grayscale.\nSet "desaturate_tinted_to_grayscale_ios: true" to desaturate it.\n',
+          );
+          break;
+        }
+      } while (pixel.moveNext());
+    }
   }
 
   if (config.removeAlphaIOS && image.hasAlpha) {
