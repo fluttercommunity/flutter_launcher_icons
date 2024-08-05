@@ -133,14 +133,14 @@ void createIcons(Config config, String? flavor) {
       saveNewIcons(template, image, newIconName);
     }
     if (darkImage != null) {
-      final String darkIconName = newIconName + '-Dark';
+      darkIconName = newIconName + '-Dark';
       printStatus('Adding new iOS dark launcher icon');
       for (IosIconTemplate template in iosIcons) {
         saveNewIcons(template, darkImage, darkIconName);
       }
     }
     if (tintedImage != null) {
-      final String tintedIconName = newIconName + '-Tinted';
+      tintedIconName = newIconName + '-Tinted';
       printStatus('Adding new iOS tinted launcher icon');
       for (IosIconTemplate template in iosIcons) {
         saveNewIcons(template, tintedImage, tintedIconName);
@@ -162,12 +162,14 @@ void createIcons(Config config, String? flavor) {
       for (IosIconTemplate template in iosIcons) {
         overwriteDefaultIcons(template, darkImage, '-Dark');
       }
+      darkIconName = iosDefaultIconName + '-Dark';
     }
     if (tintedImage != null) {
       printStatus('Overwriting default iOS tinted launcher icon with new icon');
       for (IosIconTemplate template in iosIcons) {
         overwriteDefaultIcons(template, tintedImage, '-Tinted');
       }
+      tintedIconName = iosDefaultIconName + '-Tinted';
     }
     iconName = iosDefaultIconName;
     changeIosLauncherIcon('AppIcon', flavor);
