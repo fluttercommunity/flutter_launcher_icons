@@ -376,8 +376,16 @@ List<Map<String, dynamic>> createImageList(String fileNamePrefix, String? darkFi
         ).toJson(),
       );
     }
+  }
 
-    if (darkFileNamePrefix != null) {
+  // Prevent ios-marketing icon from being tinted or dark
+
+  if (darkFileNamePrefix != null) {
+    for (final config in imageConfigurations.where((e) => const ['iphone', 'ipad'].contains(e['idiom']))) {
+      final size = config['size']!;
+      final idiom = config['idiom']!;
+      final List<String> scales = config['scales'];
+
       for (final scale in scales) {
         final filename = '$darkFileNamePrefix-$size@$scale.png';
         imageList.add(
@@ -393,8 +401,14 @@ List<Map<String, dynamic>> createImageList(String fileNamePrefix, String? darkFi
         );
       }
     }
+  }
 
-    if (tintedFileNamePrefix != null) {
+  if (tintedFileNamePrefix != null) {
+    for (final config in imageConfigurations.where((e) => const ['iphone', 'ipad'].contains(e['idiom']))) {
+      final size = config['size']!;
+      final idiom = config['idiom']!;
+      final List<String> scales = config['scales'];
+
       for (final scale in scales) {
         final filename = '$tintedFileNamePrefix-$size@$scale.png';
         imageList.add(
