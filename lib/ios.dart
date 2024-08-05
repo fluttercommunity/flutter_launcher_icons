@@ -173,7 +173,7 @@ void createIcons(Config config, String? flavor) {
     changeIosLauncherIcon('AppIcon', flavor);
     // Still need to modify the Contents.json file
     // since the user could have added dark and tinted icons
-    modifyContentsFile(iconName, darkIconName, tintedIconName);
+    modifyContentsFile('AppIcon', darkIconName, tintedIconName);
   }
 }
 
