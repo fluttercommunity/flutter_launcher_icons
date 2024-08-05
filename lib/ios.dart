@@ -173,7 +173,7 @@ void createIcons(Config config, String? flavor) {
     changeIosLauncherIcon('AppIcon', flavor);
     // Still need to modify the Contents.json file
     // since the user could have added dark and tinted icons
-    modifyContentsFile('AppIcon', darkIconName, tintedIconName);
+    modifyDefaultContentsFile(iconName, darkIconName, tintedIconName);
   }
 }
 
@@ -259,6 +259,17 @@ void modifyContentsFile(String newIconName, String? darkIconName, String? tinted
   File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
     final String contentsFileContent =
         generateContentsFileAsString(newIconName, darkIconName, tintedIconName);
+    contentsJsonFile.writeAsString(contentsFileContent);
+  });
+}
+
+/// Modify default Contents.json file
+void modifyDefaultContentsFile(String newIconName, String? darkIconName, String? tintedIconName) {
+  const String newIconFolder =
+      iosAssetFolder + 'AppIcon.appiconset/Contents.json';
+  File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
+    final String contentsFileContent =
+    generateContentsFileAsString(newIconName, darkIconName, tintedIconName);
     contentsJsonFile.writeAsString(contentsFileContent);
   });
 }
