@@ -171,8 +171,15 @@ void createMipmapXmlFile(
           '  <background android:drawable="@color/ic_launcher_background"/>\n';
     }
 
-    xmlContent +=
-        '  <foreground android:drawable="@drawable/ic_launcher_foreground"/>\n';
+    xmlContent += '  <foreground>\n'
+        '    <inset\n'
+        '        android:insetBottom="10dp"\n'
+        '        android:insetLeft="10dp"\n'
+        '        android:insetRight="10dp"\n'
+        '        android:insetTop="10dp">\n'
+        '      <bitmap android:src="@drawable/ic_launcher_foreground" />\n'
+        '    </inset>\n'
+        '  </foreground>\n';
   }
 
   if (config.hasAndroidAdaptiveMonochromeConfig) {
