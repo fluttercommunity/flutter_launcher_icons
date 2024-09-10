@@ -171,13 +171,23 @@ void createMipmapXmlFile(
           '  <background android:drawable="@color/ic_launcher_background"/>\n';
     }
 
-    xmlContent +=
-        '  <foreground>\n    <inset\n      android:drawable="@drawable/ic_launcher_foreground"\n      android:inset="${config.adaptiveIconForegroundInset}%" />\n  </foreground>\n';
+    xmlContent += '''
+  <foreground>
+      <inset
+          android:drawable="@drawable/ic_launcher_foreground"
+          android:inset="${config.adaptiveIconForegroundInset}%" />
+  </foreground>
+''';
   }
 
   if (config.hasAndroidAdaptiveMonochromeConfig) {
-    xmlContent +=
-        '  <monochrome android:drawable="@drawable/ic_launcher_monochrome"/>\n';
+    xmlContent += '''
+  <monochrome>
+      <inset
+          android:drawable="@drawable/ic_launcher_monochrome"
+          android:inset="${config.adaptiveIconForegroundInset}%" />
+  </monochrome>
+''';
   }
 
   late File mipmapXmlFile;
