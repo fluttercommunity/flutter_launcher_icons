@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.14.0 (21st September 2024)
+
+- Android: Support for monochrome icons [#563](https://github.com/fluttercommunity/flutter_launcher_icons/pull/563)
+
+**Before**
+
+<img src="https://github.com/user-attachments/assets/ce16287d-1394-4404-b056-8308f0a69f07" width=40%>
+
+**Now**
+
+<img src="https://github.com/user-attachments/assets/a420fefd-28b0-4eb9-8fd0-2e03068d3d83" width=40%>
+
+- Android: Ability to set inset for adaptive icon foreground and monochrome icon [#563](https://github.com/fluttercommunity/flutter_launcher_icons/pull/563)
+- iOS: Dark and Tinted icons for iOS 18+ [#569](https://github.com/fluttercommunity/flutter_launcher_icons/pull/569)
+
 ## 0.13.1 (15th April 2023)
 
 - Can now use `flutter_launcher_icons` instead of `flutter_icons` [#478](https://github.com/fluttercommunity/flutter_launcher_icons/pull/478)
