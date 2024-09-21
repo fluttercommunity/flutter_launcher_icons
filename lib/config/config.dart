@@ -25,11 +25,14 @@ class Config {
     this.ios = false,
     this.imagePathAndroid,
     this.imagePathIOS,
+    this.imagePathIOSDarkTransparent,
+    this.imagePathIOSTintedGrayscale,
     this.adaptiveIconForeground,
     this.adaptiveIconBackground,
     this.adaptiveIconMonochrome,
     this.minSdkAndroid = constants.androidDefaultAndroidMinSDK,
     this.removeAlphaIOS = false,
+    this.desaturateTintedToGrayscaleIOS = false,
     this.backgroundColorIOS = '#ffffff',
     this.webConfig,
     this.windowsConfig,
@@ -117,6 +120,14 @@ class Config {
   @JsonKey(name: 'image_path_ios')
   final String? imagePathIOS;
 
+  /// IOS image_path_ios_dark_transparent
+  @JsonKey(name: 'image_path_ios_dark_transparent')
+  final String? imagePathIOSDarkTransparent;
+
+  /// IOS image_path_ios_tinted_grayscale
+  @JsonKey(name: 'image_path_ios_tinted_grayscale')
+  final String? imagePathIOSTintedGrayscale;
+
   /// android adaptive_icon_foreground image
   @JsonKey(name: 'adaptive_icon_foreground')
   final String? adaptiveIconForeground;
@@ -136,6 +147,10 @@ class Config {
   /// IOS remove_alpha_ios
   @JsonKey(name: 'remove_alpha_ios')
   final bool removeAlphaIOS;
+
+  /// IOS desaturate_tinted_to_grayscale
+  @JsonKey(name: 'desaturate_tinted_to_grayscale_ios')
+  final bool desaturateTintedToGrayscaleIOS;
 
   /// IOS background_color_ios
   @JsonKey(name: 'background_color_ios')

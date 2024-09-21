@@ -20,9 +20,27 @@ void main() {
   });
 
   test(
-      'iOS image list used to generate Contents.json for icon directory is correct size',
+      'iOS image list used to generate legacy Contents.json for icon directory is correct size (no dark or tinted icons)',
       () {
-    expect(ios.createImageList('blah').length, 25);
+    expect(ios.createLegacyImageList('blah').length, 25);
+  });
+
+  test(
+      'iOS image list used to generate Contents.json for icon directory is correct size (with dark icon)',
+      () {
+    expect(ios.createImageList('blah', 'dark-blah', null).length, 16 * 2 + 1); // 16 normal, 16 dark icons + 1 marketing icon
+  });
+
+  test(
+      'iOS image list used to generate Contents.json for icon directory is correct size (with tinted icon)',
+      () {
+    expect(ios.createImageList('blah', null, 'tinted-blah').length, 16 * 2 + 1); // 16 normal, 16 tinted icons + 1 marketing icon
+  });
+
+  test(
+      'iOS image list used to generate Contents.json for icon directory is correct size (with dark and tinted icon)',
+      () {
+    expect(ios.createImageList('blah', 'dark-blah', 'tinted-blah').length, 16 * 3 + 1); // 16 normal, 16 dark, 16 tinted icons + 1 marketing icon
   });
 
   group('config file from args', () {
