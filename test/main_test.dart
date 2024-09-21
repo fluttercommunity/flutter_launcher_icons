@@ -12,7 +12,11 @@ import 'package:test/test.dart';
 // Unit tests for main.dart
 void main() {
   test('iOS icon list is correct size', () {
-    expect(ios.iosIcons.length, 21);
+    expect(ios.iosIcons.length, 16);
+  });
+
+  test('iOS legacy icon list is correct size', () {
+    expect(ios.legacyIosIcons.length, 21);
   });
 
   test('Android icon list is correct size', () {
