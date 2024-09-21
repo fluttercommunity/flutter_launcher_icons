@@ -28,6 +28,7 @@ class Config {
     this.imagePathIOSDarkTransparent,
     this.imagePathIOSTintedGrayscale,
     this.adaptiveIconForeground,
+    this.adaptiveIconForegroundInset = 16,
     this.adaptiveIconBackground,
     this.adaptiveIconMonochrome,
     this.minSdkAndroid = constants.androidDefaultAndroidMinSDK,
@@ -131,6 +132,10 @@ class Config {
   /// android adaptive_icon_foreground image
   @JsonKey(name: 'adaptive_icon_foreground')
   final String? adaptiveIconForeground;
+
+  /// android adaptive_icon_foreground inset
+  @JsonKey(name: 'adaptive_icon_foreground_inset')
+  final int adaptiveIconForegroundInset;
 
   /// android adaptive_icon_background image
   @JsonKey(name: 'adaptive_icon_background')

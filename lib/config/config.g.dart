@@ -23,6 +23,8 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
               'image_path_ios_tinted_grayscale', (v) => v as String?),
           adaptiveIconForeground:
               $checkedConvert('adaptive_icon_foreground', (v) => v as String?),
+          adaptiveIconForegroundInset:
+              $checkedConvert('adaptive_icon_foreground_inset', (v) => v as int? ?? 16),
           adaptiveIconBackground:
               $checkedConvert('adaptive_icon_background', (v) => v as String?),
           adaptiveIconMonochrome:
@@ -54,6 +56,7 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
         'imagePathIOSDarkTransparent': 'image_path_ios_dark_transparent',
         'imagePathIOSTintedGrayscale': 'image_path_ios_tinted_grayscale',
         'adaptiveIconForeground': 'adaptive_icon_foreground',
+        'adaptiveIconForegroundInset': 'adaptive_icon_foreground_inset',
         'adaptiveIconBackground': 'adaptive_icon_background',
         'adaptiveIconMonochrome': 'adaptive_icon_monochrome',
         'minSdkAndroid': 'min_sdk_android',
@@ -75,6 +78,7 @@ Map<String, dynamic> _$ConfigToJson(Config instance) => <String, dynamic>{
       'image_path_ios_dark_transparent': instance.imagePathIOSDarkTransparent,
       'image_path_ios_tinted_grayscale': instance.imagePathIOSTintedGrayscale,
       'adaptive_icon_foreground': instance.adaptiveIconForeground,
+      'adaptive_icon_foreground_inset': instance.adaptiveIconForegroundInset,
       'adaptive_icon_background': instance.adaptiveIconBackground,
       'adaptive_icon_monochrome': instance.adaptiveIconMonochrome,
       'min_sdk_android': instance.minSdkAndroid,
