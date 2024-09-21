@@ -13,7 +13,7 @@ A command-line tool which simplifies the task of updating your Flutter app's lau
 Run the following command to create a new config automatically:
 
 ```shell
-flutter pub run flutter_launcher_icons:generate
+dart run run flutter_launcher_icons:generate
 ```
 
 This will create a new file called `flutter_launcher_icons.yaml` in your `flutter` project's root directory.
@@ -21,13 +21,13 @@ This will create a new file called `flutter_launcher_icons.yaml` in your `flutte
 If you want to override the default location or name of the config file, use the `-f` flag:
 
 ```shell
-flutter pub run flutter_launcher_icons:generate -f <your config file name here>
+dart run run flutter_launcher_icons:generate -f <your config file name here>
 ```
 
 To override an existing config file, use the `-o` flag:
 
 ```shell
-flutter pub run flutter_launcher_icons:generate -o
+dart run run flutter_launcher_icons:generate -o
 ```
 
 OR
