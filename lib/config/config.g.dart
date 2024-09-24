@@ -23,8 +23,9 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
               'image_path_ios_tinted_grayscale', (v) => v as String?),
           adaptiveIconForeground:
               $checkedConvert('adaptive_icon_foreground', (v) => v as String?),
-          adaptiveIconForegroundInset:
-              $checkedConvert('adaptive_icon_foreground_inset', (v) => v as int? ?? 16),
+          adaptiveIconForegroundInset: $checkedConvert(
+              'adaptive_icon_foreground_inset',
+              (v) => (v as num?)?.toInt() ?? 16),
           adaptiveIconBackground:
               $checkedConvert('adaptive_icon_background', (v) => v as String?),
           adaptiveIconMonochrome:

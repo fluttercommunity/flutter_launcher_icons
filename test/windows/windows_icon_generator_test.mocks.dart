@@ -52,6 +52,12 @@ class MockConfig extends _i1.Mock implements _i3.Config {
   }
 
   @override
+  int get adaptiveIconForegroundInset => (super.noSuchMethod(
+        Invocation.getter(#adaptiveIconForegroundInset),
+        returnValue: 0,
+      ) as int);
+
+  @override
   int get minSdkAndroid => (super.noSuchMethod(
         Invocation.getter(#minSdkAndroid),
         returnValue: 0,
@@ -157,13 +163,13 @@ class MockWindowsConfig extends _i1.Mock implements _i5.WindowsConfig {
       ) as bool);
 
   @override
-  Map<dynamic, dynamic> toJson() => (super.noSuchMethod(
+  Map<String, dynamic> toJson() => (super.noSuchMethod(
         Invocation.method(
           #toJson,
           [],
         ),
-        returnValue: <dynamic, dynamic>{},
-      ) as Map<dynamic, dynamic>);
+        returnValue: <String, dynamic>{},
+      ) as Map<String, dynamic>);
 }
 
 /// A class which mocks [FLILogger].
