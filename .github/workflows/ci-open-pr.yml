@@ -6,7 +6,7 @@ name: run tests & analyzer for new pr
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
   # allows for this workflow to be run manually from the Actions tab
   workflow_dispatch:
