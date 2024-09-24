@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.1 (24th September 2024)
+
+- Fixed README
+
 ## 0.14.0 (21st September 2024)
 
 - Android: Support for monochrome icons [#563](https://github.com/fluttercommunity/flutter_launcher_icons/pull/563)
