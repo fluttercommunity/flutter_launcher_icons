@@ -174,6 +174,8 @@ class Config {
   final MacOSConfig? macOSConfig;
 
   /// Creates [Config] icons from [json]
+  // ? Using `Map<dynamic, dynamic>` as `YamlMap` is not castable to
+  // ? `Map<String, dynamic>`
   factory Config.fromJson(Map<dynamic, dynamic> json) => _$ConfigFromJson(json);
 
   /// whether or not there is configuration for adaptive icons for android
