@@ -132,29 +132,46 @@ void createIcons(Config config, String? flavor) {
   String iconName;
   String? darkIconName;
   String? tintedIconName;
-  final List<IosIconTemplate> generateIosIcons = (darkImage == null && tintedImage == null) ? legacyIosIcons : iosIcons;
+  final List<IosIconTemplate> generateIosIcons =
+      (darkImage == null && tintedImage == null) ? legacyIosIcons : iosIcons;
   final dynamic iosConfig = config.ios;
   if (flavor != null) {
     final String catalogName = 'AppIcon-$flavor';
+
     printStatus('Building iOS launcher icon for $flavor');
     for (IosIconTemplate template in generateIosIcons) {
-      saveNewIcons(template, image, catalogName);
+      saveNewIcons(
+        template: template,
+        image: image,
+        catalogName: catalogName,
+        // Since this is the base icon name we are using the same name for the icon as the catalog name
+        iconName: catalogName,
+      );
     }
+
     if (darkImage != null) {
-      final String darkCatalogName = 'AppIcon-$flavor-Dark';
+      darkIconName = 'AppIcon-$flavor-Dark';
       printStatus('Building iOS dark launcher icon for $flavor');
       for (IosIconTemplate template in generateIosIcons) {
-        saveNewIcons(template, darkImage, darkCatalogName);
+        saveNewIcons(
+          template: template,
+          image: darkImage,
+          catalogName: catalogName,
+          iconName: darkIconName,
+        );
       }
-      darkIconName = darkCatalogName;
     }
     if (tintedImage != null) {
-      final String tintedCatalogName = 'AppIcon-$flavor-Tinted';
+      tintedIconName = 'AppIcon-$flavor-Tinted';
       printStatus('Building iOS tinted launcher icon for $flavor');
       for (IosIconTemplate template in generateIosIcons) {
-        saveNewIcons(template, tintedImage, tintedCatalogName);
+        saveNewIcons(
+          template: template,
+          image: tintedImage,
+          catalogName: catalogName,
+          iconName: tintedIconName,
+        );
       }
-      tintedIconName = tintedCatalogName;
     }
     iconName = iosDefaultIconName;
     changeIosLauncherIcon(catalogName, flavor);
@@ -165,20 +182,35 @@ void createIcons(Config config, String? flavor) {
     final String newIconName = iosConfig;
     printStatus('Adding new iOS launcher icon');
     for (IosIconTemplate template in generateIosIcons) {
-      saveNewIcons(template, image, newIconName);
+      saveNewIcons(
+        template: template,
+        image: image,
+        catalogName: 'AppIcon',
+        iconName: newIconName,
+      );
     }
     if (darkImage != null) {
       darkIconName = newIconName + '-Dark';
       printStatus('Adding new iOS dark launcher icon');
       for (IosIconTemplate template in generateIosIcons) {
-        saveNewIcons(template, darkImage, darkIconName);
+        saveNewIcons(
+          template: template,
+          image: darkImage,
+          catalogName: 'AppIcon',
+          iconName: darkIconName,
+        );
       }
     }
     if (tintedImage != null) {
       tintedIconName = newIconName + '-Tinted';
       printStatus('Adding new iOS tinted launcher icon');
       for (IosIconTemplate template in generateIosIcons) {
-        saveNewIcons(template, tintedImage, tintedIconName);
+        saveNewIcons(
+          template: template,
+          image: tintedImage,
+          catalogName: 'AppIcon',
+          iconName: tintedIconName,
+        );
       }
     }
     iconName = newIconName;
@@ -217,19 +249,33 @@ void createIcons(Config config, String? flavor) {
 /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
 /// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-void overwriteDefaultIcons(IosIconTemplate template, Image image, [String iconNameSuffix = '']) {
+void overwriteDefaultIcons(
+  IosIconTemplate template,
+  Image image, [
+  String iconNameSuffix = '',
+]) {
   final Image newFile = createResizedImage(template, image);
-  File(iosDefaultIconFolder + iosDefaultIconName + iconNameSuffix + template.name + '.png')
-    ..writeAsBytesSync(encodePng(newFile));
+  File(
+    iosDefaultIconFolder +
+        iosDefaultIconName +
+        iconNameSuffix +
+        template.name +
+        '.png',
+  )..writeAsBytesSync(encodePng(newFile));
 }
 
 /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
 /// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-void saveNewIcons(IosIconTemplate template, Image image, String newIconName) {
-  final String newIconFolder = iosAssetFolder + newIconName + '.appiconset/';
+void saveNewIcons({
+  required IosIconTemplate template,
+  required Image image,
+  required String catalogName,
+  required String iconName,
+}) {
+  final String newIconFolder = iosAssetFolder + catalogName + '.appiconset/';
   final Image newFile = createResizedImage(template, image);
-  File(newIconFolder + newIconName + template.name + '.png')
+  File(newIconFolder + iconName + template.name + '.png')
       .create(recursive: true)
       .then((File file) {
     file.writeAsBytesSync(encodePng(newFile));
@@ -290,7 +336,11 @@ Future<void> changeIosLauncherIcon(String iconName, String? flavor) async {
 }
 
 /// Create the Contents.json file
-void modifyContentsFile(String newIconName, String? darkIconName, String? tintedIconName) {
+void modifyContentsFile(
+  String newIconName,
+  String? darkIconName,
+  String? tintedIconName,
+) {
   final String newIconFolder =
       iosAssetFolder + newIconName + '.appiconset/Contents.json';
   File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
@@ -301,17 +351,25 @@ void modifyContentsFile(String newIconName, String? darkIconName, String? tinted
 }
 
 /// Modify default Contents.json file
-void modifyDefaultContentsFile(String newIconName, String? darkIconName, String? tintedIconName) {
+void modifyDefaultContentsFile(
+  String newIconName,
+  String? darkIconName,
+  String? tintedIconName,
+) {
   const String newIconFolder =
       iosAssetFolder + 'AppIcon.appiconset/Contents.json';
   File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
     final String contentsFileContent =
-    generateContentsFileAsString(newIconName, darkIconName, tintedIconName);
+        generateContentsFileAsString(newIconName, darkIconName, tintedIconName);
     contentsJsonFile.writeAsString(contentsFileContent);
   });
 }
 
-String generateContentsFileAsString(String newIconName, String? darkIconName, String? tintedIconName) {
+String generateContentsFileAsString(
+  String newIconName,
+  String? darkIconName,
+  String? tintedIconName,
+) {
   final List<Map<String, dynamic>> imageList;
   if (darkIconName == null && tintedIconName == null) {
     imageList = createLegacyImageList(newIconName);
@@ -366,7 +424,8 @@ class ContentsImageObject {
       'filename': filename,
       'scale': scale,
       if (platform != null) 'platform': platform,
-      if (appearances != null) 'appearances': appearances!.map((e) => e.toJson()).toList(),
+      if (appearances != null)
+        'appearances': appearances!.map((e) => e.toJson()).toList(),
     };
   }
 }
@@ -388,19 +447,71 @@ class ContentsInfoObject {
 /// Create the image list for the Contents.json file for Xcode versions below Xcode 14
 List<Map<String, dynamic>> createLegacyImageList(String fileNamePrefix) {
   const List<Map<String, dynamic>> imageConfigurations = [
-    {'size': '20x20', 'idiom': 'iphone', 'scales': ['2x', '3x']},
-    {'size': '29x29', 'idiom': 'iphone', 'scales': ['1x', '2x', '3x']},
-    {'size': '40x40', 'idiom': 'iphone', 'scales': ['2x', '3x']},
-    {'size': '57x57', 'idiom': 'iphone', 'scales': ['1x', '2x']},
-    {'size': '60x60', 'idiom': 'iphone', 'scales': ['2x', '3x']},
-    {'size': '20x20', 'idiom': 'ipad', 'scales': ['1x', '2x']},
-    {'size': '29x29', 'idiom': 'ipad', 'scales': ['1x', '2x']},
-    {'size': '40x40', 'idiom': 'ipad', 'scales': ['1x', '2x']},
-    {'size': '50x50', 'idiom': 'ipad', 'scales': ['1x', '2x']},
-    {'size': '72x72', 'idiom': 'ipad', 'scales': ['1x', '2x']},
-    {'size': '76x76', 'idiom': 'ipad', 'scales': ['1x', '2x']},
-    {'size': '83.5x83.5', 'idiom': 'ipad', 'scales': ['2x']},
-    {'size': '1024x1024', 'idiom': 'ios-marketing', 'scales': ['1x']},
+    {
+      'size': '20x20',
+      'idiom': 'iphone',
+      'scales': ['2x', '3x'],
+    },
+    {
+      'size': '29x29',
+      'idiom': 'iphone',
+      'scales': ['1x', '2x', '3x'],
+    },
+    {
+      'size': '40x40',
+      'idiom': 'iphone',
+      'scales': ['2x', '3x'],
+    },
+    {
+      'size': '57x57',
+      'idiom': 'iphone',
+      'scales': ['1x', '2x'],
+    },
+    {
+      'size': '60x60',
+      'idiom': 'iphone',
+      'scales': ['2x', '3x'],
+    },
+    {
+      'size': '20x20',
+      'idiom': 'ipad',
+      'scales': ['1x', '2x'],
+    },
+    {
+      'size': '29x29',
+      'idiom': 'ipad',
+      'scales': ['1x', '2x'],
+    },
+    {
+      'size': '40x40',
+      'idiom': 'ipad',
+      'scales': ['1x', '2x'],
+    },
+    {
+      'size': '50x50',
+      'idiom': 'ipad',
+      'scales': ['1x', '2x'],
+    },
+    {
+      'size': '72x72',
+      'idiom': 'ipad',
+      'scales': ['1x', '2x'],
+    },
+    {
+      'size': '76x76',
+      'idiom': 'ipad',
+      'scales': ['1x', '2x'],
+    },
+    {
+      'size': '83.5x83.5',
+      'idiom': 'ipad',
+      'scales': ['2x'],
+    },
+    {
+      'size': '1024x1024',
+      'idiom': 'ios-marketing',
+      'scales': ['1x'],
+    },
   ];
 
   final List<Map<String, dynamic>> imageList = <Map<String, dynamic>>[];
@@ -427,19 +538,77 @@ List<Map<String, dynamic>> createLegacyImageList(String fileNamePrefix) {
 }
 
 /// Create the image list for the Contents.json file for Xcode versions Xcode 14 and above
-List<Map<String, dynamic>> createImageList(String fileNamePrefix, String? darkFileNamePrefix, String? tintedFileNamePrefix) {
+List<Map<String, dynamic>> createImageList(
+  String fileNamePrefix,
+  String? darkFileNamePrefix,
+  String? tintedFileNamePrefix,
+) {
   const List<Map<String, dynamic>> imageConfigurations = [
-    {'size': '20x20', 'idiom': 'universal', 'platform': 'ios', 'scales': ['2x', '3x']},
-    {'size': '29x29', 'idiom': 'universal', 'platform': 'ios', 'scales': ['2x', '3x']},
-    {'size': '38x38', 'idiom': 'universal', 'platform': 'ios', 'scales': ['2x', '3x']},
-    {'size': '40x40', 'idiom': 'universal', 'platform': 'ios', 'scales': ['2x', '3x']},
-    {'size': '60x60', 'idiom': 'universal', 'platform': 'ios', 'scales': ['2x', '3x']},
-    {'size': '64x64', 'idiom': 'universal', 'platform': 'ios', 'scales': ['2x', '3x']},
-    {'size': '68x68', 'idiom': 'universal', 'platform': 'ios', 'scales': ['2x']},
-    {'size': '76x76', 'idiom': 'universal', 'platform': 'ios', 'scales': ['2x']},
-    {'size': '83.5x83.5', 'idiom': 'universal', 'platform': 'ios', 'scales': ['2x']},
-    {'size': '1024x1024', 'idiom': 'universal', 'platform': 'ios', 'scales': ['1x']},
-    {'size': '1024x1024', 'idiom': 'ios-marketing', 'scales': ['1x']},
+    {
+      'size': '20x20',
+      'idiom': 'universal',
+      'platform': 'ios',
+      'scales': ['2x', '3x'],
+    },
+    {
+      'size': '29x29',
+      'idiom': 'universal',
+      'platform': 'ios',
+      'scales': ['2x', '3x'],
+    },
+    {
+      'size': '38x38',
+      'idiom': 'universal',
+      'platform': 'ios',
+      'scales': ['2x', '3x'],
+    },
+    {
+      'size': '40x40',
+      'idiom': 'universal',
+      'platform': 'ios',
+      'scales': ['2x', '3x'],
+    },
+    {
+      'size': '60x60',
+      'idiom': 'universal',
+      'platform': 'ios',
+      'scales': ['2x', '3x'],
+    },
+    {
+      'size': '64x64',
+      'idiom': 'universal',
+      'platform': 'ios',
+      'scales': ['2x', '3x'],
+    },
+    {
+      'size': '68x68',
+      'idiom': 'universal',
+      'platform': 'ios',
+      'scales': ['2x'],
+    },
+    {
+      'size': '76x76',
+      'idiom': 'universal',
+      'platform': 'ios',
+      'scales': ['2x'],
+    },
+    {
+      'size': '83.5x83.5',
+      'idiom': 'universal',
+      'platform': 'ios',
+      'scales': ['2x'],
+    },
+    {
+      'size': '1024x1024',
+      'idiom': 'universal',
+      'platform': 'ios',
+      'scales': ['1x'],
+    },
+    {
+      'size': '1024x1024',
+      'idiom': 'ios-marketing',
+      'scales': ['1x'],
+    },
   ];
 
   final List<Map<String, dynamic>> imageList = <Map<String, dynamic>>[];
@@ -467,7 +636,8 @@ List<Map<String, dynamic>> createImageList(String fileNamePrefix, String? darkFi
   // Prevent ios-marketing icon from being tinted or dark
 
   if (darkFileNamePrefix != null) {
-    for (final config in imageConfigurations.where((e) => e['idiom'] == 'universal')) {
+    for (final config
+        in imageConfigurations.where((e) => e['idiom'] == 'universal')) {
       final size = config['size']!;
       final idiom = config['idiom']!;
       final platform = config['platform'];
@@ -483,7 +653,10 @@ List<Map<String, dynamic>> createImageList(String fileNamePrefix, String? darkFi
             platform: platform,
             scale: scale,
             appearances: <ContentsImageAppearanceObject>[
-              ContentsImageAppearanceObject(appearance: 'luminosity', value: 'dark'),
+              ContentsImageAppearanceObject(
+                appearance: 'luminosity',
+                value: 'dark',
+              ),
             ],
           ).toJson(),
         );
@@ -492,7 +665,8 @@ List<Map<String, dynamic>> createImageList(String fileNamePrefix, String? darkFi
   }
 
   if (tintedFileNamePrefix != null) {
-    for (final config in imageConfigurations.where((e) => e['idiom'] == 'universal')) {
+    for (final config
+        in imageConfigurations.where((e) => e['idiom'] == 'universal')) {
       final size = config['size']!;
       final idiom = config['idiom']!;
       final platform = config['platform'];
@@ -508,7 +682,10 @@ List<Map<String, dynamic>> createImageList(String fileNamePrefix, String? darkFi
             platform: platform,
             scale: scale,
             appearances: <ContentsImageAppearanceObject>[
-              ContentsImageAppearanceObject(appearance: 'luminosity', value: 'tinted'),
+              ContentsImageAppearanceObject(
+                appearance: 'luminosity',
+                value: 'tinted',
+              ),
             ],
           ).toJson(),
         );
