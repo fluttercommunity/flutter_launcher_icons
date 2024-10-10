@@ -23,8 +23,9 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
               'image_path_ios_tinted_grayscale', (v) => v as String?),
           adaptiveIconForeground:
               $checkedConvert('adaptive_icon_foreground', (v) => v as String?),
-          adaptiveIconForegroundInset:
-              $checkedConvert('adaptive_icon_foreground_inset', (v) => v as int? ?? 16),
+          adaptiveIconForegroundInset: $checkedConvert(
+              'adaptive_icon_foreground_inset',
+              (v) => (v as num?)?.toInt() ?? 16),
           adaptiveIconBackground:
               $checkedConvert('adaptive_icon_background', (v) => v as String?),
           adaptiveIconMonochrome:
@@ -41,11 +42,21 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
           backgroundColorIOS: $checkedConvert(
               'background_color_ios', (v) => v as String? ?? '#ffffff'),
           webConfig: $checkedConvert(
-              'web', (v) => v == null ? null : WebConfig.fromJson(v as Map)),
-          windowsConfig: $checkedConvert('windows',
-              (v) => v == null ? null : WindowsConfig.fromJson(v as Map)),
-          macOSConfig: $checkedConvert('macos',
-              (v) => v == null ? null : MacOSConfig.fromJson(v as Map)),
+              'web',
+              (v) => v == null
+                  ? null
+                  : WebConfig.fromJson(Map<String, dynamic>.from(v as Map))),
+          windowsConfig: $checkedConvert(
+              'windows',
+              (v) => v == null
+                  ? null
+                  : WindowsConfig.fromJson(
+                      Map<String, dynamic>.from(v as Map))),
+          macOSConfig: $checkedConvert(
+              'macos',
+              (v) => v == null
+                  ? null
+                  : MacOSConfig.fromJson(Map<String, dynamic>.from(v as Map))),
         );
         return val;
       },
