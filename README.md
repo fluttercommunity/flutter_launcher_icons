@@ -99,15 +99,15 @@ Shown below is the full list of attributes which you can specify within your Flu
 - `image_path`: The location of the icon image file which you want to use as the app launcher icon
 - `image_path_android`: The location of the icon image file specific for Android platform (optional - if not defined then the image_path is used)
 - `min_sdk_android`: Specify android min sdk value
-**The next two attributes are only used when generating Android launcher icon**
+  **The next two attributes are only used when generating Android launcher icon**
 
 - `adaptive_icon_background`: The color (E.g. `"#ffffff"`) or image asset (E.g. `"assets/images/christmas-background.png"`) which will
-be used to fill out the background of the adaptive icon.
-- `adaptive_icon_foreground`: The image asset which will be used for the icon foreground of the adaptive icon
-*Note: Adaptive Icons will only be generated when both adaptive_icon_background and adaptive_icon_foreground are specified. (the image_path is not automatically taken as foreground)*
+  be used to fill out the background of the adaptive icon.
+- `adaptive_icon_foreground`: The image asset which will be used for the icon foreground of the adaptive icon  
+  _Note: Adaptive Icons will only be generated when both adaptive_icon_background and adaptive_icon_foreground are specified. (the image_path is not automatically taken as foreground)_
 - `adaptive_icon_foreground_inset`: This is used to add padding to the icon when applying an adaptive icon. The default value is `16`.
 - `adaptive_icon_monochrome`: The image asset which will be used for the icon
-foreground of the Android 13+ themed icon. For more information see [Android Adaptive Icons](https://developer.android.com/develop/ui/views/launch/icon_design_adaptive#user-theming)
+  foreground of the Android 13+ themed icon. For more information see [Android Adaptive Icons](https://developer.android.com/develop/ui/views/launch/icon_design_adaptive#user-theming)
 
 ### IOS
 
@@ -117,9 +117,9 @@ foreground of the Android 13+ themed icon. For more information see [Android Ada
   - `icon/path/here.png`: This will generate a new launcher icons for the platform with the name you specify, without removing the old default existing Flutter launcher icon.
 - `image_path_ios`: The location of the icon image file specific for iOS platform (optional - if not defined then the image_path is used)
 - `remove_alpha_ios`: Removes alpha channel for IOS icons
-- `image_path_ios_dark_transparent`: The location of the dark mode icon image file specific for iOS 18+ platform. *Note: Apple recommends this icon to be transparent. For more information see [Apple Human Interface Guidelines for App Icons](https://developer.apple.com/design/human-interface-guidelines/app-icons#iOS-iPadOS)*
-- `image_path_ios_tinted_grayscale`: The location of the tinted mode icon image file specific for iOS 18+ platform. *Note: This icon should be an grayscale image. Use `desaturate_tinted_to_grayscale_ios: true` to automatically desaturate the image provided here.*
-- `desaturate_tinted_to_grayscale_ios`: Automatically desaturates tinted mode icon image to grayscale, *defaults to false*
+- `image_path_ios_dark_transparent`: The location of the dark mode icon image file specific for iOS 18+ platform. _Note: Apple recommends this icon to be transparent. For more information see [Apple Human Interface Guidelines for App Icons](https://developer.apple.com/design/human-interface-guidelines/app-icons#iOS-iPadOS)_
+- `image_path_ios_tinted_grayscale`: The location of the tinted mode icon image file specific for iOS 18+ platform. _Note: This icon should be an grayscale image. Use `desaturate_tinted_to_grayscale_ios: true` to automatically desaturate the image provided here._
+- `desaturate_tinted_to_grayscale_ios`: Automatically desaturates tinted mode icon image to grayscale, _defaults to false_
 - `background_color_ios`: The color (in the format "#RRGGBB") to be used as the background when removing the alpha channel. It is used only when the `remove_alpha_ios` property is set to true. (optional - if not defined then `#ffffff` is used)
 
 ### Web
@@ -127,23 +127,23 @@ foreground of the Android 13+ themed icon. For more information see [Android Ada
 - `web`: Add web related configs
   - `generate`: Specifies whether to generate icons for this platform or not
   - `image_path`: Path to web icon.png
-  - `background_color`: Updates *background_color* in `web/manifest.json`
-  - `theme_color`: Updates *theme_color* in `web/manifest.json`
+  - `background_color`: Updates _background_color_ in `web/manifest.json`
+  - `theme_color`: Updates _theme_color_ in `web/manifest.json`
 
 ### Windows
 
 - `windows`: Add Windows related configs
   - `generate`: Specifies whether to generate icons for Windows platform or not
   - `image_path`: Path to web icon.png
-  - `icon_size`: Windows app icon size. Icon size should be within this constrains *48<=icon_size<=256, defaults to 48*
-  
+  - `icon_size`: Windows app icon size. Icon size should be within this constrains _48<=icon_size<=256, defaults to 48_
+
 ### MacOS
 
 - `macos`: Add MacOS related configs
   - `generate`: Specifies whether to generate icons for MacOS platform or not
   - `image_path`: Path to macos icon.png file
 
-*Note: iOS icons should [fill the entire image](https://stackoverflow.com/questions/26014461/black-border-on-my-ios-icon) and not contain transparent borders.*
+_Note: iOS icons should [fill the entire image](https://stackoverflow.com/questions/26014461/black-border-on-my-ios-icon) and not contain transparent borders._
 
 ## Flavor support
 
