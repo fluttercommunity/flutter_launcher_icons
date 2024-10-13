@@ -3,8 +3,8 @@
 import 'dart:io';
 
 import 'package:flutter_launcher_icons/config/config.dart';
-import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/constants.dart' as constants;
+import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
 import 'package:flutter_launcher_icons/utils.dart' as utils;
 import 'package:flutter_launcher_icons/xml_templates.dart' as xml_template;
@@ -158,6 +158,15 @@ void createMipmapXmlFile(
   Config config,
   String? flavor,
 ) {
+  // Note: Adaptive Icons will only be used when both
+  // `adaptive_icon_background` and `adaptive_icon_foreground` or
+  // `adaptive_icon_monochrome` are specified (The `image_path` is not
+  // automatically taken as foreground)
+  if (!config.hasAndroidAdaptiveConfig &&
+      !config.hasAndroidAdaptiveMonochromeConfig) {
+    return;
+  }
+
   utils.printStatus('Creating mipmap xml file Android');
 
   String xmlContent = '';
