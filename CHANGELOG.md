@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.2 (5th December 2024)
+
+- iOS: Fixed issue where dark and tinted icons were placed into the wrong directory [#597](https://github.com/fluttercommunity/flutter_launcher_icons/pull/597)
+
 ## 0.14.1 (24th September 2024)
 
 - Fixed README
