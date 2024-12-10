@@ -1,0 +1,143 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Flutter Launcher Icons Configuration",
+  "description": "Configuration schema for flutter_launcher_icons package",
+  "metadata": {
+    "author": "khaled-0",
+    "created": "2024-12-10 15:58:59 UTC",
+    "version": "1.0.0"
+  },
+  "type": "object",
+  "required": ["flutter_launcher_icons"],
+  "properties": {
+    "flutter_launcher_icons": {
+      "type": "object",
+      "required": ["image_path"],
+      "properties": {
+        "image_path": {
+          "type": "string",
+          "description": "Global default icon path - used as fallback if platform-specific paths not provided"
+        },
+        "android": {
+          "type": ["object", "boolean", "string"],
+          "description": "Android specific configurations or true/false to enable/disable or custom icon path"
+        },
+        "image_path_android": {
+          "type": "string",
+          "description": "Android-specific icon path. Falls back to global image_path"
+        },
+        "adaptive_icon_background": {
+          "type": "string",
+          "description": "Color hex (e.g. '#ffffff') or image path for adaptive icon background"
+        },
+        "adaptive_icon_foreground": {
+          "type": "string",
+          "description": "Image path for adaptive icon foreground"
+        },
+        "adaptive_icon_foreground_inset": {
+          "type": "integer",
+          "default": 16,
+          "description": "Padding for adaptive icon"
+        },
+        "adaptive_icon_monochrome": {
+          "type": "string",
+          "description": "Image path for Android 13+ themed icons"
+        },
+        "min_sdk_android": {
+          "type": "integer",
+          "description": "Minimum Android SDK version"
+        },
+        "ios": {
+          "type": ["object", "boolean", "string"],
+          "description": "iOS specific configurations or true/false to enable/disable or custom icon path"
+        },
+        "image_path_ios": {
+          "type": "string",
+          "description": "iOS-specific icon path. Falls back to global image_path"
+        },
+        "remove_alpha_ios": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to remove alpha channel"
+        },
+        "background_color_ios": {
+          "type": "string",
+          "default": "#ffffff",
+          "description": "Background color when removing alpha channel"
+        },
+        "image_path_ios_dark_transparent": {
+          "type": "string",
+          "description": "iOS 18+ dark mode icon path"
+        },
+        "image_path_ios_tinted_grayscale": {
+          "type": "string",
+          "description": "iOS 18+ tinted mode icon path"
+        },
+        "desaturate_tinted_to_grayscale_ios": {
+          "type": "boolean",
+          "default": false,
+          "description": "Auto-convert tinted to grayscale"
+        },
+        "web": {
+          "type": "object",
+          "properties": {
+            "generate": {
+              "type": "boolean",
+              "default": false,
+              "description": "Enable/disable web icon generation"
+            },
+            "image_path": {
+              "type": "string",
+              "description": "Web-specific icon path. Falls back to global image_path"
+            },
+            "background_color": {
+              "type": "string",
+              "description": "Manifest background color"
+            },
+            "theme_color": {
+              "type": "string",
+              "description": "Manifest theme color"
+            }
+          }
+        },
+        "windows": {
+          "type": "object",
+          "properties": {
+            "generate": {
+              "type": "boolean",
+              "default": false,
+              "description": "Enable/disable Windows icon generation"
+            },
+            "image_path": {
+              "type": "string",
+              "description": "Windows-specific icon path. Falls back to global image_path"
+            },
+            "icon_size": {
+              "type": "integer",
+              "minimum": 48,
+              "maximum": 256,
+              "default": 48,
+              "description": "Windows icon size (48-256)"
+            }
+          }
+        },
+        "macos": {
+          "type": "object",
+          "properties": {
+            "generate": {
+              "type": "boolean",
+              "default": false,
+              "description": "Enable/disable macOS icon generation"
+            },
+            "image_path": {
+              "type": "string",
+              "description": "macOS-specific icon path. Falls back to global image_path"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
