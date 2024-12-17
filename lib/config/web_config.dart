@@ -15,11 +15,11 @@ class WebConfig {
   @JsonKey(name: 'image_path')
   final String? imagePath;
 
-  /// manifest.json's background_color
+  /// `manifest.json`'s background_color
   @JsonKey(name: 'background_color')
   final String? backgroundColor;
 
-  /// manifest.json's theme_color
+  /// `manifest.json`'s theme_color
   @JsonKey(name: 'theme_color')
   final String? themeColor;
 
