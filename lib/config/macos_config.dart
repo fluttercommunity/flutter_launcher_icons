@@ -23,7 +23,9 @@ class MacOSConfig {
   });
 
   /// Creates [WebConfig] from [json]
-  factory MacOSConfig.fromJson(Map json) => _$MacOSConfigFromJson(json);
+  factory MacOSConfig.fromJson(Map<String, dynamic> json) {
+    return _$MacOSConfigFromJson(json);
+  }
 
   /// Creates [Map] from [WebConfig]
   Map<String, dynamic> toJson() => _$MacOSConfigToJson(this);

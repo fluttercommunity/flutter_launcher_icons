@@ -42,11 +42,21 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
           backgroundColorIOS: $checkedConvert(
               'background_color_ios', (v) => v as String? ?? '#ffffff'),
           webConfig: $checkedConvert(
-              'web', (v) => v == null ? null : WebConfig.fromJson(v as Map)),
-          windowsConfig: $checkedConvert('windows',
-              (v) => v == null ? null : WindowsConfig.fromJson(v as Map)),
-          macOSConfig: $checkedConvert('macos',
-              (v) => v == null ? null : MacOSConfig.fromJson(v as Map)),
+              'web',
+              (v) => v == null
+                  ? null
+                  : WebConfig.fromJson(Map<String, dynamic>.from(v as Map))),
+          windowsConfig: $checkedConvert(
+              'windows',
+              (v) => v == null
+                  ? null
+                  : WindowsConfig.fromJson(
+                      Map<String, dynamic>.from(v as Map))),
+          macOSConfig: $checkedConvert(
+              'macos',
+              (v) => v == null
+                  ? null
+                  : MacOSConfig.fromJson(Map<String, dynamic>.from(v as Map))),
         );
         return val;
       },
