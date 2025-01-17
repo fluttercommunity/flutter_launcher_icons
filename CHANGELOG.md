@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.3 (17th January 2025)
+
+- Android: Avoids creating mipmap file used by adaptive and monochrome icons if no config exist for both [#601](https://github.com/fluttercommunity/flutter_launcher_icons/pull/601)
+
 ## 0.14.2 (5th December 2024)
 
 - iOS: Fixed issue where dark and tinted icons were placed into the wrong directory [#597](https://github.com/fluttercommunity/flutter_launcher_icons/pull/597)
