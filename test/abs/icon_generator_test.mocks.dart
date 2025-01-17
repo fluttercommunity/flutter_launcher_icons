@@ -41,6 +41,12 @@ class MockConfig extends _i1.Mock implements _i3.Config {
   }
 
   @override
+  int get adaptiveIconForegroundInset => (super.noSuchMethod(
+        Invocation.getter(#adaptiveIconForegroundInset),
+        returnValue: 0,
+      ) as int);
+
+  @override
   int get minSdkAndroid => (super.noSuchMethod(
         Invocation.getter(#minSdkAndroid),
         returnValue: 0,
