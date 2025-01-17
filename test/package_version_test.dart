@@ -3,7 +3,7 @@ import 'package:flutter_launcher_icons/src/version.dart';
 import 'package:test/test.dart';
 
 void main() {
-  /// this helps avoid an issue where the pubspec version has been increased but
+  /// This helps avoid an issue where the pubspec version has been increased but
   /// build runner has not been run to up the version which is displayed
   /// when flutter_launcher_icons is run
   test('package version is correct', () {

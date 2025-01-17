@@ -11,17 +11,17 @@ import 'package:image/image.dart';
 
 /// File to handle the creation of icons for iOS platform
 class IosIconTemplate {
-  /// constructs an instance of [IosIconTemplate]
+  /// Constructs an instance of [IosIconTemplate]
   IosIconTemplate({required this.size, required this.name});
 
-  /// suffix of the icon name
+  /// Suffix of the icon name
   final String name;
 
-  /// the size of the icon
+  /// The size of the icon
   final int size;
 }
 
-/// details of the ios icons which need to be generated
+/// Details of the ios icons which need to be generated
 List<IosIconTemplate> legacyIosIcons = <IosIconTemplate>[
   IosIconTemplate(name: '-20x20@1x', size: 20),
   IosIconTemplate(name: '-20x20@2x', size: 40),
@@ -65,7 +65,7 @@ List<IosIconTemplate> iosIcons = <IosIconTemplate>[
   IosIconTemplate(name: '-1024x1024@1x', size: 1024),
 ];
 
-/// create the ios icons
+/// Create the ios icons
 void createIcons(Config config, String? flavor) {
   // TODO(p-mazhnik): support prefixPath
   final String? filePath = config.getImagePathIOS();
@@ -282,7 +282,7 @@ void saveNewIcons({
   });
 }
 
-/// create resized icon image
+/// Create resized icon image
 Image createResizedImage(IosIconTemplate template, Image image) {
   if (image.width >= template.size) {
     return copyResize(

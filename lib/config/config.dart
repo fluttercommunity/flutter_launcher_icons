@@ -129,19 +129,19 @@ class Config {
   @JsonKey(name: 'image_path_ios_tinted_grayscale')
   final String? imagePathIOSTintedGrayscale;
 
-  /// android adaptive_icon_foreground image
+  /// Android adaptive_icon_foreground image path
   @JsonKey(name: 'adaptive_icon_foreground')
   final String? adaptiveIconForeground;
 
-  /// android adaptive_icon_foreground inset
+  /// Android adaptive_icon_foreground inset
   @JsonKey(name: 'adaptive_icon_foreground_inset')
   final int adaptiveIconForegroundInset;
 
-  /// android adaptive_icon_background image
+  /// Android adaptive_icon_background image path
   @JsonKey(name: 'adaptive_icon_background')
   final String? adaptiveIconBackground;
 
-  /// android adaptive_icon_background image
+  /// Android adaptive_icon_monochrome image path
   @JsonKey(name: 'adaptive_icon_monochrome')
   final String? adaptiveIconMonochrome;
 
@@ -176,13 +176,13 @@ class Config {
   /// Creates [Config] icons from [json]
   factory Config.fromJson(Map json) => _$ConfigFromJson(json);
 
-  /// whether or not there is configuration for adaptive icons for android
+  /// Whether or not there is configuration for adaptive icons for android
   bool get hasAndroidAdaptiveConfig =>
       isNeedingNewAndroidIcon &&
       adaptiveIconForeground != null &&
       adaptiveIconBackground != null;
 
-  /// whether or not there is configuration for monochrome icons for android
+  /// Whether or not there is configuration for monochrome icons for android
   bool get hasAndroidAdaptiveMonochromeConfig {
     return isNeedingNewAndroidIcon && adaptiveIconMonochrome != null;
   }
@@ -210,10 +210,10 @@ class Config {
   /// bool - override the default flutter project icon
   bool get isCustomAndroidFile => android is String;
 
-  /// if we are needing a new Android icon
+  /// If we are needing a new Android icon
   bool get isNeedingNewAndroidIcon => android != false;
 
-  /// if we are needing a new iOS icon
+  /// If we are needing a new iOS icon
   bool get isNeedingNewIOSIcon => ios != false;
 
   /// Method for the retrieval of the Android icon path
