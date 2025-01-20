@@ -96,6 +96,7 @@ flutter_launcher_icons:
   ios: true
   # image_path_ios: "assets/icon/icon.png"
   remove_alpha_channel_ios: true
+  # background_color_ios: "#FFFFFF"
   # image_path_ios_dark_transparent: "assets/icon/icon_dark.png"
   # image_path_ios_tinted_grayscale: "assets/icon/icon_tinted.png"
   # desaturate_tinted_to_grayscale_ios: true
