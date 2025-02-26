@@ -105,7 +105,7 @@ Shown below is the full list of attributes which you can specify within your Flu
 be used to fill out the background of the adaptive icon.
 - `adaptive_icon_foreground`: The image asset which will be used for the icon foreground of the adaptive icon
 *Note: Adaptive Icons will only be generated when both adaptive_icon_background and adaptive_icon_foreground are specified. (the image_path is not automatically taken as foreground)*
-- `adaptive_icon_foreground_inset`: This is used to add padding to the icon when applying an adaptive icon. The default value is `16`.
+- `adaptive_icon_foreground_inset`: This is used to add padding (in %) to the foreground icon when generating an adaptive icon. The default value is `16`.
 - `adaptive_icon_monochrome`: The image asset which will be used for the icon
 foreground of the Android 13+ themed icon. For more information see [Android Adaptive Icons](https://developer.android.com/develop/ui/views/launch/icon_design_adaptive#user-theming)
 
@@ -166,12 +166,6 @@ Use #AARRGGBB for colors instead of #AABBGGRR, to be compatible with Flutter ima
 ```
 
 [Related issue](https://github.com/fluttercommunity/flutter_launcher_icons/issues/98)
-
-### Image foreground is too big / too small
-
-For best results try and use a foreground image which has padding much like [the one in the example](https://github.com/fluttercommunity/flutter_launcher_icons/blob/master/example/default_example/assets/images/icon-foreground-432x432.png).
-
-[Related issue](https://github.com/fluttercommunity/flutter_launcher_icons/issues/96)
 
 ### Dependency incompatible
 
