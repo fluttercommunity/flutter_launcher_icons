@@ -134,7 +134,7 @@ foreground of the Android 13+ themed icon. For more information see [Android Ada
 
 - `windows`: Add Windows related configs
   - `generate`: Specifies whether to generate icons for Windows platform or not
-  - `image_path`: Path to web icon.png
+  - `image_path`: Path to windows icon.png
   - `icon_size`: Windows app icon size. Icon size should be within this constrains *48<=icon_size<=256, defaults to 48*
   
 ### MacOS
