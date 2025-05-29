@@ -37,8 +37,8 @@ String generateError(Exception e, String? error) {
 
 // TODO(RatakondalaArun): Remove nullable return type
 // this can never return null value since it already throws exception
-Image? decodeImageFile(String filePath) {
-  final image = decodeImage(File(filePath).readAsBytesSync());
+Future<Image?> decodeImageFile(String filePath) async {
+  final image = decodeImage(await File(filePath).readAsBytes());
   if (image == null) {
     throw NoDecoderForImageFormatException(filePath);
   }
@@ -46,19 +46,21 @@ Image? decodeImageFile(String filePath) {
 }
 
 /// Creates [File] in the given [filePath] if not exists
-File createFileIfNotExist(String filePath) {
+Future<File> createFileIfNotExist(String filePath) async {
   final file = File(path.joinAll(path.split(filePath)));
+  // Using the sync method here due to `avoid_slow_async_io` lint suggestion.
   if (!file.existsSync()) {
-    file.createSync(recursive: true);
+    await file.create(recursive: true);
   }
   return file;
 }
 
 /// Creates [Directory] in the given [dirPath] if not exists
-Directory createDirIfNotExist(String dirPath) {
+Future<Directory> createDirIfNotExist(String dirPath) async {
   final dir = Directory(path.joinAll(path.split(dirPath)));
+  // Using the sync method here due to `avoid_slow_async_io` lint suggestion.
   if (!dir.existsSync()) {
-    dir.createSync(recursive: true);
+    await dir.create(recursive: true);
   }
   return dir;
 }
@@ -71,6 +73,7 @@ String prettifyJsonEncode(Object? map) =>
 /// if not returns the failed [FileSystemEntity] path
 String? areFSEntiesExist(List<String> paths) {
   for (final path in paths) {
+    // Using the sync method here due to `avoid_slow_async_io` lint suggestion.
     final fsType = FileSystemEntity.typeSync(path);
     if (![FileSystemEntityType.directory, FileSystemEntityType.file]
         .contains(fsType)) {

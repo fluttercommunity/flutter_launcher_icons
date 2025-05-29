@@ -47,7 +47,7 @@ void main() {
     // end to end test
     test('should generate valid icons', () async {
       expect(generator.validateRequirements(), isTrue);
-      generator.createIcons();
+      await generator.createIcons();
       await expectLater(
         d.dir('fli_test', [
           d.dir('web', [

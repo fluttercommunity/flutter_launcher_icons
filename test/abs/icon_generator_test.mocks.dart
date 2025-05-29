@@ -164,12 +164,13 @@ class MockIconGenerator extends _i1.Mock implements _i2.IconGenerator {
       ) as String);
 
   @override
-  void createIcons() => super.noSuchMethod(
+  Future<void> createIcons() => super.noSuchMethod(
         Invocation.method(
           #createIcons,
           [],
         ),
-        returnValueForMissingStub: null,
+        returnValueForMissingStub: Future.value(),
+        returnValue: Future.value(),
       );
 
   @override

@@ -144,7 +144,7 @@ void main() {
 
     test('should generate valid icons & contents.json file', () async {
       expect(generator.validateRequirements(), isTrue);
-      expect(() => generator.createIcons(), isNot(throwsException));
+      await generator.createIcons();
 
       await expectLater(
         d.dir('fli_test', [

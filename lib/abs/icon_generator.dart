@@ -26,7 +26,7 @@ abstract class IconGenerator {
   IconGenerator(this.context, this.platformName);
 
   /// Creates icons for this platform.
-  void createIcons();
+  Future<void> createIcons();
 
   /// Should return `true` if this platform
   /// has all the requirements to create icons.
@@ -67,13 +67,13 @@ class IconGeneratorContext {
 }
 
 /// Generates Icon for given platforms
-void generateIconsFor({
+Future<void> generateIconsFor({
   required Config config,
   required String? flavor,
   required String prefixPath,
   required FLILogger logger,
   required List<IconGenerator> Function(IconGeneratorContext context) platforms,
-}) {
+}) async {
   try {
     final platformList = platforms(
       IconGeneratorContext(
@@ -103,7 +103,7 @@ void generateIconsFor({
           progress.cancel();
           continue;
         }
-        platform.createIcons();
+        await platform.createIcons();
         progress.finish(message: 'done', showTiming: true);
       } catch (e, st) {
         progress.cancel();
