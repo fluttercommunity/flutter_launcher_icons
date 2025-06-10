@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.14.4 (10th June 2025)
+
+- Removed rules which no longer exist from analysis_options [#598](https://github.com/fluttercommunity/flutter_launcher_icons/issues/598)
+- Fix template generated within thegenerate command [#642](https://github.com/fluttercommunity/flutter_launcher_icons/issues/642)
+- Standardize on async I/O and waiting for work to complete [#646](https://github.com/fluttercommunity/flutter_launcher_icons/issues/646)
+
 ## 0.14.3 (17th January 2025)
 
 - Android: Avoids creating mipmap file used by adaptive and monochrome icons if no config exist for both [#601](https://github.com/fluttercommunity/flutter_launcher_icons/pull/601)
