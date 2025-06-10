@@ -12,7 +12,7 @@ class WindowsIconGenerator extends IconGenerator {
       : super(context, 'Windows');
 
   @override
-  void createIcons() {
+  Future<void> createIcons() async {
     final imgFilePath = path.join(
       context.prefixPath,
       context.windowsConfig!.imagePath ?? context.config.imagePath,
@@ -20,7 +20,7 @@ class WindowsIconGenerator extends IconGenerator {
 
     context.logger
         .verbose('Decoding and loading image file from $imgFilePath...');
-    final imgFile = utils.decodeImageFile(imgFilePath);
+    final imgFile = await utils.decodeImageFile(imgFilePath);
     // TODO(RatakondalaArun): remove null check
     // #utils.decodeImageFile never returns null instead it throws Exception
     if (imgFile == null) {
@@ -30,7 +30,7 @@ class WindowsIconGenerator extends IconGenerator {
     }
 
     context.logger.verbose('Generating icon from $imgFilePath...');
-    _generateIcon(imgFile);
+    await _generateIcon(imgFile);
   }
 
   @override
@@ -79,14 +79,14 @@ class WindowsIconGenerator extends IconGenerator {
     return true;
   }
 
-  void _generateIcon(Image image) {
+  Future<void> _generateIcon(Image image) async {
     final favIcon = utils.createResizedImage(
       context.windowsConfig!.iconSize ?? constants.windowsDefaultIconSize,
       image,
     );
-    final favIconFile = utils.createFileIfNotExist(
+    final favIconFile = await utils.createFileIfNotExist(
       path.join(context.prefixPath, constants.windowsIconFilePath),
     );
-    favIconFile.writeAsBytesSync(encodeIco(favIcon));
+    await favIconFile.writeAsBytes(encodeIco(favIcon));
   }
 }

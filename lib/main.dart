@@ -23,9 +23,9 @@ const String prefixOption = 'prefix';
 const String defaultConfigFile = 'flutter_launcher_icons.yaml';
 const String flavorConfigFilePattern = r'^flutter_launcher_icons-(.*).yaml$';
 
-List<String> getFlavors() {
+Future<List<String>> getFlavors() async {
   final List<String> flavors = [];
-  for (var item in Directory('.').listSync()) {
+  await for (var item in Directory('.').list()) {
     if (item is File) {
       final name = path.basename(item.path);
       final match = RegExp(flavorConfigFilePattern).firstMatch(name);
@@ -69,7 +69,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   }
 
   // Flavors management
-  final flavors = getFlavors();
+  final flavors = await getFlavors();
   final hasFlavors = flavors.isNotEmpty;
 
   final String prefixPath = argResults[prefixOption];
@@ -135,30 +135,34 @@ Future<void> createIconsFromConfig(
     throw const InvalidConfigException(errorMissingPlatform);
   }
 
+  final concurrentIconCreation = <Future<void>>[];
   if (flutterConfigs.isNeedingNewAndroidIcon) {
-    android_launcher_icons.createDefaultIcons(flutterConfigs, flavor);
+    concurrentIconCreation.add(android_launcher_icons.createDefaultIcons(flutterConfigs, flavor));
   }
   if (flutterConfigs.hasAndroidAdaptiveConfig) {
-    android_launcher_icons.createAdaptiveIcons(flutterConfigs, flavor);
+    concurrentIconCreation.add(android_launcher_icons.createAdaptiveIcons(flutterConfigs, flavor));
   }
   if (flutterConfigs.hasAndroidAdaptiveMonochromeConfig) {
-    android_launcher_icons.createAdaptiveMonochromeIcons(
-      flutterConfigs,
-      flavor,
+    concurrentIconCreation.add(
+      android_launcher_icons.createAdaptiveMonochromeIcons(
+        flutterConfigs,
+        flavor,
+      ),
     );
   }
+  await Future.wait(concurrentIconCreation);
   if (flutterConfigs.isNeedingNewAndroidIcon) {
-    android_launcher_icons.createMipmapXmlFile(
+    await android_launcher_icons.createMipmapXmlFile(
       flutterConfigs,
       flavor,
     );
   }
   if (flutterConfigs.isNeedingNewIOSIcon) {
-    ios_launcher_icons.createIcons(flutterConfigs, flavor);
+    await ios_launcher_icons.createIcons(flutterConfigs, flavor);
   }
 
   // Generates Icons for given platform
-  generateIconsFor(
+  await generateIconsFor(
     config: flutterConfigs,
     logger: logger,
     prefixPath: prefixPath,

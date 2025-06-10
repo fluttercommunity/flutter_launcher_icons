@@ -66,7 +66,7 @@ void main() {
         d.dir('fli_test', [d.dir('dir_that_does_not_exist')]).validate(),
         throwsException,
       );
-      final result = utils.createDirIfNotExist(
+      final result = await utils.createDirIfNotExist(
         path.join(d.sandbox, 'fli_test', 'dir_that_does_not_exist'),
       );
       expect(result.existsSync(), isTrue);
@@ -80,7 +80,7 @@ void main() {
         d.dir('fli_test', [d.dir('dir_exists')]).validate(),
         completes,
       );
-      final result = utils
+      final result = await utils
           .createDirIfNotExist(path.join(d.sandbox, 'fli_test', 'dir_exists'));
       expect(result.existsSync(), isTrue);
       await expectLater(
@@ -101,7 +101,7 @@ void main() {
         d.dir('fli_test', [d.file('file_that_does_not_exist.txt')]).validate(),
         throwsException,
       );
-      final result = utils.createFileIfNotExist(
+      final result = await utils.createFileIfNotExist(
         path.join(d.sandbox, 'fli_test', 'file_that_does_not_exist.txt'),
       );
       expect(result.existsSync(), isTrue);
@@ -115,7 +115,7 @@ void main() {
         d.dir('fli_test', [d.file('file_exists.txt')]).validate(),
         completes,
       );
-      final result = utils.createFileIfNotExist(
+      final result = await utils.createFileIfNotExist(
         path.join(d.sandbox, 'fli_test', 'file_exists.txt'),
       );
       expect(result.existsSync(), isTrue);

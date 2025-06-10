@@ -66,7 +66,7 @@ List<IosIconTemplate> iosIcons = <IosIconTemplate>[
 ];
 
 /// create the ios icons
-void createIcons(Config config, String? flavor) {
+Future<void> createIcons(Config config, String? flavor) async {
   // TODO(p-mazhnik): support prefixPath
   final String? filePath = config.getImagePathIOS();
   final String? darkFilePath = config.imagePathIOSDarkTransparent;
@@ -78,7 +78,7 @@ void createIcons(Config config, String? flavor) {
 
   // decodeImageFile shows error message if null
   // so can return here if image is null
-  Image? image = decodeImage(File(filePath).readAsBytesSync());
+  Image? image = decodeImage(await File(filePath).readAsBytes());
   if (image == null) {
     return;
   }
@@ -86,7 +86,7 @@ void createIcons(Config config, String? flavor) {
   // For dark and tinted images, return here if path was specified but image is null
   Image? darkImage;
   if (darkFilePath != null) {
-    darkImage = decodeImage(File(darkFilePath).readAsBytesSync());
+    darkImage = decodeImage(await File(darkFilePath).readAsBytes());
     if (darkImage == null) {
       return;
     }
@@ -94,7 +94,7 @@ void createIcons(Config config, String? flavor) {
 
   Image? tintedImage;
   if (tintedFilePath != null) {
-    tintedImage = decodeImage(File(tintedFilePath).readAsBytesSync());
+    tintedImage = decodeImage(await File(tintedFilePath).readAsBytes());
     if (tintedImage == null) {
       return;
     }
@@ -135,17 +135,20 @@ void createIcons(Config config, String? flavor) {
   final List<IosIconTemplate> generateIosIcons =
       (darkImage == null && tintedImage == null) ? legacyIosIcons : iosIcons;
   final dynamic iosConfig = config.ios;
+  final concurrentIconUpdates = <Future<void>>[];
   if (flavor != null) {
     final String catalogName = 'AppIcon-$flavor';
 
     printStatus('Building iOS launcher icon for $flavor');
     for (IosIconTemplate template in generateIosIcons) {
-      saveNewIcons(
-        template: template,
-        image: image,
-        catalogName: catalogName,
-        // Since this is the base icon name we are using the same name for the icon as the catalog name
-        iconName: catalogName,
+      concurrentIconUpdates.add(
+        saveNewIcons(
+          template: template,
+          image: image,
+          catalogName: catalogName,
+          // Since this is the base icon name we are using the same name for the icon as the catalog name
+          iconName: catalogName,
+        ),
       );
     }
 
@@ -153,11 +156,13 @@ void createIcons(Config config, String? flavor) {
       darkIconName = 'AppIcon-$flavor-Dark';
       printStatus('Building iOS dark launcher icon for $flavor');
       for (IosIconTemplate template in generateIosIcons) {
-        saveNewIcons(
-          template: template,
-          image: darkImage,
-          catalogName: catalogName,
-          iconName: darkIconName,
+        concurrentIconUpdates.add(
+          saveNewIcons(
+            template: template,
+            image: darkImage,
+            catalogName: catalogName,
+            iconName: darkIconName,
+          ),
         );
       }
     }
@@ -165,39 +170,45 @@ void createIcons(Config config, String? flavor) {
       tintedIconName = 'AppIcon-$flavor-Tinted';
       printStatus('Building iOS tinted launcher icon for $flavor');
       for (IosIconTemplate template in generateIosIcons) {
-        saveNewIcons(
-          template: template,
-          image: tintedImage,
-          catalogName: catalogName,
-          iconName: tintedIconName,
+        concurrentIconUpdates.add(
+          saveNewIcons(
+            template: template,
+            image: tintedImage,
+            catalogName: catalogName,
+            iconName: tintedIconName,
+          ),
         );
       }
     }
     iconName = iosDefaultIconName;
-    changeIosLauncherIcon(catalogName, flavor);
-    modifyContentsFile(catalogName, darkIconName, tintedIconName);
+    await changeIosLauncherIcon(catalogName, flavor);
+    await modifyContentsFile(catalogName, darkIconName, tintedIconName);
   } else if (iosConfig is String) {
     // If the IOS configuration is a string then the user has specified a new icon to be created
     // and for the old icon file to be kept
     final String newIconName = iosConfig;
     printStatus('Adding new iOS launcher icon');
     for (IosIconTemplate template in generateIosIcons) {
-      saveNewIcons(
-        template: template,
-        image: image,
-        catalogName: 'AppIcon',
-        iconName: newIconName,
+      concurrentIconUpdates.add(
+        saveNewIcons(
+          template: template,
+          image: image,
+          catalogName: 'AppIcon',
+          iconName: newIconName,
+        ),
       );
     }
     if (darkImage != null) {
       darkIconName = newIconName + '-Dark';
       printStatus('Adding new iOS dark launcher icon');
       for (IosIconTemplate template in generateIosIcons) {
-        saveNewIcons(
-          template: template,
-          image: darkImage,
-          catalogName: 'AppIcon',
-          iconName: darkIconName,
+        concurrentIconUpdates.add(
+          saveNewIcons(
+            template: template,
+            image: darkImage,
+            catalogName: 'AppIcon',
+            iconName: darkIconName,
+          ),
         );
       }
     }
@@ -205,81 +216,82 @@ void createIcons(Config config, String? flavor) {
       tintedIconName = newIconName + '-Tinted';
       printStatus('Adding new iOS tinted launcher icon');
       for (IosIconTemplate template in generateIosIcons) {
-        saveNewIcons(
-          template: template,
-          image: tintedImage,
-          catalogName: 'AppIcon',
-          iconName: tintedIconName,
+        concurrentIconUpdates.add(
+          saveNewIcons(
+            template: template,
+            image: tintedImage,
+            catalogName: 'AppIcon',
+            iconName: tintedIconName,
+          ),
         );
       }
     }
     iconName = newIconName;
-    changeIosLauncherIcon(iconName, flavor);
-    modifyContentsFile(iconName, darkIconName, tintedIconName);
+    await changeIosLauncherIcon(iconName, flavor);
+    await modifyContentsFile(iconName, darkIconName, tintedIconName);
   }
   // Otherwise the user wants the new icon to use the default icons name and
   // update config file to use it
   else {
     printStatus('Overwriting default iOS launcher icon with new icon');
     for (IosIconTemplate template in generateIosIcons) {
-      overwriteDefaultIcons(template, image);
+      concurrentIconUpdates.add(overwriteDefaultIcons(template, image));
     }
     if (darkImage != null) {
       printStatus('Overwriting default iOS dark launcher icon with new icon');
       for (IosIconTemplate template in generateIosIcons) {
-        overwriteDefaultIcons(template, darkImage, '-Dark');
+        concurrentIconUpdates.add(overwriteDefaultIcons(template, darkImage, '-Dark'));
       }
       darkIconName = iosDefaultIconName + '-Dark';
     }
     if (tintedImage != null) {
       printStatus('Overwriting default iOS tinted launcher icon with new icon');
       for (IosIconTemplate template in generateIosIcons) {
-        overwriteDefaultIcons(template, tintedImage, '-Tinted');
+        concurrentIconUpdates.add(overwriteDefaultIcons(template, tintedImage, '-Tinted'));
       }
       tintedIconName = iosDefaultIconName + '-Tinted';
     }
     iconName = iosDefaultIconName;
-    changeIosLauncherIcon('AppIcon', flavor);
+    await changeIosLauncherIcon('AppIcon', flavor);
     // Still need to modify the Contents.json file
     // since the user could have added dark and tinted icons
-    modifyDefaultContentsFile(iconName, darkIconName, tintedIconName);
+    await modifyDefaultContentsFile(iconName, darkIconName, tintedIconName);
   }
+  await Future.wait(concurrentIconUpdates);
 }
 
 /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
 /// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-void overwriteDefaultIcons(
+Future<void> overwriteDefaultIcons(
   IosIconTemplate template,
   Image image, [
   String iconNameSuffix = '',
-]) {
-  final Image newFile = createResizedImage(template, image);
-  File(
+]) async {
+  final Image newImage = createResizedImage(template, image);
+  await File(
     iosDefaultIconFolder +
         iosDefaultIconName +
         iconNameSuffix +
         template.name +
         '.png',
-  )..writeAsBytesSync(encodePng(newFile));
+  ).writeAsBytes(encodePng(newImage));
 }
 
 /// Note: Do not change interpolation unless you end up with better results (see issue for result when using cubic
 /// interpolation)
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
-void saveNewIcons({
+Future<void> saveNewIcons({
   required IosIconTemplate template,
   required Image image,
   required String catalogName,
   required String iconName,
-}) {
+}) async {
   final String newIconFolder = iosAssetFolder + catalogName + '.appiconset/';
-  final Image newFile = createResizedImage(template, image);
-  File(newIconFolder + iconName + template.name + '.png')
-      .create(recursive: true)
-      .then((File file) {
-    file.writeAsBytesSync(encodePng(newFile));
-  });
+  final Image newImage = createResizedImage(template, image);
+  final newFile = await File(newIconFolder + iconName + template.name + '.png')
+      .create(recursive: true);
+  await newFile.writeAsBytes(encodePng(newImage));
 }
 
 /// create resized icon image
@@ -336,33 +348,31 @@ Future<void> changeIosLauncherIcon(String iconName, String? flavor) async {
 }
 
 /// Create the Contents.json file
-void modifyContentsFile(
+Future<void> modifyContentsFile(
   String newIconName,
   String? darkIconName,
   String? tintedIconName,
-) {
-  final String newIconFolder =
+) async {
+  final String newContentsFilename =
       iosAssetFolder + newIconName + '.appiconset/Contents.json';
-  File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
-    final String contentsFileContent =
-        generateContentsFileAsString(newIconName, darkIconName, tintedIconName);
-    contentsJsonFile.writeAsString(contentsFileContent);
-  });
+  final contentsJsonFile = await File(newContentsFilename).create(recursive: true);
+  final String contentsFileContent =
+      generateContentsFileAsString(newIconName, darkIconName, tintedIconName);
+  await contentsJsonFile.writeAsString(contentsFileContent);
 }
 
 /// Modify default Contents.json file
-void modifyDefaultContentsFile(
+Future<void> modifyDefaultContentsFile(
   String newIconName,
   String? darkIconName,
   String? tintedIconName,
-) {
+) async {
   const String newIconFolder =
       iosAssetFolder + 'AppIcon.appiconset/Contents.json';
-  File(newIconFolder).create(recursive: true).then((File contentsJsonFile) {
-    final String contentsFileContent =
-        generateContentsFileAsString(newIconName, darkIconName, tintedIconName);
-    contentsJsonFile.writeAsString(contentsFileContent);
-  });
+  final contentsJsonFile = await File(newIconFolder).create(recursive: true);
+  final String contentsFileContent =
+      generateContentsFileAsString(newIconName, darkIconName, tintedIconName);
+  await contentsJsonFile.writeAsString(contentsFileContent);
 }
 
 String generateContentsFileAsString(

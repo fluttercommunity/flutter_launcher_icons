@@ -47,7 +47,7 @@ class WebIconGenerator extends IconGenerator {
   WebIconGenerator(IconGeneratorContext context) : super(context, 'Web');
 
   @override
-  void createIcons() {
+  Future<void> createIcons() async {
     final imgFilePath = path.join(
       context.prefixPath,
       context.webConfig!.imagePath ?? context.config.imagePath!,
@@ -55,7 +55,7 @@ class WebIconGenerator extends IconGenerator {
 
     context.logger
         .verbose('Decoding and loading image file at $imgFilePath...');
-    final imgFile = utils.decodeImageFile(imgFilePath);
+    final imgFile = await utils.decodeImageFile(imgFilePath);
     if (imgFile == null) {
       context.logger.error('Image File not found at give path $imgFilePath...');
       throw FileNotFoundException(imgFilePath);
@@ -63,17 +63,17 @@ class WebIconGenerator extends IconGenerator {
 
     // generate favicon in web/favicon.png
     context.logger.verbose('Generating favicon from $imgFilePath...');
-    _generateFavicon(imgFile);
+    await _generateFavicon(imgFile);
 
     // generate icons in web/icons/
     context.logger.verbose('Generating icons from $imgFilePath...');
-    _generateIcons(imgFile);
+    await _generateIcons(imgFile);
 
     // update manifest.json in web/mainfest.json
     context.logger.verbose(
       'Updating ${path.join(context.prefixPath, constants.webManifestFilePath)}...',
     );
-    _updateManifestFile();
+    await _updateManifestFile();
 
     // TODO(RatakondalaArun): update index.html in web/index.html
     // as we are using flutter default config we no need
@@ -116,34 +116,34 @@ class WebIconGenerator extends IconGenerator {
     return true;
   }
 
-  void _generateFavicon(Image image) {
+  Future<void> _generateFavicon(Image image) async {
     final favIcon = utils.createResizedImage(constants.kFaviconSize, image);
-    final favIconFile = utils.createFileIfNotExist(
+    final favIconFile = await utils.createFileIfNotExist(
       path.join(context.prefixPath, constants.webFaviconFilePath),
     );
-    favIconFile.writeAsBytesSync(encodePng(favIcon));
+    await favIconFile.writeAsBytes(encodePng(favIcon));
   }
 
-  void _generateIcons(Image image) {
-    final iconsDir = utils.createDirIfNotExist(
+  Future<void> _generateIcons(Image image) async {
+    final iconsDir = await utils.createDirIfNotExist(
       path.join(context.prefixPath, constants.webIconsDirPath),
     );
     // generate icons
     for (final template in _webIconSizeTemplates) {
       final resizedImg = utils.createResizedImage(template.size, image);
-      final iconFile = utils.createFileIfNotExist(
+      final iconFile = await utils.createFileIfNotExist(
         path.join(context.prefixPath, iconsDir.path, template.iconFile),
       );
-      iconFile.writeAsBytesSync(encodePng(resizedImg));
+      await iconFile.writeAsBytes(encodePng(resizedImg));
     }
   }
 
-  void _updateManifestFile() {
-    final manifestFile = utils.createFileIfNotExist(
+  Future<void> _updateManifestFile() async {
+    final manifestFile = await utils.createFileIfNotExist(
       path.join(context.prefixPath, constants.webManifestFilePath),
     );
     final manifestConfig =
-        jsonDecode(manifestFile.readAsStringSync()) as Map<String, dynamic>;
+        jsonDecode(await manifestFile.readAsString()) as Map<String, dynamic>;
 
     // update background_color
     if (context.webConfig?.backgroundColor != null) {
@@ -162,6 +162,6 @@ class WebIconGenerator extends IconGenerator {
           .map<Map<String, dynamic>>((e) => e.iconManifest)
           .toList();
 
-    manifestFile.writeAsStringSync(utils.prettifyJsonEncode(manifestConfig));
+    await manifestFile.writeAsString(utils.prettifyJsonEncode(manifestConfig));
   }
 }
