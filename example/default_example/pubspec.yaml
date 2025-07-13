@@ -38,6 +38,9 @@ flutter_launcher_icons:
   macos:
     generate: true
     image_path: "assets/images/icon-1024x1024.png"
+  linux:
+    generate: true
+    image_path: "assets/images/icon-logo.png"
 
 dev_dependencies:
   flutter_test:
@@ -45,3 +48,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/icon-logo.png

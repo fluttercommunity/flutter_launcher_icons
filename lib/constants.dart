@@ -84,6 +84,14 @@ final macOSIconsDirPath =
 /// Relative path to macos contents.json
 final macOSContentsFilePath = path.join(macOSIconsDirPath, 'Contents.json');
 
+// Linux
+
+/// Relative path to linux directory
+String linuxDirPath = path.join('linux');
+
+/// Relative path to linux my_application.cc file
+String linuxMyApplicationFile = path.join(linuxDirPath, 'runner', 'my_application.cc');
+
 const String errorMissingImagePath =
     'Missing "image_path" or "image_path_android" + "image_path_ios" within configuration';
 const String errorMissingPlatform =
