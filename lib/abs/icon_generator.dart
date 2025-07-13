@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_launcher_icons/config/config.dart';
+import 'package:flutter_launcher_icons/config/linux_config.dart';
 import 'package:flutter_launcher_icons/config/macos_config.dart';
 import 'package:flutter_launcher_icons/config/web_config.dart';
 import 'package:flutter_launcher_icons/config/windows_config.dart';
@@ -64,6 +65,9 @@ class IconGeneratorContext {
 
   /// Shortcut for `config.macOSConfig`
   MacOSConfig? get macOSConfig => config.macOSConfig;
+
+  /// Shortcut for `config.linuxConfig`
+  LinuxConfig? get linuxConfig => config.linuxConfig;
 }
 
 /// Generates Icon for given platforms

@@ -47,6 +47,8 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
               (v) => v == null ? null : WindowsConfig.fromJson(v as Map)),
           macOSConfig: $checkedConvert('macos',
               (v) => v == null ? null : MacOSConfig.fromJson(v as Map)),
+          linuxConfig: $checkedConvert('linux',
+              (v) => v == null ? null : LinuxConfig.fromJson(v as Map)),
         );
         return val;
       },
@@ -66,7 +68,8 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
         'backgroundColorIOS': 'background_color_ios',
         'webConfig': 'web',
         'windowsConfig': 'windows',
-        'macOSConfig': 'macos'
+        'macOSConfig': 'macos',
+        'linuxConfig': 'linux'
       },
     );
 
@@ -90,4 +93,5 @@ Map<String, dynamic> _$ConfigToJson(Config instance) => <String, dynamic>{
       'web': instance.webConfig,
       'windows': instance.windowsConfig,
       'macos': instance.macOSConfig,
+      'linux': instance.linuxConfig,
     };
