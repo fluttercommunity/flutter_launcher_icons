@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.14.5 (11th August 2025)
+
+- iOS: Added support for liquid glass icon generation
+  - New liquid glass .icon format support for modern iOS app icons
+  - Configurable glass effects, shadows, translucency, and positioning
+  - Support for both neutral and chromatic shadow types
+  - Customizable blur, specular highlights, and icon scaling
+
 ## 0.14.4 (10th June 2025)
 
 - Removed rules which no longer exist from analysis_options [#598](https://github.com/fluttercommunity/flutter_launcher_icons/issues/598)

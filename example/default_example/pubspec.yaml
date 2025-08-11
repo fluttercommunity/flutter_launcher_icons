@@ -25,7 +25,17 @@ flutter_launcher_icons:
   adaptive_icon_monochrome: "assets/images/icon-monochrome-432x432.png" # only available for Android 13 devices and above
   min_sdk_android: 21 # android min sdk min:16, default 21
   remove_alpha_ios: true
-  background_color_ios: "#ffffff"
+  background_color_ios: "#FC5138"
+  # Liquid Glass .icon configuration for iOS
+  image_path_ios_liquid_glass_icon: "assets/images/icon-1024x1024.png"
+  liquid_glass_icon_scale: 0.85
+  liquid_glass_translucency_ios: 0.5
+  liquid_glass_specular_ios: true
+  liquid_glass_shadow_kind_ios: "Chromatic"
+  liquid_glass_shadow_opacity_ios: 0.5
+  liquid_glass_blur_ios: 0.5
+  liquid_glass_offset_x_ios: 0.0
+  liquid_glass_offset_y_ios: 0.0
   web:
     generate: true
     image_path: "assets/images/icon-1024x1024.png"

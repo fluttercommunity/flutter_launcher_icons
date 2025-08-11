@@ -35,6 +35,12 @@ const String iosAssetFolder = 'ios/Runner/Assets.xcassets/';
 const String iosConfigFile = 'ios/Runner.xcodeproj/project.pbxproj';
 const String iosDefaultIconName = 'Icon-App';
 
+// iOS Liquid Glass .icon constants
+const String iosRunnerFolder = 'ios/Runner/';
+String iosLiquidGlassIconPath(String iconName) => '$iosRunnerFolder$iconName.icon/';
+String iosLiquidGlassAssetsPath(String iconName) => '${iosLiquidGlassIconPath(iconName)}Assets/';
+String iosLiquidGlassConfigPath(String iconName) => '${iosLiquidGlassIconPath(iconName)}icon.json';
+
 // web
 /// favicon.ico size
 const int kFaviconSize = 16;

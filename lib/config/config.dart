@@ -27,14 +27,24 @@ class Config {
     this.imagePathIOS,
     this.imagePathIOSDarkTransparent,
     this.imagePathIOSTintedGrayscale,
+    this.imagePathIOSLiquidGlassIcon,
     this.adaptiveIconForeground,
     this.adaptiveIconForegroundInset = 16,
     this.adaptiveIconBackground,
     this.adaptiveIconMonochrome,
     this.minSdkAndroid = constants.androidDefaultAndroidMinSDK,
     this.removeAlphaIOS = false,
+    this.removeLiquidGlassIOS = false,
     this.desaturateTintedToGrayscaleIOS = false,
     this.backgroundColorIOS = '#ffffff',
+    this.liquidGlassIconScaleIOS = 1,
+    this.liquidGlassTranslucencyIOS = 0.5,
+    this.liquidGlassSpecularIOS = true,
+    this.liquidGlassShadowKindIOS = 'Neutral',
+    this.liquidGlassShadowOpacityIOS = 0.5,
+    this.liquidGlassBlurIOS = 0.5,
+    this.liquidGlassOffsetXIOS = 0.0,
+    this.liquidGlassOffsetYIOS = 0.0,
     this.webConfig,
     this.windowsConfig,
     this.macOSConfig,
@@ -129,6 +139,10 @@ class Config {
   @JsonKey(name: 'image_path_ios_tinted_grayscale')
   final String? imagePathIOSTintedGrayscale;
 
+  /// IOS image_path_ios_liquid_glass_icon
+  @JsonKey(name: 'image_path_ios_liquid_glass_icon')
+  final String? imagePathIOSLiquidGlassIcon;
+
   /// android adaptive_icon_foreground image
   @JsonKey(name: 'adaptive_icon_foreground')
   final String? adaptiveIconForeground;
@@ -153,6 +167,10 @@ class Config {
   @JsonKey(name: 'remove_alpha_ios')
   final bool removeAlphaIOS;
 
+  /// IOS remove_liquid_glass_ios
+  @JsonKey(name: 'remove_liquid_glass_ios')
+  final bool removeLiquidGlassIOS;
+
   /// IOS desaturate_tinted_to_grayscale
   @JsonKey(name: 'desaturate_tinted_to_grayscale_ios')
   final bool desaturateTintedToGrayscaleIOS;
@@ -160,6 +178,38 @@ class Config {
   /// IOS background_color_ios
   @JsonKey(name: 'background_color_ios')
   final String backgroundColorIOS;
+
+  /// IOS liquid_glass_icon_scale
+  @JsonKey(name: 'liquid_glass_icon_scale')
+  final double liquidGlassIconScaleIOS;
+
+  /// IOS liquid glass translucency
+  @JsonKey(name: 'liquid_glass_translucency_ios')
+  final double? liquidGlassTranslucencyIOS;
+
+  /// IOS liquid glass specular
+  @JsonKey(name: 'liquid_glass_specular_ios')
+  final bool liquidGlassSpecularIOS;
+
+  /// IOS liquid glass shadow kind
+  @JsonKey(name: 'liquid_glass_shadow_kind_ios')
+  final String liquidGlassShadowKindIOS;
+
+  /// IOS liquid glass shadow opacity
+  @JsonKey(name: 'liquid_glass_shadow_opacity_ios')
+  final double? liquidGlassShadowOpacityIOS;
+
+  /// IOS liquid glass blur
+  @JsonKey(name: 'liquid_glass_blur_ios')
+  final double? liquidGlassBlurIOS;
+
+  /// IOS liquid glass offset X
+  @JsonKey(name: 'liquid_glass_offset_x_ios')
+  final double? liquidGlassOffsetXIOS;
+
+  /// IOS liquid glass offset Y
+  @JsonKey(name: 'liquid_glass_offset_y_ios')
+  final double? liquidGlassOffsetYIOS;
 
   /// Web platform config
   @JsonKey(name: 'web')
@@ -215,6 +265,9 @@ class Config {
 
   /// if we are needing a new iOS icon
   bool get isNeedingNewIOSIcon => ios != false;
+
+  /// Whether or not configuration for generating liquid glass .icon exists
+  bool get hasLiquidGlassIconConfig => imagePathIOSLiquidGlassIcon != null;
 
   /// Method for the retrieval of the Android icon path
   /// If image_path_android is found, this will be prioritised over the image_path
