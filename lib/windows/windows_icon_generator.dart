@@ -11,6 +11,9 @@ class WindowsIconGenerator extends IconGenerator {
   WindowsIconGenerator(IconGeneratorContext context)
       : super(context, 'Windows');
 
+  // Minimal, sensible defaults for Windows ICOs.
+  static const List<int> _icoSizes = [16, 24, 32, 48, 256];
+
   @override
   Future<void> createIcons() async {
     final imgFilePath = path.join(
@@ -51,14 +54,13 @@ class WindowsIconGenerator extends IconGenerator {
       return false;
     }
 
-    // if icon_size is given it should be between 48<=icon_size<=256
-    // because .ico only supports this size
-    if (windowsConfig.iconSize != null &&
-        (windowsConfig.iconSize! < 48 || windowsConfig.iconSize! > 256)) {
-      context.logger.error(
-        'Invalid windows.icon_size=${windowsConfig.iconSize}. Icon size should be between 48<=icon_size<=256',
+    // DEPRECATED: read only to warn, then ignored.
+    // ignore: deprecated_member_use_from_same_package
+    if (windowsConfig.iconSize != null) {
+      context.logger.verbose(
+        'DEPRECATED: `windows.icon_size` is ignored. The generator now '
+            'produces a multi-size .ico (16, 24, 32, 48, 256).',
       );
-      return false;
     }
     final entitesToCheck = [
       path.join(context.prefixPath, constants.windowsDirPath),
@@ -80,13 +82,19 @@ class WindowsIconGenerator extends IconGenerator {
   }
 
   Future<void> _generateIcon(Image image) async {
-    final favIcon = utils.createResizedImage(
-      context.windowsConfig!.iconSize ?? constants.windowsDefaultIconSize,
-      image,
-    );
+    // Build a multi-frame ICO: one frame per target size.
+    Image? multi;
+    for (final sz in _icoSizes) {
+      final resized = utils.createResizedImage(sz, image);
+      if (multi == null) {
+        multi = resized;
+      } else {
+        multi.addFrame(resized);
+      }
+    }
     final favIconFile = await utils.createFileIfNotExist(
       path.join(context.prefixPath, constants.windowsIconFilePath),
     );
-    await favIconFile.writeAsBytes(encodeIco(favIcon));
+    await favIconFile.writeAsBytes(encodeIco(multi!));
   }
 }
