@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 import 'package:flutter_launcher_icons/config/config.dart';
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
 import 'package:path/path.dart' as path;

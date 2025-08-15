@@ -8,14 +8,17 @@ part 'windows_config.g.dart';
   checked: true,
 )
 class WindowsConfig {
-  /// Specifies weather to generate icons for web
+  /// Specifies whether to generate icons for Windows
   final bool generate;
 
-  /// Image path for web
+  /// Image path for Windows
   @JsonKey(name: 'image_path')
   final String? imagePath;
 
-  /// Size of the icon to generate
+  /// DEPRECATED: kept only for backward-compat. Ignored by the generator.
+  @Deprecated(
+    'Ignored. Windows .ico is generated with multiple sizes by default.',
+  )
   @JsonKey(name: 'icon_size')
   final int? iconSize;
 
@@ -23,6 +26,9 @@ class WindowsConfig {
   const WindowsConfig({
     this.generate = false,
     this.imagePath,
+    @Deprecated(
+      'Ignored. Windows .ico is generated with multiple sizes by default.',
+    )
     this.iconSize,
   });
 

@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 import 'dart:io';
 
 import 'package:flutter_launcher_icons/abs/icon_generator.dart';
@@ -85,15 +86,28 @@ void main() {
       });
 
       test(
-          'should return false when windows.icon_size is not between 48 and 256',
-          () {
-        when(mockWindowsConfig.iconSize).thenReturn(40);
-        expect(generator.validateRequirements(), isFalse);
-        verify(mockWindowsConfig.iconSize).called(equals(3));
+          'should warn (deprecated) but not fail when windows.icon_size is set',
+          () async {
+        // Ensure required filesystem entities exist so any failure is NOT due to missing files.
+        await d.dir('fli_test', [
+          d.dir('windows'),
+          d.file('app_icon.png', testImageFile.readAsBytesSync()),
+        ]).create();
+        await expectLater(
+          d.dir('fli_test', [
+            d.dir('windows'),
+            d.file('app_icon.png', anything),
+          ]).validate(),
+          completes,
+        );
 
-        when(mockWindowsConfig.iconSize).thenReturn(257);
-        expect(generator.validateRequirements(), isFalse);
-        verify(mockWindowsConfig.iconSize).called(equals(4));
+        // Set any value; it’s ignored but should trigger a deprecation log.
+        when(mockWindowsConfig.iconSize).thenReturn(40);
+
+        expect(generator.validateRequirements(), isTrue);
+
+        // We logged a deprecation notice (non-fatal).
+        verify(mockLogger.verbose(argThat(contains('DEPRECATED')))).called(1);
       });
 
       test('should return false when windows dir does not exist', () async {
