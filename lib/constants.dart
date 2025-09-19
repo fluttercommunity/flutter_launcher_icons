@@ -15,7 +15,7 @@ const String androidGradleFile = 'android/app/build.gradle';
 const String androidLocalPropertiesFile = 'android/local.properties';
 
 /// Relative path to flutter.gradle from flutter sdk path
-const String androidFlutterGardlePath =
+const String androidFlutterGradlePath =
     'packages/flutter_tools/gradle/flutter.gradle';
 
 /// Default min_sdk value for android

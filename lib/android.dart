@@ -466,7 +466,7 @@ Future<int?> _getMinSdkFlutterGradle(File localPropertiesFile) async {
   }
 
   final flutterGradleFile =
-      File(path.join(flutterRoot, constants.androidFlutterGardlePath));
+      File(path.join(flutterRoot, constants.androidFlutterGradlePath));
 
   final List<String> lines = await flutterGradleFile.readAsLines();
   for (String line in lines) {
