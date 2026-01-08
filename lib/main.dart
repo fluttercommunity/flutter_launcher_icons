@@ -23,9 +23,11 @@ const String prefixOption = 'prefix';
 const String defaultConfigFile = 'flutter_launcher_icons.yaml';
 const String flavorConfigFilePattern = r'^flutter_launcher_icons-(.*).yaml$';
 
-Future<List<String>> getFlavors() async {
+Future<List<String>> getFlavors({String searchPath = '.'}) async {
   final List<String> flavors = [];
-  await for (var item in Directory('.').list()) {
+  
+  // Recursively search through directories
+  await for (var item in Directory(searchPath).list(recursive: true)) {
     if (item is File) {
       final name = path.basename(item.path);
       final match = RegExp(flavorConfigFilePattern).firstMatch(name);
@@ -36,6 +38,7 @@ Future<List<String>> getFlavors() async {
   }
   return flavors;
 }
+
 
 Future<void> createIconsFromArguments(List<String> arguments) async {
   final ArgParser parser = ArgParser(allowTrailingOptions: true);
@@ -54,6 +57,11 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
       abbr: 'p',
       help: 'Generates config in the given path. Only Supports web platform',
       defaultsTo: '.',
+    )
+    ..addOption(
+      'flavor-path',
+      help: 'Path to search for flavor configuration files',
+      defaultsTo: '.',
     );
 
   final ArgResults argResults = parser.parse(arguments);
@@ -69,7 +77,7 @@ Future<void> createIconsFromArguments(List<String> arguments) async {
   }
 
   // Flavors management
-  final flavors = await getFlavors();
+  final flavors = await getFlavors(searchPath: argResults['flavor-path']);
   final hasFlavors = flavors.isNotEmpty;
 
   final String prefixPath = argResults[prefixOption];
