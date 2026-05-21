@@ -492,7 +492,7 @@ bool isAdaptiveIconConfigPngFile(String backgroundFile) {
 /// Ensures the correct path is used for generating adaptive icons
 /// "Next you must create alternative drawable resources in your app for use with
 /// Android 8.0 (API level 26) in res/mipmap-anydpi/ic_launcher.xml"
-/// Source: https://developer.android.com/guide/practices/ui_guidelines/icon_design_adaptive
+/// Source: https://developer.android.com/develop/ui/compose/system/icon_design_adaptive
 bool isCorrectMipmapDirectoryForAdaptiveIcon(String path) {
   return path == 'android/app/src/main/res/mipmap-anydpi-v26/';
 }
