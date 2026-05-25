@@ -483,9 +483,13 @@ Future<int?> _getMinSdkFlutterGradle(File localPropertiesFile) async {
   return null;
 }
 
-/// Returns true if the adaptive icon configuration is a PNG image
+/// Returns true if the adaptive icon configuration is an image file.
 bool isAdaptiveIconConfigPngFile(String backgroundFile) {
-  return backgroundFile.endsWith('.png');
+  final normalizedPath = backgroundFile.toLowerCase();
+  return normalizedPath.endsWith('.png') ||
+      normalizedPath.endsWith('.jpg') ||
+      normalizedPath.endsWith('.jpeg') ||
+      normalizedPath.endsWith('.webp');
 }
 
 /// (NOTE THIS IS JUST USED FOR UNIT TEST)
