@@ -20,6 +20,20 @@ void main() {
     );
   });
 
+  test('Adaptive icon background image paths are detected', () {
+    expect(android.isAdaptiveIconConfigPngFile('assets/background.png'), isTrue);
+    expect(android.isAdaptiveIconConfigPngFile('assets/background.jpg'), isTrue);
+    expect(
+      android.isAdaptiveIconConfigPngFile('assets/background.jpeg'),
+      isTrue,
+    );
+    expect(
+      android.isAdaptiveIconConfigPngFile('assets/background.webp'),
+      isTrue,
+    );
+    expect(android.isAdaptiveIconConfigPngFile('#ffffff'), isFalse);
+  });
+
   test('Correct number of adaptive foreground icons', () {
     expect(android.adaptiveForegroundIcons.length, 5);
   });
