@@ -166,6 +166,12 @@ class MockIconGenerator extends _i1.Mock implements _i2.IconGenerator {
       ) as String);
 
   @override
+  bool get isEnabled => (super.noSuchMethod(
+        Invocation.getter(#isEnabled),
+        returnValue: false,
+      ) as bool);
+
+  @override
   _i5.Future<void> createIcons() => (super.noSuchMethod(
         Invocation.method(
           #createIcons,

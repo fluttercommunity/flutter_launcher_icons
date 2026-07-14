@@ -28,6 +28,9 @@ class MacOSIconGenerator extends IconGenerator {
   MacOSIconGenerator(IconGeneratorContext context) : super(context, 'MacOS');
 
   @override
+  bool get isEnabled => context.macOSConfig?.generate ?? false;
+
+  @override
   Future<void> createIcons() async {
     final imgFilePath = path.join(
       context.prefixPath,

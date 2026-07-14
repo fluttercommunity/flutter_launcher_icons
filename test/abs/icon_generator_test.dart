@@ -22,6 +22,7 @@ void main() {
       logger = FLILogger(false);
       mockGenerator = MockIconGenerator();
       when(mockGenerator.platformName).thenReturn('Mock');
+      when(mockGenerator.isEnabled).thenReturn(true);
       when(mockGenerator.context).thenReturn(
         IconGeneratorContext(
           config: mockFLIConfig,
@@ -56,6 +57,19 @@ void main() {
         platforms: (context) => [mockGenerator],
       );
       verify(mockGenerator.validateRequirements()).called(equals(1));
+      verifyNever(mockGenerator.createIcons());
+    });
+
+    test('should skip disabled platform without validating requirements', () {
+      when(mockGenerator.isEnabled).thenReturn(false);
+      generateIconsFor(
+        config: mockFLIConfig,
+        flavor: null,
+        prefixPath: prefixPath,
+        logger: logger,
+        platforms: (context) => [mockGenerator],
+      );
+      verifyNever(mockGenerator.validateRequirements());
       verifyNever(mockGenerator.createIcons());
     });
 

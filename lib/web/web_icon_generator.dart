@@ -47,6 +47,9 @@ class WebIconGenerator extends IconGenerator {
   WebIconGenerator(IconGeneratorContext context) : super(context, 'Web');
 
   @override
+  bool get isEnabled => context.webConfig?.generate ?? false;
+
+  @override
   Future<void> createIcons() async {
     final imgFilePath = path.join(
       context.prefixPath,

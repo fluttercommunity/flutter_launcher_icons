@@ -28,6 +28,9 @@ abstract class IconGenerator {
   /// Creates icons for this platform.
   Future<void> createIcons();
 
+  /// Whether icon generation is enabled in the platform configuration.
+  bool get isEnabled;
+
   /// Should return `true` if this platform
   /// has all the requirements to create icons.
   /// This runs before to [createIcons]
@@ -89,6 +92,10 @@ Future<void> generateIconsFor({
     }
 
     for (final platform in platformList) {
+      if (!platform.isEnabled) {
+        logger.info('${platform.platformName} skipped in the config');
+        continue;
+      }
       final progress =
           logger.progress('Creating Icons for ${platform.platformName}');
       logger.verbose(

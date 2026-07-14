@@ -12,6 +12,9 @@ class WindowsIconGenerator extends IconGenerator {
       : super(context, 'Windows');
 
   @override
+  bool get isEnabled => context.windowsConfig?.generate ?? false;
+
+  @override
   Future<void> createIcons() async {
     final imgFilePath = path.join(
       context.prefixPath,
