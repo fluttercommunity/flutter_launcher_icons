@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:flutter_launcher_icons/abs/icon_generator.dart';
 import 'package:flutter_launcher_icons/constants.dart' as constants;
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
+import 'package:flutter_launcher_icons/ios.dart'
+    show transformIosProjectWithNewLauncherIcon;
 import 'package:flutter_launcher_icons/macos/macos_icon_template.dart';
 import 'package:flutter_launcher_icons/utils.dart' as utils;
 import 'package:image/image.dart';
@@ -46,6 +48,21 @@ class MacOSIconGenerator extends IconGenerator {
     await _generateIcons(imgFile);
     context.logger.verbose('Updating contents.json');
     _updateContentsFile();
+
+    final flavor = context.flavor;
+    if (flavor != null) {
+      context.logger.verbose('Updating app icon of $flavor configurations...');
+      await _updateProjectFile(flavor);
+    }
+  }
+
+  /// Icons of a flavor are generated in their own `AppIcon-<flavor>` icon set,
+  /// as described in https://docs.flutter.dev/deployment/flavors-ios
+  String get _iconsDirPath {
+    final flavor = context.flavor;
+    return flavor == null
+        ? constants.macOSIconsDirPath
+        : constants.macOSFlavorIconsDirPath(flavor);
   }
 
   @override
@@ -95,7 +112,7 @@ class MacOSIconGenerator extends IconGenerator {
 
   Future<void> _generateIcons(Image image) async {
     final iconsDir = await utils.createDirIfNotExist(
-      path.join(context.prefixPath, constants.macOSIconsDirPath),
+      path.join(context.prefixPath, _iconsDirPath),
     );
 
     for (final template in _iconSizeTemplates) {
@@ -109,16 +126,39 @@ class MacOSIconGenerator extends IconGenerator {
 
   void _updateContentsFile() {
     final contentsFilePath =
-        File(path.join(context.prefixPath, constants.macOSContentsFilePath));
-    final contentsConfig =
-        jsonDecode(contentsFilePath.readAsStringSync()) as Map<String, dynamic>;
+        File(path.join(context.prefixPath, _iconsDirPath, 'Contents.json'));
+    // the icon set of a flavor is created by us
+    final contentsConfig = contentsFilePath.existsSync()
+        ? jsonDecode(contentsFilePath.readAsStringSync())
+            as Map<String, dynamic>
+        : <String, dynamic>{};
     contentsConfig
       ..remove('images')
       ..['images'] = _iconSizeTemplates
           .map<Map<String, dynamic>>((e) => e.iconContent)
-          .toList();
+          .toList()
+      ..putIfAbsent('info', () => {'version': 1, 'author': 'xcode'});
 
     contentsFilePath
         .writeAsStringSync(utils.prettifyJsonEncode(contentsConfig));
+  }
+
+  /// Points the app icon of the [flavor] build configurations to its icon set
+  Future<void> _updateProjectFile(String flavor) async {
+    final projectFile =
+        File(path.join(context.prefixPath, constants.macOSProjectFilePath));
+    if (!projectFile.existsSync()) {
+      context.logger.error(
+        '${projectFile.path} not found, set the app icon of $flavor manually',
+      );
+      return;
+    }
+    final lines = await projectFile.readAsLines();
+    final transformedLines = transformIosProjectWithNewLauncherIcon(
+      lines,
+      'AppIcon-$flavor',
+      flavor,
+    );
+    await projectFile.writeAsString('${transformedLines.join('\n')}\n');
   }
 }

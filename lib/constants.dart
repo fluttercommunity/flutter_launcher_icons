@@ -84,6 +84,18 @@ final macOSIconsDirPath =
 /// Relative path to macos contents.json
 final macOSContentsFilePath = path.join(macOSIconsDirPath, 'Contents.json');
 
+/// Relative path to the macos icons folder of the given [flavor]
+String macOSFlavorIconsDirPath(String flavor) => path.join(
+      macOSDirPath,
+      'Runner',
+      'Assets.xcassets',
+      'AppIcon-$flavor.appiconset',
+    );
+
+/// Relative path to macos project.pbxproj
+final macOSProjectFilePath =
+    path.join(macOSDirPath, 'Runner.xcodeproj', 'project.pbxproj');
+
 const String errorMissingImagePath =
     'Missing "image_path" or "image_path_android" + "image_path_ios" within configuration';
 const String errorMissingPlatform =

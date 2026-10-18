@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_launcher_icons/abs/icon_generator.dart';
@@ -170,6 +171,108 @@ void main() {
         ]).validate(),
         completes,
         reason: 'Contents.json file contents are not equal',
+      );
+    });
+  });
+
+  group('MacOSIconGenerator end-to-end with flavor', () {
+    const projectFile = '''
+/* Begin XCBuildConfiguration section */
+		33CC10F92044A3C60003C045 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+			};
+			name = Debug;
+		};
+		A10000000000000000000001 /* Debug-staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+			};
+			name = "Debug-staging";
+		};
+/* End XCBuildConfiguration section */
+''';
+    late IconGenerator generator;
+    late String prefixPath;
+    final assetPath = path.join(Directory.current.path, 'test', 'assets');
+
+    setUp(() async {
+      final imageFile = File(path.join(assetPath, 'app_icon.png'));
+      await d.dir('fli_test', [
+        d.dir('macos/Runner/Assets.xcassets/AppIcon.appiconset', [
+          d.file('Contents.json', templates.macOSContentsJsonFile),
+        ]),
+        d.dir('macos/Runner.xcodeproj', [
+          d.file('project.pbxproj', projectFile),
+        ]),
+        d.file('flutter_launcher_icons.yaml', templates.fliConfigTemplate),
+        d.file('app_icon.png', imageFile.readAsBytesSync()),
+      ]).create();
+      prefixPath = path.join(d.sandbox, 'fli_test');
+      final config = Config.loadConfigFromPath(
+        'flutter_launcher_icons.yaml',
+        prefixPath,
+      )!;
+      generator = MacOSIconGenerator(
+        IconGeneratorContext(
+          config: config,
+          prefixPath: prefixPath,
+          logger: FLILogger(false),
+          flavor: 'staging',
+        ),
+      );
+    });
+
+    test('should generate icons in the icon set of the flavor', () async {
+      expect(generator.validateRequirements(), isTrue);
+      await generator.createIcons();
+
+      await expectLater(
+        d.dir('fli_test/macos/Runner/Assets.xcassets', [
+          d.dir('AppIcon-staging.appiconset', [
+            d.file('app_icon_16.png', anything),
+            d.file('app_icon_32.png', anything),
+            d.file('app_icon_64.png', anything),
+            d.file('app_icon_128.png', anything),
+            d.file('app_icon_256.png', anything),
+            d.file('app_icon_512.png', anything),
+            d.file('app_icon_1024.png', anything),
+            d.file(
+              'Contents.json',
+              isA<String>().having(
+                jsonDecode,
+                'json',
+                jsonDecode(templates.macOSContentsJsonFile),
+              ),
+            ),
+          ]),
+          // the default icon set is left untouched
+          d.dir('AppIcon.appiconset', [
+            d.file('Contents.json', templates.macOSContentsJsonFile),
+            d.nothing('app_icon_16.png'),
+          ]),
+        ]).validate(),
+        completes,
+      );
+    });
+
+    test('should set the app icon of the flavor build configurations',
+        () async {
+      await generator.createIcons();
+
+      final lines = File(
+        path.join(prefixPath, 'macos/Runner.xcodeproj/project.pbxproj'),
+      ).readAsLinesSync();
+      expect(
+        lines.where((l) => l.contains('ASSETCATALOG_COMPILER_APPICON_NAME')),
+        [
+          '\t\t\t\tASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;',
+          '\t\t\t\tASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-staging";',
+        ],
       );
     });
   });

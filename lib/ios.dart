@@ -317,34 +317,71 @@ Image createResizedImage(IosIconTemplate template, Image image) {
 Future<void> changeIosLauncherIcon(String iconName, String? flavor) async {
   final File iOSConfigFile = File(iosConfigFile);
   final List<String> lines = await iOSConfigFile.readAsLines();
+  final List<String> transformedLines = transformIosProjectWithNewLauncherIcon(
+    lines,
+    iconName,
+    flavor,
+  );
+
+  final String entireFile = '${transformedLines.join('\n')}\n';
+  await iOSConfigFile.writeAsString(entireFile);
+}
+
+/// Points `ASSETCATALOG_COMPILER_APPICON_NAME` ("App Icon" in Xcode) of the
+/// build configurations in the given `project.pbxproj` lines to [iconName].
+///
+/// When a [flavor] is given only the build configurations of that flavor are
+/// updated. Flutter expects them to be named `<BuildMode>-<flavor>`
+/// (e.g. `Debug-staging`, `Profile-staging`, `Release-staging`), see
+/// https://docs.flutter.dev/deployment/flavors-ios
+List<String> transformIosProjectWithNewLauncherIcon(
+  List<String> lines,
+  String iconName,
+  String? flavor,
+) {
+  // e.g. `97C147061CF9000F007C117D /* Debug-staging */ = {`
+  final configurationHeader = RegExp(r'^\s*\w+ /\* (.+) \*/ = \{');
+  final flavorConfiguration = flavor == null
+      ? null
+      : RegExp('^[^-]+-${RegExp.escape(flavor)}\$', caseSensitive: false);
+  final appIconSetting = RegExp(
+    r'^(\s*ASSETCATALOG_COMPILER_APPICON_NAME = ).*;',
+  );
+  // Xcode quotes values containing characters such as `-`
+  final String value = RegExp(r'^[A-Za-z0-9_./]+$').hasMatch(iconName)
+      ? iconName
+      : '"$iconName"';
 
   bool onConfigurationSection = false;
   String? currentConfig;
 
-  for (int x = 0; x < lines.length; x++) {
-    final String line = lines[x];
+  return lines.map((String line) {
     if (line.contains('/* Begin XCBuildConfiguration section */')) {
       onConfigurationSection = true;
     }
     if (line.contains('/* End XCBuildConfiguration section */')) {
       onConfigurationSection = false;
     }
-    if (onConfigurationSection) {
-      final match = RegExp('.*/\\* (.*)\.xcconfig \\*/;').firstMatch(line);
-      if (match != null) {
-        currentConfig = match.group(1);
-      }
-
-      if (currentConfig != null &&
-          (flavor == null || currentConfig.contains('-$flavor')) &&
-          line.contains('ASSETCATALOG')) {
-        lines[x] = line.replaceAll(RegExp('\=(.*);'), '= $iconName;');
-      }
+    if (!onConfigurationSection) {
+      return line;
     }
-  }
 
-  final String entireFile = '${lines.join('\n')}\n';
-  await iOSConfigFile.writeAsString(entireFile);
+    final header = configurationHeader.firstMatch(line);
+    if (header != null) {
+      currentConfig = header.group(1);
+      return line;
+    }
+
+    if (currentConfig == null ||
+        (flavorConfiguration != null &&
+            !flavorConfiguration.hasMatch(currentConfig!))) {
+      return line;
+    }
+    return line.replaceFirstMapped(
+      appIconSetting,
+      (match) => '${match.group(1)}$value;',
+    );
+  }).toList();
 }
 
 /// Create the Contents.json file
