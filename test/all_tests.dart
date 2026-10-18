@@ -3,6 +3,7 @@ import 'package:test/test.dart';
 import 'abs/icon_generator_test.dart' as icon_generator_test;
 import 'android_test.dart' as android_test;
 import 'config_test.dart' as fli_config;
+import 'ios_test.dart' as ios_test;
 import 'macos/macos_icon_generator_test.dart' as macos_icons_gen_test;
 import 'macos/macos_icon_template_test.dart' as macos_template_test;
 import 'main_test.dart' as main_test;
@@ -21,6 +22,8 @@ void main() {
     main_test.main();
     // android
     android_test.main();
+    // ios
+    ios_test.main();
     // web
     web_template_test.main();
     web_icon_gen_test.main();
