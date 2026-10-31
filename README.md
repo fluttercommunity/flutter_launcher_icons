@@ -43,6 +43,7 @@ flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/icon/icon.png"
+  # watch_image_path: "assets/icon/watch_icon.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
   web:
     generate: true
@@ -120,6 +121,10 @@ foreground of the Android 13+ themed icon. For more information see [Android Ada
 - `image_path_ios_tinted_grayscale`: The location of the tinted mode icon image file specific for iOS 18+ platform. *Note: This icon should be an grayscale image. Use `desaturate_tinted_to_grayscale_ios: true` to automatically desaturate the image provided here.*
 - `desaturate_tinted_to_grayscale_ios`: Automatically desaturates tinted mode icon image to grayscale, *defaults to false*
 - `background_color_ios`: The color (in the format "#RRGGBB") to be used as the background when removing the alpha channel. It is used only when the `remove_alpha_ios` property is set to true. (optional - if not defined then `#ffffff` is used)
+
+### Apple Watch (watchOS)
+
+- `watch_image_path`: The location of the image file to use for the Apple Watch app icon. When specified, icons for watchOS notification, app launcher, quick-look, and marketing slots are generated in the Watch App target's `Assets.xcassets` catalog. An Apple Watch target must already exist in the iOS project.
 
 ### Web
 

@@ -17,6 +17,8 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
           imagePathAndroid:
               $checkedConvert('image_path_android', (v) => v as String?),
           imagePathIOS: $checkedConvert('image_path_ios', (v) => v as String?),
+          watchImagePath:
+              $checkedConvert('watch_image_path', (v) => v as String?),
           imagePathIOSDarkTransparent: $checkedConvert(
               'image_path_ios_dark_transparent', (v) => v as String?),
           imagePathIOSTintedGrayscale: $checkedConvert(
@@ -54,6 +56,7 @@ Config _$ConfigFromJson(Map json) => $checkedCreate(
         'imagePath': 'image_path',
         'imagePathAndroid': 'image_path_android',
         'imagePathIOS': 'image_path_ios',
+        'watchImagePath': 'watch_image_path',
         'imagePathIOSDarkTransparent': 'image_path_ios_dark_transparent',
         'imagePathIOSTintedGrayscale': 'image_path_ios_tinted_grayscale',
         'adaptiveIconForeground': 'adaptive_icon_foreground',
@@ -76,6 +79,7 @@ Map<String, dynamic> _$ConfigToJson(Config instance) => <String, dynamic>{
       'ios': instance.ios,
       'image_path_android': instance.imagePathAndroid,
       'image_path_ios': instance.imagePathIOS,
+      'watch_image_path': instance.watchImagePath,
       'image_path_ios_dark_transparent': instance.imagePathIOSDarkTransparent,
       'image_path_ios_tinted_grayscale': instance.imagePathIOSTintedGrayscale,
       'adaptive_icon_foreground': instance.adaptiveIconForeground,

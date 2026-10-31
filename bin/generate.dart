@@ -102,6 +102,9 @@ flutter_launcher_icons:
   # desaturate_tinted_to_grayscale_ios: true
   # background_color_ios: "#ffffff"
 
+  # Apple Watch (watchOS)
+  # watch_image_path: "assets/icon/watch_icon.png"
+
   web:
     generate: true
     image_path: "path/to/image.png"
