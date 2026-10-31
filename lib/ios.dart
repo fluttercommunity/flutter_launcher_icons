@@ -8,6 +8,7 @@ import 'package:flutter_launcher_icons/constants.dart';
 import 'package:flutter_launcher_icons/custom_exceptions.dart';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:image/image.dart';
+import 'package:path/path.dart' as path;
 
 /// File to handle the creation of icons for iOS platform
 class IosIconTemplate {
@@ -314,8 +315,12 @@ Image createResizedImage(IosIconTemplate template, Image image) {
 }
 
 /// Change the iOS launcher icon
-Future<void> changeIosLauncherIcon(String iconName, String? flavor) async {
-  final File iOSConfigFile = File(iosConfigFile);
+Future<void> changeIosLauncherIcon(
+  String iconName,
+  String? flavor, {
+  String prefixPath = '.',
+}) async {
+  final File iOSConfigFile = File(path.join(prefixPath, iosConfigFile));
   final List<String> lines = await iOSConfigFile.readAsLines();
 
   bool onConfigurationSection = false;
@@ -336,9 +341,16 @@ Future<void> changeIosLauncherIcon(String iconName, String? flavor) async {
       }
 
       if (currentConfig != null &&
-          (flavor == null || currentConfig.contains('-$flavor')) &&
-          line.contains('ASSETCATALOG')) {
-        lines[x] = line.replaceAll(RegExp('\=(.*);'), '= $iconName;');
+          (flavor == null || currentConfig.contains('-$flavor'))) {
+        final iconSettingMatch = RegExp(
+          r'^(\s*ASSETCATALOG_COMPILER_(?:APPICON|COMPLICATION)_NAME\s*=\s*).*?(\s*;.*)$',
+        ).firstMatch(line);
+        if (iconSettingMatch != null) {
+          final escapedIconName =
+              iconName.replaceAll('\\', '\\\\').replaceAll('"', '\\"');
+          lines[x] =
+              '${iconSettingMatch.group(1)}"$escapedIconName"${iconSettingMatch.group(2)}';
+        }
       }
     }
   }

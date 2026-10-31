@@ -221,4 +221,16 @@ flutter_launcher_icons:
     final config = Config.fromJson(flutterIconsConfig);
     expect(config.isNeedingNewIOSIcon, isFalse);
   });
+
+  test('watch_image_path enables Apple Watch icon generation', () {
+    const imagePath = 'assets/images/watch-icon.png';
+    final config = Config.fromJson(<String, dynamic>{
+      'watch_image_path': imagePath,
+    });
+
+    expect(config.watchImagePath, equals(imagePath));
+    expect(config.hasWatchConfig, isTrue);
+    expect(config.hasPlatformConfig, isTrue);
+    expect(config.toJson()['watch_image_path'], equals(imagePath));
+  });
 }

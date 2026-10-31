@@ -25,6 +25,7 @@ class Config {
     this.ios = false,
     this.imagePathAndroid,
     this.imagePathIOS,
+    this.watchImagePath,
     this.imagePathIOSDarkTransparent,
     this.imagePathIOSTintedGrayscale,
     this.adaptiveIconForeground,
@@ -121,6 +122,10 @@ class Config {
   @JsonKey(name: 'image_path_ios')
   final String? imagePathIOS;
 
+  /// Image path specific to Apple Watch
+  @JsonKey(name: 'watch_image_path')
+  final String? watchImagePath;
+
   /// IOS image_path_ios_dark_transparent
   @JsonKey(name: 'image_path_ios_dark_transparent')
   final String? imagePathIOSDarkTransparent;
@@ -191,6 +196,7 @@ class Config {
   bool get hasPlatformConfig {
     return ios != false ||
         android != false ||
+        hasWatchConfig ||
         webConfig != null ||
         windowsConfig != null ||
         macOSConfig != null;
@@ -204,6 +210,9 @@ class Config {
 
   /// Whether or not configuration for generating MacOS icons exists
   bool get hasMacOSConfig => macOSConfig != null;
+
+  /// Whether or not configuration for generating Apple Watch icons exists
+  bool get hasWatchConfig => watchImagePath != null;
 
   /// Check to see if specified Android config is a string or bool
   /// String - Generate new launcher icon with the string specified
