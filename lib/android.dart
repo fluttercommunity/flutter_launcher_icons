@@ -294,6 +294,12 @@ Future<void> createNewColorsFile(String backgroundColor, String? flavor) async {
 
 /// Updates the colors.xml with the new adaptive launcher icon color
 Future<void> updateColorsFile(File colorsFile, String backgroundColor) async {
+  // Android requires a leading # for hex colors
+  if (RegExp(r'^([0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$')
+      .hasMatch(backgroundColor)) {
+    backgroundColor = '#$backgroundColor';
+  }
+
   // Write foreground color
   final List<String> lines = await colorsFile.readAsLines();
   bool foundExisting = false;
