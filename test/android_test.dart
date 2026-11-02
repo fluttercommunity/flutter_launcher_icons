@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_launcher_icons/android.dart' as android;
 import 'package:flutter_launcher_icons/config/config.dart';
 import 'package:flutter_launcher_icons/constants.dart';
+import 'package:flutter_launcher_icons/xml_templates.dart' as xml_template;
 import 'package:test/test.dart';
 
 // unit tests for android.dart
@@ -129,6 +130,23 @@ void main() {
         androidManifestFile,
       );
       expect(androidManifestFile.readAsStringSync(), equals(expectedManifest));
+    });
+  });
+
+  test('Colors file gets # prefix for hex color without it', () async {
+    await withTempFile('colors.xml', (File colorsFile) async {
+      colorsFile.writeAsStringSync(xml_template.colorsXml);
+      await android.updateColorsFile(colorsFile, 'ffffff');
+      expect(
+        colorsFile.readAsStringSync(),
+        contains('<color name="ic_launcher_background">#ffffff</color>'),
+      );
+
+      await android.updateColorsFile(colorsFile, '#FF00FF00');
+      expect(
+        colorsFile.readAsStringSync(),
+        contains('<color name="ic_launcher_background">#FF00FF00</color>'),
+      );
     });
   });
 
