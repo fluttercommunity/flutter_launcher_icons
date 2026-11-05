@@ -111,6 +111,7 @@ class WebIconGenerator extends IconGenerator {
       context.logger.error(
         '$failedEntityPath this file or folder is required to generate web icons',
       );
+      return false;
     }
 
     return true;
