@@ -44,6 +44,18 @@ void main() {
       generator = WebIconGenerator(context);
     });
 
+    test('should return false when required web entities do not exist', () async {
+      await d.dir('fli_empty', []).create();
+      final emptyPrefix = path.join(d.sandbox, 'fli_empty');
+      final emptyContext = IconGeneratorContext(
+        config: config,
+        prefixPath: emptyPrefix,
+        logger: FLILogger(false),
+      );
+      final emptyGenerator = WebIconGenerator(emptyContext);
+      expect(emptyGenerator.validateRequirements(), isFalse);
+    });
+
     // end to end test
     test('should generate valid icons', () async {
       expect(generator.validateRequirements(), isTrue);
